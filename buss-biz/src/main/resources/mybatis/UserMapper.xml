@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.UserMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.User" >
+	<id column="user_id_" property="userId" jdbcType="CHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="user_type_" property="userType" jdbcType="VARCHAR" />
+	<result column="user_password_" property="userPassword" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="pw_error_number_" property="pwErrorNumber" jdbcType="VARCHAR" />
+	<result column="user_name_" property="userName" jdbcType="VARCHAR" />
+	<result column="is_not_first_pw_" property="isNotFirstPw" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="last_login_time_" property="lastLoginTime" jdbcType="VARCHAR" />
+	<result column="user_status_" property="userStatus" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	update_user_,
+  	user_type_,
+  	user_password_,
+  	create_user_,
+  	pw_error_number_,
+  	user_name_,
+  	is_not_first_pw_,
+  	create_time_,
+  	last_login_time_,
+  	user_id_,
+  	user_status_,
+  	update_time_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.User" >
+    insert into sys_user_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="userType != null" >
+	    	user_type_,
+	    </if>
+    	<if test="userPassword != null" >
+	    	user_password_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="pwErrorNumber != null" >
+	    	pw_error_number_,
+	    </if>
+    	<if test="userName != null" >
+	    	user_name_,
+	    </if>
+    	<if test="isNotFirstPw != null" >
+	    	is_not_first_pw_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="lastLoginTime != null" >
+	    	last_login_time_,
+	    </if>
+    	<if test="userId != null" >
+	    	user_id_,
+	    </if>
+    	<if test="userStatus != null" >
+	    	user_status_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="userType != null" >
+	    	#{userType},
+	    </if>
+    	<if test="userPassword != null" >
+	    	#{userPassword},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="pwErrorNumber != null" >
+	    	#{pwErrorNumber},
+	    </if>
+    	<if test="userName != null" >
+	    	#{userName},
+	    </if>
+    	<if test="isNotFirstPw != null" >
+	    	#{isNotFirstPw},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="lastLoginTime != null" >
+	    	#{lastLoginTime},
+	    </if>
+    	<if test="userId != null" >
+	    	#{userId},
+	    </if>
+    	<if test="userStatus != null" >
+	    	#{userStatus},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_user_ where
+	user_id_ = #{userId}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.User" >
+    update sys_user_
+    <set >
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="userType != null and userType != ''" >
+        	user_type_ = #{userType},
+      	</if>
+		<if test="userPassword != null and userPassword != ''" >
+        	user_password_ = #{userPassword},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="pwErrorNumber != null and pwErrorNumber != ''" >
+        	pw_error_number_ = #{pwErrorNumber},
+      	</if>
+		<if test="userName != null and userName != ''" >
+        	user_name_ = #{userName},
+      	</if>
+		<if test="isNotFirstPw != null and isNotFirstPw != ''" >
+        	is_not_first_pw_ = #{isNotFirstPw},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="lastLoginTime != null and lastLoginTime != ''" >
+        	last_login_time_ = #{lastLoginTime},
+      	</if>
+		<if test="userStatus != null and userStatus != ''" >
+        	user_status_ = #{userStatus},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+    </set>
+    where 
+	user_id_ = #{userId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_
+	where user_id_ = #{userId,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listUsers" parameterType="com.rhtop.buss.common.entity.User" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_user_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="userType != null and userType != ''" >
+			and user_type_ = #{userType}
+		</if>
+    	<if test="userPassword != null and userPassword != ''" >
+			and user_password_ = #{userPassword}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="pwErrorNumber != null and pwErrorNumber != ''" >
+			and pw_error_number_ = #{pwErrorNumber}
+		</if>
+    	<if test="userName != null and userName != ''" >
+			and user_name_ = #{userName}
+		</if>
+    	<if test="isNotFirstPw != null and isNotFirstPw != ''" >
+			and is_not_first_pw_ = #{isNotFirstPw}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="lastLoginTime != null and lastLoginTime != ''" >
+			and last_login_time_ = #{lastLoginTime}
+		</if>
+    	<if test="userId != null and userId != ''" >
+			and user_id_ = #{userId}
+		</if>
+    	<if test="userStatus != null and userStatus != ''" >
+			and user_status_ = #{userStatus}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageUser" parameterType="com.rhtop.buss.common.entity.User" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_user_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="userType != null and userType != ''" >
+			and user_type_ = #{userType}
+		</if>
+    	<if test="userPassword != null and userPassword != ''" >
+			and user_password_ = #{userPassword}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="pwErrorNumber != null and pwErrorNumber != ''" >
+			and pw_error_number_ = #{pwErrorNumber}
+		</if>
+    	<if test="userName != null and userName != ''" >
+			and user_name_ = #{userName}
+		</if>
+    	<if test="isNotFirstPw != null and isNotFirstPw != ''" >
+			and is_not_first_pw_ = #{isNotFirstPw}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="lastLoginTime != null and lastLoginTime != ''" >
+			and last_login_time_ = #{lastLoginTime}
+		</if>
+    	<if test="userId != null and userId != ''" >
+			and user_id_ = #{userId}
+		</if>
+    	<if test="userStatus != null and userStatus != ''" >
+			and user_status_ = #{userStatus}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+  </select>
+  
+</mapper>

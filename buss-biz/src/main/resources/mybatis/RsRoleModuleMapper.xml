@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.RsRoleModuleMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.RsRoleModule" >
+	<id column="rs_role_module_id_" property="rsRoleModuleId" jdbcType="CHAR" />
+	<result column="role_id_" property="roleId" jdbcType="VARCHAR" />
+	<result column="module_id_" property="moduleId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	role_id_,
+  	module_id_,
+  	rs_role_module_id_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.RsRoleModule" >
+    insert into sys_rs_role_module_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="roleId != null" >
+	    	role_id_,
+	    </if>
+    	<if test="moduleId != null" >
+	    	module_id_,
+	    </if>
+    	<if test="rsRoleModuleId != null" >
+	    	rs_role_module_id_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="roleId != null" >
+	    	#{roleId},
+	    </if>
+    	<if test="moduleId != null" >
+	    	#{moduleId},
+	    </if>
+    	<if test="rsRoleModuleId != null" >
+	    	#{rsRoleModuleId},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_rs_role_module_ where
+	rs_role_module_id_ = #{rsRoleModuleId}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.RsRoleModule" >
+    update sys_rs_role_module_
+    <set >
+		<if test="roleId != null and roleId != ''" >
+        	role_id_ = #{roleId},
+      	</if>
+		<if test="moduleId != null and moduleId != ''" >
+        	module_id_ = #{moduleId},
+      	</if>
+    </set>
+    where 
+	rs_role_module_id_ = #{rsRoleModuleId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_rs_role_module_
+	where rs_role_module_id_ = #{rsRoleModuleId,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listRsRoleModules" parameterType="com.rhtop.buss.common.entity.RsRoleModule" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_rs_role_module_ where 1=1
+    	<if test="roleId != null and roleId != ''" >
+			and role_id_ = #{roleId}
+		</if>
+    	<if test="moduleId != null and moduleId != ''" >
+			and module_id_ = #{moduleId}
+		</if>
+    	<if test="rsRoleModuleId != null and rsRoleModuleId != ''" >
+			and rs_role_module_id_ = #{rsRoleModuleId}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageRsRoleModule" parameterType="com.rhtop.buss.common.entity.RsRoleModule" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_rs_role_module_ where 1=1
+    	<if test="roleId != null and roleId != ''" >
+			and role_id_ = #{roleId}
+		</if>
+    	<if test="moduleId != null and moduleId != ''" >
+			and module_id_ = #{moduleId}
+		</if>
+    	<if test="rsRoleModuleId != null and rsRoleModuleId != ''" >
+			and rs_role_module_id_ = #{rsRoleModuleId}
+		</if>
+  </select>
+  
+</mapper>

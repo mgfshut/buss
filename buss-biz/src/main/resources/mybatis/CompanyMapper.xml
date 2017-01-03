@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.CompanyMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Company" >
+	<id column="company_code_" property="companyCode" jdbcType="CHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="parent_company_" property="parentCompany" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="company_name_" property="companyName" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="company_status_" property="companyStatus" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="company_city_" property="companyCity" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	create_user_,
+  	parent_company_,
+  	update_time_,
+  	company_name_,
+  	company_code_,
+  	update_user_,
+  	company_status_,
+  	create_time_,
+  	company_city_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Company" >
+    insert into sys_company_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="parentCompany != null" >
+	    	parent_company_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="companyName != null" >
+	    	company_name_,
+	    </if>
+    	<if test="companyCode != null" >
+	    	company_code_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="companyStatus != null" >
+	    	company_status_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="companyCity != null" >
+	    	company_city_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="parentCompany != null" >
+	    	#{parentCompany},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="companyName != null" >
+	    	#{companyName},
+	    </if>
+    	<if test="companyCode != null" >
+	    	#{companyCode},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="companyStatus != null" >
+	    	#{companyStatus},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="companyCity != null" >
+	    	#{companyCity},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_company_ where
+	company_code_ = #{companyCode}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Company" >
+    update sys_company_
+    <set >
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="parentCompany != null and parentCompany != ''" >
+        	parent_company_ = #{parentCompany},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="companyName != null and companyName != ''" >
+        	company_name_ = #{companyName},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="companyStatus != null and companyStatus != ''" >
+        	company_status_ = #{companyStatus},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="companyCity != null and companyCity != ''" >
+        	company_city_ = #{companyCity},
+      	</if>
+    </set>
+    where 
+	company_code_ = #{companyCode}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_company_
+	where company_code_ = #{companyCode,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listCompanys" parameterType="com.rhtop.buss.common.entity.Company" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_company_ where 1=1
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="parentCompany != null and parentCompany != ''" >
+			and parent_company_ = #{parentCompany}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="companyName != null and companyName != ''" >
+			and company_name_ = #{companyName}
+		</if>
+    	<if test="companyCode != null and companyCode != ''" >
+			and company_code_ = #{companyCode}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="companyStatus != null and companyStatus != ''" >
+			and company_status_ = #{companyStatus}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="companyCity != null and companyCity != ''" >
+			and company_city_ = #{companyCity}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageCompany" parameterType="com.rhtop.buss.common.entity.Company" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_company_ where 1=1
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="parentCompany != null and parentCompany != ''" >
+			and parent_company_ = #{parentCompany}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="companyName != null and companyName != ''" >
+			and company_name_ = #{companyName}
+		</if>
+    	<if test="companyCode != null and companyCode != ''" >
+			and company_code_ = #{companyCode}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="companyStatus != null and companyStatus != ''" >
+			and company_status_ = #{companyStatus}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="companyCity != null and companyCity != ''" >
+			and company_city_ = #{companyCity}
+		</if>
+  </select>
+  
+</mapper>

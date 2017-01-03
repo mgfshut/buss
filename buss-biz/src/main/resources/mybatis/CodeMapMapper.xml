@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.CodeMapMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.CodeMap" >
+	<id column="code_map_id_" property="codeMapId" jdbcType="CHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="code_" property="code" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="code_map_name_" property="codeMapName" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	update_user_,
+  	create_time_,
+  	code_,
+  	update_time_,
+  	code_map_name_,
+  	create_user_,
+  	code_map_id_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.CodeMap" >
+    insert into sys_code_map_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="code != null" >
+	    	code_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="codeMapName != null" >
+	    	code_map_name_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="codeMapId != null" >
+	    	code_map_id_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="code != null" >
+	    	#{code},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="codeMapName != null" >
+	    	#{codeMapName},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="codeMapId != null" >
+	    	#{codeMapId},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_code_map_ where
+	code_map_id_ = #{codeMapId}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.CodeMap" >
+    update sys_code_map_
+    <set >
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="code != null and code != ''" >
+        	code_ = #{code},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="codeMapName != null and codeMapName != ''" >
+        	code_map_name_ = #{codeMapName},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+    </set>
+    where 
+	code_map_id_ = #{codeMapId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_code_map_
+	where code_map_id_ = #{codeMapId,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listCodeMaps" parameterType="com.rhtop.buss.common.entity.CodeMap" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_code_map_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="code != null and code != ''" >
+			and code_ = #{code}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="codeMapName != null and codeMapName != ''" >
+			and code_map_name_ = #{codeMapName}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="codeMapId != null and codeMapId != ''" >
+			and code_map_id_ = #{codeMapId}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageCodeMap" parameterType="com.rhtop.buss.common.entity.CodeMap" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_code_map_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="code != null and code != ''" >
+			and code_ = #{code}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="codeMapName != null and codeMapName != ''" >
+			and code_map_name_ = #{codeMapName}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="codeMapId != null and codeMapId != ''" >
+			and code_map_id_ = #{codeMapId}
+		</if>
+  </select>
+  
+</mapper>

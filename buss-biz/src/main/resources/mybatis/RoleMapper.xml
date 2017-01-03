@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.RoleMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Role" >
+	<id column="role_id_" property="roleId" jdbcType="CHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="role_describe_" property="roleDescribe" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="role_status_" property="roleStatus" jdbcType="VARCHAR" />
+	<result column="role_name_" property="roleName" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	update_user_,
+  	role_describe_,
+  	update_time_,
+  	create_time_,
+  	role_status_,
+  	role_name_,
+  	role_id_,
+  	create_user_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Role" >
+    insert into sys_role_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="roleDescribe != null" >
+	    	role_describe_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="roleStatus != null" >
+	    	role_status_,
+	    </if>
+    	<if test="roleName != null" >
+	    	role_name_,
+	    </if>
+    	<if test="roleId != null" >
+	    	role_id_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="roleDescribe != null" >
+	    	#{roleDescribe},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="roleStatus != null" >
+	    	#{roleStatus},
+	    </if>
+    	<if test="roleName != null" >
+	    	#{roleName},
+	    </if>
+    	<if test="roleId != null" >
+	    	#{roleId},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_role_ where
+	role_id_ = #{roleId}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Role" >
+    update sys_role_
+    <set >
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="roleDescribe != null and roleDescribe != ''" >
+        	role_describe_ = #{roleDescribe},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="roleStatus != null and roleStatus != ''" >
+        	role_status_ = #{roleStatus},
+      	</if>
+		<if test="roleName != null and roleName != ''" >
+        	role_name_ = #{roleName},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+    </set>
+    where 
+	role_id_ = #{roleId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_
+	where role_id_ = #{roleId,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listRoles" parameterType="com.rhtop.buss.common.entity.Role" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_role_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="roleDescribe != null and roleDescribe != ''" >
+			and role_describe_ = #{roleDescribe}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="roleStatus != null and roleStatus != ''" >
+			and role_status_ = #{roleStatus}
+		</if>
+    	<if test="roleName != null and roleName != ''" >
+			and role_name_ = #{roleName}
+		</if>
+    	<if test="roleId != null and roleId != ''" >
+			and role_id_ = #{roleId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageRole" parameterType="com.rhtop.buss.common.entity.Role" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_role_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="roleDescribe != null and roleDescribe != ''" >
+			and role_describe_ = #{roleDescribe}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="roleStatus != null and roleStatus != ''" >
+			and role_status_ = #{roleStatus}
+		</if>
+    	<if test="roleName != null and roleName != ''" >
+			and role_name_ = #{roleName}
+		</if>
+    	<if test="roleId != null and roleId != ''" >
+			and role_id_ = #{roleId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+  </select>
+  
+</mapper>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.RsUserRoleMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.RsUserRole" >
+	<id column="rs_user_role_id_" property="rsUserRoleId" jdbcType="CHAR" />
+	<result column="member_id_" property="memberId" jdbcType="VARCHAR" />
+	<result column="role_id_" property="roleId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	rs_user_role_id_,
+  	member_id_,
+  	role_id_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.RsUserRole" >
+    insert into sys_rs_user_role_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="rsUserRoleId != null" >
+	    	rs_user_role_id_,
+	    </if>
+    	<if test="memberId != null" >
+	    	member_id_,
+	    </if>
+    	<if test="roleId != null" >
+	    	role_id_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="rsUserRoleId != null" >
+	    	#{rsUserRoleId},
+	    </if>
+    	<if test="memberId != null" >
+	    	#{memberId},
+	    </if>
+    	<if test="roleId != null" >
+	    	#{roleId},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_rs_user_role_ where
+	rs_user_role_id_ = #{rsUserRoleId}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.RsUserRole" >
+    update sys_rs_user_role_
+    <set >
+		<if test="memberId != null and memberId != ''" >
+        	member_id_ = #{memberId},
+      	</if>
+		<if test="roleId != null and roleId != ''" >
+        	role_id_ = #{roleId},
+      	</if>
+    </set>
+    where 
+	rs_user_role_id_ = #{rsUserRoleId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_rs_user_role_
+	where rs_user_role_id_ = #{rsUserRoleId,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listRsUserRoles" parameterType="com.rhtop.buss.common.entity.RsUserRole" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_rs_user_role_ where 1=1
+    	<if test="rsUserRoleId != null and rsUserRoleId != ''" >
+			and rs_user_role_id_ = #{rsUserRoleId}
+		</if>
+    	<if test="memberId != null and memberId != ''" >
+			and member_id_ = #{memberId}
+		</if>
+    	<if test="roleId != null and roleId != ''" >
+			and role_id_ = #{roleId}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageRsUserRole" parameterType="com.rhtop.buss.common.entity.RsUserRole" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_rs_user_role_ where 1=1
+    	<if test="rsUserRoleId != null and rsUserRoleId != ''" >
+			and rs_user_role_id_ = #{rsUserRoleId}
+		</if>
+    	<if test="memberId != null and memberId != ''" >
+			and member_id_ = #{memberId}
+		</if>
+    	<if test="roleId != null and roleId != ''" >
+			and role_id_ = #{roleId}
+		</if>
+  </select>
+  
+</mapper>

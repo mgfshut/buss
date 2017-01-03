@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.MemberMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Member" >
+	<id column="member_id_" property="memberId" jdbcType="CHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="member_sex_" property="memberSex" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="member_name_" property="memberName" jdbcType="VARCHAR" />
+	<result column="member_email_" property="memberEmail" jdbcType="VARCHAR" />
+	<result column="department_code_" property="departmentCode" jdbcType="VARCHAR" />
+	<result column="member_id_card_no_" property="memberIdCardNo" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="member_phone_" property="memberPhone" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="company_city_" property="companyCity" jdbcType="VARCHAR" />
+	<result column="head_image_" property="headImage" jdbcType="VARCHAR" />
+	<!-- 通过外键查询的字段 -->
+	<result column="user_name_" property="userName" jdbcType="VARCHAR" />
+	<result column="user_status_" property="userStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	update_user_,
+  	member_sex_,
+  	create_time_,
+  	member_name_,
+  	member_email_,
+  	department_code_,
+  	member_id_card_no_,
+  	update_time_,
+  	member_phone_,
+  	member_id_,
+  	create_user_,
+  	company_city_,
+  	head_image_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Member" >
+    insert into sys_member_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="memberSex != null" >
+	    	member_sex_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="memberName != null" >
+	    	member_name_,
+	    </if>
+    	<if test="memberEmail != null" >
+	    	member_email_,
+	    </if>
+    	<if test="departmentCode != null" >
+	    	department_code_,
+	    </if>
+    	<if test="memberIdCardNo != null" >
+	    	member_id_card_no_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="memberPhone != null" >
+	    	member_phone_,
+	    </if>
+    	<if test="memberId != null" >
+	    	member_id_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="companyCity != null" >
+	    	company_city_,
+	    </if>
+    	<if test="headImage != null" >
+	    	head_image_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="memberSex != null" >
+	    	#{memberSex},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="memberName != null" >
+	    	#{memberName},
+	    </if>
+    	<if test="memberEmail != null" >
+	    	#{memberEmail},
+	    </if>
+    	<if test="departmentCode != null" >
+	    	#{departmentCode},
+	    </if>
+    	<if test="memberIdCardNo != null" >
+	    	#{memberIdCardNo},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="memberPhone != null" >
+	    	#{memberPhone},
+	    </if>
+    	<if test="memberId != null" >
+	    	#{memberId},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="companyCity != null" >
+	    	#{companyCity},
+	    </if>
+    	<if test="headImage != null" >
+	    	#{headImage},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_member_ where
+	member_id_ = #{memberId}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Member" >
+    update sys_member_
+    <set >
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="memberSex != null and memberSex != ''" >
+        	member_sex_ = #{memberSex},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="memberName != null and memberName != ''" >
+        	member_name_ = #{memberName},
+      	</if>
+		<if test="memberEmail != null and memberEmail != ''" >
+        	member_email_ = #{memberEmail},
+      	</if>
+		<if test="departmentCode != null and departmentCode != ''" >
+        	department_code_ = #{departmentCode},
+      	</if>
+		<if test="memberIdCardNo != null and memberIdCardNo != ''" >
+        	member_id_card_no_ = #{memberIdCardNo},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="memberPhone != null and memberPhone != ''" >
+        	member_phone_ = #{memberPhone},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="companyCity != null and companyCity != ''" >
+        	company_city_ = #{companyCity},
+      	</if>
+		<if test="headImage != null and headImage != ''" >
+        	head_image_ = #{headImage},
+      	</if>
+    </set>
+    where 
+	member_id_ = #{memberId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_member_
+	where member_id_ = #{memberId,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listMembers" parameterType="com.rhtop.buss.common.entity.Member" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_member_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="memberSex != null and memberSex != ''" >
+			and member_sex_ = #{memberSex}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="memberName != null and memberName != ''" >
+			and member_name_ = #{memberName}
+		</if>
+    	<if test="memberEmail != null and memberEmail != ''" >
+			and member_email_ = #{memberEmail}
+		</if>
+    	<if test="departmentCode != null and departmentCode != ''" >
+			and department_code_ = #{departmentCode}
+		</if>
+    	<if test="memberIdCardNo != null and memberIdCardNo != ''" >
+			and member_id_card_no_ = #{memberIdCardNo}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="memberPhone != null and memberPhone != ''" >
+			and member_phone_ = #{memberPhone}
+		</if>
+    	<if test="memberId != null and memberId != ''" >
+			and member_id_ = #{memberId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="companyCity != null and companyCity != ''" >
+			and company_city_ = #{companyCity}
+		</if>
+    	<if test="headImage != null and headImage != ''" >
+			and head_image_ = #{headImage}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageMember" parameterType="com.rhtop.buss.common.entity.Member" resultMap="BaseResultMap">
+  	select a.*,b.user_name_,b.user_status_
+    from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ where 1=1
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="memberSex != null and memberSex != ''" >
+			and member_sex_ = #{memberSex}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="memberName != null and memberName != ''" >
+			and member_name_ = #{memberName}
+		</if>
+    	<if test="memberEmail != null and memberEmail != ''" >
+			and member_email_ = #{memberEmail}
+		</if>
+    	<if test="departmentCode != null and departmentCode != ''" >
+			and department_code_ = #{departmentCode}
+		</if>
+    	<if test="memberIdCardNo != null and memberIdCardNo != ''" >
+			and member_id_card_no_ = #{memberIdCardNo}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="memberPhone != null and memberPhone != ''" >
+			and member_phone_ = #{memberPhone}
+		</if>
+    	<if test="memberId != null and memberId != ''" >
+			and member_id_ = #{memberId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="companyCity != null and companyCity != ''" >
+			and company_city_ = #{companyCity}
+		</if>
+    	<if test="headImage != null and headImage != ''" >
+			and head_image_ = #{headImage}
+		</if>
+  </select>
+  
+</mapper>

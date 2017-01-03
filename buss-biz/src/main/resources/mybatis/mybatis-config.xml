@@ -1,0 +1,64 @@
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<configuration>  
+  
+    <!-- 实体类,简称 -设置别名 -->  
+    <typeAliases>
+    	<!-- 代码集表-->
+		<typeAlias alias="CodeMap" type="com.rhtop.buss.common.entity.CodeMap" />
+		<!-- 代码值表-->
+		<typeAlias alias="CodeValue" type="com.rhtop.buss.common.entity.CodeValue" />
+		<!-- 公司表-->
+		<typeAlias alias="Company" type="com.rhtop.buss.common.entity.Company" />
+		<!-- 部门表-->
+		<typeAlias alias="Department" type="com.rhtop.buss.common.entity.Department" />
+		<!-- 用户信息表-->
+		<typeAlias alias="Member" type="com.rhtop.buss.common.entity.Member" />
+		<!-- 登录用户表-->
+		<typeAlias alias="User" type="com.rhtop.buss.common.entity.User" />
+		<!-- 模块功能表-->
+		<typeAlias alias="Module" type="com.rhtop.buss.common.entity.Module" />
+		<!-- 角色信息表-->
+		<typeAlias alias="Role" type="com.rhtop.buss.common.entity.Role" />
+		<!-- 角色模块功能关系表-->
+		<typeAlias alias="RsRoleModule" type="com.rhtop.buss.common.entity.RsRoleModule" />
+		<!-- 用户角色关系表-->
+		<typeAlias alias="RsUserRole" type="com.rhtop.buss.common.entity.RsUserRole" />
+    </typeAliases>
+    <!-- 实体接口映射资源 -->  
+    
+    <plugins>
+		<plugin interceptor="com.rhtop.buss.common.utils.PagePlugin">
+			<property name="dialect" value="mysql" />
+			<property name="pageSqlId" value=".*listPage.*" />
+		</plugin>
+	</plugins>
+    
+    
+    <!-- 
+        说明：如果xxMapper.xml配置文件放在和xxMapper.java统一目录下，mappers也可以省略，因为org.mybatis.spring.mapper.MapperFactoryBean默认会去查找与xxMapper.java相同目录和名称的xxMapper.xml 
+    -->  
+    <mappers>
+    	<!-- 代码集表-->
+		<mapper resource="mybatis/CodeMapMapper.xml" />
+		<!-- 代码值表-->
+		<mapper resource="mybatis/CodeValueMapper.xml" />
+		<!-- 公司表-->
+		<mapper resource="mybatis/CompanyMapper.xml" />
+		<!-- 部门表-->
+		<mapper resource="mybatis/DepartmentMapper.xml" />
+		<!-- 用户信息表-->
+		<mapper resource="mybatis/MemberMapper.xml" />
+        <!-- 登录用户表-->
+        <mapper resource="mybatis/UserMapper.xml" />
+        <!-- 模块功能表-->
+        <mapper resource="mybatis/ModuleMapper.xml" />
+        <!-- 角色信息表-->
+        <mapper resource="mybatis/RoleMapper.xml" />
+        <!-- 角色模块功能关系表-->
+        <mapper resource="mybatis/RsRoleModuleMapper.xml" />
+        <!-- 用户角色关系表-->
+        <mapper resource="mybatis/RsUserRoleMapper.xml" />
+    </mappers>
+  
+</configuration>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.ModuleMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Module" >
+	<id column="module_id_" property="moduleId" jdbcType="CHAR" />
+	<result column="module_type_" property="moduleType" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="module_name_" property="moduleName" jdbcType="VARCHAR" />
+	<result column="parent_id_" property="parentId" jdbcType="VARCHAR" />
+	<result column="auth_name_" property="authName" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="menu_url_" property="menuUrl" jdbcType="VARCHAR" />
+	<result column="module_describe_" property="moduleDescribe" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="menu_order_" property="menuOrder" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="module_no_" property="moduleNo" jdbcType="VARCHAR" />
+	<result column="menu_icon_" property="menuIcon" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	module_type_,
+  	update_user_,
+  	module_name_,
+  	parent_id_,
+  	auth_name_,
+  	update_time_,
+  	menu_url_,
+  	module_describe_,
+  	create_time_,
+  	menu_order_,
+  	create_user_,
+  	module_id_,
+  	module_no_,
+  	menu_icon_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Module" >
+    insert into sys_module_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="moduleType != null" >
+	    	module_type_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="moduleName != null" >
+	    	module_name_,
+	    </if>
+    	<if test="parentId != null" >
+	    	parent_id_,
+	    </if>
+    	<if test="authName != null" >
+	    	auth_name_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="menuUrl != null" >
+	    	menu_url_,
+	    </if>
+    	<if test="moduleDescribe != null" >
+	    	module_describe_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="menuOrder != null" >
+	    	menu_order_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="moduleId != null" >
+	    	module_id_,
+	    </if>
+    	<if test="moduleNo != null" >
+	    	module_no_,
+	    </if>
+    	<if test="menuIcon != null" >
+	    	menu_icon_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="moduleType != null" >
+	    	#{moduleType},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="moduleName != null" >
+	    	#{moduleName},
+	    </if>
+    	<if test="parentId != null" >
+	    	#{parentId},
+	    </if>
+    	<if test="authName != null" >
+	    	#{authName},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="menuUrl != null" >
+	    	#{menuUrl},
+	    </if>
+    	<if test="moduleDescribe != null" >
+	    	#{moduleDescribe},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="menuOrder != null" >
+	    	#{menuOrder},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="moduleId != null" >
+	    	#{moduleId},
+	    </if>
+    	<if test="moduleNo != null" >
+	    	#{moduleNo},
+	    </if>
+    	<if test="menuIcon != null" >
+	    	#{menuIcon},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_module_ where
+	module_id_ = #{moduleId}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Module" >
+    update sys_module_
+    <set >
+		<if test="moduleType != null and moduleType != ''" >
+        	module_type_ = #{moduleType},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="moduleName != null and moduleName != ''" >
+        	module_name_ = #{moduleName},
+      	</if>
+		<if test="parentId != null and parentId != ''" >
+        	parent_id_ = #{parentId},
+      	</if>
+		<if test="authName != null and authName != ''" >
+        	auth_name_ = #{authName},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="menuUrl != null and menuUrl != ''" >
+        	menu_url_ = #{menuUrl},
+      	</if>
+		<if test="moduleDescribe != null and moduleDescribe != ''" >
+        	module_describe_ = #{moduleDescribe},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="menuOrder != null and menuOrder != ''" >
+        	menu_order_ = #{menuOrder},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="moduleNo != null and moduleNo != ''" >
+        	module_no_ = #{moduleNo},
+      	</if>
+		<if test="menuIcon != null and menuIcon != ''" >
+        	menu_icon_ = #{menuIcon},
+      	</if>
+    </set>
+    where 
+	module_id_ = #{moduleId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_module_
+	where module_id_ = #{moduleId,jdbcType=CHAR}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listModules" parameterType="com.rhtop.buss.common.entity.Module" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_module_ where 1=1
+    	<if test="moduleType != null and moduleType != ''" >
+			and module_type_ = #{moduleType}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="moduleName != null and moduleName != ''" >
+			and module_name_ = #{moduleName}
+		</if>
+    	<if test="parentId != null and parentId != ''" >
+			and parent_id_ = #{parentId}
+		</if>
+    	<if test="authName != null and authName != ''" >
+			and auth_name_ = #{authName}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="menuUrl != null and menuUrl != ''" >
+			and menu_url_ = #{menuUrl}
+		</if>
+    	<if test="moduleDescribe != null and moduleDescribe != ''" >
+			and module_describe_ = #{moduleDescribe}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="menuOrder != null and menuOrder != ''" >
+			and menu_order_ = #{menuOrder}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="moduleId != null and moduleId != ''" >
+			and module_id_ = #{moduleId}
+		</if>
+    	<if test="moduleNo != null and moduleNo != ''" >
+			and module_no_ = #{moduleNo}
+		</if>
+    	<if test="menuIcon != null and menuIcon != ''" >
+			and menu_icon_ = #{menuIcon}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageModule" parameterType="com.rhtop.buss.common.entity.Module" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_module_ where 1=1
+    	<if test="moduleType != null and moduleType != ''" >
+			and module_type_ = #{moduleType}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="moduleName != null and moduleName != ''" >
+			and module_name_ = #{moduleName}
+		</if>
+    	<if test="parentId != null and parentId != ''" >
+			and parent_id_ = #{parentId}
+		</if>
+    	<if test="authName != null and authName != ''" >
+			and auth_name_ = #{authName}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="menuUrl != null and menuUrl != ''" >
+			and menu_url_ = #{menuUrl}
+		</if>
+    	<if test="moduleDescribe != null and moduleDescribe != ''" >
+			and module_describe_ = #{moduleDescribe}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="menuOrder != null and menuOrder != ''" >
+			and menu_order_ = #{menuOrder}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="moduleId != null and moduleId != ''" >
+			and module_id_ = #{moduleId}
+		</if>
+    	<if test="moduleNo != null and moduleNo != ''" >
+			and module_no_ = #{moduleNo}
+		</if>
+    	<if test="menuIcon != null and menuIcon != ''" >
+			and menu_icon_ = #{menuIcon}
+		</if>
+  </select>
+  <!-- 根据用户ID获取功能列表-->
+  <select id="listModulesByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		SELECT a.* FROM sys_module_ a 
+		LEFT JOIN sys_rs_role_module_ b ON b.module_id_ = a.module_id_
+	 	LEFT JOIN sys_rs_user_role_ c ON  c.role_id_ = b.role_id_ 
+	 	LEFT JOIN sys_member_ d ON d.member_id_ = c.member_id_
+		WHERE d.member_id_ = #{0}
+  </select>
+</mapper>
