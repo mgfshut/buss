@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <context:component-scan base-package="com.rhtop.buss.ocs.web,com.rhtop.buss.common.web"></context:component-scan>
+	<context:property-placeholder location="classpath:properties/config-*.properties"/>
+	<mvc:annotation-driven>
+		<!-- 异步超时1分钟 -->
+		<mvc:async-support default-timeout="60000"></mvc:async-support>
+		<mvc:argument-resolvers>
+			<bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
+				<constructor-arg>
+					<array>
+						<bean class="org.springframework.data.web.SortHandlerMethodArgumentResolver">
+							<property name="sortParameter" value="p:sort"/>
+						</bean>
+					</array>
+				</constructor-arg>
+				<property name="prefix" value="p:"/>
+				<property name="pageParameterName" value="page"/>
+				<property name="sizeParameterName" value="size"/>
+			</bean>
+		</mvc:argument-resolvers>
+		<mvc:message-converters>
+			<ref bean="mappingJacksonHttpMessageConverter" />
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+                <property name = "supportedMediaTypes">
+                     <list>
+                          <value>text/html;charset=UTF-8</value>   
+                          <value>text/xml;charset=UTF-8</value>
+                          <value>text/xml</value>
+                     </list>   
+                </property>
+             </bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
+		<property name = "supportedMediaTypes">
+                     <list>
+                          <value>text/json;charset=UTF-8</value>
+                          <value>application/json;charset=UTF-8</value>
+                     </list>   
+         </property>
+         <!-- JPA LAZY @ResponseBody 方案 -->
+         <property name="objectMapper">
+         	<bean class="com.rhtop.buss.common.data.jackson.ModulesObjectMapper">
+         		<!-- <property name="modules">
+         			<list>
+			         	<bean class="com.rhtop.buss.common.data.jackson.DefaultHibernate4Module"/>
+		         	</list>
+         		</property> -->
+         	</bean>
+         </property>
+	</bean>
+	
+	<mvc:interceptors>
+	    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+	    <bean class="com.rhtop.buss.common.web.AccessLoggerInterceptor">
+	    	<property name="exclude">
+	    		<list>
+	    			<value>^/css/.*$</value>
+	    			<value>^/js/.*$</value>
+	    			<value>^/img/.*$</value>
+	    			<value>^/font/.*$</value>
+	    			<value>^/order/statistics.*$</value>
+	    			<value>^/task/async/query.*$</value>
+	    		</list>
+	    	</property>
+	    </bean>
+	    <bean class="com.rhtop.buss.common.web.TxnTimeLimitInterceptor">
+	    	<property name="blackList">
+	    		<set>
+	    			<value>^/module/bus-order-wizard.*$</value>
+	    			<value>^/module/bas-dailyPay-payIndex.*$</value>
+	    		</set>
+	    	</property>
+	    	<property name="service">
+	    		<bean class="com.rhtop.buss.common.service.impl.DefaultTxnTimeLimitServiceImpl">
+	    			<property name="cacheManager" ref="cacheManager"/>
+	    		</bean>
+	    	</property>
+	    </bean>
+	    <mvc:interceptor>
+	    	<mvc:mapping path="/**"/>
+	        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+	        	<property name="paramName" value="themeName"/>
+	        </bean>
+	    </mvc:interceptor>
+	</mvc:interceptors>
+	
+	<mvc:view-controller path="/" view-name="forward:/index" />
+	
+	<mvc:resources mapping="/css/**" location="/css/" cache-period="2592000"/>
+	<mvc:resources mapping="/img/**" location="/img/" cache-period="2592000"/>
+	<mvc:resources mapping="/font/**" location="/font/" cache-period="2592000"/>
+	<mvc:resources mapping="/js/**" location="/js/" cache-period="2592000"/>
+	<mvc:resources mapping="/theme/**" location="/theme/" cache-period="2592000"/>
+
+	<mvc:default-servlet-handler/>
+
+	<bean id="exceptionResolver" class="com.rhtop.buss.common.web.ExceptionHandlerExceptionResolver"/>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	  <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+	  <property name="prefix" value="${spring.view.prefix}"/>
+	  <property name="suffix" value="${spring.view.suffix}"/>
+	</bean>
+	<bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+		<property name="basenamePrefix" value="theme." />
+    </bean>  
+	<bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver">
+		<property name="defaultThemeName" value="default"></property>
+		<!-- cookie 1年有效 365*24*60*60 -->
+		<property name="cookieMaxAge" value="#{365*24*60*60}"></property>
+	</bean>
+	
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+	  <property name="definitions" ref="scanLayout">
+	  </property>
+	</bean>
+	<bean id="scanLayout" class="com.rhtop.buss.common.web.layout.ScanLayout"></bean>
+	<!-- 验证码 -->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">  
+        <property name="config">  
+            <bean class="com.google.code.kaptcha.util.Config">  
+                <constructor-arg>  
+                    <props>  
+                        <prop key="kaptcha.border">no</prop>  
+                        <prop key="kaptcha.border.color">105,179,90</prop>  
+                        <prop key="kaptcha.textproducer.font.color">red</prop>  
+                        <prop key="kaptcha.image.width">100</prop>  
+                        <prop key="kaptcha.textproducer.font.size">32</prop>  
+                        <prop key="kaptcha.image.height">40</prop>  
+<!--                         <prop key="kaptcha.session.key">code</prop>  -->
+                        <prop key="kaptcha.textproducer.char.length">4</prop>  
+                        <prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>  
+                    </props>  
+                </constructor-arg>  
+            </bean>  
+        </property>  
+    </bean>  
+	<bean id="multipartResolver" 
+	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+</beans>

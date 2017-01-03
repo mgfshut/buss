@@ -1,0 +1,6 @@
+.tabsPage .tabsPageContent { border: 0;}
+.page .pageHeader, .pageForm .formBar { border:0;background:transparent;}
+.page .searchBar label { color:#183152;}
+.tabsPage .tabsPageHeader{display:none;}
+#container{position: absolute;min-height: 200px;}
+body{position: relative;}

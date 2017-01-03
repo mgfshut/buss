@@ -1,0 +1,114 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"  
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"  
+      version="3.0">  
+      
+    <display-name>road-ocs</display-name>
+   <!-- 配置log4j日志文件生成  -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.xml</param-value>
+	</context-param>
+  
+	<!-- 监听spring上下文容器  -->
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener 
+		</listener-class>
+	</listener>
+	
+	<listener>
+	    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+    
+	<!-- 加载spring的xml配置文件到spring的上下文容器中 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/ApplicationContext.xml</param-value>
+	</context-param>
+    
+	<!-- 配置springmvc DispatcherServlet -->
+	<servlet>
+		<servlet-name>mvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/ApplicationContext-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- 配置DispatcherServlet需要拦截的url --> 
+	<servlet-mapping>
+		<servlet-name>mvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    	<async-supported>true</async-supported>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+        <filter-name>compressionFilter</filter-name>
+        <filter-class>com.googlecode.webutilities.filters.CompressionFilter</filter-class>
+        <async-supported>true</async-supported>
+        <init-param> 
+                <param-name>compressionThreshold</param-name>
+                <param-value>1024</param-value> <!-- compress anything above 1kb -->
+        </init-param>
+        <init-param> 
+                <param-name>ignoreURLPattern</param-name>
+                <param-value>.*\.(flv|mp3|mpg)</param-value> <!-- regex -->
+        </init-param>
+        <init-param> 
+                <param-name>ignoreMIMEPattern</param-name>
+                <param-value>image/.*|video/.*|multipart/x-gzip</param-value> <!-- ignore -->
+        </init-param>
+	</filter>
+	
+	<filter-mapping>
+	    <filter-name>compressionFilter</filter-name>
+	    <url-pattern>*</url-pattern>
+	    <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	 
+	<filter>
+	    <filter-name>shiroFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    	<async-supported>true</async-supported>
+	    <init-param>
+	        <param-name>targetFilterLifecycle</param-name>
+	        <param-value>true</param-value>
+	    </init-param>
+	</filter>
+	
+	<filter-mapping>
+	    <filter-name>shiroFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	    <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
+	<welcome-file-list>
+    	<welcome-file>/index</welcome-file>
+    </welcome-file-list>
+	
+	<session-config>
+	   <session-timeout>30</session-timeout>
+	</session-config>
+</web-app>  
