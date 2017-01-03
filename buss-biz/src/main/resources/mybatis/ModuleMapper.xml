@@ -131,7 +131,7 @@
   <!-- 根据主键删除对象 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sys_module_ where
-	module_id_ = #{moduleId}
+	module_id_ = #{0}
   </delete>
   <!-- 根据条件修改对象-->
   <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Module" >
@@ -185,7 +185,7 @@
     select 
     <include refid="Base_Column_List" />
     from sys_module_
-	where module_id_ = #{moduleId,jdbcType=CHAR}
+	where module_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listModules" parameterType="com.rhtop.buss.common.entity.Module" resultMap="BaseResultMap">

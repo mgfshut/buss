@@ -115,7 +115,7 @@
   <!-- 根据主键删除对象 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sys_user_ where
-	user_id_ = #{userId}
+	user_id_ = #{0}
   </delete>
   <!-- 根据条件修改对象-->
   <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.User" >
@@ -163,7 +163,7 @@
     select 
     <include refid="Base_Column_List" />
     from sys_user_
-	where user_id_ = #{userId,jdbcType=CHAR}
+	where user_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listUsers" parameterType="com.rhtop.buss.common.entity.User" resultMap="BaseResultMap">

@@ -43,7 +43,7 @@
   <!-- 根据主键删除对象 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sys_rs_user_role_ where
-	rs_user_role_id_ = #{rsUserRoleId}
+	rs_user_role_id_ = #{0}
   </delete>
   <!-- 根据条件修改对象-->
   <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.RsUserRole" >
@@ -64,7 +64,7 @@
     select 
     <include refid="Base_Column_List" />
     from sys_rs_user_role_
-	where rs_user_role_id_ = #{rsUserRoleId,jdbcType=CHAR}
+	where rs_user_role_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listRsUserRoles" parameterType="com.rhtop.buss.common.entity.RsUserRole" resultMap="BaseResultMap">

@@ -34,7 +34,7 @@ public class MemberController {
 	@RequestMapping("/save")
 	public InfoResult<Member> insertMember(Member member){
 		InfoResult<Member> infoResult = new InfoResult<Member>();
-		String memberId = UUID.randomUUID().toString().replace("-", "+");
+		String memberId = UUID.randomUUID().toString().replace("-", "");
 		member.setMemberId(memberId);
 		member.setCreateUser(member.getUpdateUser());
 		member.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
