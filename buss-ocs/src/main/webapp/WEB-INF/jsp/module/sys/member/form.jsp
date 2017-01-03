@@ -32,7 +32,8 @@ $(function(){
 });
 </script>
 <div id="userMapForm" class="pageContent">
-	<form id="userEditForm" method="post" action="service/member-save" class="pageForm required-validate" onsubmit="return validateCallback(this,navTabAjaxDone)">
+	<form id="userEditForm" method="post" action="service/member-save" class="pageForm required-validate" 
+		onsubmit="return validateCallback(this,navTabAjaxDone)">
 		<input type="hidden" name="memberId" value="${memberId}" />
 		<div id="selectedModulesHiddenFileds" ></div>
 		<div class="pageFormContent  container-fluid" layoutH="58">
@@ -40,7 +41,9 @@ $(function(){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">用户名：</label>
 				<div class="col-sm-4">
-					<input type="text" name="userName" pattern="^[A-Za-z0-9]{6,32}$" data-error="请输入6-32位英文、数字" maxlength="32" placeholder="请输入用户名" class="form-control" required="required" value="${userName}" />
+					<input type="text" name="userName" pattern="^[A-Za-z0-9]{6,32}$" 
+						data-error="请输入6-32位英文、数字" maxlength="32" placeholder="请输入用户名" 
+						class="form-control" required="required" value="${userName}" />
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -57,7 +60,9 @@ $(function(){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">姓名：</label>
 				<div class="col-sm-4">
-					<input type="text" name="memberName" pattern="^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+){2,15}$" data-error="请输入2-15位英文、汉字" maxlength="15" placeholder="请输入用户姓名" class="form-control" required="required" value="${memberName}" />
+					<input type="text" name="memberName" pattern="^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+){2,15}$" 
+						data-error="请输入2-15位英文、汉字" maxlength="15" placeholder="请输入用户姓名" 
+						class="form-control" required="required" value="${memberName}" />
 					<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -86,7 +91,8 @@ $(function(){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">性别：</label>
 				<div class="col-sm-4">
-					<ys:codemapSelect2 codemap="sex" selectName="sex" value="${memberSex }" classes="form-control"></ys:codemapSelect2>
+					<ys:codemapSelect2 codemap="sex" selectName="memberSex" value="${memberSex }" 
+						classes="form-control"></ys:codemapSelect2>
 				</div>
 			</div>
 			
@@ -100,14 +106,17 @@ $(function(){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">Phone：</label>
 				<div class="col-sm-4">
-					<input type="text" name="memberPhone" size="30" maxlength="11" pattern="^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$" data-error="请输入手机号码" placeholder="请输入手机号码" class="form-control" value="${memberPhone}"/>
+					<input type="text" name="memberPhone" size="30" maxlength="11" 
+						pattern="^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$" 
+						data-error="请输入手机号码" placeholder="请输入手机号码" class="form-control" value="${memberPhone}"/>
 					<div class="help-block with-errors"></div>
 				</div>	
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">Email：</label>
 				<div class="col-sm-4">
-					<input type="email" name="memberEmail" maxlength="128" data-error="请输入Email" placeholder="请输入Email" class="form-control" class="email" value="${memberEmail}"/>
+					<input type="email" name="memberEmail" maxlength="128" data-error="请输入Email" 
+						placeholder="请输入Email" class="form-control" class="email" value="${memberEmail}"/>
 					<div class="help-block with-errors"></div>
 				</div>	
 			</div>
@@ -115,7 +124,8 @@ $(function(){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">状态：</label>
 				<div class="col-sm-4">
-					<ys:codemapSelect2 codemap="userStatus" defaultValue="" selectName="state" value="${userStatus }" classes="form-control"></ys:codemapSelect2>
+					<ys:codemapSelect2 codemap="userStatus" defaultValue="" selectName="userStatus" 
+						value="${userStatus }" classes="form-control"></ys:codemapSelect2>
 				</div>	
 			</div>
 		</div>	

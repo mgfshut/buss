@@ -7,10 +7,12 @@
 
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="module/sys-role-index/role-pager" method="post" onsubmit="return navTabSearch(this);">
-<input type="hidden" name="pageNum" value="${number+1}" />
-<input type="hidden" name="numPerPage" value="${sessionScope.numPerPage eq null?10:sessionScope.numPerPage}" /> 
-<input type="hidden" name="orderField" value="${param.orderField eq null?'code':param.orderField}" />
-<input type="hidden" name="orderDirection" value="${param.orderDirection eq null?'asc':param.orderDirection}" />
+
+<input type="hidden" name="pageNum" value="${param.page.pageNum eq null?1:param.page.pageNum}" />
+<input type="hidden" name="numPerPage" value="${param.page.numPerPage eq null?10:param.page.numPerPage}" /> 
+<input type="hidden" name="orderField" value="${param.page.orderField eq null?'memberId':param.page.orderField}" />
+<input type="hidden" name="orderDirection" value="${param.page.orderDirection eq null?'asc':param.page.orderDirection}" />
+
 <div class="pageHeader">
 <div class="searchBar container-fluid">
 	<div class="row">
@@ -25,31 +27,30 @@
 <div class="panelBar">
 		<div class="btn-group" style="margin:4px 5px;">
 			<a class="btn btn-primary btn-sm" data-parent="rolemanage" href="module/sys-role-form" mask="true" height="500" target="navTab" rel="roleSaveDialog" title="添加角色"><i class="icon-plus"></i> <span>添加</span></a>
-			<a class="btn btn-danger btn-sm delete" data-parent="rolemanage" href="service/role-remove-{id}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
+			<a class="btn btn-danger btn-sm delete" data-parent="rolemanage" href="service/role-remove-{roleId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
 			<a class="btn btn-success btn-sm" href="module/sys-role-form/role-{id}" mask="true" height="500" title="修改角色"  target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>
 		</div>
 </div>
 <table class="table" width="100%" layoutH="140">
 	<thead>
 		<tr>
-		<%-- 	<th width="30"/>--%>
 			<th>角色ID</th>
-			<th width="150" orderField="code" 
-				class="${param.orderField eq 'code'?param.orderDirection:''}">代码</th>
-			<th orderField="name" class="${param.orderField eq 'roleName'?param.orderDirection:''}">名称</th>
-			<th orderField="createUser.realname" class="${param.orderField eq 'createUser.realname'?param.orderDirection:''}">操作人</th>
+			<th orderField="roleName" class="${param.orderField eq 'roleName'?param.orderDirection:''}">角色代码</th>
+			<th orderField="roleDescribe" >角色描述</th>
+			<th orderField="roleStatus" class="${param.orderField eq 'roleStatus'?param.orderDirection:''}">角色状态</th>
 			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}">创建时间</th>
-			
 			<th/>
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${content}" var="item">
-			<tr target="id" rel="${item.roleId}">
+		<c:forEach items="${resList}" var="item">
+			<tr target="roleId" rel="${item.roleId}">
 				<td>${item.roleId}</td>
-				<td class="code">${item.code}</td>
 				<td>${item.roleName}</td>
-				<td>${item.createUser.realname}</td>
+				<td>${item.roleDescribe}</td>
+				<td>
+					<ys:codemapConvert codemap="status" value="${item.roleStatus }"></ys:codemapConvert>
+				</td>
 				<td>${item.createTime}</td>
 				<td>
 <a href="module/sys-role-form/role-${item.roleId}" mask="true" height="500" title="修改角色" data-parent="rolemanage" target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>

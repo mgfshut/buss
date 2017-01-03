@@ -22,7 +22,7 @@ public class Role {
 	
 	private String roleStatus;//角色状态
 	
-	private String roleName;//角色名称
+	private String roleName;//角色代码
 	
 	private String roleId;//角色ID
 	

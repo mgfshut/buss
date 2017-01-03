@@ -12,6 +12,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
@@ -104,10 +105,10 @@ public class CommonController extends BaseController {
 			ValueWrapper vw = codeCache.get(codemap);
 			LinkedHashMap<String,String> itemMap;
 			if(vw == null){
-				Map<String,Object> map = rs.invoke("code-" + codemap + "-items", request.getParameterMap());
+				Map<String,Object> map = rs.invoke("codeValue-" + codemap + "-items", request.getParameterMap());
 				itemMap = Maps.newLinkedHashMap();
 				for (Map<String,String> im : ((List<Map<String,String>>)map.get("list"))) {
-					itemMap.put(im.get("code"), im.get("codeitemname"));
+					itemMap.put(im.get("codeValue"), im.get("codeValueDescribe"));
 				}
 				codeCache.put(codemap, itemMap);
 				result = (List<Map<String, String>>) map.get("list");
@@ -137,10 +138,10 @@ public class CommonController extends BaseController {
 			ValueWrapper vw = codeCache.get(codemap);
 			LinkedHashMap<String,String> itemMap;
 			if(vw == null){
-				Map<String,Object> map = rs.invoke("code-" + codemap + "-items", request.getParameterMap());
+				Map<String,Object> map = rs.invoke("codeValue-" + codemap + "-items", request.getParameterMap());
 				itemMap = Maps.newLinkedHashMap();
 				for (Map<String,String> im : ((List<Map<String,String>>)map.get("list"))) {
-					itemMap.put(im.get("code"), im.get("codeitemname"));
+					itemMap.put(im.get("codeValue"), im.get("codeValueDescribe"));
 				}
 				codeCache.put(codemap, itemMap);
 				result = (List<Map<String, String>>) map.get("list");
@@ -150,8 +151,8 @@ public class CommonController extends BaseController {
 				result = Lists.newArrayList();
 				for (Entry<String, String> entry : itemMap.entrySet()) {
 					Map<String,String> map = Maps.newHashMap();
-					map.put("codeitemname", entry.getValue());
-					map.put("code", entry.getKey());
+					map.put("codeValue", entry.getKey());
+					map.put("codeValueDescribe", entry.getValue());
 					result.add(map);
 				}
 			}

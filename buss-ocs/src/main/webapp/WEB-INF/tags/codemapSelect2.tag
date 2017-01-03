@@ -11,4 +11,4 @@
 <%@ attribute name="disabled" required="false" %>
 <%@ attribute name="required" required="false" %>
 <%@ attribute name="dataerror" required="false"%>
-<c:import charEncoding="UTF-8" url="/ui/codemapSelect2/${codemap}?selectName=${selectName}&selectId=${selectId}&codefield=code&namefield=codeitemname&defaultText=${defaultText}&value=${value }&classes=${classes}&style=${style }&disabled=${disabled }&required=${required }&dataerror=${dataerror }"/>
+<c:import charEncoding="UTF-8" url="/ui/codemapSelect2/${codemap}?selectName=${selectName}&selectId=${selectId}&codefield=codeValue&namefield=codeValueDescribe&defaultText=${defaultText}&value=${value }&classes=${classes}&style=${style }&disabled=${disabled }&required=${required }&dataerror=${dataerror }"/>

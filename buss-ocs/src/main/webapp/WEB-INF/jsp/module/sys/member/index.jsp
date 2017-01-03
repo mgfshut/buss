@@ -46,7 +46,7 @@
 			<th orderField="memberSex" class="${param.orderField eq 'memberSex'?param.orderDirection:''}" >性别</th>
 			<th orderField="memberPhone" class="${param.orderField eq 'memberPhone'?param.orderDirection:''}" >手机号</th>
 			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}" >创建时间</th>
-			<th>用户状态</th>
+			<th orderField="userStatus" class="${param.orderField eq 'userStatus'?param.orderDirection:''}" >用户状态</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -55,7 +55,9 @@
 			<td>${item.memberId}</td>
 			<td><a href="module/sys-user-detail/user-${item.memberId }" title="用户详细" target="navTab" rel="usereditmanager" data-parent="usereditmanager">${item.userName}</a></td>
 			<td>${item.memberName}</td>
-			<td>${item.memberSex }</td>
+			<td>
+				<ys:codemapConvert codemap="sex" value="${item.memberSex }"></ys:codemapConvert>
+			</td>
 			<td>${item.memberPhone }</td>
 			<td>${item.createTime }</td>
 			<td>
