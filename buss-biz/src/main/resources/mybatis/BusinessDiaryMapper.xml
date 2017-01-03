@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.BusinessDiaryMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.BusinessDiary" >
+	<id column="business_diary_id_" property="businessDiaryId" jdbcType="CHAR" />
+	<result column="opr_time_" property="oprTime" jdbcType="VARCHAR" />
+	<result column="opr_content_" property="oprContent" jdbcType="VARCHAR" />
+	<result column="opr_type_" property="oprType" jdbcType="VARCHAR" />
+	<result column="opr_user_" property="oprUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	business_diary_id_,
+  	opr_time_,
+  	opr_content_,
+  	opr_type_,
+  	opr_user_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.BusinessDiary" >
+    insert into buss_business_diary_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="businessDiaryId != null" >
+	    	business_diary_id_,
+	    </if>
+    	<if test="oprTime != null" >
+	    	opr_time_,
+	    </if>
+    	<if test="oprContent != null" >
+	    	opr_content_,
+	    </if>
+    	<if test="oprType != null" >
+	    	opr_type_,
+	    </if>
+    	<if test="oprUser != null" >
+	    	opr_user_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="businessDiaryId != null" >
+	    	#{businessDiaryId},
+	    </if>
+    	<if test="oprTime != null" >
+	    	#{oprTime},
+	    </if>
+    	<if test="oprContent != null" >
+	    	#{oprContent},
+	    </if>
+    	<if test="oprType != null" >
+	    	#{oprType},
+	    </if>
+    	<if test="oprUser != null" >
+	    	#{oprUser},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_business_diary_ where
+	business_diary_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.BusinessDiary" >
+    update buss_business_diary_
+    <set >
+		<if test="oprTime != null and oprTime != ''" >
+        	opr_time_ = #{oprTime},
+      	</if>
+		<if test="oprContent != null and oprContent != ''" >
+        	opr_content_ = #{oprContent},
+      	</if>
+		<if test="oprType != null and oprType != ''" >
+        	opr_type_ = #{oprType},
+      	</if>
+		<if test="oprUser != null and oprUser != ''" >
+        	opr_user_ = #{oprUser},
+      	</if>
+    </set>
+    where 
+	business_diary_id_ = #{businessDiaryId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_business_diary_
+	where business_diary_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listBusinessDiarys" parameterType="com.rhtop.buss.common.entity.BusinessDiary" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_business_diary_ where 1=1
+    	<if test="businessDiaryId != null and businessDiaryId != ''" >
+			and business_diary_id_ = #{businessDiaryId}
+		</if>
+    	<if test="oprTime != null and oprTime != ''" >
+			and opr_time_ = #{oprTime}
+		</if>
+    	<if test="oprContent != null and oprContent != ''" >
+			and opr_content_ = #{oprContent}
+		</if>
+    	<if test="oprType != null and oprType != ''" >
+			and opr_type_ = #{oprType}
+		</if>
+    	<if test="oprUser != null and oprUser != ''" >
+			and opr_user_ = #{oprUser}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageBusinessDiary" parameterType="com.rhtop.buss.common.entity.BusinessDiary" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_business_diary_ where 1=1
+    	<if test="businessDiaryId != null and businessDiaryId != ''" >
+			and business_diary_id_ = #{businessDiaryId}
+		</if>
+    	<if test="oprTime != null and oprTime != ''" >
+			and opr_time_ = #{oprTime}
+		</if>
+    	<if test="oprContent != null and oprContent != ''" >
+			and opr_content_ = #{oprContent}
+		</if>
+    	<if test="oprType != null and oprType != ''" >
+			and opr_type_ = #{oprType}
+		</if>
+    	<if test="oprUser != null and oprUser != ''" >
+			and opr_user_ = #{oprUser}
+		</if>
+  </select>
+  
+</mapper>

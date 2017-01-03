@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.ContractInfoMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.ContractInfo" >
+	<id column="contract_info_id_" property="contractInfoId" jdbcType="CHAR" />
+	<result column="transaction_info_id_" property="transactionInfoId" jdbcType="VARCHAR" />
+	<result column="car_num_" property="carNum" jdbcType="VARCHAR" />
+	<result column="tot_pri_" property="totPri" jdbcType="VARCHAR" />
+	<result column="tx_amo_" property="txAmo" jdbcType="VARCHAR" />
+	<result column="delv_opt_" property="delvOpt" jdbcType="VARCHAR" />
+	<result column="ctof_pri_" property="ctofPri" jdbcType="VARCHAR" />
+	<result column="dri_num_" property="driNum" jdbcType="VARCHAR" />
+	<result column="ent_addr_" property="entAddr" jdbcType="VARCHAR" />
+	<result column="cont_status_" property="contStatus" jdbcType="VARCHAR" />
+	<result column="csg_id_" property="csgId" jdbcType="VARCHAR" />
+	<result column="category_id_" property="categoryId" jdbcType="VARCHAR" />
+	<result column="end_time_" property="endTime" jdbcType="VARCHAR" />
+	<result column="exec_tel_" property="execTel" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="elec_cont_url_" property="elecContUrl" jdbcType="VARCHAR" />
+	<result column="exec_addr_" property="execAddr" jdbcType="VARCHAR" />
+	<result column="csg_addr_" property="csgAddr" jdbcType="VARCHAR" />
+	<result column="ent_tel_" property="entTel" jdbcType="VARCHAR" />
+	<result column="credit_code_" property="creditCode" jdbcType="VARCHAR" />
+	<result column="csg_name_" property="csgName" jdbcType="VARCHAR" />
+	<result column="exec_name_" property="execName" jdbcType="VARCHAR" />
+	<result column="cont_ul_name_" property="contUlName" jdbcType="VARCHAR" />
+	<result column="csg_tel_" property="csgTel" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="legal_per_" property="legalPer" jdbcType="VARCHAR" />
+	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	transaction_info_id_,
+  	car_num_,
+  	tot_pri_,
+  	tx_amo_,
+  	delv_opt_,
+  	ctof_pri_,
+  	dri_num_,
+  	ent_addr_,
+  	cont_status_,
+  	csg_id_,
+  	category_id_,
+  	contract_info_id_,
+  	end_time_,
+  	exec_tel_,
+  	update_time_,
+  	elec_cont_url_,
+  	exec_addr_,
+  	csg_addr_,
+  	ent_tel_,
+  	credit_code_,
+  	csg_name_,
+  	exec_name_,
+  	cont_ul_name_,
+  	csg_tel_,
+  	create_time_,
+  	create_user_,
+  	legal_per_,
+  	customer_id_,
+  	update_user_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.ContractInfo" >
+    insert into buss_contract_info_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="transactionInfoId != null" >
+	    	transaction_info_id_,
+	    </if>
+    	<if test="carNum != null" >
+	    	car_num_,
+	    </if>
+    	<if test="totPri != null" >
+	    	tot_pri_,
+	    </if>
+    	<if test="txAmo != null" >
+	    	tx_amo_,
+	    </if>
+    	<if test="delvOpt != null" >
+	    	delv_opt_,
+	    </if>
+    	<if test="ctofPri != null" >
+	    	ctof_pri_,
+	    </if>
+    	<if test="driNum != null" >
+	    	dri_num_,
+	    </if>
+    	<if test="entAddr != null" >
+	    	ent_addr_,
+	    </if>
+    	<if test="contStatus != null" >
+	    	cont_status_,
+	    </if>
+    	<if test="csgId != null" >
+	    	csg_id_,
+	    </if>
+    	<if test="categoryId != null" >
+	    	category_id_,
+	    </if>
+    	<if test="contractInfoId != null" >
+	    	contract_info_id_,
+	    </if>
+    	<if test="endTime != null" >
+	    	end_time_,
+	    </if>
+    	<if test="execTel != null" >
+	    	exec_tel_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="elecContUrl != null" >
+	    	elec_cont_url_,
+	    </if>
+    	<if test="execAddr != null" >
+	    	exec_addr_,
+	    </if>
+    	<if test="csgAddr != null" >
+	    	csg_addr_,
+	    </if>
+    	<if test="entTel != null" >
+	    	ent_tel_,
+	    </if>
+    	<if test="creditCode != null" >
+	    	credit_code_,
+	    </if>
+    	<if test="csgName != null" >
+	    	csg_name_,
+	    </if>
+    	<if test="execName != null" >
+	    	exec_name_,
+	    </if>
+    	<if test="contUlName != null" >
+	    	cont_ul_name_,
+	    </if>
+    	<if test="csgTel != null" >
+	    	csg_tel_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="legalPer != null" >
+	    	legal_per_,
+	    </if>
+    	<if test="customerId != null" >
+	    	customer_id_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="transactionInfoId != null" >
+	    	#{transactionInfoId},
+	    </if>
+    	<if test="carNum != null" >
+	    	#{carNum},
+	    </if>
+    	<if test="totPri != null" >
+	    	#{totPri},
+	    </if>
+    	<if test="txAmo != null" >
+	    	#{txAmo},
+	    </if>
+    	<if test="delvOpt != null" >
+	    	#{delvOpt},
+	    </if>
+    	<if test="ctofPri != null" >
+	    	#{ctofPri},
+	    </if>
+    	<if test="driNum != null" >
+	    	#{driNum},
+	    </if>
+    	<if test="entAddr != null" >
+	    	#{entAddr},
+	    </if>
+    	<if test="contStatus != null" >
+	    	#{contStatus},
+	    </if>
+    	<if test="csgId != null" >
+	    	#{csgId},
+	    </if>
+    	<if test="categoryId != null" >
+	    	#{categoryId},
+	    </if>
+    	<if test="contractInfoId != null" >
+	    	#{contractInfoId},
+	    </if>
+    	<if test="endTime != null" >
+	    	#{endTime},
+	    </if>
+    	<if test="execTel != null" >
+	    	#{execTel},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="elecContUrl != null" >
+	    	#{elecContUrl},
+	    </if>
+    	<if test="execAddr != null" >
+	    	#{execAddr},
+	    </if>
+    	<if test="csgAddr != null" >
+	    	#{csgAddr},
+	    </if>
+    	<if test="entTel != null" >
+	    	#{entTel},
+	    </if>
+    	<if test="creditCode != null" >
+	    	#{creditCode},
+	    </if>
+    	<if test="csgName != null" >
+	    	#{csgName},
+	    </if>
+    	<if test="execName != null" >
+	    	#{execName},
+	    </if>
+    	<if test="contUlName != null" >
+	    	#{contUlName},
+	    </if>
+    	<if test="csgTel != null" >
+	    	#{csgTel},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="legalPer != null" >
+	    	#{legalPer},
+	    </if>
+    	<if test="customerId != null" >
+	    	#{customerId},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_contract_info_ where
+	contract_info_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.ContractInfo" >
+    update buss_contract_info_
+    <set >
+		<if test="transactionInfoId != null and transactionInfoId != ''" >
+        	transaction_info_id_ = #{transactionInfoId},
+      	</if>
+		<if test="carNum != null and carNum != ''" >
+        	car_num_ = #{carNum},
+      	</if>
+		<if test="totPri != null and totPri != ''" >
+        	tot_pri_ = #{totPri},
+      	</if>
+		<if test="txAmo != null and txAmo != ''" >
+        	tx_amo_ = #{txAmo},
+      	</if>
+		<if test="delvOpt != null and delvOpt != ''" >
+        	delv_opt_ = #{delvOpt},
+      	</if>
+		<if test="ctofPri != null and ctofPri != ''" >
+        	ctof_pri_ = #{ctofPri},
+      	</if>
+		<if test="driNum != null and driNum != ''" >
+        	dri_num_ = #{driNum},
+      	</if>
+		<if test="entAddr != null and entAddr != ''" >
+        	ent_addr_ = #{entAddr},
+      	</if>
+		<if test="contStatus != null and contStatus != ''" >
+        	cont_status_ = #{contStatus},
+      	</if>
+		<if test="csgId != null and csgId != ''" >
+        	csg_id_ = #{csgId},
+      	</if>
+		<if test="categoryId != null and categoryId != ''" >
+        	category_id_ = #{categoryId},
+      	</if>
+		<if test="endTime != null and endTime != ''" >
+        	end_time_ = #{endTime},
+      	</if>
+		<if test="execTel != null and execTel != ''" >
+        	exec_tel_ = #{execTel},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="elecContUrl != null and elecContUrl != ''" >
+        	elec_cont_url_ = #{elecContUrl},
+      	</if>
+		<if test="execAddr != null and execAddr != ''" >
+        	exec_addr_ = #{execAddr},
+      	</if>
+		<if test="csgAddr != null and csgAddr != ''" >
+        	csg_addr_ = #{csgAddr},
+      	</if>
+		<if test="entTel != null and entTel != ''" >
+        	ent_tel_ = #{entTel},
+      	</if>
+		<if test="creditCode != null and creditCode != ''" >
+        	credit_code_ = #{creditCode},
+      	</if>
+		<if test="csgName != null and csgName != ''" >
+        	csg_name_ = #{csgName},
+      	</if>
+		<if test="execName != null and execName != ''" >
+        	exec_name_ = #{execName},
+      	</if>
+		<if test="contUlName != null and contUlName != ''" >
+        	cont_ul_name_ = #{contUlName},
+      	</if>
+		<if test="csgTel != null and csgTel != ''" >
+        	csg_tel_ = #{csgTel},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="legalPer != null and legalPer != ''" >
+        	legal_per_ = #{legalPer},
+      	</if>
+		<if test="customerId != null and customerId != ''" >
+        	customer_id_ = #{customerId},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+    </set>
+    where 
+	contract_info_id_ = #{contractInfoId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_contract_info_
+	where contract_info_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listContractInfos" parameterType="com.rhtop.buss.common.entity.ContractInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_contract_info_ where 1=1
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="carNum != null and carNum != ''" >
+			and car_num_ = #{carNum}
+		</if>
+    	<if test="totPri != null and totPri != ''" >
+			and tot_pri_ = #{totPri}
+		</if>
+    	<if test="txAmo != null and txAmo != ''" >
+			and tx_amo_ = #{txAmo}
+		</if>
+    	<if test="delvOpt != null and delvOpt != ''" >
+			and delv_opt_ = #{delvOpt}
+		</if>
+    	<if test="ctofPri != null and ctofPri != ''" >
+			and ctof_pri_ = #{ctofPri}
+		</if>
+    	<if test="driNum != null and driNum != ''" >
+			and dri_num_ = #{driNum}
+		</if>
+    	<if test="entAddr != null and entAddr != ''" >
+			and ent_addr_ = #{entAddr}
+		</if>
+    	<if test="contStatus != null and contStatus != ''" >
+			and cont_status_ = #{contStatus}
+		</if>
+    	<if test="csgId != null and csgId != ''" >
+			and csg_id_ = #{csgId}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="contractInfoId != null and contractInfoId != ''" >
+			and contract_info_id_ = #{contractInfoId}
+		</if>
+    	<if test="endTime != null and endTime != ''" >
+			and end_time_ = #{endTime}
+		</if>
+    	<if test="execTel != null and execTel != ''" >
+			and exec_tel_ = #{execTel}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="elecContUrl != null and elecContUrl != ''" >
+			and elec_cont_url_ = #{elecContUrl}
+		</if>
+    	<if test="execAddr != null and execAddr != ''" >
+			and exec_addr_ = #{execAddr}
+		</if>
+    	<if test="csgAddr != null and csgAddr != ''" >
+			and csg_addr_ = #{csgAddr}
+		</if>
+    	<if test="entTel != null and entTel != ''" >
+			and ent_tel_ = #{entTel}
+		</if>
+    	<if test="creditCode != null and creditCode != ''" >
+			and credit_code_ = #{creditCode}
+		</if>
+    	<if test="csgName != null and csgName != ''" >
+			and csg_name_ = #{csgName}
+		</if>
+    	<if test="execName != null and execName != ''" >
+			and exec_name_ = #{execName}
+		</if>
+    	<if test="contUlName != null and contUlName != ''" >
+			and cont_ul_name_ = #{contUlName}
+		</if>
+    	<if test="csgTel != null and csgTel != ''" >
+			and csg_tel_ = #{csgTel}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="legalPer != null and legalPer != ''" >
+			and legal_per_ = #{legalPer}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageContractInfo" parameterType="com.rhtop.buss.common.entity.ContractInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_contract_info_ where 1=1
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="carNum != null and carNum != ''" >
+			and car_num_ = #{carNum}
+		</if>
+    	<if test="totPri != null and totPri != ''" >
+			and tot_pri_ = #{totPri}
+		</if>
+    	<if test="txAmo != null and txAmo != ''" >
+			and tx_amo_ = #{txAmo}
+		</if>
+    	<if test="delvOpt != null and delvOpt != ''" >
+			and delv_opt_ = #{delvOpt}
+		</if>
+    	<if test="ctofPri != null and ctofPri != ''" >
+			and ctof_pri_ = #{ctofPri}
+		</if>
+    	<if test="driNum != null and driNum != ''" >
+			and dri_num_ = #{driNum}
+		</if>
+    	<if test="entAddr != null and entAddr != ''" >
+			and ent_addr_ = #{entAddr}
+		</if>
+    	<if test="contStatus != null and contStatus != ''" >
+			and cont_status_ = #{contStatus}
+		</if>
+    	<if test="csgId != null and csgId != ''" >
+			and csg_id_ = #{csgId}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="contractInfoId != null and contractInfoId != ''" >
+			and contract_info_id_ = #{contractInfoId}
+		</if>
+    	<if test="endTime != null and endTime != ''" >
+			and end_time_ = #{endTime}
+		</if>
+    	<if test="execTel != null and execTel != ''" >
+			and exec_tel_ = #{execTel}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="elecContUrl != null and elecContUrl != ''" >
+			and elec_cont_url_ = #{elecContUrl}
+		</if>
+    	<if test="execAddr != null and execAddr != ''" >
+			and exec_addr_ = #{execAddr}
+		</if>
+    	<if test="csgAddr != null and csgAddr != ''" >
+			and csg_addr_ = #{csgAddr}
+		</if>
+    	<if test="entTel != null and entTel != ''" >
+			and ent_tel_ = #{entTel}
+		</if>
+    	<if test="creditCode != null and creditCode != ''" >
+			and credit_code_ = #{creditCode}
+		</if>
+    	<if test="csgName != null and csgName != ''" >
+			and csg_name_ = #{csgName}
+		</if>
+    	<if test="execName != null and execName != ''" >
+			and exec_name_ = #{execName}
+		</if>
+    	<if test="contUlName != null and contUlName != ''" >
+			and cont_ul_name_ = #{contUlName}
+		</if>
+    	<if test="csgTel != null and csgTel != ''" >
+			and csg_tel_ = #{csgTel}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="legalPer != null and legalPer != ''" >
+			and legal_per_ = #{legalPer}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+  </select>
+  
+</mapper>

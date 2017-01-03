@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.CustomerMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Customer" >
+	<id column="customer_id_" property="customerId" jdbcType="CHAR" />
+	<result column="cus_desc_" property="cusDesc" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
+	<result column="ck_status_" property="ckStatus" jdbcType="VARCHAR" />
+	<result column="cus_name_" property="cusName" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="cus_create_time_" property="cusCreateTime" jdbcType="VARCHAR" />
+	<result column="cus_addr_" property="cusAddr" jdbcType="VARCHAR" />
+	<result column="flg_update_time_" property="flgUpdateTime" jdbcType="VARCHAR" />
+	<result column="cus_cha_" property="cusCha" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	cus_desc_,
+  	update_time_,
+  	cus_type_,
+  	ck_status_,
+  	cus_name_,
+  	update_user_,
+  	cus_loc_,
+  	create_user_,
+  	cus_create_time_,
+  	cus_addr_,
+  	flg_update_time_,
+  	cus_cha_,
+  	customer_id_,
+  	create_time_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Customer" >
+    insert into buss_customer_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="cusDesc != null" >
+	    	cus_desc_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="cusType != null" >
+	    	cus_type_,
+	    </if>
+    	<if test="ckStatus != null" >
+	    	ck_status_,
+	    </if>
+    	<if test="cusName != null" >
+	    	cus_name_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="cusLoc != null" >
+	    	cus_loc_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="cusCreateTime != null" >
+	    	cus_create_time_,
+	    </if>
+    	<if test="cusAddr != null" >
+	    	cus_addr_,
+	    </if>
+    	<if test="flgUpdateTime != null" >
+	    	flg_update_time_,
+	    </if>
+    	<if test="cusCha != null" >
+	    	cus_cha_,
+	    </if>
+    	<if test="customerId != null" >
+	    	customer_id_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="cusDesc != null" >
+	    	#{cusDesc},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="cusType != null" >
+	    	#{cusType},
+	    </if>
+    	<if test="ckStatus != null" >
+	    	#{ckStatus},
+	    </if>
+    	<if test="cusName != null" >
+	    	#{cusName},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="cusLoc != null" >
+	    	#{cusLoc},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="cusCreateTime != null" >
+	    	#{cusCreateTime},
+	    </if>
+    	<if test="cusAddr != null" >
+	    	#{cusAddr},
+	    </if>
+    	<if test="flgUpdateTime != null" >
+	    	#{flgUpdateTime},
+	    </if>
+    	<if test="cusCha != null" >
+	    	#{cusCha},
+	    </if>
+    	<if test="customerId != null" >
+	    	#{customerId},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_customer_ where
+	customer_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Customer" >
+    update buss_customer_
+    <set >
+		<if test="cusDesc != null and cusDesc != ''" >
+        	cus_desc_ = #{cusDesc},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="cusType != null and cusType != ''" >
+        	cus_type_ = #{cusType},
+      	</if>
+		<if test="ckStatus != null and ckStatus != ''" >
+        	ck_status_ = #{ckStatus},
+      	</if>
+		<if test="cusName != null and cusName != ''" >
+        	cus_name_ = #{cusName},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="cusLoc != null and cusLoc != ''" >
+        	cus_loc_ = #{cusLoc},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="cusCreateTime != null and cusCreateTime != ''" >
+        	cus_create_time_ = #{cusCreateTime},
+      	</if>
+		<if test="cusAddr != null and cusAddr != ''" >
+        	cus_addr_ = #{cusAddr},
+      	</if>
+		<if test="flgUpdateTime != null and flgUpdateTime != ''" >
+        	flg_update_time_ = #{flgUpdateTime},
+      	</if>
+		<if test="cusCha != null and cusCha != ''" >
+        	cus_cha_ = #{cusCha},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+    </set>
+    where 
+	customer_id_ = #{customerId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_customer_
+	where customer_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listCustomers" parameterType="com.rhtop.buss.common.entity.Customer" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_customer_ where 1=1
+    	<if test="cusDesc != null and cusDesc != ''" >
+			and cus_desc_ = #{cusDesc}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="cusType != null and cusType != ''" >
+			and cus_type_ = #{cusType}
+		</if>
+    	<if test="ckStatus != null and ckStatus != ''" >
+			and ck_status_ = #{ckStatus}
+		</if>
+    	<if test="cusName != null and cusName != ''" >
+			and cus_name_ = #{cusName}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="cusLoc != null and cusLoc != ''" >
+			and cus_loc_ = #{cusLoc}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="cusCreateTime != null and cusCreateTime != ''" >
+			and cus_create_time_ = #{cusCreateTime}
+		</if>
+    	<if test="cusAddr != null and cusAddr != ''" >
+			and cus_addr_ = #{cusAddr}
+		</if>
+    	<if test="flgUpdateTime != null and flgUpdateTime != ''" >
+			and flg_update_time_ = #{flgUpdateTime}
+		</if>
+    	<if test="cusCha != null and cusCha != ''" >
+			and cus_cha_ = #{cusCha}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageCustomer" parameterType="com.rhtop.buss.common.entity.Customer" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_customer_ where 1=1
+    	<if test="cusDesc != null and cusDesc != ''" >
+			and cus_desc_ = #{cusDesc}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="cusType != null and cusType != ''" >
+			and cus_type_ = #{cusType}
+		</if>
+    	<if test="ckStatus != null and ckStatus != ''" >
+			and ck_status_ = #{ckStatus}
+		</if>
+    	<if test="cusName != null and cusName != ''" >
+			and cus_name_ = #{cusName}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="cusLoc != null and cusLoc != ''" >
+			and cus_loc_ = #{cusLoc}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="cusCreateTime != null and cusCreateTime != ''" >
+			and cus_create_time_ = #{cusCreateTime}
+		</if>
+    	<if test="cusAddr != null and cusAddr != ''" >
+			and cus_addr_ = #{cusAddr}
+		</if>
+    	<if test="flgUpdateTime != null and flgUpdateTime != ''" >
+			and flg_update_time_ = #{flgUpdateTime}
+		</if>
+    	<if test="cusCha != null and cusCha != ''" >
+			and cus_cha_ = #{cusCha}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+  </select>
+  
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.DealLogMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.DealLog" >
+	<id column="deal_log_id_" property="dealLogId" jdbcType="CHAR" />
+	<result column="opr_content_" property="oprContent" jdbcType="VARCHAR" />
+	<result column="transaction_info_id_" property="transactionInfoId" jdbcType="VARCHAR" />
+	<result column="opr_user_" property="oprUser" jdbcType="VARCHAR" />
+	<result column="opr_time_" property="oprTime" jdbcType="VARCHAR" />
+	<result column="opr_type_" property="oprType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	opr_content_,
+  	transaction_info_id_,
+  	opr_user_,
+  	deal_log_id_,
+  	opr_time_,
+  	opr_type_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.DealLog" >
+    insert into buss_deal_log_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="oprContent != null" >
+	    	opr_content_,
+	    </if>
+    	<if test="transactionInfoId != null" >
+	    	transaction_info_id_,
+	    </if>
+    	<if test="oprUser != null" >
+	    	opr_user_,
+	    </if>
+    	<if test="dealLogId != null" >
+	    	deal_log_id_,
+	    </if>
+    	<if test="oprTime != null" >
+	    	opr_time_,
+	    </if>
+    	<if test="oprType != null" >
+	    	opr_type_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="oprContent != null" >
+	    	#{oprContent},
+	    </if>
+    	<if test="transactionInfoId != null" >
+	    	#{transactionInfoId},
+	    </if>
+    	<if test="oprUser != null" >
+	    	#{oprUser},
+	    </if>
+    	<if test="dealLogId != null" >
+	    	#{dealLogId},
+	    </if>
+    	<if test="oprTime != null" >
+	    	#{oprTime},
+	    </if>
+    	<if test="oprType != null" >
+	    	#{oprType},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_deal_log_ where
+	deal_log_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.DealLog" >
+    update buss_deal_log_
+    <set >
+		<if test="oprContent != null and oprContent != ''" >
+        	opr_content_ = #{oprContent},
+      	</if>
+		<if test="transactionInfoId != null and transactionInfoId != ''" >
+        	transaction_info_id_ = #{transactionInfoId},
+      	</if>
+		<if test="oprUser != null and oprUser != ''" >
+        	opr_user_ = #{oprUser},
+      	</if>
+		<if test="oprTime != null and oprTime != ''" >
+        	opr_time_ = #{oprTime},
+      	</if>
+		<if test="oprType != null and oprType != ''" >
+        	opr_type_ = #{oprType},
+      	</if>
+    </set>
+    where 
+	deal_log_id_ = #{dealLogId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_deal_log_
+	where deal_log_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listDealLogs" parameterType="com.rhtop.buss.common.entity.DealLog" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_deal_log_ where 1=1
+    	<if test="oprContent != null and oprContent != ''" >
+			and opr_content_ = #{oprContent}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="oprUser != null and oprUser != ''" >
+			and opr_user_ = #{oprUser}
+		</if>
+    	<if test="dealLogId != null and dealLogId != ''" >
+			and deal_log_id_ = #{dealLogId}
+		</if>
+    	<if test="oprTime != null and oprTime != ''" >
+			and opr_time_ = #{oprTime}
+		</if>
+    	<if test="oprType != null and oprType != ''" >
+			and opr_type_ = #{oprType}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageDealLog" parameterType="com.rhtop.buss.common.entity.DealLog" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_deal_log_ where 1=1
+    	<if test="oprContent != null and oprContent != ''" >
+			and opr_content_ = #{oprContent}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="oprUser != null and oprUser != ''" >
+			and opr_user_ = #{oprUser}
+		</if>
+    	<if test="dealLogId != null and dealLogId != ''" >
+			and deal_log_id_ = #{dealLogId}
+		</if>
+    	<if test="oprTime != null and oprTime != ''" >
+			and opr_time_ = #{oprTime}
+		</if>
+    	<if test="oprType != null and oprType != ''" >
+			and opr_type_ = #{oprType}
+		</if>
+  </select>
+  
+</mapper>

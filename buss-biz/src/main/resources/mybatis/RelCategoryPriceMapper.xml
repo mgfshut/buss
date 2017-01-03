@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.RelCategoryPriceMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.RelCategoryPrice" >
+	<id column="rel_category_price_id_" property="relCategoryPriceId" jdbcType="CHAR" />
+	<result column="mgr_id_" property="mgrId" jdbcType="VARCHAR" />
+	<result column="wholesale_pri_" property="wholesalePri" jdbcType="VARCHAR" />
+	<result column="unit_" property="unit" jdbcType="VARCHAR" />
+	<result column="inter_fut_max_" property="interFutMax" jdbcType="VARCHAR" />
+	<result column="flg_update_time_" property="flgUpdateTime" jdbcType="VARCHAR" />
+	<result column="currency_" property="currency" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="offer_aging_" property="offerAging" jdbcType="VARCHAR" />
+	<result column="spot_min_" property="spotMin" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="reg_mgr_id_" property="regMgrId" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="mid_update_time_" property="midUpdateTime" jdbcType="VARCHAR" />
+	<result column="acpt_pri_" property="acptPri" jdbcType="VARCHAR" />
+	<result column="fut_min_" property="futMin" jdbcType="VARCHAR" />
+	<result column="spot_max_" property="spotMax" jdbcType="VARCHAR" />
+	<result column="mgr_loc_" property="mgrLoc" jdbcType="VARCHAR" />
+	<result column="fut_max_" property="futMax" jdbcType="VARCHAR" />
+	<result column="category_id_" property="categoryId" jdbcType="VARCHAR" />
+	<result column="inter_fut_min_" property="interFutMin" jdbcType="VARCHAR" />
+	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
+	<result column="uni_mgr_id_" property="uniMgrId" jdbcType="VARCHAR" />
+	<result column="offer_update_time_" property="offerUpdateTime" jdbcType="VARCHAR" />
+	<result column="cate_pri_" property="catePri" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	mgr_id_,
+  	wholesale_pri_,
+  	unit_,
+  	inter_fut_max_,
+  	flg_update_time_,
+  	currency_,
+  	rel_category_price_id_,
+  	update_time_,
+  	offer_aging_,
+  	spot_min_,
+  	create_time_,
+  	create_user_,
+  	reg_mgr_id_,
+  	update_user_,
+  	mid_update_time_,
+  	acpt_pri_,
+  	fut_min_,
+  	spot_max_,
+  	mgr_loc_,
+  	fut_max_,
+  	category_id_,
+  	inter_fut_min_,
+  	cate_sup_,
+  	uni_mgr_id_,
+  	offer_update_time_,
+  	cate_pri_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" >
+    insert into buss_rel_category_price_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="mgrId != null" >
+	    	mgr_id_,
+	    </if>
+    	<if test="wholesalePri != null" >
+	    	wholesale_pri_,
+	    </if>
+    	<if test="unit != null" >
+	    	unit_,
+	    </if>
+    	<if test="interFutMax != null" >
+	    	inter_fut_max_,
+	    </if>
+    	<if test="flgUpdateTime != null" >
+	    	flg_update_time_,
+	    </if>
+    	<if test="currency != null" >
+	    	currency_,
+	    </if>
+    	<if test="relCategoryPriceId != null" >
+	    	rel_category_price_id_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="offerAging != null" >
+	    	offer_aging_,
+	    </if>
+    	<if test="spotMin != null" >
+	    	spot_min_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="regMgrId != null" >
+	    	reg_mgr_id_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="midUpdateTime != null" >
+	    	mid_update_time_,
+	    </if>
+    	<if test="acptPri != null" >
+	    	acpt_pri_,
+	    </if>
+    	<if test="futMin != null" >
+	    	fut_min_,
+	    </if>
+    	<if test="spotMax != null" >
+	    	spot_max_,
+	    </if>
+    	<if test="mgrLoc != null" >
+	    	mgr_loc_,
+	    </if>
+    	<if test="futMax != null" >
+	    	fut_max_,
+	    </if>
+    	<if test="categoryId != null" >
+	    	category_id_,
+	    </if>
+    	<if test="interFutMin != null" >
+	    	inter_fut_min_,
+	    </if>
+    	<if test="cateSup != null" >
+	    	cate_sup_,
+	    </if>
+    	<if test="uniMgrId != null" >
+	    	uni_mgr_id_,
+	    </if>
+    	<if test="offerUpdateTime != null" >
+	    	offer_update_time_,
+	    </if>
+    	<if test="catePri != null" >
+	    	cate_pri_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="mgrId != null" >
+	    	#{mgrId},
+	    </if>
+    	<if test="wholesalePri != null" >
+	    	#{wholesalePri},
+	    </if>
+    	<if test="unit != null" >
+	    	#{unit},
+	    </if>
+    	<if test="interFutMax != null" >
+	    	#{interFutMax},
+	    </if>
+    	<if test="flgUpdateTime != null" >
+	    	#{flgUpdateTime},
+	    </if>
+    	<if test="currency != null" >
+	    	#{currency},
+	    </if>
+    	<if test="relCategoryPriceId != null" >
+	    	#{relCategoryPriceId},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="offerAging != null" >
+	    	#{offerAging},
+	    </if>
+    	<if test="spotMin != null" >
+	    	#{spotMin},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="regMgrId != null" >
+	    	#{regMgrId},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="midUpdateTime != null" >
+	    	#{midUpdateTime},
+	    </if>
+    	<if test="acptPri != null" >
+	    	#{acptPri},
+	    </if>
+    	<if test="futMin != null" >
+	    	#{futMin},
+	    </if>
+    	<if test="spotMax != null" >
+	    	#{spotMax},
+	    </if>
+    	<if test="mgrLoc != null" >
+	    	#{mgrLoc},
+	    </if>
+    	<if test="futMax != null" >
+	    	#{futMax},
+	    </if>
+    	<if test="categoryId != null" >
+	    	#{categoryId},
+	    </if>
+    	<if test="interFutMin != null" >
+	    	#{interFutMin},
+	    </if>
+    	<if test="cateSup != null" >
+	    	#{cateSup},
+	    </if>
+    	<if test="uniMgrId != null" >
+	    	#{uniMgrId},
+	    </if>
+    	<if test="offerUpdateTime != null" >
+	    	#{offerUpdateTime},
+	    </if>
+    	<if test="catePri != null" >
+	    	#{catePri},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_rel_category_price_ where
+	rel_category_price_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" >
+    update buss_rel_category_price_
+    <set >
+		<if test="mgrId != null and mgrId != ''" >
+        	mgr_id_ = #{mgrId},
+      	</if>
+		<if test="wholesalePri != null and wholesalePri != ''" >
+        	wholesale_pri_ = #{wholesalePri},
+      	</if>
+		<if test="unit != null and unit != ''" >
+        	unit_ = #{unit},
+      	</if>
+		<if test="interFutMax != null and interFutMax != ''" >
+        	inter_fut_max_ = #{interFutMax},
+      	</if>
+		<if test="flgUpdateTime != null and flgUpdateTime != ''" >
+        	flg_update_time_ = #{flgUpdateTime},
+      	</if>
+		<if test="currency != null and currency != ''" >
+        	currency_ = #{currency},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="offerAging != null and offerAging != ''" >
+        	offer_aging_ = #{offerAging},
+      	</if>
+		<if test="spotMin != null and spotMin != ''" >
+        	spot_min_ = #{spotMin},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="regMgrId != null and regMgrId != ''" >
+        	reg_mgr_id_ = #{regMgrId},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="midUpdateTime != null and midUpdateTime != ''" >
+        	mid_update_time_ = #{midUpdateTime},
+      	</if>
+		<if test="acptPri != null and acptPri != ''" >
+        	acpt_pri_ = #{acptPri},
+      	</if>
+		<if test="futMin != null and futMin != ''" >
+        	fut_min_ = #{futMin},
+      	</if>
+		<if test="spotMax != null and spotMax != ''" >
+        	spot_max_ = #{spotMax},
+      	</if>
+		<if test="mgrLoc != null and mgrLoc != ''" >
+        	mgr_loc_ = #{mgrLoc},
+      	</if>
+		<if test="futMax != null and futMax != ''" >
+        	fut_max_ = #{futMax},
+      	</if>
+		<if test="categoryId != null and categoryId != ''" >
+        	category_id_ = #{categoryId},
+      	</if>
+		<if test="interFutMin != null and interFutMin != ''" >
+        	inter_fut_min_ = #{interFutMin},
+      	</if>
+		<if test="cateSup != null and cateSup != ''" >
+        	cate_sup_ = #{cateSup},
+      	</if>
+		<if test="uniMgrId != null and uniMgrId != ''" >
+        	uni_mgr_id_ = #{uniMgrId},
+      	</if>
+		<if test="offerUpdateTime != null and offerUpdateTime != ''" >
+        	offer_update_time_ = #{offerUpdateTime},
+      	</if>
+		<if test="catePri != null and catePri != ''" >
+        	cate_pri_ = #{catePri},
+      	</if>
+    </set>
+    where 
+	rel_category_price_id_ = #{relCategoryPriceId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_rel_category_price_
+	where rel_category_price_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listRelCategoryPrices" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_rel_category_price_ where 1=1
+    	<if test="mgrId != null and mgrId != ''" >
+			and mgr_id_ = #{mgrId}
+		</if>
+    	<if test="wholesalePri != null and wholesalePri != ''" >
+			and wholesale_pri_ = #{wholesalePri}
+		</if>
+    	<if test="unit != null and unit != ''" >
+			and unit_ = #{unit}
+		</if>
+    	<if test="interFutMax != null and interFutMax != ''" >
+			and inter_fut_max_ = #{interFutMax}
+		</if>
+    	<if test="flgUpdateTime != null and flgUpdateTime != ''" >
+			and flg_update_time_ = #{flgUpdateTime}
+		</if>
+    	<if test="currency != null and currency != ''" >
+			and currency_ = #{currency}
+		</if>
+    	<if test="relCategoryPriceId != null and relCategoryPriceId != ''" >
+			and rel_category_price_id_ = #{relCategoryPriceId}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="offerAging != null and offerAging != ''" >
+			and offer_aging_ = #{offerAging}
+		</if>
+    	<if test="spotMin != null and spotMin != ''" >
+			and spot_min_ = #{spotMin}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="regMgrId != null and regMgrId != ''" >
+			and reg_mgr_id_ = #{regMgrId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="midUpdateTime != null and midUpdateTime != ''" >
+			and mid_update_time_ = #{midUpdateTime}
+		</if>
+    	<if test="acptPri != null and acptPri != ''" >
+			and acpt_pri_ = #{acptPri}
+		</if>
+    	<if test="futMin != null and futMin != ''" >
+			and fut_min_ = #{futMin}
+		</if>
+    	<if test="spotMax != null and spotMax != ''" >
+			and spot_max_ = #{spotMax}
+		</if>
+    	<if test="mgrLoc != null and mgrLoc != ''" >
+			and mgr_loc_ = #{mgrLoc}
+		</if>
+    	<if test="futMax != null and futMax != ''" >
+			and fut_max_ = #{futMax}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="interFutMin != null and interFutMin != ''" >
+			and inter_fut_min_ = #{interFutMin}
+		</if>
+    	<if test="cateSup != null and cateSup != ''" >
+			and cate_sup_ = #{cateSup}
+		</if>
+    	<if test="uniMgrId != null and uniMgrId != ''" >
+			and uni_mgr_id_ = #{uniMgrId}
+		</if>
+    	<if test="offerUpdateTime != null and offerUpdateTime != ''" >
+			and offer_update_time_ = #{offerUpdateTime}
+		</if>
+    	<if test="catePri != null and catePri != ''" >
+			and cate_pri_ = #{catePri}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageRelCategoryPrice" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_rel_category_price_ where 1=1
+    	<if test="mgrId != null and mgrId != ''" >
+			and mgr_id_ = #{mgrId}
+		</if>
+    	<if test="wholesalePri != null and wholesalePri != ''" >
+			and wholesale_pri_ = #{wholesalePri}
+		</if>
+    	<if test="unit != null and unit != ''" >
+			and unit_ = #{unit}
+		</if>
+    	<if test="interFutMax != null and interFutMax != ''" >
+			and inter_fut_max_ = #{interFutMax}
+		</if>
+    	<if test="flgUpdateTime != null and flgUpdateTime != ''" >
+			and flg_update_time_ = #{flgUpdateTime}
+		</if>
+    	<if test="currency != null and currency != ''" >
+			and currency_ = #{currency}
+		</if>
+    	<if test="relCategoryPriceId != null and relCategoryPriceId != ''" >
+			and rel_category_price_id_ = #{relCategoryPriceId}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="offerAging != null and offerAging != ''" >
+			and offer_aging_ = #{offerAging}
+		</if>
+    	<if test="spotMin != null and spotMin != ''" >
+			and spot_min_ = #{spotMin}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="regMgrId != null and regMgrId != ''" >
+			and reg_mgr_id_ = #{regMgrId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="midUpdateTime != null and midUpdateTime != ''" >
+			and mid_update_time_ = #{midUpdateTime}
+		</if>
+    	<if test="acptPri != null and acptPri != ''" >
+			and acpt_pri_ = #{acptPri}
+		</if>
+    	<if test="futMin != null and futMin != ''" >
+			and fut_min_ = #{futMin}
+		</if>
+    	<if test="spotMax != null and spotMax != ''" >
+			and spot_max_ = #{spotMax}
+		</if>
+    	<if test="mgrLoc != null and mgrLoc != ''" >
+			and mgr_loc_ = #{mgrLoc}
+		</if>
+    	<if test="futMax != null and futMax != ''" >
+			and fut_max_ = #{futMax}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="interFutMin != null and interFutMin != ''" >
+			and inter_fut_min_ = #{interFutMin}
+		</if>
+    	<if test="cateSup != null and cateSup != ''" >
+			and cate_sup_ = #{cateSup}
+		</if>
+    	<if test="uniMgrId != null and uniMgrId != ''" >
+			and uni_mgr_id_ = #{uniMgrId}
+		</if>
+    	<if test="offerUpdateTime != null and offerUpdateTime != ''" >
+			and offer_update_time_ = #{offerUpdateTime}
+		</if>
+    	<if test="catePri != null and catePri != ''" >
+			and cate_pri_ = #{catePri}
+		</if>
+  </select>
+  
+</mapper>

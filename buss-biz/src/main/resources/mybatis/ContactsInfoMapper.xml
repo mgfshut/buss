@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.ContactsInfoMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.ContactsInfo" >
+	<id column="contacts_info_id_" property="contactsInfoId" jdbcType="CHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="contact_tel_" property="contactTel" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="contact_name_" property="contactName" jdbcType="VARCHAR" />
+	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	create_user_,
+  	contacts_info_id_,
+  	contact_tel_,
+  	update_user_,
+  	create_time_,
+  	contact_name_,
+  	customer_id_,
+  	update_time_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.ContactsInfo" >
+    insert into buss_contacts_info_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="contactsInfoId != null" >
+	    	contacts_info_id_,
+	    </if>
+    	<if test="contactTel != null" >
+	    	contact_tel_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="contactName != null" >
+	    	contact_name_,
+	    </if>
+    	<if test="customerId != null" >
+	    	customer_id_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="contactsInfoId != null" >
+	    	#{contactsInfoId},
+	    </if>
+    	<if test="contactTel != null" >
+	    	#{contactTel},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="contactName != null" >
+	    	#{contactName},
+	    </if>
+    	<if test="customerId != null" >
+	    	#{customerId},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_contacts_info_ where
+	contacts_info_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.ContactsInfo" >
+    update buss_contacts_info_
+    <set >
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="contactTel != null and contactTel != ''" >
+        	contact_tel_ = #{contactTel},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="contactName != null and contactName != ''" >
+        	contact_name_ = #{contactName},
+      	</if>
+		<if test="customerId != null and customerId != ''" >
+        	customer_id_ = #{customerId},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+    </set>
+    where 
+	contacts_info_id_ = #{contactsInfoId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_contacts_info_
+	where contacts_info_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listContactsInfos" parameterType="com.rhtop.buss.common.entity.ContactsInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_contacts_info_ where 1=1
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="contactsInfoId != null and contactsInfoId != ''" >
+			and contacts_info_id_ = #{contactsInfoId}
+		</if>
+    	<if test="contactTel != null and contactTel != ''" >
+			and contact_tel_ = #{contactTel}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="contactName != null and contactName != ''" >
+			and contact_name_ = #{contactName}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageContactsInfo" parameterType="com.rhtop.buss.common.entity.ContactsInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_contacts_info_ where 1=1
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="contactsInfoId != null and contactsInfoId != ''" >
+			and contacts_info_id_ = #{contactsInfoId}
+		</if>
+    	<if test="contactTel != null and contactTel != ''" >
+			and contact_tel_ = #{contactTel}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="contactName != null and contactName != ''" >
+			and contact_name_ = #{contactName}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+  </select>
+  
+</mapper>

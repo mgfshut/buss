@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.SlaTransactionInfo" >
+	<id column="sla_transaction_info_id_" property="slaTransactionInfoId" jdbcType="CHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="ctof_time_" property="ctofTime" jdbcType="VARCHAR" />
+	<result column="cus_apl_sta_" property="cusAplSta" jdbcType="VARCHAR" />
+	<result column="transaction_info_id_" property="transactionInfoId" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="pcas_time_" property="pcasTime" jdbcType="VARCHAR" />
+	<result column="ctof_ck_sta_" property="ctofCkSta" jdbcType="VARCHAR" />
+	<result column="ctof_ck_time_" property="ctofCkTime" jdbcType="VARCHAR" />
+	<result column="dom_ctof_pri_" property="domCtofPri" jdbcType="VARCHAR" />
+	<result column="tx_amo_" property="txAmo" jdbcType="VARCHAR" />
+	<result column="ctof_per_id_" property="ctofPerId" jdbcType="VARCHAR" />
+	<result column="ctof_aging_" property="ctofAging" jdbcType="VARCHAR" />
+	<result column="pcas_pri_" property="pcasPri" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="ctof_ck_per_" property="ctofCkPer" jdbcType="VARCHAR" />
+	<result column="uni_ctof_pri_" property="uniCtofPri" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	update_time_,
+  	create_user_,
+  	ctof_time_,
+  	cus_apl_sta_,
+  	transaction_info_id_,
+  	update_user_,
+  	pcas_time_,
+  	ctof_ck_sta_,
+  	ctof_ck_time_,
+  	dom_ctof_pri_,
+  	tx_amo_,
+  	ctof_per_id_,
+  	ctof_aging_,
+  	pcas_pri_,
+  	create_time_,
+  	sla_transaction_info_id_,
+  	ctof_ck_per_,
+  	uni_ctof_pri_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.SlaTransactionInfo" >
+    insert into buss_sla_transaction_info_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="ctofTime != null" >
+	    	ctof_time_,
+	    </if>
+    	<if test="cusAplSta != null" >
+	    	cus_apl_sta_,
+	    </if>
+    	<if test="transactionInfoId != null" >
+	    	transaction_info_id_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="pcasTime != null" >
+	    	pcas_time_,
+	    </if>
+    	<if test="ctofCkSta != null" >
+	    	ctof_ck_sta_,
+	    </if>
+    	<if test="ctofCkTime != null" >
+	    	ctof_ck_time_,
+	    </if>
+    	<if test="domCtofPri != null" >
+	    	dom_ctof_pri_,
+	    </if>
+    	<if test="txAmo != null" >
+	    	tx_amo_,
+	    </if>
+    	<if test="ctofPerId != null" >
+	    	ctof_per_id_,
+	    </if>
+    	<if test="ctofAging != null" >
+	    	ctof_aging_,
+	    </if>
+    	<if test="pcasPri != null" >
+	    	pcas_pri_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="slaTransactionInfoId != null" >
+	    	sla_transaction_info_id_,
+	    </if>
+    	<if test="ctofCkPer != null" >
+	    	ctof_ck_per_,
+	    </if>
+    	<if test="uniCtofPri != null" >
+	    	uni_ctof_pri_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="ctofTime != null" >
+	    	#{ctofTime},
+	    </if>
+    	<if test="cusAplSta != null" >
+	    	#{cusAplSta},
+	    </if>
+    	<if test="transactionInfoId != null" >
+	    	#{transactionInfoId},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="pcasTime != null" >
+	    	#{pcasTime},
+	    </if>
+    	<if test="ctofCkSta != null" >
+	    	#{ctofCkSta},
+	    </if>
+    	<if test="ctofCkTime != null" >
+	    	#{ctofCkTime},
+	    </if>
+    	<if test="domCtofPri != null" >
+	    	#{domCtofPri},
+	    </if>
+    	<if test="txAmo != null" >
+	    	#{txAmo},
+	    </if>
+    	<if test="ctofPerId != null" >
+	    	#{ctofPerId},
+	    </if>
+    	<if test="ctofAging != null" >
+	    	#{ctofAging},
+	    </if>
+    	<if test="pcasPri != null" >
+	    	#{pcasPri},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="slaTransactionInfoId != null" >
+	    	#{slaTransactionInfoId},
+	    </if>
+    	<if test="ctofCkPer != null" >
+	    	#{ctofCkPer},
+	    </if>
+    	<if test="uniCtofPri != null" >
+	    	#{uniCtofPri},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_sla_transaction_info_ where
+	sla_transaction_info_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.SlaTransactionInfo" >
+    update buss_sla_transaction_info_
+    <set >
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="ctofTime != null and ctofTime != ''" >
+        	ctof_time_ = #{ctofTime},
+      	</if>
+		<if test="cusAplSta != null and cusAplSta != ''" >
+        	cus_apl_sta_ = #{cusAplSta},
+      	</if>
+		<if test="transactionInfoId != null and transactionInfoId != ''" >
+        	transaction_info_id_ = #{transactionInfoId},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="pcasTime != null and pcasTime != ''" >
+        	pcas_time_ = #{pcasTime},
+      	</if>
+		<if test="ctofCkSta != null and ctofCkSta != ''" >
+        	ctof_ck_sta_ = #{ctofCkSta},
+      	</if>
+		<if test="ctofCkTime != null and ctofCkTime != ''" >
+        	ctof_ck_time_ = #{ctofCkTime},
+      	</if>
+		<if test="domCtofPri != null and domCtofPri != ''" >
+        	dom_ctof_pri_ = #{domCtofPri},
+      	</if>
+		<if test="txAmo != null and txAmo != ''" >
+        	tx_amo_ = #{txAmo},
+      	</if>
+		<if test="ctofPerId != null and ctofPerId != ''" >
+        	ctof_per_id_ = #{ctofPerId},
+      	</if>
+		<if test="ctofAging != null and ctofAging != ''" >
+        	ctof_aging_ = #{ctofAging},
+      	</if>
+		<if test="pcasPri != null and pcasPri != ''" >
+        	pcas_pri_ = #{pcasPri},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="ctofCkPer != null and ctofCkPer != ''" >
+        	ctof_ck_per_ = #{ctofCkPer},
+      	</if>
+		<if test="uniCtofPri != null and uniCtofPri != ''" >
+        	uni_ctof_pri_ = #{uniCtofPri},
+      	</if>
+    </set>
+    where 
+	sla_transaction_info_id_ = #{slaTransactionInfoId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_sla_transaction_info_
+	where sla_transaction_info_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listSlaTransactionInfos" parameterType="com.rhtop.buss.common.entity.SlaTransactionInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_sla_transaction_info_ where 1=1
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="ctofTime != null and ctofTime != ''" >
+			and ctof_time_ = #{ctofTime}
+		</if>
+    	<if test="cusAplSta != null and cusAplSta != ''" >
+			and cus_apl_sta_ = #{cusAplSta}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="pcasTime != null and pcasTime != ''" >
+			and pcas_time_ = #{pcasTime}
+		</if>
+    	<if test="ctofCkSta != null and ctofCkSta != ''" >
+			and ctof_ck_sta_ = #{ctofCkSta}
+		</if>
+    	<if test="ctofCkTime != null and ctofCkTime != ''" >
+			and ctof_ck_time_ = #{ctofCkTime}
+		</if>
+    	<if test="domCtofPri != null and domCtofPri != ''" >
+			and dom_ctof_pri_ = #{domCtofPri}
+		</if>
+    	<if test="txAmo != null and txAmo != ''" >
+			and tx_amo_ = #{txAmo}
+		</if>
+    	<if test="ctofPerId != null and ctofPerId != ''" >
+			and ctof_per_id_ = #{ctofPerId}
+		</if>
+    	<if test="ctofAging != null and ctofAging != ''" >
+			and ctof_aging_ = #{ctofAging}
+		</if>
+    	<if test="pcasPri != null and pcasPri != ''" >
+			and pcas_pri_ = #{pcasPri}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="slaTransactionInfoId != null and slaTransactionInfoId != ''" >
+			and sla_transaction_info_id_ = #{slaTransactionInfoId}
+		</if>
+    	<if test="ctofCkPer != null and ctofCkPer != ''" >
+			and ctof_ck_per_ = #{ctofCkPer}
+		</if>
+    	<if test="uniCtofPri != null and uniCtofPri != ''" >
+			and uni_ctof_pri_ = #{uniCtofPri}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageSlaTransactionInfo" parameterType="com.rhtop.buss.common.entity.SlaTransactionInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_sla_transaction_info_ where 1=1
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="ctofTime != null and ctofTime != ''" >
+			and ctof_time_ = #{ctofTime}
+		</if>
+    	<if test="cusAplSta != null and cusAplSta != ''" >
+			and cus_apl_sta_ = #{cusAplSta}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="pcasTime != null and pcasTime != ''" >
+			and pcas_time_ = #{pcasTime}
+		</if>
+    	<if test="ctofCkSta != null and ctofCkSta != ''" >
+			and ctof_ck_sta_ = #{ctofCkSta}
+		</if>
+    	<if test="ctofCkTime != null and ctofCkTime != ''" >
+			and ctof_ck_time_ = #{ctofCkTime}
+		</if>
+    	<if test="domCtofPri != null and domCtofPri != ''" >
+			and dom_ctof_pri_ = #{domCtofPri}
+		</if>
+    	<if test="txAmo != null and txAmo != ''" >
+			and tx_amo_ = #{txAmo}
+		</if>
+    	<if test="ctofPerId != null and ctofPerId != ''" >
+			and ctof_per_id_ = #{ctofPerId}
+		</if>
+    	<if test="ctofAging != null and ctofAging != ''" >
+			and ctof_aging_ = #{ctofAging}
+		</if>
+    	<if test="pcasPri != null and pcasPri != ''" >
+			and pcas_pri_ = #{pcasPri}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="slaTransactionInfoId != null and slaTransactionInfoId != ''" >
+			and sla_transaction_info_id_ = #{slaTransactionInfoId}
+		</if>
+    	<if test="ctofCkPer != null and ctofCkPer != ''" >
+			and ctof_ck_per_ = #{ctofCkPer}
+		</if>
+    	<if test="uniCtofPri != null and uniCtofPri != ''" >
+			and uni_ctof_pri_ = #{uniCtofPri}
+		</if>
+  </select>
+  
+</mapper>

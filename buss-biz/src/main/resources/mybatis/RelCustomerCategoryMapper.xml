@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.RelCustomerCategoryMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.RelCustomerCategory" >
+	<id column="rel_customer_category_id_" property="relCustomerCategoryId" jdbcType="CHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="cate_scale_" property="cateScale" jdbcType="VARCHAR" />
+	<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="category_id_" property="categoryId" jdbcType="VARCHAR" />
+	<result column="coo_inten_comm_" property="cooIntenComm" jdbcType="VARCHAR" />
+	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
+	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
+	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	create_time_,
+  	cate_scale_,
+  	update_user,
+  	create_user_,
+  	update_time_,
+  	category_id_,
+  	rel_customer_category_id_,
+  	coo_inten_comm_,
+  	coo_inten_,
+  	cus_loc_,
+  	customer_id_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.RelCustomerCategory" >
+    insert into buss_rel_customer_category_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="cateScale != null" >
+	    	cate_scale_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="categoryId != null" >
+	    	category_id_,
+	    </if>
+    	<if test="relCustomerCategoryId != null" >
+	    	rel_customer_category_id_,
+	    </if>
+    	<if test="cooIntenComm != null" >
+	    	coo_inten_comm_,
+	    </if>
+    	<if test="cooInten != null" >
+	    	coo_inten_,
+	    </if>
+    	<if test="cusLoc != null" >
+	    	cus_loc_,
+	    </if>
+    	<if test="customerId != null" >
+	    	customer_id_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="cateScale != null" >
+	    	#{cateScale},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="categoryId != null" >
+	    	#{categoryId},
+	    </if>
+    	<if test="relCustomerCategoryId != null" >
+	    	#{relCustomerCategoryId},
+	    </if>
+    	<if test="cooIntenComm != null" >
+	    	#{cooIntenComm},
+	    </if>
+    	<if test="cooInten != null" >
+	    	#{cooInten},
+	    </if>
+    	<if test="cusLoc != null" >
+	    	#{cusLoc},
+	    </if>
+    	<if test="customerId != null" >
+	    	#{customerId},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_rel_customer_category_ where
+	rel_customer_category_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.RelCustomerCategory" >
+    update buss_rel_customer_category_
+    <set >
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="cateScale != null and cateScale != ''" >
+        	cate_scale_ = #{cateScale},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user = #{updateUser},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="categoryId != null and categoryId != ''" >
+        	category_id_ = #{categoryId},
+      	</if>
+		<if test="cooIntenComm != null and cooIntenComm != ''" >
+        	coo_inten_comm_ = #{cooIntenComm},
+      	</if>
+		<if test="cooInten != null and cooInten != ''" >
+        	coo_inten_ = #{cooInten},
+      	</if>
+		<if test="cusLoc != null and cusLoc != ''" >
+        	cus_loc_ = #{cusLoc},
+      	</if>
+		<if test="customerId != null and customerId != ''" >
+        	customer_id_ = #{customerId},
+      	</if>
+    </set>
+    where 
+	rel_customer_category_id_ = #{relCustomerCategoryId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_rel_customer_category_
+	where rel_customer_category_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listRelCustomerCategorys" parameterType="com.rhtop.buss.common.entity.RelCustomerCategory" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_rel_customer_category_ where 1=1
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="cateScale != null and cateScale != ''" >
+			and cate_scale_ = #{cateScale}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user = #{updateUser}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="relCustomerCategoryId != null and relCustomerCategoryId != ''" >
+			and rel_customer_category_id_ = #{relCustomerCategoryId}
+		</if>
+    	<if test="cooIntenComm != null and cooIntenComm != ''" >
+			and coo_inten_comm_ = #{cooIntenComm}
+		</if>
+    	<if test="cooInten != null and cooInten != ''" >
+			and coo_inten_ = #{cooInten}
+		</if>
+    	<if test="cusLoc != null and cusLoc != ''" >
+			and cus_loc_ = #{cusLoc}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageRelCustomerCategory" parameterType="com.rhtop.buss.common.entity.RelCustomerCategory" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_rel_customer_category_ where 1=1
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="cateScale != null and cateScale != ''" >
+			and cate_scale_ = #{cateScale}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user = #{updateUser}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="relCustomerCategoryId != null and relCustomerCategoryId != ''" >
+			and rel_customer_category_id_ = #{relCustomerCategoryId}
+		</if>
+    	<if test="cooIntenComm != null and cooIntenComm != ''" >
+			and coo_inten_comm_ = #{cooIntenComm}
+		</if>
+    	<if test="cooInten != null and cooInten != ''" >
+			and coo_inten_ = #{cooInten}
+		</if>
+    	<if test="cusLoc != null and cusLoc != ''" >
+			and cus_loc_ = #{cusLoc}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+  </select>
+  
+</mapper>

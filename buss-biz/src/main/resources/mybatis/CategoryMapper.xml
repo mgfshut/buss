@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.CategoryMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Category" >
+	<id column="category_id_" property="categoryId" jdbcType="CHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="comm_" property="comm" jdbcType="VARCHAR" />
+	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="manu_num_" property="manuNum" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="offer_aging_" property="offerAging" jdbcType="VARCHAR" />
+	<result column="offer_pri_" property="offerPri" jdbcType="VARCHAR" />
+	<result column="prod_pla_" property="prodPla" jdbcType="VARCHAR" />
+	<result column="cate_stan_" property="cateStan" jdbcType="VARCHAR" />
+	<result column="pkg_quan_" property="pkgQuan" jdbcType="VARCHAR" />
+	<result column="cate_pic_" property="catePic" jdbcType="VARCHAR" />
+	<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	update_time_,
+  	comm_,
+  	cate_name_,
+  	create_time_,
+  	manu_num_,
+  	category_id_,
+  	create_user_,
+  	offer_aging_,
+  	offer_pri_,
+  	prod_pla_,
+  	cate_stan_,
+  	pkg_quan_,
+  	cate_pic_,
+  	update_user
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Category" >
+    insert into buss_category_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="comm != null" >
+	    	comm_,
+	    </if>
+    	<if test="cateName != null" >
+	    	cate_name_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="manuNum != null" >
+	    	manu_num_,
+	    </if>
+    	<if test="categoryId != null" >
+	    	category_id_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="offerAging != null" >
+	    	offer_aging_,
+	    </if>
+    	<if test="offerPri != null" >
+	    	offer_pri_,
+	    </if>
+    	<if test="prodPla != null" >
+	    	prod_pla_,
+	    </if>
+    	<if test="cateStan != null" >
+	    	cate_stan_,
+	    </if>
+    	<if test="pkgQuan != null" >
+	    	pkg_quan_,
+	    </if>
+    	<if test="catePic != null" >
+	    	cate_pic_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="comm != null" >
+	    	#{comm},
+	    </if>
+    	<if test="cateName != null" >
+	    	#{cateName},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="manuNum != null" >
+	    	#{manuNum},
+	    </if>
+    	<if test="categoryId != null" >
+	    	#{categoryId},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="offerAging != null" >
+	    	#{offerAging},
+	    </if>
+    	<if test="offerPri != null" >
+	    	#{offerPri},
+	    </if>
+    	<if test="prodPla != null" >
+	    	#{prodPla},
+	    </if>
+    	<if test="cateStan != null" >
+	    	#{cateStan},
+	    </if>
+    	<if test="pkgQuan != null" >
+	    	#{pkgQuan},
+	    </if>
+    	<if test="catePic != null" >
+	    	#{catePic},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from buss_category_ where
+	category_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Category" >
+    update buss_category_
+    <set >
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="comm != null and comm != ''" >
+        	comm_ = #{comm},
+      	</if>
+		<if test="cateName != null and cateName != ''" >
+        	cate_name_ = #{cateName},
+      	</if>
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="manuNum != null and manuNum != ''" >
+        	manu_num_ = #{manuNum},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="offerAging != null and offerAging != ''" >
+        	offer_aging_ = #{offerAging},
+      	</if>
+		<if test="offerPri != null and offerPri != ''" >
+        	offer_pri_ = #{offerPri},
+      	</if>
+		<if test="prodPla != null and prodPla != ''" >
+        	prod_pla_ = #{prodPla},
+      	</if>
+		<if test="cateStan != null and cateStan != ''" >
+        	cate_stan_ = #{cateStan},
+      	</if>
+		<if test="pkgQuan != null and pkgQuan != ''" >
+        	pkg_quan_ = #{pkgQuan},
+      	</if>
+		<if test="catePic != null and catePic != ''" >
+        	cate_pic_ = #{catePic},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user = #{updateUser},
+      	</if>
+    </set>
+    where 
+	category_id_ = #{categoryId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from buss_category_
+	where category_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listCategorys" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_category_ where 1=1
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="comm != null and comm != ''" >
+			and comm_ = #{comm}
+		</if>
+    	<if test="cateName != null and cateName != ''" >
+			and cate_name_ = #{cateName}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="manuNum != null and manuNum != ''" >
+			and manu_num_ = #{manuNum}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="offerAging != null and offerAging != ''" >
+			and offer_aging_ = #{offerAging}
+		</if>
+    	<if test="offerPri != null and offerPri != ''" >
+			and offer_pri_ = #{offerPri}
+		</if>
+    	<if test="prodPla != null and prodPla != ''" >
+			and prod_pla_ = #{prodPla}
+		</if>
+    	<if test="cateStan != null and cateStan != ''" >
+			and cate_stan_ = #{cateStan}
+		</if>
+    	<if test="pkgQuan != null and pkgQuan != ''" >
+			and pkg_quan_ = #{pkgQuan}
+		</if>
+    	<if test="catePic != null and catePic != ''" >
+			and cate_pic_ = #{catePic}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user = #{updateUser}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageCategory" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_category_ where 1=1
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="comm != null and comm != ''" >
+			and comm_ = #{comm}
+		</if>
+    	<if test="cateName != null and cateName != ''" >
+			and cate_name_ = #{cateName}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="manuNum != null and manuNum != ''" >
+			and manu_num_ = #{manuNum}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and category_id_ = #{categoryId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="offerAging != null and offerAging != ''" >
+			and offer_aging_ = #{offerAging}
+		</if>
+    	<if test="offerPri != null and offerPri != ''" >
+			and offer_pri_ = #{offerPri}
+		</if>
+    	<if test="prodPla != null and prodPla != ''" >
+			and prod_pla_ = #{prodPla}
+		</if>
+    	<if test="cateStan != null and cateStan != ''" >
+			and cate_stan_ = #{cateStan}
+		</if>
+    	<if test="pkgQuan != null and pkgQuan != ''" >
+			and pkg_quan_ = #{pkgQuan}
+		</if>
+    	<if test="catePic != null and catePic != ''" >
+			and cate_pic_ = #{catePic}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user = #{updateUser}
+		</if>
+  </select>
+  
+</mapper>
