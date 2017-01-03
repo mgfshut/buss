@@ -86,6 +86,7 @@ public class ContactsInfoController {
 	@RequestMapping(value="/pager")
 	public InfoResult<ContactsInfo> listPageContactsInfo(Page page,ContactsInfo contactsInfo){
 		InfoResult<ContactsInfo> infoResult = new InfoResult<ContactsInfo>();
+		contactsInfo.setPage(page);
 		List<ContactsInfo> contactsInfoList = contactsInfoService.listPageContactsInfo(contactsInfo);
 		infoResult.setCode("200");
 		infoResult.setResList(contactsInfoList);

@@ -86,6 +86,7 @@ public class CategoryController {
 	@RequestMapping(value="/pager")
 	public InfoResult<Category> listPageCategory(Page page,Category category){
 		InfoResult<Category> infoResult = new InfoResult<Category>();
+		category.setPage(page);
 		List<Category> categoryList = categoryService.listPageCategory(category);
 		infoResult.setCode("200");
 		infoResult.setResList(categoryList);

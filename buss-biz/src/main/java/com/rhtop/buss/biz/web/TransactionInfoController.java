@@ -86,6 +86,7 @@ public class TransactionInfoController {
 	@RequestMapping(value="/pager")
 	public InfoResult<TransactionInfo> listPageTransactionInfo(Page page,TransactionInfo transactionInfo){
 		InfoResult<TransactionInfo> infoResult = new InfoResult<TransactionInfo>();
+		transactionInfo.setPage(page);
 		List<TransactionInfo> transactionInfoList = transactionInfoService.listPageTransactionInfo(transactionInfo);
 		infoResult.setCode("200");
 		infoResult.setResList(transactionInfoList);

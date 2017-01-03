@@ -86,6 +86,7 @@ public class SlaTransactionInfoController {
 	@RequestMapping(value="/pager")
 	public InfoResult<SlaTransactionInfo> listPageSlaTransactionInfo(Page page,SlaTransactionInfo slaTransactionInfo){
 		InfoResult<SlaTransactionInfo> infoResult = new InfoResult<SlaTransactionInfo>();
+		slaTransactionInfo.setPage(page);
 		List<SlaTransactionInfo> slaTransactionInfoList = slaTransactionInfoService.listPageSlaTransactionInfo(slaTransactionInfo);
 		infoResult.setCode("200");
 		infoResult.setResList(slaTransactionInfoList);

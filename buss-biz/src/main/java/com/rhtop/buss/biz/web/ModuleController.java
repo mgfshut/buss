@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.Module;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.model.ListData;
 import com.rhtop.buss.common.model.TreeNode;
 import com.rhtop.buss.biz.service.ModuleService;
@@ -88,8 +89,9 @@ public class ModuleController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/pager")
-	public InfoResult<Module> listPageModule(Module module){
+	public InfoResult<Module> listPageModule(Page page,Module module){
 		InfoResult<Module> infoResult = new InfoResult<Module>();
+		module.setPage(page);
 		List<Module> moduleList = moduleService.listPageModule(module);
 		infoResult.setCode("200");
 		infoResult.setResList(moduleList);

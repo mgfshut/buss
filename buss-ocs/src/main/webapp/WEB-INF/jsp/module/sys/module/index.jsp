@@ -7,13 +7,10 @@
 <!-- 分页、搜索表单 -->
 <form id="pagerForm" action="module/sys-module-index/module-pager"
 	method="post" onsubmit="return navTabSearch(this);">
-	<input type="hidden" name="pageNum" value="${number+1}" /> <input
-		type="hidden" name="numPerPage"
-		value="${sessionScope.numPerPage eq null?10:sessionScope.numPerPage}" />
-	<input type="hidden" name="orderField"
-		value="${param.orderField eq null?'priority':param.orderField}" /> <input
-		type="hidden" name="orderDirection"
-		value="${param.orderDirection eq null?'asc':param.orderDirection}" />
+	<input type="hidden" name="pageNum" value="${param.page.pageNum eq null?1:param.page.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${param.page.numPerPage eq null?10:param.page.numPerPage}" /> 
+	<input type="hidden" name="orderField" value="${param.page.orderField eq null?'memberId':param.page.orderField}" />
+	<input type="hidden" name="orderDirection" value="${param.page.orderDirection eq null?'asc':param.page.orderDirection}" />
 	<div class="pageHeader"> 
 		<div class="searchBar container-fluid">
 			<div class="row">

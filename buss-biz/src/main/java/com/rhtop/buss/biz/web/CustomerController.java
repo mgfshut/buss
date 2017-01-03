@@ -86,6 +86,7 @@ public class CustomerController {
 	@RequestMapping(value="/pager")
 	public InfoResult<Customer> listPageCustomer(Page page,Customer customer){
 		InfoResult<Customer> infoResult = new InfoResult<Customer>();
+		customer.setPage(page);
 		List<Customer> customerList = customerService.listPageCustomer(customer);
 		infoResult.setCode("200");
 		infoResult.setResList(customerList);

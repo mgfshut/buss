@@ -79,6 +79,7 @@ public class DealLogController {
 	@RequestMapping(value="/pager")
 	public InfoResult<DealLog> listPageDealLog(Page page,DealLog dealLog){
 		InfoResult<DealLog> infoResult = new InfoResult<DealLog>();
+		dealLog.setPage(page);
 		List<DealLog> dealLogList = dealLogService.listPageDealLog(dealLog);
 		infoResult.setCode("200");
 		infoResult.setResList(dealLogList);

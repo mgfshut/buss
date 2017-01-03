@@ -78,6 +78,7 @@ public class BusinessDiaryController {
 	@RequestMapping(value="/pager")
 	public InfoResult<BusinessDiary> listPageBusinessDiary(Page page,BusinessDiary businessDiary){
 		InfoResult<BusinessDiary> infoResult = new InfoResult<BusinessDiary>();
+		businessDiary.setPage(page);
 		List<BusinessDiary> businessDiaryList = businessDiaryService.listPageBusinessDiary(businessDiary);
 		infoResult.setCode("200");
 		infoResult.setResList(businessDiaryList);

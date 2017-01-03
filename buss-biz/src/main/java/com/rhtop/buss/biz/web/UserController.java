@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.Module;
+import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.biz.service.ModuleService;
@@ -90,8 +91,9 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/pager")
-	public InfoResult<User> listPageUser(User user){
+	public InfoResult<User> listPageUser(Page page,User user){
 		InfoResult<User> infoResult = new InfoResult<User>();
+		user.setPage(page);
 		List<User> userList = userService.listPageUser(user);
 		infoResult.setCode("200");
 		infoResult.setResList(userList);

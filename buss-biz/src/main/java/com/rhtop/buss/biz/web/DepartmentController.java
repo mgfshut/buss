@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.Department;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.biz.service.DepartmentService;
 import com.rhtop.buss.common.utils.DateUtils;
 
@@ -84,8 +85,9 @@ public class DepartmentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/pager")
-	public InfoResult<Department> listPageDepartment(Department department){
+	public InfoResult<Department> listPageDepartment(Page page,Department department){
 		InfoResult<Department> infoResult = new InfoResult<Department>();
+		department.setPage(page);
 		List<Department> departmentList = departmentService.listPageDepartment(department);
 		infoResult.setCode("200");
 		infoResult.setResList(departmentList);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.model.ListData;
 import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.common.utils.DateUtils;
@@ -86,8 +87,9 @@ public class CodeValueController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/pager")
-	public InfoResult<CodeValue> listPageCodeValue(CodeValue codeValue){
+	public InfoResult<CodeValue> listPageCodeValue(Page page,CodeValue codeValue){
 		InfoResult<CodeValue> infoResult = new InfoResult<CodeValue>();
+		codeValue.setPage(page);
 		List<CodeValue> codeValueList = codeValueService.listPageCodeValue(codeValue);
 		infoResult.setCode("200");
 		infoResult.setResList(codeValueList);

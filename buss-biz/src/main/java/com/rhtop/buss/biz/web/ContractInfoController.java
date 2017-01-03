@@ -86,6 +86,7 @@ public class ContractInfoController {
 	@RequestMapping(value="/pager")
 	public InfoResult<ContractInfo> listPageContractInfo(Page page,ContractInfo contractInfo){
 		InfoResult<ContractInfo> infoResult = new InfoResult<ContractInfo>();
+		contractInfo.setPage(page);
 		List<ContractInfo> contractInfoList = contractInfoService.listPageContractInfo(contractInfo);
 		infoResult.setCode("200");
 		infoResult.setResList(contractInfoList);

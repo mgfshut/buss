@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.CodeMap;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.common.utils.DateUtils;
@@ -87,8 +88,9 @@ public class CodeMapController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/pager")
-	public InfoResult<CodeMap> listPageCodeMap(CodeMap codeMap){
+	public InfoResult<CodeMap> listPageCodeMap(Page page,CodeMap codeMap){
 		InfoResult<CodeMap> infoResult = new InfoResult<CodeMap>();
+		codeMap.setPage(page);
 		List<CodeMap> codeMapList = codeMapService.listPageCodeMap(codeMap);
 		infoResult.setCode("200");
 		infoResult.setResList(codeMapList);

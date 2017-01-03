@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.Company;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.biz.service.CompanyService;
 import com.rhtop.buss.common.utils.DateUtils;
 
@@ -84,8 +85,9 @@ public class CompanyController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/pager")
-	public InfoResult<Company> listPageCompany(Company company){
+	public InfoResult<Company> listPageCompany(Page page,Company company){
 		InfoResult<Company> infoResult = new InfoResult<Company>();
+		company.setPage(page);
 		List<Company> companyList = companyService.listPageCompany(company);
 		infoResult.setCode("200");
 		infoResult.setResList(companyList);
