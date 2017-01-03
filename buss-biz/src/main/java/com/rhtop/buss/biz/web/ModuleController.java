@@ -4,6 +4,8 @@ package com.rhtop.buss.biz.web;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import com.rhtop.buss.common.model.TreeNode;
 import com.rhtop.buss.biz.service.ModuleService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.TreeUtils;
+import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/module")
@@ -110,7 +113,10 @@ public class ModuleController {
 		infoResult.setResObject(module);
 		return infoResult;
 	}
-	
+	/**
+	 * 查询所有权限菜单
+	 * @return
+	 */
 	@RequestMapping("permission/all")
 	@ResponseBody
 	public List<Module> getAllUrlPermission() {
@@ -118,12 +124,61 @@ public class ModuleController {
 		List<Module> list = moduleService.listModules(module);
 		return list;
 	}
-	
+	/**
+	 * 查询所有权限的树形结构
+	 * @return
+	 */
+	@RequestMapping("tree")
+	@ResponseBody
+	public ListData<TreeNode> getModuleTree() {
+		List<Module> moduleList = moduleService.listModules(new Module());
+		ListData<TreeNode> listData = new ListData<>(TreeUtils.toTreeList(moduleList));
+		return listData;
+	}
+	/**
+	 * 查询登录用户权限的树形结构
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping("permissionTree/{userId}")
 	@ResponseBody
 	public ListData<TreeNode> getPermissionModuleTree(@PathVariable("userId") String userId) {
 		List<Module> moduleList = moduleService.listModulesByUserId(userId);
 		ListData<TreeNode> listData = new ListData<>(TreeUtils.toTreeList(moduleList));
 		return listData;
+	}
+	/**
+	 * 根据功能ID获取信息
+	 * @param moduleId
+	 * @return
+	 */
+	@RequestMapping("/{moduleId}")
+	@ResponseBody
+	public Module getByModuleId(@PathVariable("moduleId") String moduleId){
+		return moduleService.selectByPrimaryKey(moduleId);
+	}
+	@RequestMapping("/remove/{roleId}")
+	@ResponseBody
+	public HtmlMessage  removeModule(@PathVariable("moduleId") String moduleId){
+		moduleService.deleteModule(moduleId);
+		return new HtmlMessage("删除功能成功").setCallbackType(null);
+	}
+	@RequestMapping("/save")
+	@ResponseBody
+	public HtmlMessage save(@Valid @RequestParam(value = "userId") String userId,@Valid Module module){
+		if(module.getModuleId() == null || "".equals(module.getModuleId())){
+			String moduleId = UUID.randomUUID().toString().replace("-", "");
+			module.setModuleId(moduleId);
+			module.setCreateUser(userId);
+			module.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			module.setUpdateUser(userId);
+			module.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			moduleService.insertModule(module);
+		}else{
+			module.setUpdateUser(userId);
+			module.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			moduleService.updateModule(module);
+		}
+		return new HtmlMessage(module);
 	}
 }

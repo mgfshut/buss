@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.util.List;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,6 +32,16 @@ public class Role {
 	
 	private Page page;//分页
 	
+	private List<String> permissionList;//角色管理权限列表
+	
+	public List<String> getPermissionList() {
+		return permissionList;
+	}
+
+	public void setPermissionList(List<String> permissionList) {
+		this.permissionList = permissionList;
+	}
+
 	public Page getPage() {
 		return page;
 	}

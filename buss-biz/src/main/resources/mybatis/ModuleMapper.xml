@@ -17,6 +17,8 @@
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
 	<result column="module_no_" property="moduleNo" jdbcType="VARCHAR" />
 	<result column="menu_icon_" property="menuIcon" jdbcType="VARCHAR" />
+	<!-- 通过外键查询的字段 -->
+	<result column="parentName" property="parentName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -182,10 +184,8 @@
   </update>
   <!-- 根据主键查询对象-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_module_
-	where module_id_ = #{0}
+	select a.*,b.module_name_ AS parentName FROM sys_module_ a LEFT JOIN sys_module_ b 
+  		ON a.parent_id_ = b.module_id_ where a.module_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listModules" parameterType="com.rhtop.buss.common.entity.Module" resultMap="BaseResultMap">
@@ -237,50 +237,52 @@
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageModule" parameterType="com.rhtop.buss.common.entity.Module" resultMap="BaseResultMap">
-  	select 
-    <include refid="Base_Column_List" />
-    from sys_module_ where 1=1
+  		select a.*,b.module_name_ AS parentName FROM sys_module_ a LEFT JOIN sys_module_ b 
+  		ON a.parent_id_ = b.module_id_ where 1=1
     	<if test="moduleType != null and moduleType != ''" >
-			and module_type_ = #{moduleType}
+			and a.module_type_ = #{moduleType}
 		</if>
     	<if test="updateUser != null and updateUser != ''" >
-			and update_user_ = #{updateUser}
+			and a.update_user_ = #{updateUser}
 		</if>
     	<if test="moduleName != null and moduleName != ''" >
-			and module_name_ = #{moduleName}
+			and a.module_name_ = #{moduleName}
 		</if>
     	<if test="parentId != null and parentId != ''" >
-			and parent_id_ = #{parentId}
+			and a.parent_id_ = #{parentId}
 		</if>
     	<if test="authName != null and authName != ''" >
-			and auth_name_ = #{authName}
+			and a.auth_name_ = #{authName}
 		</if>
     	<if test="updateTime != null and updateTime != ''" >
-			and update_time_ = #{updateTime}
+			and a.update_time_ = #{updateTime}
 		</if>
     	<if test="menuUrl != null and menuUrl != ''" >
-			and menu_url_ = #{menuUrl}
+			and a.menu_url_ = #{menuUrl}
 		</if>
     	<if test="moduleDescribe != null and moduleDescribe != ''" >
-			and module_describe_ = #{moduleDescribe}
+			and a.module_describe_ = #{moduleDescribe}
 		</if>
     	<if test="createTime != null and createTime != ''" >
-			and create_time_ = #{createTime}
+			and a.create_time_ = #{createTime}
 		</if>
     	<if test="menuOrder != null and menuOrder != ''" >
-			and menu_order_ = #{menuOrder}
+			and a.menu_order_ = #{menuOrder}
 		</if>
     	<if test="createUser != null and createUser != ''" >
-			and create_user_ = #{createUser}
+			and a.create_user_ = #{createUser}
 		</if>
     	<if test="moduleId != null and moduleId != ''" >
-			and module_id_ = #{moduleId}
+			and a.module_id_ = #{moduleId}
 		</if>
     	<if test="moduleNo != null and moduleNo != ''" >
-			and module_no_ = #{moduleNo}
+			and a.module_no_ = #{moduleNo}
 		</if>
     	<if test="menuIcon != null and menuIcon != ''" >
-			and menu_icon_ = #{menuIcon}
+			and a.menu_icon_ = #{menuIcon}
+		</if>
+		<if test="parentName != null and parentName != ''" >
+			and b.module_name_ = #{parentName}
 		</if>
   </select>
   <!-- 根据用户ID获取功能列表-->

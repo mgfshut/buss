@@ -50,6 +50,16 @@ public class Module extends BaseEntity{
 	private String menuIcon;//菜单图标
 	
 	private Page page;//分页
+	
+	private String parentName;//父级菜单名称
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
 
 	public Page getPage() {
 		return page;

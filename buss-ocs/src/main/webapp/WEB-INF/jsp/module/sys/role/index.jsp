@@ -16,8 +16,8 @@
 <div class="pageHeader">
 <div class="searchBar container-fluid">
 	<div class="row">
-		<div class="col-xs-4"><input name="code" placeholder="输入代码筛选" type="text" class="form-control input-sm col-xs-4" size="10" value="${param.code}"></div>
-		<div class="col-xs-4"><input name="name" size="10" placeholder="输入名称筛选" type="text" class="form-control input-sm col-xs-4" value="${param.name}"></div>
+		<div class="col-xs-4"><input name="roleName" placeholder="输入代码筛选" type="text" class="form-control input-sm col-xs-4" size="10" value="${param.roleName}"></div>
+		<div class="col-xs-4"><input name="roleDescribe" size="10" placeholder="输入描述筛选" type="text" class="form-control input-sm col-xs-4" value="${param.roleDescribe}"></div>
 		<div class="col-xs-offset-2 col-xs-2" style="text-align: right;"><button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button></div>
 	</div>
 </div>
@@ -28,7 +28,7 @@
 		<div class="btn-group" style="margin:4px 5px;">
 			<a class="btn btn-primary btn-sm" data-parent="rolemanage" href="module/sys-role-form" mask="true" height="500" target="navTab" rel="roleSaveDialog" title="添加角色"><i class="icon-plus"></i> <span>添加</span></a>
 			<a class="btn btn-danger btn-sm delete" data-parent="rolemanage" href="service/role-remove-{roleId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
-			<a class="btn btn-success btn-sm" href="module/sys-role-form/role-{id}" mask="true" height="500" title="修改角色"  target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>
+			<a class="btn btn-success btn-sm" href="module/sys-role-form/role-{roleId}" mask="true" height="500" title="修改角色"  target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>
 		</div>
 </div>
 <table class="table" width="100%" layoutH="140">

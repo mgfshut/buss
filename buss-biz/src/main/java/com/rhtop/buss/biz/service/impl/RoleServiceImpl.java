@@ -49,4 +49,10 @@ public class RoleServiceImpl implements RoleService {
 		return roles;
 	}
 
+	@Override
+	public List<String> getPermissionListByRoleId(String roleId) {
+		List<String> list = roleMapper.getPermissionListByRoleId(roleId);
+		return list;
+	}
+
 }

@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.Role;
 
 public interface RoleMapper {
@@ -32,5 +33,11 @@ public interface RoleMapper {
      * 根据条件分页查询列表
      */
 	List<Role> listPageRole(Role role);
+	/**
+	 * 根据角色ID获取权限列表
+	 * @param roleId
+	 * @return
+	 */
+	List<String> getPermissionListByRoleId(String roleId);
     
 }

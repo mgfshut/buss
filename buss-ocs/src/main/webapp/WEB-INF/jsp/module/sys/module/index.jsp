@@ -15,12 +15,12 @@
 		<div class="searchBar container-fluid">
 			<div class="row">
 				<div class="col-xs-4">
-					<input name="name" type="text" value="${param.name}"
+					<input name="moduleName" type="text" value="${param.moduleName}"
 						placeholder="输入菜单名称" class="form-control input-sm col-xs-3"
 						size="4">
 				</div>
 				<div class="col-xs-4">
-					<input name="parent.name" type="text" value="${param['parent.name']}"
+					<input name="parentName" type="text" value="${param.parentName}"
 						placeholder="输入上级菜单" class="form-control input-sm col-xs-3"
 						size="4">
 				</div>
@@ -63,25 +63,25 @@
 		<thead>
 			<tr>
 				<th  orderField="priority"
-					class="${param.orderField eq 'priority'?param.orderDirection:''}">菜单序号</th>
+					class="${param.orderField eq 'menuOrder'?param.orderDirection:''}">菜单序号</th>
 				<th orderField="codeNum"
-					class="${param.orderField eq 'codeNum'?param.orderDirection:''}">菜单编号</th>
+					class="${param.orderField eq 'moduleNo'?param.orderDirection:''}">菜单编号</th>
 				<th orderField="name"
-					class="${param.orderField eq 'name'?param.orderDirection:''}">菜单名称</th>
+					class="${param.orderField eq 'moduleName'?param.orderDirection:''}">菜单名称</th>
 				<th orderField="parentId.name"
-					class="${param.orderField eq 'parent.name'?param.orderDirection:''}">上级菜单</th>
+					class="${param.orderField eq 'parentName'?param.orderDirection:''}">上级菜单</th>
 				<th orderField="url"
-					class="${param.orderField eq 'url'?param.orderDirection:''}">菜单地址</th>
+					class="${param.orderField eq 'menuUrl'?param.orderDirection:''}">菜单地址</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${content}" var="item" varStatus="status">
+			<c:forEach items="${resList}" var="item" varStatus="status">
 				<tr target="moduleId" rel="${item.moduleId}">
-					<td>${ status.index + 1}</td>
-					<td>${item.codeNum}</td>
-					<td class="name">${item.name}</td>
-					<td>${item.parent.name}</td>
-					<td>${item.url}</td>
+					<td>${item.menuOrder}</td>
+					<td>${item.moduleNo}</td>
+					<td class="name">${item.moduleName}</td>
+					<td>${item.parentName}</td>
+					<td>${item.menuUrl}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

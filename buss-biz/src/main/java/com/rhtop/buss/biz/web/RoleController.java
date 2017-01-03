@@ -1,6 +1,7 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -138,7 +139,10 @@ public class RoleController {
 	@RequestMapping("/{roleId}")
 	@ResponseBody
 	public Role getByRoleId(@PathVariable("roleId") String roleId){
-		return roleService.selectByPrimaryKey(roleId);
+		Role role = roleService.selectByPrimaryKey(roleId);
+		List<String> permissionList = roleService.getPermissionListByRoleId(roleId);
+		role.setPermissionList(permissionList);
+		return role;
 	}
 	
 	@RequestMapping("/remove/{roleId}")

@@ -8,11 +8,10 @@
 $(function(){
 	
 	 $("#submitBtn_role").click(function(){
-		/* if($("#role_check").find("input[type='checkbox']:checked")&&$("#role_check").find("input[type='checkbox']:checked").length>0) 
+		if($("#role_check").find("input[type='checkbox']:checked")&&$("#role_check").find("input[type='checkbox']:checked").length>0) 
 				$("#pageCodeMapForm form").submit();
 		else
-			alertMsg.error("请给角色分配权限!"); */
-		 $("#pageCodeMapForm form").submit();
+			alertMsg.error("请给角色分配权限!"); 
 		
 	});
 	
@@ -40,12 +39,12 @@ $(function(){
 					<div class="help-block with-errors"></div>
 				</div>
 			</div>
-			<%-- <div class="form-group form-group-sm">
+			<div class="form-group form-group-sm">
 				<label class="col-sm-3 control-label">权限选择：</label>
 				<div class="col-sm-7" id="role_check">
 					<c:import  charEncoding="UTF-8" url="/module/sys-module-tree/module-tree" />
 				</div>
-			</div> --%>
+			</div>
 			</div>
 		</div>
 		<div class="formBar">
