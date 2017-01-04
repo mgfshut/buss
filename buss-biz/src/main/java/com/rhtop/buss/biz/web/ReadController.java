@@ -13,7 +13,9 @@ import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 
 /**
- * 对外接口的读取功能控制器，内部接口按照操作的表分为四类，操作客户相关表的命名为前缀Cu+四位编号0001依次递增，品类相关表为前缀Ca，交易相关表的为前缀Dl，合同相关表的为前缀Co.
+ * 对外接口的读取功能控制器，内部接口按照操作的表分为四类，
+ * 操作客户相关表的命名为前缀Cu+四位编号0001依次递增，品类相关表为前缀Ca，
+ * 交易相关表的为前缀Dl，合同相关表的为前缀Co.
  * @author MakeItHappen
  *
  */
