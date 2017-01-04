@@ -29,6 +29,10 @@ public interface CategoryService{
 	Category selectByPrimaryKey(String categoryId);
 	
 	/**
+	 * 根据品类名、产地、厂号、规格、包装数量查看品类是否存在
+	 */
+	Category checkCategoryExist(Category category);
+	/**
 	 * 根据条件查询列表
 	 */
 	List<Category> listCategorys(Category category);
