@@ -33,7 +33,7 @@ public class AppLoginController extends BaseController {
 //		payload.put("iat", date.getTime());//生成时间
 //		payload.put("ext",date.getTime()+1000*60*60);//过期时间1小时
 //		String token=Jwt.createToken(payload);
-//		model.addAttribute("token",token);  
+//		model.addAttribute("token",token);   
 		model.addAttribute("tree","");
 		return "index";
 	}
