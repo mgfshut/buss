@@ -150,12 +150,12 @@ public class PagePlugin implements Interceptor {
 			StringBuffer pageSql = new StringBuffer();
 			if("mysql".equals(dialect)){
 				pageSql.append(sql);
-				pageSql.append(" limit "+page.getCurrentResult()+","+page.getNumPerPage());
+				pageSql.append(" limit "+page.getCurrentResult()+","+page.getShowCount());
 			}else if("oracle".equals(dialect)){
 				pageSql.append("select * from (select tmp_tb.*,ROWNUM row_id from (");
 				pageSql.append(sql);
 				pageSql.append(") as tmp_tb where ROWNUM<=");
-				pageSql.append(page.getCurrentResult()+page.getNumPerPage());
+				pageSql.append(page.getCurrentResult()+page.getShowCount());
 				pageSql.append(") where row_id>");
 				pageSql.append(page.getCurrentResult());
 			}

@@ -43,4 +43,9 @@ public class RsRoleModuleServiceImpl implements RsRoleModuleService {
 		return rsRoleModuleList;
 	}
 
+	@Override
+	public int deleteRsRoleModuleByRoleId(String roleId) {
+		return rsRoleModuleMapper.deleteRsRoleModuleByRoleId(roleId);
+	}
+
 }

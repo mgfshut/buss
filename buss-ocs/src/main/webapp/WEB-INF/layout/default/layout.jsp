@@ -109,8 +109,8 @@
 				timeout : 600
 			}, //【可选】
 			pageInfo : {
-				pageNum : "pageNum",
-				numPerPage : "numPerPage",
+				currentPage : "currentPage",
+				showCount : "showCount",
 				orderField : "orderField",
 				orderDirection : "orderDirection"
 			}, //【可选】

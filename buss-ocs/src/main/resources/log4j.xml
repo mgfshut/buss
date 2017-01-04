@@ -125,6 +125,7 @@
 		<appender-ref ref="debugAppender"/>  
 		<appender-ref ref="infoAppender"/>  
 		<appender-ref ref="warnAppender"/>   -->
+		<appender-ref ref="debugAppender"/>
 		<appender-ref ref="errorAppender"/>   
 	</root>
 	

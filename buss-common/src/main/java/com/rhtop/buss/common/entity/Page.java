@@ -2,12 +2,12 @@ package com.rhtop.buss.common.entity;
 
 
 public class Page {
+	private int showCount = 10; //每页显示记录数
+	private int totalPage;		//总页数
 	private int totalResult;	//总记录数
 	private int currentPage;	//当前页
 	private int currentResult;	//当前记录起始索引
 	private boolean entityOrField;	//true:需要分页的地方，传入的参数就是Page实体；false:需要分页的地方，传入的参数所代表的实体拥有Page属性
-	private int numPerPage = 10; //每页显示记录数
-	private int pageNum;		//总页数
 	private String orderField; //排序字段
 	private String orderDirection ="asc"; //排序方式
 	
@@ -23,15 +23,15 @@ public class Page {
 	public void setOrderDirection(String orderDirection) {
 		this.orderDirection = orderDirection;
 	}
-	public int getPageNum() {
-		if(totalResult%numPerPage==0)
-			pageNum = totalResult/numPerPage;
+	public int getTotalPage() {
+		if(totalResult%showCount==0)
+			totalPage = totalResult/showCount;
 		else
-			pageNum = totalResult/numPerPage+1;
-		return pageNum;
+			totalPage = totalResult/showCount+1;
+		return totalPage;
 	}
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
 	}
 	public int getTotalResult() {
 		return totalResult;
@@ -42,21 +42,21 @@ public class Page {
 	public int getCurrentPage() {
 		if(currentPage<=0)
 			currentPage = 1;
-		if(currentPage>getPageNum())
-			currentPage = getPageNum();
+		if(currentPage>getTotalPage())
+			currentPage = getTotalPage();
 		return currentPage;
 	}
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-	public int getNumPerPage() {
-		return numPerPage;
+	public int getShowCount() {
+		return showCount;
 	}
-	public void setNumPerPage(int numPerPage) {
-		this.numPerPage = numPerPage;
+	public void setShowCount(int showCount) {
+		this.showCount = showCount;
 	}
 	public int getCurrentResult() {
-		currentResult = (getCurrentPage()-1)*getNumPerPage();
+		currentResult = (getCurrentPage()-1)*getShowCount();
 		if(currentResult<0)
 			currentResult = 0;
 		return currentResult;
