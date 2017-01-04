@@ -50,7 +50,7 @@
 				<div class="form-group form-group-sm">
 					<label class="col-sm-2 control-label">URL地址：</label>
 					<div class="col-sm-8">
-						<input type="text" name="menuUrl"  value="${menuUrl}" placeholder="请输入菜单优先级" size="100" maxlength="100" class="form-control" required="required" />
+						<input type="text" name="menuUrl"  value="${menuUrl}" placeholder="请输入URL地址" size="100" maxlength="100" class="form-control" required="required" />
 						<div class="help-block with-errors"></div>
 					</div>
 				</div>
