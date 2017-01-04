@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.RsRoleModule;
 
 public interface RsRoleModuleMapper {
@@ -32,5 +33,11 @@ public interface RsRoleModuleMapper {
      * 根据条件分页查询列表
      */
 	List<RsRoleModule> listPageRsRoleModule(RsRoleModule rsRoleModule);
+	/**
+	 * 根据角色ID删除所有相关的角色功能关系
+	 * @param roleId
+	 * @return
+	 */
+	int deleteRsRoleModuleByRoleId(String roleId);
     
 }

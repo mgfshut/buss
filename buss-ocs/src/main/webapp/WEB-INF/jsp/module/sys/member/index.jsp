@@ -7,8 +7,10 @@
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" class="form-horizontal" role="form" action="module/sys-member-index/member-pager" 
 	method="post" onsubmit="return navTabSearch(this);">
-<input type="hidden" name="pageNum" value="${param.page.pageNum eq null?1:param.page.pageNum}" />
-<input type="hidden" name="numPerPage" value="${param.page.numPerPage eq null?10:param.page.numPerPage}" /> 
+<input type="hidden" name="currentPage" value="${page.currentPage}" />
+<input type="hidden" name="totalResult" value="${page.totalResult}" />
+<input type="hidden" name="totalPage" value="${page.totalPage}" />
+<input type="hidden" name="showCount" value="${param.page.showCount eq null?10:param.page.showCount}" /> 
 <input type="hidden" name="orderField" value="${param.page.orderField eq null?'memberId':param.page.orderField}" />
 <input type="hidden" name="orderDirection" value="${param.page.orderDirection eq null?'asc':param.page.orderDirection}" />
 <div class="pageHeader">
@@ -33,7 +35,7 @@
 	<div class="btn-group" style="margin:4px 5px;">
 			<a class="btn btn-primary btn-sm" href="module/sys-member-form" mask="true" target="navTab" rel="usereditmanager" data-parent="usereditmanager" title="添加用户"><i class="icon-plus"></i> <span>添加</span></a>
 			<a class="btn btn-danger btn-sm" href="service/member-remove-{id}" target="ajaxTodo" title="确定要删除用户吗?" ><i class="icon-minus"></i> <span>删除</span></a></li>
-			<a class="btn btn-success btn-sm" href="module/sys-member-form/member-{id}" title="修改用户" target="navTab" rel="usereditmanager" data-parent="usereditmanager"  ><i class="icon-pencil"></i> <span>修改</span></a>
+			<a class="btn btn-success btn-sm" href="module/sys-member-form1/member-{id}" title="修改用户" target="navTab" rel="usereditmanager" data-parent="usereditmanager"  ><i class="icon-pencil"></i> <span>修改</span></a>
 			<a class="btn btn-info btn-sm" href="module/sys-user-roles/user-roles-{id}" mask="true" title="角色分配" target="navTab" rel="usereditmanager" width="550" height="450"><i class="icon-user"></i> <span>角色分配</span></a>
 	</div>	
 </div>
@@ -61,7 +63,7 @@
 			<td>${item.memberPhone }</td>
 			<td>${item.createTime }</td>
 			<td>
-				<ys:codemapConvert codemap="userStatus" value="${item.userStatus }"></ys:codemapConvert>
+				<ys:codemapConvert codemap="status" value="${item.userStatus }"></ys:codemapConvert>
 			</td>
 			
 			</tr>

@@ -43,7 +43,7 @@ $(function(){
 				<div class="col-sm-4">
 					<input type="text" name="userName" pattern="^[A-Za-z0-9]{6,32}$" 
 						data-error="请输入6-32位英文、数字" maxlength="32" placeholder="请输入用户名" 
-						class="form-control" required="required" value="${userName}" />
+						class="form-control" required="required" value="${userName}" readonly="readonly" />
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

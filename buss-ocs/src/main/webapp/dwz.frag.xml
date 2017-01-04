@@ -105,7 +105,7 @@
 		<a class="previous" href="javascript:;"><span>上一页</span></a>
 		<span class="previous"><span>上一页</span></span>
 	</li>
-	#pageNumFrag#
+	#currentPageFrag#
 	<li class="j-next">
 		<a class="next" href="javascript:;"><span>下一页</span></a>
 		<span class="next"><span>下一页</span></span>

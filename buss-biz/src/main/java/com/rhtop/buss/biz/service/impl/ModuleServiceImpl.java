@@ -56,4 +56,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
+	@Override
+	public Module selectByAuthName(String authName) {
+		Module module = moduleMapper.selectByAuthName(authName);
+		return module;
+	}
+
 }

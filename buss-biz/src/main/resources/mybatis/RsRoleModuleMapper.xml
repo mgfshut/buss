@@ -96,5 +96,10 @@
 			and rs_role_module_id_ = #{rsRoleModuleId}
 		</if>
   </select>
+  <!-- 根据角色ID删除所有相关的角色功能关系 -->
+  <delete id="deleteRsRoleModuleByRoleId" parameterType="java.lang.String" >
+    delete from sys_rs_role_module_ where
+	role_id_ = #{0}
+  </delete>
   
 </mapper>

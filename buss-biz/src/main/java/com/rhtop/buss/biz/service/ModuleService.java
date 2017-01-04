@@ -44,4 +44,10 @@ public interface ModuleService{
 	 * @return
 	 */
 	List<Module> listModulesByUserId(String userId);
+	/**
+	 * 根据授权名称获取功能对象
+	 * @param authName
+	 * @return
+	 */
+	Module selectByAuthName(String authName);
 }

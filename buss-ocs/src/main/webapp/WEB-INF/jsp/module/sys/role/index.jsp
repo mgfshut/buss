@@ -8,8 +8,10 @@
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="module/sys-role-index/role-pager" method="post" onsubmit="return navTabSearch(this);">
 
-<input type="hidden" name="pageNum" value="${param.page.pageNum eq null?1:param.page.pageNum}" />
-<input type="hidden" name="numPerPage" value="${param.page.numPerPage eq null?10:param.page.numPerPage}" /> 
+<input type="hidden" name="currentPage" value="${page.currentPage}" />
+<input type="hidden" name="totalResult" value="${page.totalResult}" />
+<input type="hidden" name="totalPage" value="${page.totalPage}" />
+<input type="hidden" name="showCount" value="${param.page.showCount eq null?10:param.page.showCount}" /> 
 <input type="hidden" name="orderField" value="${param.page.orderField eq null?'memberId':param.page.orderField}" />
 <input type="hidden" name="orderDirection" value="${param.page.orderDirection eq null?'asc':param.page.orderDirection}" />
 
@@ -27,7 +29,7 @@
 <div class="panelBar">
 		<div class="btn-group" style="margin:4px 5px;">
 			<a class="btn btn-primary btn-sm" data-parent="rolemanage" href="module/sys-role-form" mask="true" height="500" target="navTab" rel="roleSaveDialog" title="添加角色"><i class="icon-plus"></i> <span>添加</span></a>
-			<a class="btn btn-danger btn-sm delete" data-parent="rolemanage" href="service/role-remove-{roleId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
+			<a class="btn btn-danger btn-sm delete" data-parent="roleservice" href="service/role-remove-{roleId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
 			<a class="btn btn-success btn-sm" href="module/sys-role-form/role-{roleId}" mask="true" height="500" title="修改角色"  target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>
 		</div>
 </div>

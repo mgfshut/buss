@@ -66,9 +66,9 @@ public class RestInvoke {
 		}*/
 		
 		if(!this.notLogService.contains(serviceName)){
-			log.info("调用服务[{}],payload[{}]={}",result.getHeaders().get("service"),
-					result.getPayload().getClass(),
-					result.getPayload());
+//			log.info("调用服务[{}],payload[{}]={}",result.getHeaders().get("service"),
+//					result.getPayload().getClass(),
+//					result.getPayload());
 		}
 		return result;
 	}

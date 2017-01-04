@@ -174,10 +174,9 @@
   </update>
   <!-- 根据主键查询对象-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_member_
-	where member_id_ = #{0}
+	select a.*,b.user_name_,b.user_status_
+    from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ 
+    where a.member_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listMembers" parameterType="com.rhtop.buss.common.entity.Member" resultMap="BaseResultMap">

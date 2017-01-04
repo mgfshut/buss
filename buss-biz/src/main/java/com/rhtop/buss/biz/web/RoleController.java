@@ -1,13 +1,11 @@
 package com.rhtop.buss.biz.web;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,14 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rhtop.buss.common.entity.Member;
+import com.rhtop.buss.common.entity.Module;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.Role;
 import com.rhtop.buss.common.entity.InfoResult;
-import com.rhtop.buss.common.entity.User;
+import com.rhtop.buss.common.entity.RsRoleModule;
+import com.rhtop.buss.biz.service.ModuleService;
 import com.rhtop.buss.biz.service.RoleService;
+import com.rhtop.buss.biz.service.RsRoleModuleService;
 import com.rhtop.buss.common.utils.DateUtils;
-import com.rhtop.buss.common.utils.PasswordUtils;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
@@ -31,7 +30,10 @@ import com.rhtop.buss.common.web.HtmlMessage;
 public class RoleController {
 	@Autowired
 	private RoleService roleService;
-	
+	@Autowired
+	private RsRoleModuleService rsRoleModuleService;
+	@Autowired
+	private ModuleService moduleService;
     /**
      * 新增
      */
@@ -123,12 +125,29 @@ public class RoleController {
 		if(role.getRoleId() == null || "".equals(role.getRoleId())){
 			String roleId = UUID.randomUUID().toString().replace("-", "");
 			role.setRoleId(roleId);
+			for(String authName:role.getPermissionList()){
+				RsRoleModule rsRoleModule = new RsRoleModule();
+				rsRoleModule.setRsRoleModuleId(UUID.randomUUID().toString().replace("-", ""));
+				rsRoleModule.setRoleId(roleId);
+				Module module = moduleService.selectByAuthName(authName);
+				rsRoleModule.setModuleId(module.getModuleId());
+				rsRoleModuleService.insertRsRoleModule(rsRoleModule);
+			}
 			role.setCreateUser(userId);
 			role.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			role.setUpdateUser(userId);
 			role.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			roleService.insertRole(role);
 		}else{
+			rsRoleModuleService.deleteRsRoleModuleByRoleId(role.getRoleId());
+			for(String authName:role.getPermissionList()){
+				RsRoleModule rsRoleModule = new RsRoleModule();
+				rsRoleModule.setRsRoleModuleId(UUID.randomUUID().toString().replace("-", ""));
+				rsRoleModule.setRoleId(role.getRoleId());
+				Module module = moduleService.selectByAuthName(authName);
+				rsRoleModule.setModuleId(module.getModuleId());
+				rsRoleModuleService.insertRsRoleModule(rsRoleModule);
+			}
 			role.setUpdateUser(userId);
 			role.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			roleService.updateRole(role);
