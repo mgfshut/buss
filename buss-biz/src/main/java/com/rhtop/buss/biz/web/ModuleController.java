@@ -157,7 +157,7 @@ public class ModuleController {
 	public Module getByModuleId(@PathVariable("moduleId") String moduleId){
 		return moduleService.selectByPrimaryKey(moduleId);
 	}
-	@RequestMapping("/remove/{roleId}")
+	@RequestMapping("/remove/{moduleId}")
 	@ResponseBody
 	public HtmlMessage  removeModule(@PathVariable("moduleId") String moduleId){
 		moduleService.deleteModule(moduleId);
