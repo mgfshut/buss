@@ -48,4 +48,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return categorys;
 	}
 
+	@Override
+	public Category checkCategoryExist(Category category) {
+		return categoryMapper.selectByPrimaryParam(category);
+	}
+
 }

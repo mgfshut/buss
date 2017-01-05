@@ -30,7 +30,7 @@ public class AppLoginController extends BaseController {
 		ReadResult<String> readResult = new ReadResult<String>();
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		String devType = request.getParameter("devType");
+		String devType = request.getParameter("devType"); 
 		try{
 			UsernamePasswordToken loginToken = new UsernamePasswordToken(userName, password,
 					false, request.getHeader("host"));

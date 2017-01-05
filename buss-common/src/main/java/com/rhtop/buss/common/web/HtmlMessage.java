@@ -11,6 +11,9 @@ public class HtmlMessage {
 	private String type = HtmlMessage.class.toString();
 	private Object entity;
 	
+	public HtmlMessage() {
+		super();
+	}
 	public HtmlMessage(Object entity){
 		this.setEntity(entity);
 	}

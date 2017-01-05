@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.Category;
 
 public interface CategoryMapper {
@@ -24,6 +25,10 @@ public interface CategoryMapper {
 	 * 根据主键查询对象
 	 */
     Category selectByPrimaryKey(String categoryId);
+    /**
+     * 根据品类名称、规格、厂号、产地、包装数量查询品类
+     */
+    Category selectByPrimaryParam(Category category);
     /**
      * 根据条件查询列表
      */
