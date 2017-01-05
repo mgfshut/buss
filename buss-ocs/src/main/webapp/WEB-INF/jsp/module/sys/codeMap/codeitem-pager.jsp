@@ -19,7 +19,7 @@
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid">
 <div class="panelBar">
 	<div class="btn-group">
-		<a class="btn btn-primary btn-sm" href="sys/code/item/form?codemap=${param.codemap}" mask="true" target="navTab" rel="codeSaveTab" title="添加代码项"><i class="icon-plus"></i> <span>添加</span></a>
+		<a class="btn btn-primary btn-sm" href="sys/code/item/form?code=${param.code}" mask="true" target="navTab" rel="codeSaveTab" title="添加代码项"><i class="icon-plus"></i> <span>添加</span></a>
 		<a class="btn btn-danger btn-sm" callback="removeCodeSuccess" href="service/code-item-remove-{codeitem}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
 		<a class="btn btn-warning btn-sm" href="sys/code/item/form/{codeitem}" mask="true" title="修改代码项" target="navTab" rel="codeSaveTab" ><i class="icon-pencil"></i> <span>修改</span></a>
 	</div>
@@ -28,8 +28,8 @@
 	<thead>
 		<tr>
 			<th width="150" orderField="code" 
-				class="${param.orderField eq 'codeValue'?param.orderDirection:''}">代码</th>
-			<th orderField="name" class="${param.orderField eq 'codeValueDescribe'?param.orderDirection:''}">名称</th>
+				class="${param.orderField eq 'codeValue'?param.orderDirection:''}">代码值</th>
+			<th orderField="name" class="${param.orderField eq 'codeValueDescribe'?param.orderDirection:''}">代码值描述</th>
 		</tr>
 		
 	</thead>

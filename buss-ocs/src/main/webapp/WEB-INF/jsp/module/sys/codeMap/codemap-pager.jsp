@@ -31,8 +31,8 @@
 		<div class="btn-group">
 		<a class="btn btn-success btn-sm" callback="reflashCach" href="codemapClean" target="ajaxTodo" mask="true" title="确定要刷新缓存吗?"><i class="icon-refresh"></i> <span>刷新缓存</span></a>
 		<a class="btn btn-primary btn-sm" href="sys/code/form" mask="true" target="navTab" rel="codeSaveTab" title="添加代码集"><i class="icon-plus"></i> <span>添加</span></a>
-		<a class="btn btn-warning btn-sm" href="sys/code/form/{codemap}" mask="true" title="修改代码集" target="navTab" rel="codeSaveTab" ><i class="icon-pencil"></i> <span>修改</span></a>
-		<a class="btn btn-danger btn-sm" callback="removeCodeSuccess" href="service/code-remove-{codemap}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
+		<a class="btn btn-warning btn-sm" href="sys/code/form/{codeMapId}" mask="true" title="修改代码集" target="navTab" rel="codeSaveTab" ><i class="icon-pencil"></i> <span>修改</span></a>
+		<a class="btn btn-danger btn-sm" callback="removeCodeSuccess" href="service/codeMap-remove-{codeMapId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
 		</div>
 </div>
 <table class="table" width="100%" layoutH="173" rel="codemap-pager">
@@ -45,7 +45,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${resList}" var="item">
-			<tr target="codemap" rel="${item.codemapId}"><td class="code">${item.code}</td><td>${item.codeMapName}</td></tr>
+			<tr target="codeMapId" rel="${item.codeMapId}"><td class="code">${item.code}</td><td>${item.codeMapName}</td></tr>
 		</c:forEach>
 	</tbody>
 </table>

@@ -18,7 +18,7 @@ import com.rhtop.buss.common.web.BaseController;
 
 @Controller
 @RequestMapping("/sys/code")
-public class CodeMapController extends BaseController {
+public class CodeController extends BaseController {
 	@Autowired
 	private RestService rs; 
 	
@@ -37,9 +37,9 @@ public class CodeMapController extends BaseController {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping("form/{id}")
-	public String codeMapModForm(HttpServletRequest request, Model model, @PathVariable("id") String id){
-		model.addAllAttributes(rs.invoke("codeMap-" + id, new HashMap()));
+	@RequestMapping("form/{codeMapId}")
+	public String codeMapModForm(HttpServletRequest request, Model model, @PathVariable("codeMapId") String codeMapId){
+		model.addAllAttributes(rs.invoke("codeMap-" + codeMapId, new HashMap()));
 		return "module/sys/codeMap/codemap-form";
 	}
 	

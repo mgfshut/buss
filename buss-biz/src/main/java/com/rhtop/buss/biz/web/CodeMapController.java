@@ -4,8 +4,11 @@ package com.rhtop.buss.biz.web;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@ import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/codeMap")
@@ -108,5 +112,38 @@ public class CodeMapController {
 		CodeMap codeMap = codeMapService.selectByPrimaryKey(codeMapId);
 		infoResult.setResObject(codeMap);
 		return infoResult;
+	}
+	
+	@RequestMapping("/save")
+	@ResponseBody
+	public HtmlMessage save(@Valid @RequestParam(value = "userId") String userId,@Valid CodeMap codeMap){
+		if(codeMap.getCodeMapId() == null || "".equals(codeMap.getCodeMapId())){
+			String codeMapId = UUID.randomUUID().toString().replace("-", "");
+			codeMap.setCodeMapId(codeMapId);
+			codeMap.setCreateUser(userId);
+			codeMap.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			codeMap.setUpdateUser(userId);
+			codeMap.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			codeMapService.insertCodeMap(codeMap);
+		}else{
+			codeMap.setUpdateUser(userId);
+			codeMap.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			codeMapService.updateCodeMap(codeMap);
+		}
+		return new HtmlMessage(codeMap);
+	}
+	
+	@RequestMapping("/{codeMapId}")
+	@ResponseBody
+	public CodeMap getByCodeMapId(@PathVariable("codeMapId") String codeMapId){
+		CodeMap codeMap = codeMapService.selectByPrimaryKey(codeMapId);
+		return codeMap;
+	}
+	
+	@RequestMapping("/remove/{codeMapId}")
+	@ResponseBody
+	public HtmlMessage  removeCodeMap(@PathVariable("codeMapId") String codeMapId){
+		codeMapService.deleteCodeMap(codeMapId);
+		return new HtmlMessage("删除代码集成功").setCallbackType(null);
 	}
 }
