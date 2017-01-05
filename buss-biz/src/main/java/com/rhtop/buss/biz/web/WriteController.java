@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
@@ -25,7 +26,9 @@ import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.CategoryVo;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.ReadResult;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
+import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.web.HtmlMessage;
 /**
  * 对外接口的写入功能控制器，内部接口按照操作类型分为两类，
@@ -111,6 +114,7 @@ public class WriteController {
 			for(CategoryVo cat : categorys){
 				//检查要新增的品类是否已存在于数据库中
 				if(catSer.checkCategoryExist(cat)==null){
+					//新增品类
 					catSer.insertCategory(cat);
 					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
 					relCustomerCategory.setCreateTime(now);
@@ -141,5 +145,24 @@ public class WriteController {
 		//返回消息转换成Json字符串
         String json = gson.toJson(htmlMsg);
         return json;
+	}
+	
+	/**
+	 * 图片上传接口
+	 * 在客户经理创建客户的过程中新增品类时涉及到上传图片，
+	 * 要求ContentType为MultipartFile，
+	 * 返回值为文件在服务器中的相对路径。
+	 * 返回值需要被记录到一个名为catePic的字段中，在保存品类信息时提交上来。
+	 * @param picFile
+	 * @return 文件相对路径
+	 */
+	@RequestMapping(value="In0002")
+	public ReadResult<String> uploadPic(@Valid @RequestParam("picFile") MultipartFile picFile){
+		String catePic = FileUtil.uploadOneFile(picFile);
+		ReadResult<String> res = new ReadResult<String>();
+		res.setCode("200");
+		res.setMessage("图片上传成功");
+		res.setResObject(catePic);
+		return res;
 	}
 }
