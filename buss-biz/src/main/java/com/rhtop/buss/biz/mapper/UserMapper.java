@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.User;
 
 public interface UserMapper {
@@ -32,5 +33,11 @@ public interface UserMapper {
      * 根据条件分页查询列表
      */
 	List<User> listPageUser(User user);
+	/**
+	 * 根据用户名查询用户
+	 * @param userName
+	 * @return
+	 */
+	User selectByUserName(String userName);
     
 }

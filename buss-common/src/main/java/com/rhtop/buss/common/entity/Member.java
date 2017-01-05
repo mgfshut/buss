@@ -44,6 +44,16 @@ public class Member {
 	
 	private String userStatus;//用户状态
 	
+	private String token;//用户令牌
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public String getUserStatus() {
 		return userStatus;
 	}

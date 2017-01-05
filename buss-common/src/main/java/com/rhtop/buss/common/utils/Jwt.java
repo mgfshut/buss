@@ -75,7 +75,7 @@ public class Jwt {
 			if (jwsObject.verify(verifier)) {
 				JSONObject jsonOBj = payload.toJSONObject();
 				// token校验成功（此时没有校验是否过期）
-				resultMap.put("state", TokenState.VALID.toString());
+//				resultMap.put("message", TokenState.VALID.toString());
 				// 若payload包含ext字段，则校验是否过期
 				if (jsonOBj.containsKey("ext")) {
 					long extTime = Long.valueOf(jsonOBj.get("ext").toString());
@@ -83,21 +83,26 @@ public class Jwt {
 					// 过期了
 					if (curTime > extTime) {
 						resultMap.clear();
-						resultMap.put("state", TokenState.EXPIRED.toString());
+						resultMap.put("code", "999");
+						resultMap.put("message", "token过期！");
+						return resultMap;
 					}
 				}
-				resultMap.put("data", jsonOBj);
-
+				resultMap.put("code", "200");
+				resultMap.put("message", "token校验成功！");
 			} else {
 				// 校验失败
-				resultMap.put("state", TokenState.INVALID.toString());
+				resultMap.put("code", "999");
+				resultMap.put("message", "token校验失败！");
 			}
 
 		} catch (Exception e) {
 			//e.printStackTrace();
 			// token格式不合法导致的异常
 			resultMap.clear();
-			resultMap.put("state", TokenState.INVALID.toString());
+			// 校验失败
+			resultMap.put("code", "999");
+			resultMap.put("message", "token格式不合法！");
 		}
 		return resultMap;
 	}
