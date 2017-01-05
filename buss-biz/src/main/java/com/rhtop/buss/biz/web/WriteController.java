@@ -35,7 +35,7 @@ import com.rhtop.buss.common.web.HtmlMessage;
  *
  */
 @RestController
-@RequestMapping(value="/writeData")
+@RequestMapping(value="service/writeData")
 //配置跨域支持
 @CrossOrigin(allowedHeaders = "*")
 public class WriteController {
