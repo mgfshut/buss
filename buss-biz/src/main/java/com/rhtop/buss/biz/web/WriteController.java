@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
@@ -25,7 +26,9 @@ import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.CategoryVo;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.ReadResult;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
+import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.web.HtmlMessage;
 /**
  * 对外接口的写入功能控制器，内部接口按照操作类型分为两类，
@@ -144,9 +147,22 @@ public class WriteController {
         return json;
 	}
 	
-	// TODO: 图片上传接口
+	/**
+	 * 图片上传接口
+	 * 在客户经理创建客户的过程中新增品类时涉及到上传图片，
+	 * 要求ContentType为MultipartFile，
+	 * 返回值为文件在服务器中的相对路径。
+	 * 返回值需要被记录到一个名为catePic的字段中，在保存品类信息时提交上来。
+	 * @param picFile
+	 * @return 文件相对路径
+	 */
 	@RequestMapping(value="In0002")
-	public String uploadPic(){
-		
+	public ReadResult<String> uploadPic(@Valid @RequestParam("picFile") MultipartFile picFile){
+		String catePic = FileUtil.uploadOneFile(picFile);
+		ReadResult<String> res = new ReadResult<String>();
+		res.setCode("200");
+		res.setMessage("图片上传成功");
+		res.setResObject(catePic);
+		return res;
 	}
 }
