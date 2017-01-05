@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.service;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.RsUserRole;
 
 public interface RsUserRoleService{
@@ -32,4 +33,10 @@ public interface RsUserRoleService{
 	 * 根据条件查询列表
 	 */
 	List<RsUserRole> listRsUserRoles(RsUserRole rsUserRole);
+	/**
+	 * 根据用户ID删除所有相关的用户角色关系
+	 * @param memberId
+	 * @return
+	 */
+	int deleteRsUserRoleByMemberId(String memberId);
 }

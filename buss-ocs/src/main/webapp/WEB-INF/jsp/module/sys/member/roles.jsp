@@ -6,7 +6,7 @@
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
 <script type="text/javascript">
 	$(function(){
-		var ids = '${userRoles}';
+		var ids = '${memberRoles}';
 		var ar = ids.split(",");
 		if(ids != ""){
 			$("#nowNum").html(ar.length);
@@ -39,7 +39,7 @@
 <div class="searchBar">
 <table>
 	<tr>
-		<td style=""><h1>为用户&nbsp;[<font style="color: red;font-weight: 900;">${user.username }</font>]&nbsp;分配角色</h1> &nbsp;&nbsp;
+		<td style=""><h1>为用户&nbsp;[<font style="color: red;font-weight: 900;">${member.userName }</font>]&nbsp;分配角色</h1> &nbsp;&nbsp;
 			
 	 
 		</td>
@@ -64,22 +64,22 @@
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid">
 
 
-<form method="post" action="service/user-updateUserRoles" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
-<input type="hidden" name="userId" id="userId" value="${user.uid }"/>
+<form method="post" action="service/member-updateMemberRoles" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+<input type="hidden" name="memberId" id="memberId" value="${member.memberId }"/>
 <table class="table" width="100%" layoutH="120" >
 	<thead>
 		<tr>
 			<th width="20"></th>
-			<th width="50" orderField="roleId" class="${param.orderField eq 'roleId'?param.orderDirection:''}">角色ID</th>
-			<th width="100" orderField="roleName" class="${param.orderField eq 'roleName'?param.orderDirection:''}">角色名称</th>
+			<th width="50" orderField="roleName" class="${param.orderField eq 'roleName'?param.orderDirection:''}">角色代码</th>
+			<th width="100" orderField="roleDescribe" class="${param.orderField eq 'roleDescribe'?param.orderDirection:''}">角色名称</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${allRoles}" var="item">
 			<tr>
 				<td><label><input id="role_id_${item.roleId }" type="checkbox" name="roleIds" value="${item.roleId }" /></label></td>
-				<td>${item.roleId}</td>
-				<td id="role_name_${item.roleId }">${item.roleName }</td>
+				<td>${item.roleName}</td>
+				<td id="role_name_${item.roleId }">${item.roleDescribe }</td>
 			</tr>
 		</c:forEach>
 	</tbody>

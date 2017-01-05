@@ -55,4 +55,9 @@ public class RoleServiceImpl implements RoleService {
 		return list;
 	}
 
+	@Override
+	public List<Role> listRolesByMemberId(String memberId) {
+		List<Role> roleList = roleMapper.listRolesByMemberId(memberId);
+		return roleList;
+	}
 }

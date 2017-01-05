@@ -47,7 +47,7 @@ public class AppLoginController extends BaseController {
 //			UserLoginToken
 			SecurityUtils.getSubject().login(loginToken);
 			User user = (User) service.invoke("user-" + userName, "GET", new HashMap(), User.class);
-			Member member = (Member) service.invoke("member-" + user.getUserId(), "GET", new HashMap(), Member.class);
+			Member member = (Member) service.invoke("member-role-" + user.getUserId(), "GET", new HashMap(), Member.class);
 			//生成token
 			Map<String , Object> payload=new HashMap<String, Object>();
 			Date date=new Date();

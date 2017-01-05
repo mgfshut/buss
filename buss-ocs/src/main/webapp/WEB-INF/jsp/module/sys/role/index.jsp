@@ -19,7 +19,7 @@
 <div class="searchBar container-fluid">
 	<div class="row">
 		<div class="col-xs-4"><input name="roleName" placeholder="输入代码筛选" type="text" class="form-control input-sm col-xs-4" size="10" value="${param.roleName}"></div>
-		<div class="col-xs-4"><input name="roleDescribe" size="10" placeholder="输入描述筛选" type="text" class="form-control input-sm col-xs-4" value="${param.roleDescribe}"></div>
+		<div class="col-xs-4"><input name="roleDescribe" size="10" placeholder="输入名称筛选" type="text" class="form-control input-sm col-xs-4" value="${param.roleDescribe}"></div>
 		<div class="col-xs-offset-2 col-xs-2" style="text-align: right;"><button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button></div>
 	</div>
 </div>
@@ -36,24 +36,22 @@
 <table class="table" width="100%" layoutH="140">
 	<thead>
 		<tr>
-			<th>角色ID</th>
+			<!-- <th>角色ID</th> -->
 			<th orderField="roleName" class="${param.orderField eq 'roleName'?param.orderDirection:''}">角色代码</th>
-			<th orderField="roleDescribe" >角色描述</th>
-			<th orderField="roleStatus" class="${param.orderField eq 'roleStatus'?param.orderDirection:''}">角色状态</th>
+			<th orderField="roleDescribe" class="${param.orderField eq 'roleDescribe'?param.orderDirection:''}">角色名称</th>
 			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}">创建时间</th>
+			<th orderField="updateTime" class="${param.orderField eq 'updateTime'?param.orderDirection:''}">修改时间</th>
 			<th/>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${resList}" var="item">
 			<tr target="roleId" rel="${item.roleId}">
-				<td>${item.roleId}</td>
+				<%-- <td>${item.roleId}</td> --%>
 				<td>${item.roleName}</td>
 				<td>${item.roleDescribe}</td>
-				<td>
-					<ys:codemapConvert codemap="status" value="${item.roleStatus }"></ys:codemapConvert>
-				</td>
 				<td>${item.createTime}</td>
+				<td>${item.updateTime}</td>
 				<td>
 <a href="module/sys-role-form/role-${item.roleId}" mask="true" height="500" title="修改角色" data-parent="rolemanage" target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>
 				</td>
