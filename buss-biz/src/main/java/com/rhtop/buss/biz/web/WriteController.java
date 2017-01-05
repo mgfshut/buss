@@ -111,6 +111,7 @@ public class WriteController {
 			for(CategoryVo cat : categorys){
 				//检查要新增的品类是否已存在于数据库中
 				if(catSer.checkCategoryExist(cat)==null){
+					//新增品类
 					catSer.insertCategory(cat);
 					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
 					relCustomerCategory.setCreateTime(now);
@@ -141,5 +142,11 @@ public class WriteController {
 		//返回消息转换成Json字符串
         String json = gson.toJson(htmlMsg);
         return json;
+	}
+	
+	// TODO: 图片上传接口
+	@RequestMapping(value="In0002")
+	public String uploadPic(){
+		
 	}
 }
