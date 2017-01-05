@@ -43,4 +43,9 @@ public class RsUserRoleServiceImpl implements RsUserRoleService {
 		return rsUserRoleList;
 	}
 
+	@Override
+	public int deleteRsUserRoleByMemberId(String memberId) {
+		return rsUserRoleMapper.deleteRsUserRoleByMemberId(memberId);
+	}
+
 }

@@ -1,9 +1,12 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.Page;
+import com.rhtop.buss.common.entity.Role;
+import com.rhtop.buss.common.entity.RsUserRole;
 import com.rhtop.buss.common.entity.User;
+import com.rhtop.buss.common.exception.BusException;
 import com.rhtop.buss.biz.service.MemberService;
+import com.rhtop.buss.biz.service.RoleService;
+import com.rhtop.buss.biz.service.RsUserRoleService;
 import com.rhtop.buss.biz.service.UserService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.PasswordUtils;
@@ -30,6 +38,10 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RoleService roleService;
+	@Autowired
+	private RsUserRoleService rsUserRoleService;
 	
     /**
      * 保存
@@ -129,11 +141,74 @@ public class MemberController {
 		Member member = memberService.selectByPrimaryKey(memberId);
 		return member;
 	}
+	@RequestMapping("role/{memberId}")
+	@ResponseBody
+	public Member getRoleMemberByMemberId(@PathVariable("memberId") String memberId){
+		Member member = memberService.selectByPrimaryKey(memberId);
+		List<Role> roleList = roleService.listRolesByMemberId(memberId);
+		String str = "";
+		StringBuffer sf = new StringBuffer();
+		for (Role role : roleList) {
+			sf.append(",").append(role.getRoleName());
+		}
+		if (sf.length() > 0) {
+			str = sf.substring(1);
+		}
+		member.setRoles(str);
+		return member;
+	}
 	
 	@RequestMapping("/remove/{memberId}")
 	@ResponseBody
 	public HtmlMessage  removeMember(@PathVariable("memberId") String memberId){
 		memberService.deleteMember(memberId);
 		return new HtmlMessage("删除用户成功").setCallbackType(null);
+	}
+	
+	@RequestMapping(value = "/roles/{memberId}")
+	@ResponseBody
+	public Map<String, Object> findRolesByMember(HttpServletRequest request,
+			@PathVariable("memberId") String memberId) {
+		List<Role> allRoles = roleService.listRoles(new Role());
+		Member member = memberService.selectByPrimaryKey(memberId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("allRoles", allRoles);
+		RsUserRole rsUserRole = new RsUserRole();
+		rsUserRole.setMemberId(memberId);
+		List<RsUserRole> rsUserRoleList = rsUserRoleService.listRsUserRoles(rsUserRole);
+		String str = "";
+		StringBuffer sf = new StringBuffer();
+		for (RsUserRole rur : rsUserRoleList) {
+			sf.append(",").append(rur.getRoleId());
+		}
+		if (sf.length() > 0) {
+			str = sf.substring(1);
+		}
+		map.put("memberRoles", str);
+		map.put("member", member);
+		return map;
+	}
+	
+	/**
+	 * 更新用户角色
+	 * @return
+	 */
+	@RequestMapping(value = "/updateMemberRoles")
+	@ResponseBody
+	public HtmlMessage updateMemberRoles(HttpServletRequest request,
+			@RequestParam(value = "memberId") String memberId,
+			@RequestParam(value = "roleIds", required = false) String[] roleIds) {
+		if (roleIds == null) {
+			throw new BusException("请选择角色再提交!");
+		}
+		rsUserRoleService.deleteRsUserRoleByMemberId(memberId);
+		for(String roleId:roleIds){
+			RsUserRole rsUserRole = new RsUserRole();
+			rsUserRole.setRsUserRoleId(UUID.randomUUID().toString().replace("-", ""));
+			rsUserRole.setMemberId(memberId);
+			rsUserRole.setRoleId(roleId);
+			rsUserRoleService.insertRsUserRole(rsUserRole);
+		}
+		return new HtmlMessage("角色分配成功!").setNavTabId("sys:member");
 	}
 }

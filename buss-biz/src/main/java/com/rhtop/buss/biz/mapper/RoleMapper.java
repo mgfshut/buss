@@ -39,5 +39,11 @@ public interface RoleMapper {
 	 * @return
 	 */
 	List<String> getPermissionListByRoleId(String roleId);
+	/**
+	 * 根据用户ID获取角色信息列表
+	 * @param memberId
+	 * @return
+	 */
+	List<Role> listRolesByMemberId(String memberId);
     
 }

@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.util.List;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -44,6 +46,36 @@ public class Member {
 	
 	private String userStatus;//用户状态
 	
+	private String token;//用户令牌
+	
+	private List<Role> roleList;//用户所属角色列表
+	
+	private String roles;//用户所属角色集
+	
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
+	public List<Role> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public String getUserStatus() {
 		return userStatus;
 	}

@@ -249,5 +249,11 @@
 			and update_time_ = #{updateTime}
 		</if>
   </select>
-  
+  <!-- 根据主键查询对象-->
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_
+	where user_name_ = #{0}
+  </select>
 </mapper>

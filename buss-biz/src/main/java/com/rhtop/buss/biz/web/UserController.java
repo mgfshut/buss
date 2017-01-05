@@ -133,6 +133,20 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping("/{userName}")
+	@ResponseBody
+	public User getByUserName(@PathVariable("userName") String userName){
+		User user = new User();
+		user.setUserName(userName);
+		List<User> list = userService.listUsers(user);
+		if(list.size()>0){
+			User uu = list.get(0);
+			return uu;
+		}else{
+			return null;
+		}
+	}
+	
 	@RequestMapping("/login")
 	@ResponseBody
 	public User login(@RequestParam("userId") String userId) {
