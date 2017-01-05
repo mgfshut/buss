@@ -8,15 +8,19 @@
 
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="sys/code/pager" method="post" onsubmit="return divSearch(this, 'codemap-pager');">
-<input type="hidden" name="pageNum" value="${number+1}" />
-<input type="hidden" name="numPerPage" value="${sessionScope.numPerPage eq null?10:sessionScope.numPerPage}" /> 
-<input type="hidden" name="orderField" value="${param.orderField eq null?'code':param.orderField}" />
-<input type="hidden" name="orderDirection" value="${param.orderDirection eq null?'asc':param.orderDirection}" />
+	
+<input type="hidden" name="currentPage" value="${page.currentPage}" />
+<%-- <input type="hidden" name="totalResult" value="${page.totalResult}" /> --%>
+<%-- <input type="hidden" name="totalPage" value="${page.totalPage}" /> --%>
+<input type="hidden" name="showCount" value="${param.page.showCount eq null?10:param.page.showCount}" /> 
+<input type="hidden" name="orderField" value="${param.page.orderField eq null?'code':param.page.orderField}" />
+<input type="hidden" name="orderDirection" value="${param.page.orderDirection eq null?'asc':param.page.orderDirection}" />
+
 <div class="pageHeader" style="border:1px #B8D0D6 solid">
 <div class="searchBar container-fluid">
-<div class="row">
+	<div class="row">
 		<div class="col-xs-5"><input name="code" placeholder="输入代码" type="text" class="form-control input-sm textInput" value="${param.code}"></div>
-		<div class="col-xs-5"><input name="name" placeholder="输入名称" type="text" class="form-control input-sm textInput" value="${param.name}"></div>
+		<div class="col-xs-5"><input name="codeMapName" placeholder="输入名称" type="text" class="form-control input-sm textInput" value="${param.codeMapName}"></div>
 		<div class="col-xs-2" style="text-align: right;"><button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button></div>
 	</div>
 </div>
@@ -36,12 +40,12 @@
 		<tr>
 			<th width="150" orderField="code" 
 				class="${param.orderField eq 'code'?param.orderDirection:''}">代码</th>
-			<th orderField="name" class="${param.orderField eq 'name'?param.orderDirection:''}">名称</th>
+			<th orderField="codeMapName" class="${param.orderField eq 'codeMapName'?param.orderDirection:''}">名称</th>
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${content}" var="item">
-			<tr target="codemap" rel="${item.codemapId}"><td class="code">${item.code}</td><td>${item.codemapname}</td></tr>
+		<c:forEach items="${resList}" var="item">
+			<tr target="codemap" rel="${item.codemapId}"><td class="code">${item.code}</td><td>${item.codeMapName}</td></tr>
 		</c:forEach>
 	</tbody>
 </table>

@@ -7,11 +7,14 @@
 
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="sys/code/item/pager" method="post" onsubmit="return divSearch(this, 'codeitem-pager');">
-<input type="hidden" name="pageNum" value="${number+1}" />
-<input type="hidden" name="numPerPage" value="${sessionScope.numPerPage eq null?10:sessionScope.numPerPage}" /> 
-<input type="hidden" name="orderField" value="${param.orderField eq null?'code':param.orderField}" />
-<input type="hidden" name="orderDirection" value="${param.orderDirection eq null?'asc':param.orderDirection}" />
-<input type="hidden" name="codemap" value="${param.codemap}" />
+
+<input type="hidden" name="currentPage" value="${page.currentPage}" />
+<%-- <input type="hidden" name="totalResult" value="${page.totalResult}" /> --%>
+<%-- <input type="hidden" name="totalPage" value="${page.totalPage}" /> --%>
+<input type="hidden" name="showCount" value="${param.page.showCount eq null?10:param.page.showCount}" /> 
+<input type="hidden" name="orderField" value="${param.page.orderField eq null?'code':param.page.orderField}" />
+<input type="hidden" name="orderDirection" value="${param.page.orderDirection eq null?'asc':param.page.orderDirection}" />
+
 </form> 
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid">
 <div class="panelBar">
@@ -25,14 +28,14 @@
 	<thead>
 		<tr>
 			<th width="150" orderField="code" 
-				class="${param.orderField eq 'code'?param.orderDirection:''}">代码</th>
-			<th orderField="name" class="${param.orderField eq 'name'?param.orderDirection:''}">名称</th>
+				class="${param.orderField eq 'codeValue'?param.orderDirection:''}">代码</th>
+			<th orderField="name" class="${param.orderField eq 'codeValueDescribe'?param.orderDirection:''}">名称</th>
 		</tr>
 		
 	</thead>
 	<tbody>
-		<c:forEach items="${content}" var="item">
-			<tr target="codeitem" rel="${item.codeitemId}"><td>${item.code}</td><td>${item.codeitemname}</td></tr>
+		<c:forEach items="${resList}" var="item">
+			<tr target="codeitem" rel="${item.codeValueId}"><td>${item.codeValue}</td><td>${item.codeValueDescribe}</td></tr>
 		</c:forEach>
 	</tbody>
 </table>

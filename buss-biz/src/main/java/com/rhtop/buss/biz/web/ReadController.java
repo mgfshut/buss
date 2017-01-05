@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
@@ -29,7 +30,7 @@ import com.rhtop.buss.common.utils.Jwt;
  * @author MakeItHappen
  *
  */
-@Controller
+@RestController
 @RequestMapping(value="service/readData")
 //设置跨域支持
 @CrossOrigin(allowedHeaders="*")
@@ -48,8 +49,8 @@ public class ReadController {
 	private BusinessDiaryService busDiaSer;
 	@Autowired
 	private MemberService memberService;
+	
 	@RequestMapping("/viewMember")
-	@ResponseBody
 	public ReadResult<Member> viewMember(HttpServletRequest request,@RequestParam("memberId") String memberId){
 		ReadResult<Member> readResult = new ReadResult<Member>();
 		String token=request.getHeader("token");
