@@ -31,7 +31,12 @@ public interface RelCategoryPriceService{
 	/**
 	 * 创建或更新品类批发价和接盘价
 	 */
-	int createOrUpdateByCategoryId(RelCategoryPrice relCategoryPrice);
+	int createOrUpdateWholesaleAndAcptPriceByCategoryId(RelCategoryPrice relCategoryPrice);
+	
+	/**
+	 * 创建或更新品类三个中间价
+	 */
+	int createOrUpdateMidPriceByCategoryId(RelCategoryPrice relCategoryPrice);
 	
 	/**
 	 * 根据条件查询列表

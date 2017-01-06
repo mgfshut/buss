@@ -186,12 +186,13 @@ public class WriteController {
 	 * @return
 	 */
 	@RequestMapping(value="In0003")
-	public ReadResult<String> fixCategoryInfo(@Valid @RequestBody RelCategoryPrice catePri){
+	public ReadResult<String> fixWholesaleAndAcptPrice(@Valid @RequestParam(value="userId") String userId, @Valid @RequestBody RelCategoryPrice catePri){
 		ReadResult<String> res = new ReadResult<String>();
 		res.setCode("200");
 		res.setMessage("更新成功！");
 		try {
-			catPriSer.createOrUpdateByCategoryId(catePri);
+			catePri.setMgrId(userId);
+			catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(catePri);
 		} catch (Exception e) {
 			e.printStackTrace();
 			res.setCode("500");
@@ -210,4 +211,26 @@ public class WriteController {
 		busDiaSer.insertBusinessDiary(bd);
 		return res;
 	}
+	
+	//TODO: 分部经理完善现货价、半期货价、期货价的接口
+	//传入参数应该有：品类ID、三个价格、用户（分部经理）ID
+	@RequestMapping(value="In0004")
+	public ReadResult<String> fixMidPrice(@Valid @RequestParam(value="userId") String userId, @Valid @RequestBody RelCategoryPrice catePri){
+		catePri.setRegMgrId(userId);
+		ReadResult<String> res = new ReadResult<String>();
+		res.setCode("200");
+		res.setMessage("更新成功！");
+		try {
+			catPriSer.createOrUpdateMidPriceByCategoryId(catePri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setCode("500");
+			res.setMessage("更新失败！");
+		}
+		return res;
+	}
+	//TODO: 分部经理确认客户录入的接口
+	//TODO: 总经理确认客户录入的接口
+	//TODO: 国际部完善品类报盘信息
+	//TODO: 国际部新增品类信息
 }
