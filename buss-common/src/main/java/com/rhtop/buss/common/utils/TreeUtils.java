@@ -22,21 +22,19 @@ public class TreeUtils {
 		TreeNode tn = new TreeNode(t);
 		if(maps.containsKey(tn.getId())){
 			maps.get(tn.getId()).setEntity(t);
-		}
-		else{
+		}else{
 			maps.put(tn.getId(), tn);
 		}
-		if(tn.getParent() == null) list.add(tn);
-		else{
+		
+		if(tn.getParent() == null){
+			list.add(tn);
+		}else{
 			if(maps.containsKey(tn.getParent())){
 				maps.get(tn.getParent()).addChildren(tn);
-			}
-			else{
-				if(tn.getParent() != null) {
-					TreeNode parent = new TreeNode();
-					parent.addChildren(tn);
-					maps.put(tn.getParent(),parent);
-				}
+			}else{
+				TreeNode parent = new TreeNode();
+				parent.addChildren(tn);
+				maps.put(tn.getParent(),parent);
 			}
 		}
 	}

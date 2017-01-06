@@ -57,9 +57,9 @@ public class CodeController extends BaseController {
 		return "module/sys/codeMap/codeitem-form";
 	}
 	
-	@RequestMapping("item/form/{id}")
-	public String codeItemModForm(HttpServletRequest request, Model model, @PathVariable("id") String id){
-		model.addAllAttributes(rs.invoke("codeValue-" + id, new HashMap()));
+	@RequestMapping("item/form/{codeValueId}")
+	public String codeItemModForm(HttpServletRequest request, Model model, @PathVariable("codeValueId") String codeValueId){
+		model.addAllAttributes(rs.invoke("codeValue-" + codeValueId, new HashMap()));
 		return "module/sys/codeMap/codeitem-form";
 	}
 }

@@ -9,12 +9,12 @@
 	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
 	<result column="member_name_" property="memberName" jdbcType="VARCHAR" />
 	<result column="member_email_" property="memberEmail" jdbcType="VARCHAR" />
-	<result column="department_code_" property="departmentCode" jdbcType="VARCHAR" />
+	<result column="dept_id_" property="deptId" jdbcType="VARCHAR" />
 	<result column="member_id_card_no_" property="memberIdCardNo" jdbcType="VARCHAR" />
 	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
 	<result column="member_phone_" property="memberPhone" jdbcType="VARCHAR" />
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
-	<result column="company_city_" property="companyCity" jdbcType="VARCHAR" />
+	<result column="dept_city_" property="deptCity" jdbcType="VARCHAR" />
 	<result column="head_image_" property="headImage" jdbcType="VARCHAR" />
 	<!-- 通过外键查询的字段 -->
 	<result column="user_name_" property="userName" jdbcType="VARCHAR" />
@@ -27,13 +27,13 @@
   	create_time_,
   	member_name_,
   	member_email_,
-  	department_code_,
+  	dept_id_,
   	member_id_card_no_,
   	update_time_,
   	member_phone_,
   	member_id_,
   	create_user_,
-  	company_city_,
+  	dept_city_,
   	head_image_
   </sql>
   
@@ -56,8 +56,8 @@
     	<if test="memberEmail != null" >
 	    	member_email_,
 	    </if>
-    	<if test="departmentCode != null" >
-	    	department_code_,
+    	<if test="deptId != null" >
+	    	dept_id_,
 	    </if>
     	<if test="memberIdCardNo != null" >
 	    	member_id_card_no_,
@@ -74,8 +74,8 @@
     	<if test="createUser != null" >
 	    	create_user_,
 	    </if>
-    	<if test="companyCity != null" >
-	    	company_city_,
+    	<if test="deptCity != null" >
+	    	dept_city_,
 	    </if>
     	<if test="headImage != null" >
 	    	head_image_,
@@ -97,8 +97,8 @@
     	<if test="memberEmail != null" >
 	    	#{memberEmail},
 	    </if>
-    	<if test="departmentCode != null" >
-	    	#{departmentCode},
+    	<if test="deptId != null" >
+	    	#{deptId},
 	    </if>
     	<if test="memberIdCardNo != null" >
 	    	#{memberIdCardNo},
@@ -115,8 +115,8 @@
     	<if test="createUser != null" >
 	    	#{createUser},
 	    </if>
-    	<if test="companyCity != null" >
-	    	#{companyCity},
+    	<if test="deptCity != null" >
+	    	#{deptCity},
 	    </if>
     	<if test="headImage != null" >
 	    	#{headImage},
@@ -147,8 +147,8 @@
 		<if test="memberEmail != null and memberEmail != ''" >
         	member_email_ = #{memberEmail},
       	</if>
-		<if test="departmentCode != null and departmentCode != ''" >
-        	department_code_ = #{departmentCode},
+		<if test="deptId != null and deptId != ''" >
+        	dept_id_ = #{deptId},
       	</if>
 		<if test="memberIdCardNo != null and memberIdCardNo != ''" >
         	member_id_card_no_ = #{memberIdCardNo},
@@ -162,8 +162,8 @@
 		<if test="createUser != null and createUser != ''" >
         	create_user_ = #{createUser},
       	</if>
-		<if test="companyCity != null and companyCity != ''" >
-        	company_city_ = #{companyCity},
+		<if test="deptCity != null and deptCity != ''" >
+        	dept_city_ = #{deptCity},
       	</if>
 		<if test="headImage != null and headImage != ''" >
         	head_image_ = #{headImage},
@@ -198,8 +198,8 @@
     	<if test="memberEmail != null and memberEmail != ''" >
 			and member_email_ = #{memberEmail}
 		</if>
-    	<if test="departmentCode != null and departmentCode != ''" >
-			and department_code_ = #{departmentCode}
+    	<if test="deptId != null and deptId != ''" >
+			and dept_id_ = #{deptId}
 		</if>
     	<if test="memberIdCardNo != null and memberIdCardNo != ''" >
 			and member_id_card_no_ = #{memberIdCardNo}
@@ -216,8 +216,8 @@
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}
 		</if>
-    	<if test="companyCity != null and companyCity != ''" >
-			and company_city_ = #{companyCity}
+    	<if test="deptCity != null and deptCity != ''" >
+			and dept_city_ = #{deptCity}
 		</if>
     	<if test="headImage != null and headImage != ''" >
 			and head_image_ = #{headImage}
@@ -242,8 +242,8 @@
     	<if test="memberEmail != null and memberEmail != ''" >
 			and member_email_ = #{memberEmail}
 		</if>
-    	<if test="departmentCode != null and departmentCode != ''" >
-			and department_code_ = #{departmentCode}
+    	<if test="deptId != null and deptId != ''" >
+			and dept_id_ = #{deptId}
 		</if>
     	<if test="memberIdCardNo != null and memberIdCardNo != ''" >
 			and member_id_card_no_ = #{memberIdCardNo}
@@ -260,8 +260,8 @@
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}
 		</if>
-    	<if test="companyCity != null and companyCity != ''" >
-			and company_city_ = #{companyCity}
+    	<if test="deptCity != null and deptCity != ''" >
+			and dept_city_ = #{deptCity}
 		</if>
     	<if test="headImage != null and headImage != ''" >
 			and head_image_ = #{headImage}

@@ -62,6 +62,7 @@ public class AppLoginController extends BaseController {
 			readResult.setCode("200");
 			readResult.setMessage("登录成功");
 			readResult.setResObject(member);
+			System.out.println("登录成功");
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");

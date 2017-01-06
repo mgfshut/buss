@@ -8,10 +8,8 @@
 		<typeAlias alias="CodeMap" type="com.rhtop.buss.common.entity.CodeMap" />
 		<!-- 代码值表-->
 		<typeAlias alias="CodeValue" type="com.rhtop.buss.common.entity.CodeValue" />
-		<!-- 公司表-->
-		<typeAlias alias="Company" type="com.rhtop.buss.common.entity.Company" />
-		<!-- 部门表-->
-		<typeAlias alias="Department" type="com.rhtop.buss.common.entity.Department" />
+		<!-- 机构表-->
+		<typeAlias alias="Dept" type="com.rhtop.buss.common.entity.Dept" />
 		<!-- 用户信息表-->
 		<typeAlias alias="Member" type="com.rhtop.buss.common.entity.Member" />
 		<!-- 登录用户表-->
@@ -43,10 +41,8 @@
 		<mapper resource="mybatis/CodeMapMapper.xml" />
 		<!-- 代码值表-->
 		<mapper resource="mybatis/CodeValueMapper.xml" />
-		<!-- 公司表-->
-		<mapper resource="mybatis/CompanyMapper.xml" />
-		<!-- 部门表-->
-		<mapper resource="mybatis/DepartmentMapper.xml" />
+		<!-- 机构表-->
+		<mapper resource="mybatis/DeptMapper.xml" />
 		<!-- 用户信息表-->
 		<mapper resource="mybatis/MemberMapper.xml" />
         <!-- 登录用户表-->

@@ -291,7 +291,7 @@
 		LEFT JOIN sys_rs_role_module_ b ON b.module_id_ = a.module_id_
 	 	LEFT JOIN sys_rs_user_role_ c ON  c.role_id_ = b.role_id_ 
 	 	LEFT JOIN sys_member_ d ON d.member_id_ = c.member_id_
-		WHERE d.member_id_ = #{0}
+		WHERE d.member_id_ = #{0} ORDER BY a.module_no_ ASC
   </select>
   <!-- 根据授权名称获取功能对象-->
   <select id="selectByAuthName" resultMap="BaseResultMap" parameterType="java.lang.String" >

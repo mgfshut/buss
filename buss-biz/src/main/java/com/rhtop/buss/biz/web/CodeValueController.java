@@ -133,9 +133,9 @@ public class CodeValueController {
 			}
 			cm.setCode(codeValue.getCode());
 			CodeMap codeMap = codeMapService.listCodeMaps(cm).get(0);
-			String codeValueId = UUID.randomUUID().toString().replace("-", "");
-			codeValue.setCodeMapId(codeValueId);
 			codeValue.setCodeMapId(codeMap.getCodeMapId());
+			String codeValueId = UUID.randomUUID().toString().replace("-", "");
+			codeValue.setCodeValueId(codeValueId);
 			codeValue.setCreateUser(userId);
 			codeValue.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			codeValue.setUpdateUser(userId);
