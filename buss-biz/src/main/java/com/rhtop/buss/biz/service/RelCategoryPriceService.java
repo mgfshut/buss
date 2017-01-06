@@ -19,14 +19,19 @@ public interface RelCategoryPriceService{
 	int deleteRelCategoryPrice(String relCategoryPriceId);
 	
 	/**
-	 * 修改
+	 * 根据关系记录ID查找并修改记录
 	 */
 	int updateRelCategoryPrice(RelCategoryPrice relCategoryPrice);
 	
 	/**
-	 * 根据Id查找数据
+	 * 根据关系记录Id查找数据
 	 */
 	RelCategoryPrice selectByPrimaryKey(String relCategoryPriceId);
+
+	/**
+	 * 创建或更新品类批发价和接盘价
+	 */
+	int createOrUpdateByCategoryId(RelCategoryPrice relCategoryPrice);
 	
 	/**
 	 * 根据条件查询列表

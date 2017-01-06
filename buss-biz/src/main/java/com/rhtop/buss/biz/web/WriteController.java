@@ -27,6 +27,7 @@ import com.rhtop.buss.common.entity.CategoryVo;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.ReadResult;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.web.HtmlMessage;
@@ -157,12 +158,56 @@ public class WriteController {
 	 * @return 文件相对路径
 	 */
 	@RequestMapping(value="In0002")
-	public ReadResult<String> uploadPic(@Valid @RequestParam("picFile") MultipartFile picFile){
+	public ReadResult<String> uploadPic(@Valid @RequestParam("picFile") MultipartFile picFile,
+			@Valid @RequestParam("mgrId") String mgrId){
 		String catePic = FileUtil.uploadOneFile(picFile);
 		ReadResult<String> res = new ReadResult<String>();
 		res.setCode("200");
 		res.setMessage("图片上传成功");
 		res.setResObject(catePic);
+		//添加一条操作记录
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		BusinessDiary bd = new BusinessDiary();
+		bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+		bd.setOprTime(now);
+		bd.setOprUser(mgrId);
+		bd.setOprType("/sriteData/In0002");
+		bd.setOprContent(catePic);
+		busDiaSer.insertBusinessDiary(bd);
+		return res;
+	}
+
+	
+	/**
+	 * 客户经理的信息采集菜单中采集信息的接口
+	 * @param catePri 一个RelCategoryPrice对象。
+	 * @return
+	 */
+	@RequestMapping(value="In0003")
+	public ReadResult<String> fixCategoryInfo(@Valid @RequestBody RelCategoryPrice catePri){
+		ReadResult<String> res = new ReadResult<String>();
+		res.setCode("200");
+		res.setMessage("更新成功！");
+		try {
+			catPriSer.createOrUpdateByCategoryId(catePri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setCode("500");
+			res.setMessage("更新失败！");
+		}
+		//新增一条操作记录
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		BusinessDiary bd = new BusinessDiary();
+		bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+		bd.setOprTime(now);
+		bd.setOprUser(catePri.getMgrId());
+		bd.setOprType("/sriteData/In0003");
+		bd.setOprContent(catePri.toString());
+		busDiaSer.insertBusinessDiary(bd);
 		return res;
 	}
 }
