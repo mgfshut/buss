@@ -5,7 +5,7 @@
 	$(function(){
 		$("#codemap-pager form").submit();
 		$('#codemap-pager').on('click','.gridTbody tr',function(event){
-			$("#codeitem-pager").loadUrl('sys/code/item/pager',{codemap:$('td.code',this).text(),orderField:'code'},function(){
+			$("#codeitem-pager").loadUrl('sys/code/item/pager',{code:$('td.code',this).text(),orderField:'code'},function(){
 				$('#codeitem-pager [layoutH]').layoutH();
 			});
 		});

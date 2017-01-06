@@ -153,32 +153,35 @@
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageCodeValue" parameterType="com.rhtop.buss.common.entity.CodeValue" resultMap="BaseResultMap">
-  	select 
-    <include refid="Base_Column_List" />
-    from sys_code_value_ where 1=1
+  
+  	SELECT a.* FROM sys_code_value_ a LEFT JOIN sys_code_map_ b
+	ON a.code_map_id_ = b.code_map_id_ WHERE 1=1
     	<if test="updateUser != null and updateUser != ''" >
-			and update_user_ = #{updateUser}
+			and a.update_user_ = #{updateUser}
 		</if>
     	<if test="updateTime != null and updateTime != ''" >
-			and update_time_ = #{updateTime}
+			and a.update_time_ = #{updateTime}
 		</if>
     	<if test="createUser != null and createUser != ''" >
-			and create_user_ = #{createUser}
+			and a.create_user_ = #{createUser}
 		</if>
     	<if test="codeMapId != null and codeMapId != ''" >
-			and code_map_id_ = #{codeMapId}
+			and a.code_map_id_ = #{codeMapId}
 		</if>
     	<if test="codeValueId != null and codeValueId != ''" >
-			and code_value_id_ = #{codeValueId}
+			and a.code_value_id_ = #{codeValueId}
 		</if>
     	<if test="createTime != null and createTime != ''" >
-			and create_time_ = #{createTime}
+			and a.create_time_ = #{createTime}
 		</if>
     	<if test="codeValue != null and codeValue != ''" >
-			and code_value_ = #{codeValue}
+			and a.code_value_ = #{codeValue}
 		</if>
     	<if test="codeValueDescribe != null and codeValueDescribe != ''" >
-			and code_value_describe_ = #{codeValueDescribe}
+			and a.code_value_describe_ = #{codeValueDescribe}
+		</if>
+		<if test="code != null and code != ''" >
+			and b.code_ = #{code}
 		</if>
   </select>
   <!-- 根据代码集编码获取代码值列表-->
