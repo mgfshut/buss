@@ -212,8 +212,12 @@ public class WriteController {
 		return res;
 	}
 	
-	//TODO: 分部经理完善现货价、半期货价、期货价的接口
-	//传入参数应该有：品类ID、三个价格、用户（分部经理）ID
+	/**
+	 * 分部经理完善现货价、半期货价、期货价的接口
+	 * @param userId 用户ID，也就是调用该接口的分部经理的ID
+	 * @param catePri 品类价格对象，包含品类ID，现货、半期货、期货价的最大最小值。
+	 * @return 状态码和状态消息
+	 */
 	@RequestMapping(value="In0004")
 	public ReadResult<String> fixMidPrice(@Valid @RequestParam(value="userId") String userId, @Valid @RequestBody RelCategoryPrice catePri){
 		catePri.setRegMgrId(userId);
@@ -227,10 +231,91 @@ public class WriteController {
 			res.setCode("500");
 			res.setMessage("更新失败！");
 		}
+		//新增一条操作记录
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		BusinessDiary bd = new BusinessDiary();
+		bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+		bd.setOprTime(now);
+		bd.setOprUser(userId);
+		bd.setOprType("/sriteData/In0004");
+		bd.setOprContent(catePri.toString());
+		busDiaSer.insertBusinessDiary(bd);
 		return res;
 	}
-	//TODO: 分部经理确认客户录入的接口
+	
+	/**
+	 * 分部经理确认客户录入的接口
+	 * @param userId 操作者UUID
+	 * @param cus 需要被确认的客户对象
+	 * @return 更新状态
+	 */
+	@RequestMapping(value="In0005")
+	public ReadResult<String> commitNewCustomerLevelOne(@Valid @RequestParam(value="userId") String userId, @Valid @RequestBody Customer cus){
+		ReadResult<String> res = new ReadResult<String>();
+		res.setCode("200");
+		res.setMessage("更新成功！");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		cus.setUpdateTime(now);
+		cus.setUpdateUser(userId);
+		try {
+			int status = cusSer.checkCustomer(1, userId, cus);
+			if(status==0){
+				res.setResObject("确认完成！");
+			}else if(status == 1){
+				res.setResObject("后台异常！");
+			}else if(status == 2){
+				res.setResObject("审核流程错误！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//新增一条操作记录
+		BusinessDiary bd = new BusinessDiary();
+		bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+		bd.setOprTime(now);
+		bd.setOprUser(userId);
+		bd.setOprType("/sriteData/In0004");
+		bd.setOprContent("分部经理确认客户创建！");
+		busDiaSer.insertBusinessDiary(bd);
+		return res;
+	}
 	//TODO: 总经理确认客户录入的接口
+	@RequestMapping(value="In0006")
+	public ReadResult<String> commitNewCustomerLevelTwo(@Valid @RequestParam(value="userId") String userId, @Valid @RequestBody Customer cus){
+		ReadResult<String> res = new ReadResult<String>();
+		res.setCode("200");
+		res.setMessage("更新成功！");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		cus.setUpdateTime(now);
+		cus.setUpdateUser(userId);
+		try {
+			int status = cusSer.checkCustomer(2, userId, cus);
+			if(status==0){
+				res.setResObject("确认完成！");
+			}else if(status == 1){
+				res.setResObject("后台异常！");
+			}else if(status == 2){
+				res.setResObject("审核流程错误！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//新增一条操作记录
+		BusinessDiary bd = new BusinessDiary();
+		bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+		bd.setOprTime(now);
+		bd.setOprUser(userId);
+		bd.setOprType("/sriteData/In0005");
+		bd.setOprContent("总经理确认客户创建！");
+		busDiaSer.insertBusinessDiary(bd);
+		return res;
+	}
 	//TODO: 国际部完善品类报盘信息
 	//TODO: 国际部新增品类信息
 }
