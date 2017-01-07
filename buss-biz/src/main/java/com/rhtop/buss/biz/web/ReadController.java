@@ -6,11 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rhtop.buss.biz.service.BusinessDiaryService;
@@ -23,7 +22,7 @@ import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.ReadResult;
-import com.rhtop.buss.common.utils.JsonUtil;
+import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.utils.Jwt;
 import com.rhtop.buss.common.web.HtmlMessage;
 
@@ -37,7 +36,7 @@ import com.rhtop.buss.common.web.HtmlMessage;
 @RestController
 @RequestMapping(value = "service/readData")
 // 设置跨域支持
-//@CrossOrigin(allowedHeaders = "*")
+@CrossOrigin
 public class ReadController {
 	@Autowired
 	private CategoryService catSer;
@@ -54,17 +53,17 @@ public class ReadController {
 	@Autowired
 	private MemberService memberService;
 
-	@RequestMapping("/viewMember")
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/viewMember")
 	public ReadResult<Member> viewMember(HttpServletRequest request,
-			@RequestParam("memberId") String memberId) {
+			@RequestBody Member member) {
 		ReadResult<Member> readResult = new ReadResult<Member>();
 		String token = request.getHeader("token");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
-			Member member = memberService.selectByPrimaryKey(memberId);
-			readResult.setResObject(member);
+			Member mem = memberService.selectByPrimaryKey(member.getMemberId());
+			readResult.setResObject(mem);
 		}
 		return readResult;
 	}
@@ -81,7 +80,7 @@ public class ReadController {
 		customer.setCreateUser(userId);
 		List<Customer> customerList = cusSer.selectCustomerInfo(customer);
 		htmlMsg.setStatusCode("200");
-		htmlMsg.setEntity(JsonUtil.serialize(customerList)); //
+//		htmlMsg.setEntity(JsonUtil.serialize(customerList)); //
 		htmlMsg.setMessage("");
 		return htmlMsg;
 	}
