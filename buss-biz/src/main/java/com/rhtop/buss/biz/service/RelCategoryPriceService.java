@@ -39,6 +39,11 @@ public interface RelCategoryPriceService{
 	int createOrUpdateMidPriceByCategoryId(RelCategoryPrice relCategoryPrice);
 	
 	/**
+	 * 创建或更新报盘价和报盘时效
+	 */
+	int createOrUpdateOfferPriceAndTimeByCategoryId(RelCategoryPrice relCategoryPrice);
+	
+	/**
 	 * 根据条件查询列表
 	 */
 	List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice);

@@ -23,6 +23,7 @@ import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 import com.rhtop.buss.common.entity.BusinessDiary;
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CategoryVo;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
@@ -180,6 +181,7 @@ public class WriteController {
 	}
 
 	
+	// TODO: 这个接口需要添加对批量审核的支持
 	/**
 	 * 客户经理的信息采集菜单中采集信息的接口
 	 * @param catePri 一个RelCategoryPrice对象。
@@ -211,7 +213,9 @@ public class WriteController {
 		busDiaSer.insertBusinessDiary(bd);
 		return res;
 	}
+
 	
+	// TODO: 这个接口需要添加对批量审核的支持
 	/**
 	 * 分部经理完善现货价、半期货价、期货价的接口
 	 * @param userId 用户ID，也就是调用该接口的分部经理的ID
@@ -317,5 +321,32 @@ public class WriteController {
 		return res;
 	}
 	//TODO: 国际部完善品类报盘信息
+	@RequestMapping(value="In0007")
+	public ReadResult<String> fixOfferPrice(@Valid @RequestParam(value="userId") String userId, @Valid @RequestBody RelCategoryPrice catPri){
+		ReadResult<String> res = new ReadResult<String>();
+		res.setCode("200");
+		res.setMessage("更新成功！");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		catPri.setUpdateTime(now);
+		catPri.setUpdateUser(userId);
+		catPri.setUniMgrId(userId);
+		catPri.setOfferUpdateTime(now);
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return res;
+	}
 	//TODO: 国际部新增品类信息
+	@RequestMapping(value="In0008")
+	public ReadResult<String> universeAddCategory(@Valid @RequestParam(value="userId") String userId,
+			@Valid @RequestBody RelCategoryPrice catPri, 
+			@Valid @RequestBody Category 
+			){
+		return null;
+	}
 }
