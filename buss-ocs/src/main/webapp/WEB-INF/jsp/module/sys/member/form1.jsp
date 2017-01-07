@@ -66,19 +66,35 @@ $(function(){
 					<div class="help-block with-errors"></div>
 				</div>
 			</div>
+			
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">职务：</label>
+				<div class="col-sm-4">
+					<ys:codemapSelect2 codemap="job" required="required" selectName="memberJob" value="${memberJob }" 
+						classes="form-control"></ys:codemapSelect2>
+				</div>
+			</div>
+			
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">状态：</label>
+				<div class="col-sm-4">
+					<ys:codemapSelect2 codemap="status" defaultValue="" selectName="userStatus" 
+						value="${userStatus }" required="required" classes="form-control"></ys:codemapSelect2>
+				</div>	
+			</div>
 <%-- 				<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">工号：</label>
 				<div class="col-sm-4">
 					<input type="text" name="workNumber" pattern="^([\u4e00-\u9fa5]+|([a-zA-Z0-9]+\s?)+){2,15}$" data-error="请输入2-15位英文、汉字" maxlength="15" placeholder="请输入工号" class="form-control" required="required" value="${workNumber}" />
 					<div class="help-block with-errors"></div>
 				</div>
-			</div>
- --%>			<%-- <div class="form-group form-group-sm">
+			</div> --%>
+			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">所属机构：</label>
 				<div class="col-sm-4 " >
 					<div class="input-group">
-					<input name="dept.deptId" id="deptPid" value="${dept.deptId }"  type="hidden" data-error="请选择上级机构" required="required"/>
-					<input name="dept.deptname" id="deptPname" value="${dept.deptname }" class="form-control" required="required" readonly="readonly" type="text"/>
+					<input name="deptId" id="deptPid" value="${deptId }"  type="hidden" data-error="请选择上级机构" required="required"/>
+					<input name="deptName" id="deptPname" value="${deptName }" class="form-control" required="required" readonly="readonly" type="text"/>
 					<span class="input-group-addon">
 					<a id="chooseLink" href="module/sys-dept-select/dept-select-deptId:deptname" target="dialog" lookupGroup="dept" minable=false title="选择"><i class="icon-search"></i> 选择</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a title="清除" href="#" onclick="$('#deptPid').val('');$('#deptPname').val('');" ><i class="icon-trash"></i> 清除</a>
@@ -86,7 +102,7 @@ $(function(){
 					</div>
 				<div class="help-block with-errors"></div>
 				</div>
-			</div> --%>
+			</div>
 			
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">性别：</label>
@@ -95,6 +111,8 @@ $(function(){
 						classes="form-control"></ys:codemapSelect2>
 				</div>
 			</div>
+			
+			
 			
 			<%-- <div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">年龄：</label>
@@ -121,13 +139,6 @@ $(function(){
 				</div>	
 			</div>
 			
-			<div class="form-group form-group-sm">
-				<label class="col-sm-2 control-label">状态：</label>
-				<div class="col-sm-4">
-					<ys:codemapSelect2 codemap="status" defaultValue="" selectName="userStatus" 
-						value="${userStatus }" classes="form-control"></ys:codemapSelect2>
-				</div>	
-			</div>
 		</div>	
 		</div>
 			<div class="formBar">

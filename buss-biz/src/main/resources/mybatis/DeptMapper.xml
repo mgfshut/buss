@@ -216,6 +216,7 @@
 		<if test="parentDeptName != null and parentDeptName != ''" >
 			and b.dept_name_ = #{parentDeptName}
 		</if>
+		 ORDER BY a.dept_code_ ASC
   </select>
   
 </mapper>
