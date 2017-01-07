@@ -28,7 +28,7 @@ public class Category {
 	
 	private String offerAging;//报盘时效（品类表和价格关系表中的公用字段）
 	
-	private String offerPri;//报盘价
+	private String offerPri;//报盘价(这是经过了单位换算的价格)
 	
 	private String prodPla;//产地
 	
@@ -51,6 +51,8 @@ public class Category {
 	private String currency;//货币币种（品类价格关系表中的字段）
 	
 	private String unit;//计量单位（品类价格关系表中的字段）
+	
+	private String catePri;//品类价格（未经过单位换算的价格）（品类价格关系表中的字段）
 	
 	private Page page;//分页
 	
@@ -316,5 +318,13 @@ public class Category {
 
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+
+	public String getCatePri() {
+		return catePri;
+	}
+
+	public void setCatePri(String catePri) {
+		this.catePri = catePri;
 	}
 }
