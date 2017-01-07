@@ -82,4 +82,10 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 	}
 
+	@Override
+	public List<Customer> selectCustomerInfo(Customer customer) {
+		List<Customer> customers = customerMapper.selectCustomerByCreateUser(customer);
+		return customers;
+	}
+
 }

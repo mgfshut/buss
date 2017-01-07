@@ -22,6 +22,8 @@
 		<typeAlias alias="RsRoleModule" type="com.rhtop.buss.common.entity.RsRoleModule" />
 		<!-- 用户角色关系表-->
 		<typeAlias alias="RsUserRole" type="com.rhtop.buss.common.entity.RsUserRole" />
+		<!-- 客户信息表 -->
+		<typeAlias alias="Customer" type="com.rhtop.buss.common.entity.Customer"/>
     </typeAliases>
     <!-- 实体接口映射资源 -->  
     
@@ -55,6 +57,6 @@
         <mapper resource="mybatis/RsRoleModuleMapper.xml" />
         <!-- 用户角色关系表-->
         <mapper resource="mybatis/RsUserRoleMapper.xml" />
+        <!-- 客户信息表 -->
+        <mapper resource="mybatis/CustomerMapper.xml"/>
     </mappers>
-  
-</configuration>

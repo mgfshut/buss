@@ -14,6 +14,8 @@
 	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
 	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
+	<result column="cus_cha_val_" property="cusChaVal" jdbcType="VARCHAR" />
+	<result column="cus_cha_id" property="cusChaId" jdbcType="VARCHAR"/>
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -27,7 +29,9 @@
   	coo_inten_comm_,
   	coo_inten_,
   	cus_loc_,
-  	customer_id_
+  	customer_id_,
+  	cus_cha_val_,
+  	cus_cha_id,
   </sql>
   
   <!-- 根据条件新增对象-->
@@ -67,6 +71,12 @@
     	<if test="customerId != null" >
 	    	customer_id_,
 	    </if>
+	    <if test="cusChaVal != null ">
+			cus_cha_val_,
+		</if>
+		<if test="cusChaId !=null ">
+			cus_cha_id_,
+		</if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="createTime != null" >
@@ -102,6 +112,12 @@
     	<if test="customerId != null" >
 	    	#{customerId},
 	    </if>
+	    <if test="cusChaVal != null ">
+			#{cusChaVal},
+		</if>
+		<if test="cusChaId != null ">
+			#{cusChaId},
+		</if>
     </trim>
   </insert>
   <!-- 根据主键删除对象 -->
@@ -143,6 +159,12 @@
 		<if test="customerId != null and customerId != ''" >
         	customer_id_ = #{customerId},
       	</if>
+      	<if test="cusChaVal != null and cusChaVal != ''">
+			 cus_cha_val_ = #{cusChaVal},
+		</if>
+		<if test="cusChaId != null and cusChaId !='' ">
+				cus_cha_Id_ = #{cusChaId},
+			</if>
     </set>
     where 
 	rel_customer_category_id_ = #{relCustomerCategoryId}
@@ -192,6 +214,12 @@
     	<if test="customerId != null and customerId != ''" >
 			and customer_id_ = #{customerId}
 		</if>
+		<if test="cusChaVal != null and cusChaVal != ''">
+			and cus_cha_val_ = #{cusChaVal}
+		</if>
+		<if test="cusChaId != null and cusChaId !='' ">
+			and	cus_cha_Id_ = #{cusChaId},
+			</if>
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageRelCustomerCategory" parameterType="com.rhtop.buss.common.entity.RelCustomerCategory" resultMap="BaseResultMap">
@@ -231,6 +259,12 @@
     	<if test="customerId != null and customerId != ''" >
 			and customer_id_ = #{customerId}
 		</if>
+		<if test="cusChaVal != null and cusChaVal != ''">
+			and cus_cha_val_ = #{cusChaVal}
+		</if>
+		<if test="cusChaId != null and cusChaId !='' ">
+			and cus_cha_Id_ = #{cusChaId},
+			</if>
   </select>
   
 </mapper>

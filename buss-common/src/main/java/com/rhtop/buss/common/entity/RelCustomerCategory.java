@@ -34,6 +34,8 @@ public class RelCustomerCategory {
 	
 	private String customerId;//客户ID
 	
+	private String cusChaVal;//渠道值
+	
 	private Page page;//分页
 	
 	public Page getPage() {
@@ -211,5 +213,13 @@ public class RelCustomerCategory {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getCusChaVal() {
+		return cusChaVal;
+	}
+
+	public void setCusChaVal(String cusChaVal) {
+		this.cusChaVal = cusChaVal;
 	}
 }

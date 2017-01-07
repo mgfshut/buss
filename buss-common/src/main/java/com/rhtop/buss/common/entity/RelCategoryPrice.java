@@ -3,7 +3,7 @@
  */
 package com.rhtop.buss.common.entity;
 
-//import javax.xml.bind.annotation.XmlRootElement;
+//import javax.xml.biwnd.annotation.XmlRootElement;
 
 /**
  * 实体: 品类与价格关系表
@@ -64,8 +64,56 @@ public class RelCategoryPrice {
 	
 	private String catePri;//品类价格
 	
+	private String cusChaVal;//渠道值
+	
 	private Page page;//分页
 	
+	private String cateName;// 品类名
+	private String mgrName;// 客户经理名
+	private String regMgrName;// 部门经理名
+	private String uniMgrName;// 国际采购人员名
+	private String offerPri;//报盘价
+	
+	public String getCateName() {
+		return cateName;
+	}
+
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
+	}
+
+	public String getMgrName() {
+		return mgrName;
+	}
+
+	public void setMgrName(String mgrName) {
+		this.mgrName = mgrName;
+	}
+
+	public String getRegMgrName() {
+		return regMgrName;
+	}
+
+	public void setRegMgrName(String regMgrName) {
+		this.regMgrName = regMgrName;
+	}
+
+	public String getUniMgrName() {
+		return uniMgrName;
+	}
+
+	public void setUniMgrName(String uniMgrName) {
+		this.uniMgrName = uniMgrName;
+	}
+
+	public String getOfferPri() {
+		return offerPri;
+	}
+
+	public void setOfferPri(String offerPri) {
+		this.offerPri = offerPri;
+	}
+
 	public Page getPage() {
 		return page;
 	}
@@ -437,4 +485,13 @@ public class RelCategoryPrice {
 	public String toString(){
 		return super.toString();
 	}
+
+	public String getCusChaVal() {
+		return cusChaVal;
+	}
+
+	public void setCusChaVal(String cusChaVal) {
+		this.cusChaVal = cusChaVal;
+	}
+
 }
