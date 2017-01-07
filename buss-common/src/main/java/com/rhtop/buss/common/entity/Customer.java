@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.util.List;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -39,6 +41,10 @@ public class Customer {
 	private String customerId;//客户UUID
 	
 	private String createTime;//创建时间
+	
+	private List<ContactsInfo> contacts;//该客户的联系人列表
+	
+	private List<Category> categorys;//该客户的新增品类列表
 	
 	private Page page;//分页
 	
@@ -256,5 +262,21 @@ public class Customer {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public List<ContactsInfo> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<ContactsInfo> contacts) {
+		this.contacts = contacts;
+	}
+
+	public List<Category> getCategorys() {
+		return categorys;
+	}
+
+	public void setCategorys(List<Category> categorys) {
+		this.categorys = categorys;
 	}
 }

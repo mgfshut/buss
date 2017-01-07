@@ -195,8 +195,7 @@
   	WHERE cate_name = #{cateName} 
   	  AND cate_stan_ = #{cateStan} 
   	  AND manu_num_ = #{manuNum} 
-  	  AND prod_pla_ = #{prodPla} 
-  	  AND pkg_quan_ = #{pkgQuan}
+  	  AND prod_pla_ = #{prodPla}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listCategorys" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">

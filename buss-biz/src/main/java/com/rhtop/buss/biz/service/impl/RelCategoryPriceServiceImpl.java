@@ -107,4 +107,11 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 		}
 	}
 
+	@Override
+	public int createOrUpdateOfferPriceAndTimeByCategoryId(
+			RelCategoryPrice relCategoryPrice) {
+		relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+		return 0;
+	}
+
 }
