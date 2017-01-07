@@ -46,6 +46,7 @@
 	        <value>
 	        	/fileservice/test-hello-file = anon
 	        	/service/readData-* = anon
+	        	/service/writeData-* = anon
 	        	/app/login = anon
 	        	/Kaptcha.jpg* = anon
 	        	/css/** = anon
@@ -55,7 +56,6 @@
 	        	/images/** = anon
 	        	/img/** = anon
 	        	/theme/** = anon
-	        	/order/payCallback = anon
 	        	/404 = anon
 	        	/500 = anon 
 	        	/500-json = authc
