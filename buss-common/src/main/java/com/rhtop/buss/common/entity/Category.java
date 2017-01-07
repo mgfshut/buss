@@ -26,7 +26,7 @@ public class Category {
 	
 	private String createUser;//创建人
 	
-	private String offerAging;//报盘时效
+	private String offerAging;//报盘时效（品类表和价格关系表中的公用字段）
 	
 	private String offerPri;//报盘价
 	
@@ -39,6 +39,18 @@ public class Category {
 	private String catePic;//品类图片
 	
 	private String updateUser;//修改人
+	
+	private String cateScale;//品类规模
+	
+	private String cooInten;//合作意向
+	
+	private String cooIntenComm;//合作意向备注
+	
+	private String cateSup;//品类供应商（品类价格关系表中的字段）
+	
+	private String currency;//货币币种（品类价格关系表中的字段）
+	
+	private String unit;//计量单位（品类价格关系表中的字段）
 	
 	private Page page;//分页
 	
@@ -256,5 +268,53 @@ public class Category {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getCateScale() {
+		return cateScale;
+	}
+
+	public void setCateScale(String cateScale) {
+		this.cateScale = cateScale;
+	}
+
+	public String getCooInten() {
+		return cooInten;
+	}
+
+	public void setCooInten(String cooInten) {
+		this.cooInten = cooInten;
+	}
+
+	public String getCooIntenComm() {
+		return cooIntenComm;
+	}
+
+	public void setCooIntenComm(String cooIntenComm) {
+		this.cooIntenComm = cooIntenComm;
+	}
+
+	public String getCateSup() {
+		return cateSup;
+	}
+
+	public void setCateSup(String cateSup) {
+		this.cateSup = cateSup;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 }
