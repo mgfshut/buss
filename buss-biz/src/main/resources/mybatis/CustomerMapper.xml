@@ -283,5 +283,13 @@
 			and create_time_ = #{createTime}
 		</if>
   </select>
+  <!-- 查客户经理所属的客户 -->
+  <select id="selectCustomerByCreateUser" parameterType="com.rhtop.buss.common.entity.Customer" resultMap="BaseResultMap">
+  select
+   <include refid="Base_Column_List" /> 
+  from buss_customer_ 
+  where create_user_ = #{createUser}
+  </select>
+  
   
 </mapper>
