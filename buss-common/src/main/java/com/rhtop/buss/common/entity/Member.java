@@ -40,6 +40,8 @@ public class Member {
 	
 	private String headImage;//用户头像地址
 	
+	private String memberJob;//职务
+	
 	private Page page;//分页
 	
 	private String userName;//用户名
@@ -52,6 +54,14 @@ public class Member {
 	
 	private String roles;//用户所属角色集
 	
+	public String getMemberJob() {
+		return memberJob;
+	}
+
+	public void setMemberJob(String memberJob) {
+		this.memberJob = memberJob;
+	}
+
 	public String getRoles() {
 		return roles;
 	}

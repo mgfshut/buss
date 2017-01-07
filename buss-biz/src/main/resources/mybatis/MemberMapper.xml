@@ -16,6 +16,7 @@
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
 	<result column="dept_city_" property="deptCity" jdbcType="VARCHAR" />
 	<result column="head_image_" property="headImage" jdbcType="VARCHAR" />
+	<result column="member_job_" property="memberJob" jdbcType="VARCHAR" />
 	<!-- 通过外键查询的字段 -->
 	<result column="user_name_" property="userName" jdbcType="VARCHAR" />
 	<result column="user_status_" property="userStatus" jdbcType="VARCHAR" />
@@ -34,7 +35,8 @@
   	member_id_,
   	create_user_,
   	dept_city_,
-  	head_image_
+  	head_image_,
+  	member_job_
   </sql>
   
   <!-- 根据条件新增对象-->
@@ -80,6 +82,9 @@
     	<if test="headImage != null" >
 	    	head_image_,
 	    </if>
+	    <if test="memberJob != null" >
+	    	member_job_,
+	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="updateUser != null" >
@@ -120,6 +125,9 @@
 	    </if>
     	<if test="headImage != null" >
 	    	#{headImage},
+	    </if>
+	    <if test="memberJob != null" >
+	    	#{memberJob},
 	    </if>
     </trim>
   </insert>
@@ -167,6 +175,9 @@
       	</if>
 		<if test="headImage != null and headImage != ''" >
         	head_image_ = #{headImage},
+      	</if>
+      	<if test="memberJob != null and memberJob != ''" >
+        	member_job_ = #{memberJob},
       	</if>
     </set>
     where 
@@ -222,6 +233,9 @@
     	<if test="headImage != null and headImage != ''" >
 			and head_image_ = #{headImage}
 		</if>
+		<if test="memberJob != null and memberJob != ''" >
+        	and member_job_ = #{memberJob}
+      	</if>
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageMember" parameterType="com.rhtop.buss.common.entity.Member" resultMap="BaseResultMap">
@@ -266,6 +280,9 @@
     	<if test="headImage != null and headImage != ''" >
 			and head_image_ = #{headImage}
 		</if>
+		<if test="memberJob != null and memberJob != ''" >
+        	and member_job_ = #{memberJob}
+      	</if>
   </select>
   
 </mapper>
