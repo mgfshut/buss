@@ -36,7 +36,7 @@
 				 		<input name="parentDept" id="parentDept" value="${parentDept }" type="hidden"/>
 						<input name="parentDeptName" id="parentDeptName" data-error="请选择上级机构"  value="${parentDeptName }" class="form-control" type="text" readonly="readonly" placeholder="请选择上级机构"/>
 					  	<span class="input-group-addon">
-					  		<a href="module/sys-dept-select/dept-select-deptId:deptName" lookupGroup="parent" width="400" height="500" title="选择"><i class="icon-search"></i> 选择</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					  		<a href="module/sys-dept-select/dept-select-parentDept:parentDeptName" lookupGroup="parent" width="400" height="500" title="选择"><i class="icon-search"></i> 选择</a>&nbsp;&nbsp;&nbsp;&nbsp;
 							<a title="清除" href="#" onclick="$('#parentDept').val('');$('#parentDeptName').val('')" ><i class="icon-trash"></i> 清除</a>
 					  	</span>
 					</div>
