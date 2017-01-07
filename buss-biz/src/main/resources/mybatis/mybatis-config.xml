@@ -68,3 +68,4 @@
         <!-- 客户与品类关系表 -->
         <mapper resource="mybatis/RelCustomerCategoryMapper.xml"/>
     </mappers>
+    </configuration>
