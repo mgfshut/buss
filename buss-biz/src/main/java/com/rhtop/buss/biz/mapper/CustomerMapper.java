@@ -32,5 +32,12 @@ public interface CustomerMapper {
      * 根据条件分页查询列表
      */
 	List<Customer> listPageCustomer(Customer customer);
+	
+	/**
+	 * 经理所属的客户
+	 * @param customer
+	 * @return
+	 */
+	List<Customer> selectCustomerByCreateUser(Customer customer);
     
 }

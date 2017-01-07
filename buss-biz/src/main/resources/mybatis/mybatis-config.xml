@@ -8,10 +8,8 @@
 		<typeAlias alias="CodeMap" type="com.rhtop.buss.common.entity.CodeMap" />
 		<!-- 代码值表-->
 		<typeAlias alias="CodeValue" type="com.rhtop.buss.common.entity.CodeValue" />
-		<!-- 公司表-->
-		<typeAlias alias="Company" type="com.rhtop.buss.common.entity.Company" />
-		<!-- 部门表-->
-		<typeAlias alias="Department" type="com.rhtop.buss.common.entity.Department" />
+		<!-- 机构表-->
+		<typeAlias alias="Dept" type="com.rhtop.buss.common.entity.Dept" />
 		<!-- 用户信息表-->
 		<typeAlias alias="Member" type="com.rhtop.buss.common.entity.Member" />
 		<!-- 登录用户表-->
@@ -24,6 +22,12 @@
 		<typeAlias alias="RsRoleModule" type="com.rhtop.buss.common.entity.RsRoleModule" />
 		<!-- 用户角色关系表-->
 		<typeAlias alias="RsUserRole" type="com.rhtop.buss.common.entity.RsUserRole" />
+		<!-- 客户信息表 -->
+		<typeAlias alias="Customer" type="com.rhtop.buss.common.entity.Customer"/>
+		<!-- 品类信息表 -->
+		<typeAlias alias="Category" type="com.rhtop.buss.common.entity.Category" />
+		<!-- 客户与品类关系表 -->
+		<typeAlias alias="RelCustomerCategory" type="com.rhtop.buss.common.entity.RelCustomerCategory" />
     </typeAliases>
     <!-- 实体接口映射资源 -->  
     
@@ -43,10 +47,8 @@
 		<mapper resource="mybatis/CodeMapMapper.xml" />
 		<!-- 代码值表-->
 		<mapper resource="mybatis/CodeValueMapper.xml" />
-		<!-- 公司表-->
-		<mapper resource="mybatis/CompanyMapper.xml" />
-		<!-- 部门表-->
-		<mapper resource="mybatis/DepartmentMapper.xml" />
+		<!-- 机构表-->
+		<mapper resource="mybatis/DeptMapper.xml" />
 		<!-- 用户信息表-->
 		<mapper resource="mybatis/MemberMapper.xml" />
         <!-- 登录用户表-->
@@ -59,6 +61,11 @@
         <mapper resource="mybatis/RsRoleModuleMapper.xml" />
         <!-- 用户角色关系表-->
         <mapper resource="mybatis/RsUserRoleMapper.xml" />
+        <!-- 客户信息表 -->
+        <mapper resource="mybatis/CustomerMapper.xml"/>
+        <!-- 品类信息表 -->
+        <mapper resource="mybatis/CategoryMapper.xml"/>
+        <!-- 客户与品类关系表 -->
+        <mapper resource="mybatis/RelCustomerCategoryMapper.xml"/>
     </mappers>
-  
-</configuration>
+    </configuration>

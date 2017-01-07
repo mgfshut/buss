@@ -20,8 +20,8 @@
 <div class="panelBar">
 	<div class="btn-group">
 		<a class="btn btn-primary btn-sm" href="sys/code/item/form?code=${param.code}" mask="true" target="navTab" rel="codeSaveTab" title="添加代码项"><i class="icon-plus"></i> <span>添加</span></a>
-		<a class="btn btn-danger btn-sm" callback="removeCodeSuccess" href="service/code-item-remove-{codeitem}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
-		<a class="btn btn-warning btn-sm" href="sys/code/item/form/{codeitem}" mask="true" title="修改代码项" target="navTab" rel="codeSaveTab" ><i class="icon-pencil"></i> <span>修改</span></a>
+		<a class="btn btn-danger btn-sm" callback="removeCodeSuccess" href="service/codeValue-remove-{codeValueId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
+		<a class="btn btn-warning btn-sm" href="sys/code/item/form/{codeValueId}" mask="true" title="修改代码项" target="navTab" rel="codeSaveTab" ><i class="icon-pencil"></i> <span>修改</span></a>
 	</div>
 </div>
 <table class="table" width="100%" layoutH="130" rel="codeitem-pager">
@@ -35,7 +35,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${resList}" var="item">
-			<tr target="codeitem" rel="${item.codeValueId}"><td>${item.codeValue}</td><td>${item.codeValueDescribe}</td></tr>
+			<tr target="codeValueId" rel="${item.codeValueId}"><td>${item.codeValue}</td><td>${item.codeValueDescribe}</td></tr>
 		</c:forEach>
 	</tbody>
 </table>

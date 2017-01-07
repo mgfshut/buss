@@ -183,6 +183,7 @@
 		<if test="code != null and code != ''" >
 			and b.code_ = #{code}
 		</if>
+		GROUP BY a.code_value_ ASC
   </select>
   <!-- 根据代码集编码获取代码值列表-->
   <select id="listCodeValuesByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
