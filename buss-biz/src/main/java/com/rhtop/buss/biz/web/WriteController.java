@@ -146,7 +146,7 @@ public class WriteController {
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0001");
+			bd.setOprType("/writeData/In0001");
 			bd.setOprContent(userId+customer);
 			busDiaSer.insertBusinessDiary(bd);
 		}
