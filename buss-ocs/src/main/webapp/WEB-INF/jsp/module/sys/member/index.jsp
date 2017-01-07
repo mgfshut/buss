@@ -46,25 +46,31 @@
 			<th orderField="userName" class="${param.orderField eq 'userName'?param.orderDirection:''}">用户名</th>
 			<th orderField="memberName" class="${param.orderField eq 'memberName'?param.orderDirection:''}" >姓名</th>
 			<th orderField="memberSex" class="${param.orderField eq 'memberSex'?param.orderDirection:''}" >性别</th>
+			<th orderField="memberJob" class="${param.orderField eq 'memberJob'?param.orderDirection:''}" >职务</th>
+			<th orderField="deptName" class="${param.orderField eq 'deptName'?param.orderDirection:''}" >所属机构</th>
 			<th orderField="memberPhone" class="${param.orderField eq 'memberPhone'?param.orderDirection:''}" >手机号</th>
-			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}" >创建时间</th>
 			<th orderField="userStatus" class="${param.orderField eq 'userStatus'?param.orderDirection:''}" >用户状态</th>
+			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}" >创建时间</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${resList}" var="item">
 			<tr target="memberId" rel="${item.memberId}">
 			<%-- <td>${item.memberId}</td> --%>
-			<td><a href="module/sys-user-detail/user-${item.memberId }" title="用户详细" target="navTab" rel="usereditmanager" data-parent="usereditmanager">${item.userName}</a></td>
+			<td><a href="module/sys-member-detail/member-${item.memberId }" title="用户详细" target="navTab" rel="usereditmanager" data-parent="usereditmanager">${item.userName}</a></td>
 			<td>${item.memberName}</td>
 			<td>
 				<ys:codemapConvert codemap="sex" value="${item.memberSex }"></ys:codemapConvert>
 			</td>
+			<td>
+				<ys:codemapConvert codemap="job" value="${item.memberJob }"></ys:codemapConvert>
+			</td>
+			<td>${item.deptName }</td>
 			<td>${item.memberPhone }</td>
-			<td>${item.createTime }</td>
 			<td>
 				<ys:codemapConvert codemap="status" value="${item.userStatus }"></ys:codemapConvert>
 			</td>
+			<td>${item.createTime }</td>
 			
 			</tr>
 		</c:forEach>

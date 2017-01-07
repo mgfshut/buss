@@ -30,6 +30,14 @@
 			</div>
 			
 			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">机构类型：</label>
+				<div class="col-sm-4">
+					<ys:codemapSelect2 codemap="deptType" selectName="deptType" value="${deptType }" 
+						classes="form-control"></ys:codemapSelect2>
+				</div>
+			</div>
+			
+			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">上级机构：</label>
 				<div class="col-sm-4">
 					<div class="input-group">
@@ -48,7 +56,7 @@
 				<div class="form-group form-group-sm">
 					<label class="col-sm-2 control-label">创建时间：</label>
 					<div class="col-sm-4">
-					<input type="text" name="createtime" class="form-control"  value="${createtime }" readonly="readonly">
+					<input type="text" name="createTime" class="form-control"  value="${createTime }" readonly="readonly">
 					</div>
 				</div>
 			</c:if>

@@ -54,6 +54,16 @@ public class Member {
 	
 	private String roles;//用户所属角色集
 	
+	private String deptName;//机构名称
+	
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
 	public String getMemberJob() {
 		return memberJob;
 	}

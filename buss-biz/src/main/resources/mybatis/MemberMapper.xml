@@ -20,6 +20,7 @@
 	<!-- 通过外键查询的字段 -->
 	<result column="user_name_" property="userName" jdbcType="VARCHAR" />
 	<result column="user_status_" property="userStatus" jdbcType="VARCHAR" />
+	<result column="dept_name_" property="deptName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -185,8 +186,9 @@
   </update>
   <!-- 根据主键查询对象-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-	select a.*,b.user_name_,b.user_status_
+	select a.*,b.user_name_,b.user_status_,c.dept_name_
     from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ 
+    LEFT JOIN sys_dept_ c ON a.dept_id_ = c.dept_id_ 
     where a.member_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
@@ -239,8 +241,9 @@
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageMember" parameterType="com.rhtop.buss.common.entity.Member" resultMap="BaseResultMap">
-  	select a.*,b.user_name_,b.user_status_
-    from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ where 1=1
+  	select a.*,b.user_name_,b.user_status_,c.dept_name_
+    from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ 
+    LEFT JOIN sys_dept_ c ON a.dept_id_ = c.dept_id_ where 1=1
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user_ = #{updateUser}
 		</if>

@@ -29,7 +29,7 @@
 		<div class="btn-group" style="margin:4px 5px;">
 			<a class="btn btn-primary btn-sm" href="module/sys-dept-form" target="navTab" data-parent="depteditpage" rel="depteditpage" title="添加机构" ><i class="icon-plus"></i> <span>添加</span></a>
 			<a class="btn btn-danger btn-sm" href="service/dept-remove-{deptId}" target="ajaxTodo" title="确定要删除机构吗?"><i class="icon-minus"></i> <span>删除</span></a>
-			<a class="btn btn-success btn-sm" href="module/sys-dept-form/dept-update-{deptId}" target="navTab" data-parent="depteditpage" rel="depteditpage"  title="修改机构"><i class="icon-pencil"></i> <span>修改</span></a>
+			<a class="btn btn-success btn-sm" href="module/sys-dept-form/dept-{deptId}" target="navTab" data-parent="depteditpage" rel="depteditpage"  title="修改机构"><i class="icon-pencil"></i> <span>修改</span></a>
 		</div>
 </div>
 <table class="table" width="100%" layoutH="140">
@@ -37,6 +37,7 @@
 		<tr>
 			<th orderField="deptCode" class="${param.orderField eq 'deptCode'?param.orderDirection:''}">机构编号</th>
 			<th orderField="deptName" class="${param.orderField eq 'deptName'?param.orderDirection:''}">机构名称</th>
+			<th orderField="deptType" class="${param.orderField eq 'deptType'?param.orderDirection:''}">机构类型</th>
 			<th orderField="parentDeptName" class="${param.orderField eq 'parentDeptName'?param.orderDirection:''}" >上级机构</th>
 			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}" >创建时间</th>
 			<th orderField="updateTime" class="${param.orderField eq 'updateTime'?param.orderDirection:''}" >修改时间</th>
@@ -46,8 +47,13 @@
 	<tbody>
 		<c:forEach items="${resList}" var="item">
 			<tr target="deptId" rel="${item.deptId}">
-				<td><a href="module/sys-dept-detail/dept-detail-${item.deptId }" title="机构详情" target="navTab" data-parent="depteditpage" rel="depteditpage"><span>${item.deptCode}</span></a></td>
+				<%-- <td><a href="module/sys-dept-detail/dept-detail-${item.deptId }" title="机构详情" 
+					target="navTab" data-parent="depteditpage" rel="depteditpage"><span>${item.deptCode}</span></a></td> --%>
+				<td>${item.deptCode }</td>
 				<td>${item.deptName }</td>
+				<td>
+					<ys:codemapConvert codemap="deptType" value="${item.deptType }"></ys:codemapConvert>
+				</td>
 				<td>${item.parentDeptName}</td>
 				<td>${item.createTime }</td>
 				<td>${item.updateTime }</td>
