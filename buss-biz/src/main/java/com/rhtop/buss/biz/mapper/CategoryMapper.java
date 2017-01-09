@@ -26,7 +26,7 @@ public interface CategoryMapper {
 	 */
     Category selectByPrimaryKey(String categoryId);
     /**
-     * 根据品类名称、规格comm、厂号、产地查询品类
+     * 根据品类名称、规格、厂号、产地、包装数量查询品类
      */
     Category selectByPrimaryParam(Category category);
     /**

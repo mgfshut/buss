@@ -9,9 +9,12 @@
 	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
 	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
 	<result column="contact_name_" property="contactName" jdbcType="VARCHAR" />
+	<result column="contact_phone_" property="contactPhone" jdbcType="VARCHAR" />
+	<result column="contact_mail_" property="contactMail" jdbcType="VARCHAR" />
+	<result column="contact_addr_" property="contactAddr" jdbcType="VARCHAR" />
+	<result column="comm_" property="comm" jdbcType="VARCHAR" />
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
 	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
-	<result column="contact_total_" property="contactTotal" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -47,6 +50,18 @@
     	<if test="contactName != null" >
 	    	contact_name_,
 	    </if>
+	    <if test="contactPhone != null" >
+	    	contact_phone_,
+	    </if>
+	    <if test="contactMail != null" >
+	    	contact_mail_,
+	    </if>
+	    <if test="contactAddr != null" >
+	    	contact_addr_,
+	    </if>
+	    <if test="comm != null" >
+	    	comm_,
+	    </if>
     	<if test="customerId != null" >
 	    	customer_id_,
 	    </if>
@@ -72,6 +87,18 @@
 	    </if>
     	<if test="contactName != null" >
 	    	#{contactName},
+	    </if>
+	    <if test="contactPhone != null" >
+	    	#{contactPhone},
+	    </if>
+	    <if test="contactMail != null" >
+	    	#{contactMail},
+	    </if>
+	    <if test="contactAddr != null" >
+	    	#{contactAddr},
+	    </if>
+	    <if test="comm != null" >
+	    	#{comm},
 	    </if>
     	<if test="customerId != null" >
 	    	#{customerId},
@@ -105,8 +132,20 @@
 		<if test="contactName != null and contactName != ''" >
         	contact_name_ = #{contactName},
       	</if>
+      	<if test="contactPhone != null and contactPhone != ''" >
+        	contact_phone_ = #{contactPhone},
+      	</if>
+      	<if test="contactMail != null and contactMail != ''" >
+        	contact_mail_ = #{contactMail},
+      	</if>
+      	<if test="contactAddr != null and contactAddr != ''" >
+        	contact_addr_ = #{contactAddr},
+      	</if>
 		<if test="customerId != null and customerId != ''" >
         	customer_id_ = #{customerId},
+      	</if>
+      	<if test="comm != null and comm != ''" >
+        	comm_ = #{comm},
       	</if>
 		<if test="updateTime != null and updateTime != ''" >
         	update_time_ = #{updateTime},
@@ -125,15 +164,7 @@
   <!-- 根据条件查询列表 -->
   <select id="listContactsInfos" parameterType="com.rhtop.buss.common.entity.ContactsInfo" resultMap="BaseResultMap">
   	select 
-    create_user_,
-  	contacts_info_id_,
-  	contact_tel_,
-  	update_user_,
-  	create_time_,
-  	contact_name_,
-  	customer_id_,
-  	update_time_,
-  	COUNT(contacts_info_id_) as contact_total_
+    <include refid="Base_Column_List" />
     from buss_contacts_info_ where 1=1
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}
@@ -152,6 +183,18 @@
 		</if>
     	<if test="contactName != null and contactName != ''" >
 			and contact_name_ = #{contactName}
+		</if>
+		<if test="contactPhone != null and contactPhone != ''" >
+			and contact_phone_ = #{contactPhone}
+		</if>
+		<if test="contactMail != null and contactMail != ''" >
+			and contact_mail_ = #{contactMail}
+		</if>
+		<if test="contactAddr != null and contactAddr != ''" >
+			and contact_addr_ = #{contactAddr}
+		</if>
+		<if test="comm != null and comm != ''" >
+			and comm_ = #{comm}
 		</if>
     	<if test="customerId != null and customerId != ''" >
 			and customer_id_ = #{customerId}
