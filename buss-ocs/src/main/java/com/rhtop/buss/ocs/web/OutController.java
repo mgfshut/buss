@@ -137,23 +137,15 @@ public class OutController {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2001")
 	public ResultInfo listCustomers(HttpServletRequest request,@RequestBody Customer customer){
+		
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
-		String page = request.getHeader("page");//第几页
-		Page p = new Page();
-		if ("".equals(page)) {
-			readResult.setCode("500");
-			readResult.setMessage("页面数没传入");
-			return readResult;
-		}
-		p.setCurrentPage(Integer.parseInt(page));
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if (!"200".equals(result.get("code").toString())) {
 			customer.setCreateUser(memberId);
-			customer.setPage(p);
 			readResult.setResObject(customer);
 			JSONObject jsonUser = JSONObject.fromObject(customer);
 			readResult = (ResultInfo) service.invoke("readData-R2001", "POST", jsonUser.toString(), ResultInfo.class);
@@ -168,7 +160,7 @@ public class OutController {
 	 * @author lujin
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readDate/R2002")
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2002")
 	public ResultInfo customersInfo(HttpServletRequest request, @RequestBody Customer customer) {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
