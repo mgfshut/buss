@@ -107,11 +107,15 @@ public class WriteController {
 			if(!contacts.isEmpty()){
 				//有新增的联系人记录，加入数据库
 				for(ContactsInfo contact : contacts){
-					contact.setCreateUser(userId);
-					contact.setCreateTime(now);
-					contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
-					contact.setCustomerId(customerId);
-					contactsSer.insertContactsInfo(contact);
+					if(contact.getContactName().trim().equals("")||contact.getContactName()==null||contact.getContactPhone().trim().equals("")||contact.getContactPhone()==null){
+						continue;
+					}else{
+						contact.setCreateUser(userId);
+						contact.setCreateTime(now);
+						contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
+						contact.setCustomerId(customerId);
+						contactsSer.insertContactsInfo(contact);
+					}
 				}
 			}
 			//新增品类
