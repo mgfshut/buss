@@ -15,6 +15,7 @@
   	opr_time_,
   	opr_content_,
   	opr_type_,
+  	opr_name_,
   	opr_user_
   </sql>
   
@@ -34,6 +35,9 @@
     	<if test="oprType != null" >
 	    	opr_type_,
 	    </if>
+	    <if test="oprName != null" >
+	    	opr_name_,
+	    </if>
     	<if test="oprUser != null" >
 	    	opr_user_,
 	    </if>
@@ -50,6 +54,9 @@
 	    </if>
     	<if test="oprType != null" >
 	    	#{oprType},
+	    </if>
+	    <if test="oprName != null" >
+	    	#{oprName},
 	    </if>
     	<if test="oprUser != null" >
 	    	#{oprUser},
@@ -73,6 +80,9 @@
       	</if>
 		<if test="oprType != null and oprType != ''" >
         	opr_type_ = #{oprType},
+      	</if>
+      	<if test="oprName != null and oprName != ''" >
+        	opr_name_ = #{oprName},
       	</if>
 		<if test="oprUser != null and oprUser != ''" >
         	opr_user_ = #{oprUser},
@@ -105,6 +115,9 @@
     	<if test="oprType != null and oprType != ''" >
 			and opr_type_ = #{oprType}
 		</if>
+		<if test="oprName != null and oprName != ''" >
+			and opr_name_ = #{oprName}
+		</if>
     	<if test="oprUser != null and oprUser != ''" >
 			and opr_user_ = #{oprUser}
 		</if>
@@ -125,6 +138,9 @@
 		</if>
     	<if test="oprType != null and oprType != ''" >
 			and opr_type_ = #{oprType}
+		</if>
+		<if test="oprName != null and oprName != ''" >
+			and opr_name_ = #{oprName}
 		</if>
     	<if test="oprUser != null and oprUser != ''" >
 			and opr_user_ = #{oprUser}

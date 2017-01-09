@@ -17,8 +17,10 @@ public class BusinessDiary {
 	private String oprTime;//操作时间
 	
 	private String oprContent;//操作内容
-	//
+	
 	private String oprType;//操作类型
+	
+	private String oprName;//操作名称
 	
 	private String oprUser;//操作人
 	
@@ -121,5 +123,13 @@ public class BusinessDiary {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getOprName() {
+		return oprName;
+	}
+
+	public void setOprName(String oprName) {
+		this.oprName = oprName;
 	}
 }
