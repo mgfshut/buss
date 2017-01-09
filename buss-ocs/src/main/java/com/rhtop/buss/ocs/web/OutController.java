@@ -12,12 +12,12 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.User;
@@ -112,4 +112,19 @@ public class OutController {
 		return readResult;
 	}
 
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2001")
+	public ResultInfo listCustomers(HttpServletRequest request,@RequestBody Customer customer){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+//		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(customer);
+			JSONObject jsonUser = JSONObject.fromObject(customer);
+			readResult = (ResultInfo) service.invoke("readData-R2001", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
 }

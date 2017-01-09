@@ -1,14 +1,13 @@
 package com.rhtop.buss.biz.web;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rhtop.buss.biz.service.BusinessDiaryService;
@@ -18,19 +17,12 @@ import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
-import com.rhtop.buss.common.entity.Category;
-import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
-import com.rhtop.buss.common.entity.ReadResult;
-import com.rhtop.buss.common.entity.RelCategoryPrice;
-import com.rhtop.buss.common.entity.User;
-import com.rhtop.buss.common.utils.Jwt;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 /**
- * 对外接口的读取功能控制器，内部接口按照操作类型分为两类， 信息采集相关接口的命名为前缀In+四位编号0001依次递增,
- * 交易和合同相关接口的命名微前缀Dl+四位编号0001依次递增。
  * 
  * @author MakeItHappen
  * 
@@ -55,29 +47,21 @@ public class ReadController {
 	@Autowired
 	private MemberService memberService;
 	
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/viewMember")
-	public ReadResult<Member> viewMember(HttpServletRequest request,
-			@RequestBody Member member) {
-		ReadResult<Member> readResult = new ReadResult<Member>();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-			Member mem = memberService.selectByPrimaryKey(member.getMemberId());
-			readResult.setResObject(mem);
-		}
+	
+	@RequestMapping("/viewMember")
+	public ResultInfo viewMember(@RequestParam("body") String body) {
+		JSONObject jsonObject=JSONObject.fromObject(body);
+		Member mem = (Member)JSONObject.toBean(jsonObject, Member.class);
+		ResultInfo readResult = new ResultInfo();
+		Member member = memberService.selectByPrimaryKey(mem.getMemberId());
+		readResult.setCode("200");
+		readResult.setResObject(member);
 		return readResult;
 	}
+	
 
-	/**
-	 * 接口id：R2001
-	 * 客户经理 客户信息查询 
-	 * 根据传入的用户的id，客户类型，渠道，地区，查与之相关的客户信息
-	 * 
-	 * @return
-	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/listCustomers")
+	
+	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2001")
 	public ReadResult<List<Customer>>  listCustomers(HttpServletRequest request,
 			@RequestBody Customer customer) {
 		ReadResult<List<Customer>> readResult = new ReadResult<List<Customer>>();
@@ -98,15 +82,28 @@ public class ReadController {
 			readResult.setResObject(customers);
 		}
 		return readResult;
-	}
+	}*/
 	
 	/**
-	 * 接口id：R2002
-	 * 客户经理 查看 客户的详细信息
-	 * 根据客户的id
-	 * 包括 联系人，以及品类信息
+	 * 接口id：R2001
+	 * 客户经理 客户信息查询 
+	 * 根据传入的用户的id，客户类型，渠道，地区，查与之相关的客户信息
+	 * 
+	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/customerInfo")
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2001")
+	public ResultInfo listCustomers(@RequestParam("body") String body) {
+		JSONObject jsonObject=JSONObject.fromObject(body);
+		Customer customer = (Customer)JSONObject.toBean(jsonObject, Customer.class);
+		ResultInfo readResult = new ResultInfo();
+		List<Customer> customers = cusSer.selectCustomerInfo(customer);
+		readResult.setCode("200");
+		readResult.setResObject(customers);
+		return readResult;
+	}
+	
+	
+	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2002")
 	public ReadResult<Customer>  customerInfo(HttpServletRequest request,
 			@RequestBody Customer customer) {
 		ReadResult<Customer> readResult = new ReadResult<Customer>();
@@ -131,6 +128,18 @@ public class ReadController {
 			readResult.setResObject(cus);
 		}
 		return readResult;
+	}*/
+	/**
+	 * 接口id：R2002
+	 * 客户经理 查看 客户的详细信息
+	 * 根据客户的id
+	 * 包括 联系人，以及品类信息
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2002")
+	public ResultInfo customerInfo(@RequestParam("body") String body) {
+		ResultInfo readResult = new ResultInfo();
+		return readResult;
+		
 	}
 	
 	/**
@@ -138,7 +147,12 @@ public class ReadController {
 	 * 客户经理  查询 品类信息
 	 * 查询所有， 根据地区,品名，厂号查询
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/listCategorys")
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2003")
+	public ResultInfo listCategorys(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		return readResult;
+	}
+	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2003")
 	public ReadResult<List<Category>>  listCategorys(HttpServletRequest request,
 			@RequestBody Category category) {
 		ReadResult<List<Category>> readResult = new ReadResult<List<Category>>();
@@ -153,13 +167,13 @@ public class ReadController {
 			readResult.setResObject(listCategorys);
 		}
 		return readResult;
-	}
+	}*/
 	
 	/**
 	 * 接口id：R2004
 	 * 客户经理 查询品类的详细信息
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/categoryInfo")
+	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2004")
 	public ReadResult<Category>  categoryInfo(HttpServletRequest request,
 			@RequestBody Category category) {
 		ReadResult<Category> readResult = new ReadResult<Category>();
@@ -176,7 +190,7 @@ public class ReadController {
 			readResult.setResObject(cate);
 		}
 		return readResult;
-	}
+	}*/
 	
 	/**
 	 * 接口id：R2005
@@ -184,7 +198,7 @@ public class ReadController {
 	 * 客户经理已采集
 	 * 所有未采集
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/listRelCategoryPrices")
+	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
 	public ReadResult<List<Category>>  listRelCategoryPrices(HttpServletRequest request,
 			@RequestBody Member member) {
 		ReadResult<List<Category>> readResult = new ReadResult<List<Category>>();
@@ -198,14 +212,14 @@ public class ReadController {
 			readResult.setResObject(categoeylist);
 		}
 		return readResult;
-	}
+	}*/
 	
 	/**
 	 * 接口id：R2006
 	 * 品类的采集信息详情
 	 * 品类id
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/categoryPriceInfo")
+/*	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2006")
 	public ReadResult<Category> categoryPriceInfo(HttpServletRequest request,
 			@RequestBody Category category ) {
 		ReadResult<Category>  readResult = new ReadResult<Category> ();
@@ -227,4 +241,9 @@ public class ReadController {
 		}
 		return readResult;
 	}
+*/	 
+	
+	
+	
+	
 }
