@@ -495,5 +495,4 @@ public class RelCategoryPrice {
 		this.cusChaVal = cusChaVal;
 	}
 
-
 }
