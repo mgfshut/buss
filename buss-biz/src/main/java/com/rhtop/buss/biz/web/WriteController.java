@@ -60,17 +60,15 @@ public class WriteController {
 	
 	/**
 	 * 客户经理第一次录入客户信息、联系人信息、品类信息的接口
-	 * @param userId 客户经理UUID
-	 * @param customer 客户信息对象
-	 * @param contacts 联系人对象list
-	 * @param categorys 品类对象list
-	 * @return htmlMsg的Json 包含响应状态码code和响应信息message
+	 * @param customer 客户信息对象 包含联系人对象list、品类对象list
+	 * @return 
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0001")
-	public ReadResult<String> addCustomerAndCategory(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId, @Valid @RequestBody Customer customer){
+	public ReadResult<String> addCustomerAndCategory(HttpServletRequest request, @Valid @RequestBody Customer customer){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -92,6 +90,7 @@ public class WriteController {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String now = sdf.format(date);
 			customer.setCreateTime(now);
+			customer.setCusCreateTime(now);
 			customer.setCkStatus("00");
 			//向数据库中添加一条客户数据。
 			try {
@@ -161,12 +160,13 @@ public class WriteController {
 	 * 返回值需要被记录到一个名为catePic的字段中，在保存品类信息时提交上来。
 	 * @param picFile
 	 * @return 文件相对路径
+	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0002")
-	public ReadResult<String> uploadPic(HttpServletRequest request, @Valid @RequestParam("picFile") MultipartFile picFile,
-			@Valid @RequestParam("mgrId") String mgrId){
+	public ReadResult<String> uploadPic(HttpServletRequest request, @Valid @RequestParam("picFile") MultipartFile picFile){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String mgrId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -193,13 +193,16 @@ public class WriteController {
 	
 	/**
 	 * 客户经理的信息采集菜单中采集信息的接口
+	 * @param request 拿token做校验
 	 * @param catePris 一个RelCategoryPrice对象集合。
 	 * @return
+	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0003")
-	public ReadResult<String> fixWholesaleAndAcptPrice(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId, @Valid @RequestBody RelCategoryPrice catePri){
+	public ReadResult<String> fixWholesaleAndAcptPrice(HttpServletRequest request, @Valid @RequestBody RelCategoryPrice catePri){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -229,17 +232,18 @@ public class WriteController {
 	}
 
 	
-	// TODO: 这个接口需要添加对批量审核的支持
 	/**
 	 * 分部经理完善现货价、半期货价、期货价的接口
-	 * @param userId 用户ID，也就是调用该接口的分部经理的ID
+	 * @param request 拿token做校验
 	 * @param catePri 品类价格对象，包含品类ID，现货、半期货、期货价的最大最小值。
 	 * @return 状态码和状态消息
+	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0004")
-	public ReadResult<String> fixMidPrice(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId, @Valid @RequestBody RelCategoryPrice catePri){
+	public ReadResult<String> fixMidPrice(HttpServletRequest request, @Valid @RequestBody RelCategoryPrice catePri){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -269,15 +273,17 @@ public class WriteController {
 	}
 	
 	/**
-	 * 分部经理确认客户录入的接口
-	 * @param userId 操作者UUID
-	 * @param cus 需要被确认的客户对象
+	 * 分部经理确认客户录入的接口（可批量确认）
+	 * @param request 拿token做校验
+	 * @param cuss 需要被确认的客户对象
 	 * @return 更新状态
+	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0005")
-	public ReadResult<String> commitNewCustomerLevelOne(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId, @Valid @RequestBody List<Customer> cuss){
+	public ReadResult<String> commitNewCustomerLevelOne(HttpServletRequest request, @Valid @RequestBody List<Customer> cuss){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -313,11 +319,18 @@ public class WriteController {
 		}
 		return readResult;
 	}
-	//TODO: 总经理确认客户录入的接口
+	/**
+	 * 总经理确认客户录入的接口（可批量确认）
+	 * @param request 拿token做校验
+	 * @param cuss 客户信息List
+	 * @return
+	 * @author MakeItHappen
+	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0006")
-	public ReadResult<String> commitNewCustomerLevelTwo(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId, @Valid @RequestBody List<Customer> cuss){
+	public ReadResult<String> commitNewCustomerLevelTwo(HttpServletRequest request, @Valid @RequestBody List<Customer> cuss){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -355,11 +368,18 @@ public class WriteController {
 		}
 		return readResult;
 	}
-	//TODO: 国际部完善品类报盘信息
+	/**
+	 * 国际部完善品类报盘信息的接口
+	 * @param request 拿token做校验
+	 * @param catPri 一个品类价格关系对象
+	 * @return
+	 * @author MakeItHappen
+	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0007")
-	public ReadResult<String> fixOfferPrice(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId, @Valid @RequestBody RelCategoryPrice catPri){
+	public ReadResult<String> fixOfferPrice(HttpServletRequest request, @Valid @RequestBody RelCategoryPrice catPri){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -388,12 +408,18 @@ public class WriteController {
 		}
 		return readResult;
 	}
-	//TODO: 国际部新增品类信息
+	/**
+	 * 国际部新增品类信息接口
+	 * @param request 拿token做验证
+	 * @param cat 一个品类信息对象
+	 * @return
+	 * @author MakeItHappen
+	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0008")
-	public ReadResult<String> universeAddCategory(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId,
-			@Valid @RequestBody Category cat){
+	public ReadResult<String> universeAddCategory(HttpServletRequest request, @Valid @RequestBody Category cat){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
@@ -451,11 +477,18 @@ public class WriteController {
 		}
 		return readResult;
 	}
-	//TODO:客户经理和分部经理编辑（更新）客户、品类、联系人信息的接口
+	/**
+	 * 客户经理和分部经理编辑（更新）客户、品类、联系人信息的接口
+	 * @param request 拿token做验证
+	 * @param customer 用户对象，包含一个用户和与之对应的联系人和品类
+	 * @return
+	 * @author MakeItHappen
+	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0009")
-	public ReadResult<String> updateCustomerAndCategory(HttpServletRequest request, @Valid @RequestParam(value="userId") String userId, @Valid @RequestBody Customer customer){
+	public ReadResult<String> updateCustomerAndCategory(HttpServletRequest request, @Valid @RequestBody Customer customer){
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
+		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
