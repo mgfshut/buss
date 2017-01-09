@@ -300,16 +300,17 @@
 	bcu.cus_desc_,
 	COUNT(bct.cont_status_) as crt_qua_ 
 	from buss_customer_ bcu LEFT JOIN buss_contract_info_ bct on bcu.customer_id_ = bct.customer_id_ and bct.cont_status_='11'
-	where create_user_ = #{createUser}
+	where bcu.create_user_ = #{createUser}
         <if test="cusCha != null and cusCha != ''" >
-			and cus_cha_ = #{cusCha}
+			and bcu.cus_cha_ = #{cusCha}
 		</if>
 		<if test="cusType != null and cusType != ''" >
-			and cus_type_ = #{cusType}
+			and bcu.cus_type_ = #{cusType}
 		</if>
 		<if test="customerId != null and customerId != ''" >
-			and customer_id_ = #{customerId}
+			and bcu.customer_id_ = #{customerId}
 		</if>
+		
   </select>
   
   
