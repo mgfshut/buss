@@ -43,7 +43,7 @@ import com.rhtop.buss.common.utils.Jwt;
 @RestController
 @RequestMapping(value="service/writeData")
 //配置跨域支持
-@CrossOrigin
+//@CrossOrigin
 public class WriteController {
 	@Autowired
 	private CategoryService catSer;
