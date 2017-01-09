@@ -48,6 +48,8 @@ public class Customer {
 	
 	private Page page;//分页
 	
+	private String crtQua; // 已成交数量
+	
 	public Page getPage() {
 		return page;
 	}
@@ -278,5 +280,13 @@ public class Customer {
 
 	public void setCategorys(List<Category> categorys) {
 		this.categorys = categorys;
+	}
+
+	public String getCrtQua() {
+		return crtQua;
+	}
+
+	public void setCrtQua(String crtQua) {
+		this.crtQua = crtQua;
 	}
 }

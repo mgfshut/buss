@@ -67,5 +67,7 @@
         <mapper resource="mybatis/CategoryMapper.xml"/>
         <!-- 客户与品类关系表 -->
         <mapper resource="mybatis/RelCustomerCategoryMapper.xml"/>
+        <!-- 品类与价格关系表 -->
+        <mapper resource="mybatis/RelCategoryPriceMapper.xml"/>
     </mappers>
     </configuration>

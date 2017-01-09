@@ -38,4 +38,24 @@ public interface CategoryMapper {
      */
 	List<Category> listPageCategory(Category category);
     
+	/**
+	 * 根据客户id查询所属的类品
+	 * @param customerId
+	 * @return
+	 */
+	List<Category> listCategoryByCustomer(String customerId);
+	
+	/**
+	 * 根据客户经理的id查询客户经理已采集的价格
+	 * @param customerId
+	 * @return
+	 */
+	List<Category> listPrice(String memberId);
+	
+	/**
+	 * 查询所有未采集(接盘价和批发价)的品类
+	 * @param customerId
+	 * @return
+	 */
+	List<Category> listNotPrice(String memberId);
 }

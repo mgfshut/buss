@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.util.List;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -55,6 +57,12 @@ public class Category {
 	private String catePri;//品类价格（未经过单位换算的价格）（品类价格关系表中的字段）
 	
 	private Page page;//分页
+	
+	private String cusLoc;//客户地区
+	
+	private String cateTotal;//品类总数
+	
+	private List<RelCategoryPrice> rcps;//价格列表
 	
 	public Page getPage() {
 		return page;
@@ -326,5 +334,29 @@ public class Category {
 
 	public void setCatePri(String catePri) {
 		this.catePri = catePri;
+	}
+
+	public String getCusLoc() {
+		return cusLoc;
+	}
+
+	public void setCusLoc(String cusLoc) {
+		this.cusLoc = cusLoc;
+	}
+
+	public String getCateTotal() {
+		return cateTotal;
+	}
+
+	public void setCateTotal(String cateTotal) {
+		this.cateTotal = cateTotal;
+	}
+
+	public List<RelCategoryPrice> getRcps() {
+		return rcps;
+	}
+
+	public void setRcps(List<RelCategoryPrice> rcps) {
+		this.rcps = rcps;
 	}
 }

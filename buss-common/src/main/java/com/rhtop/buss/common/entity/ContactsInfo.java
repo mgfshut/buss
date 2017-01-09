@@ -24,19 +24,13 @@ public class ContactsInfo {
 	
 	private String contactName;//联系人姓名
 	
-	private String contactPhone;//联系人手机
-	
-	private String contactMail;//联系人邮箱
-	
-	private String contactAddr;//联系人地址
-	
-	private String comm;//联系人备注
-	
 	private String customerId;//客户ID
 	
 	private String updateTime;//修改时间
 	
 	private Page page;//分页
+	
+	private String contactTotal;//联系人数量
 	
 	public Page getPage() {
 		return page;
@@ -105,38 +99,6 @@ public class ContactsInfo {
 	
 	
 	
-	public String getContactAddr() {
-		return contactAddr;
-	}
-
-	public void setContactAddr(String contactAddr) {
-		this.contactAddr = contactAddr;
-	}
-
-	public String getContactPhone() {
-		return contactPhone;
-	}
-
-	public void setContactPhone(String contactPhone) {
-		this.contactPhone = contactPhone;
-	}
-
-	public String getContactMail() {
-		return contactMail;
-	}
-
-	public void setContactMail(String contactMail) {
-		this.contactMail = contactMail;
-	}
-
-	public String getComm() {
-		return comm;
-	}
-
-	public void setComm(String comm) {
-		this.comm = comm;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -206,5 +168,13 @@ public class ContactsInfo {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getContactTotal() {
+		return contactTotal;
+	}
+
+	public void setContactTotal(String contactTotal) {
+		this.contactTotal = contactTotal;
 	}
 }

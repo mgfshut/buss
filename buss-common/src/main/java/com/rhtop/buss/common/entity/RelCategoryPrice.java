@@ -74,6 +74,7 @@ public class RelCategoryPrice {
 	private String uniMgrName;// 国际采购人员名
 	private String offerPri;//报盘价
 	
+	
 	public String getCateName() {
 		return cateName;
 	}
@@ -492,6 +493,14 @@ public class RelCategoryPrice {
 
 	public void setCusChaVal(String cusChaVal) {
 		this.cusChaVal = cusChaVal;
+	}
+
+	public String getCateTotal() {
+		return cateTotal;
+	}
+
+	public void setCateTotal(String cateTotal) {
+		this.cateTotal = cateTotal;
 	}
 
 }
