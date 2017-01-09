@@ -68,8 +68,9 @@ public class FileUtil {
 	public static String uploadOneFile(MultipartFile file){
 		String locRootPath = null;
 		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
 			//从配置文件中读取上传文件的存放根路径
-			locRootPath = PropertyUtil.getCommonProp("picUploadPath");
+			locRootPath = propertyUtil.readValue("picUploadPath");
 			//按日期生成中间文件夹
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
