@@ -19,6 +19,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.common.collect.Lists;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.exception.BusException;
 
 /**
@@ -137,5 +138,31 @@ public class RestService {
 			throw  be;
 		}
 	}
+	
+	public Object invoke(String service, String method, String jsonParam,Class classes){
+        String ret = invokeMultiMap(service, method, jsonParam);
+        if(classes.equals(String.class)) return ret;
+        ObjectMapper om = new ObjectMapper();
+        try {
+            return om.readValue(ret, classes);
+        } catch (IOException e) {
+            ResultInfo be = new ResultInfo();
+            be.setCode("404");
+            be.setMessage("获取数据失败");
+            error.error(e.getMessage(), be);
+            
+            return be;
+        }
+    }
+	public String invokeMultiMap(String service,String method, String json){
+        LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("body", json);
+        MessageBuilder<?> builder = MessageBuilder.withPayload(map);
+        builder.setHeader("service",service);
+        builder.setHeader("http_requestUrl",service);
+        builder.setHeader("http_requestMethod", method);
+        Object payload = bizmt.sendAndReceive("servcieInvoke", builder.build()).getPayload();
+        return (String)payload ;
+    }
 
 }

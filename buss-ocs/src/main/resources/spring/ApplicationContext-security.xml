@@ -45,9 +45,9 @@
 	    <property name="filterChainDefinitions">
 	        <value>
 	        	/fileservice/test-hello-file = anon
-	        	/service/readData-* = anon
-	        	/service/writeData-* = anon
-	        	/app/** = anon
+	        	/interface/* = anon
+	        	/interface/*/* = anon
+	        	/interface/*/* = anon
 	        	/app/login = anon
 	        	/Kaptcha.jpg* = anon
 	        	/css/** = anon
