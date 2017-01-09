@@ -23,7 +23,7 @@ public class IndexController extends BaseController {
 	private RestService service;
 	@RequestMapping("/")
 	public String index(Model model,HttpServletRequest request){
-		model.addAttribute("tree",loadTree());
+		model.addAttribute("tree",loadTree()); 
 		return "index";
 	}
 	

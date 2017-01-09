@@ -495,12 +495,5 @@ public class RelCategoryPrice {
 		this.cusChaVal = cusChaVal;
 	}
 
-	public String getCateTotal() {
-		return cateTotal;
-	}
-
-	public void setCateTotal(String cateTotal) {
-		this.cateTotal = cateTotal;
-	}
 
 }
