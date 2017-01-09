@@ -23,6 +23,7 @@ import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.security.UserLoginToken;
 import com.rhtop.buss.common.service.RestService;
 import com.rhtop.buss.common.utils.Jwt;
+import com.rhtop.buss.common.utils.PropertyUtil;
 
 /**
  * 对外接口的读取功能控制器，内部接口按照操作类型分为两类， 信息采集相关接口的命名为前缀In+四位编号0001依次递增,
@@ -71,6 +72,13 @@ public class OutController {
 			readResult.setMessage("登录成功");
 			readResult.setResObject(member);
 			System.out.println("登录成功");
+			PropertyUtil propertyUtil = new PropertyUtil("properties/token.properties");
+			//从配置文件中读取上传文件的存放根路径
+			String readToken = propertyUtil.readValue(kuser.getUserId());
+			if(!token.equals(readToken)){
+				propertyUtil.setValue(kuser.getUserId(), token);
+			}
+			System.out.println(readToken);
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
