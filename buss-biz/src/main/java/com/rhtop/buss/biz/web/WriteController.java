@@ -9,6 +9,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,8 +33,10 @@ import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.ReadResult;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.utils.Jwt;
+import com.sun.corba.se.pept.transport.ContactInfo;
 /**
  * 对外接口的写入功能控制器，内部接口按照操作类型分为两类，
  * 信息采集相关接口的命名为前缀In+四位编号0001依次递增,
@@ -43,7 +47,7 @@ import com.rhtop.buss.common.utils.Jwt;
 @RestController
 @RequestMapping(value="service/writeData")
 //配置跨域支持
-//@CrossOrigin
+@CrossOrigin
 public class WriteController {
 	@Autowired
 	private CategoryService catSer;
@@ -65,48 +69,51 @@ public class WriteController {
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0001")
-	public ReadResult<String> addCustomerAndCategory(HttpServletRequest request, @Valid @RequestBody Customer customer){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			//检查传进来的客户对象是否为空，为空则返回错误信息码并结束操作。
-			if(customer==null){
-				readResult.setCode("500");
-				readResult.setMessage("用户信息不能为空！");
-				return readResult;
-			}
-			List<ContactsInfo> contacts = customer.getContacts();
-			List<Category> categorys = customer.getCategorys();
-			//客户对象不为空，完善客户对象
-			customer.setCreateUser(userId);
-			String customerId = UUID.randomUUID().toString().replace("-", "");
-			customer.setCustomerId(customerId);
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
-			customer.setCreateTime(now);
-			customer.setCusCreateTime(now);
-			customer.setCkStatus("00");
-			//向数据库中添加一条客户数据。
-			try {
-				//添加客户数据
-				cusSer.insertCustomer(customer);
-			} catch (Exception e) {
-				e.printStackTrace();
-				readResult.setMessage("操作失败，新增客户出错。");
-				readResult.setCode("500");
-				return readResult;
-			}
-			//新增联系人
-			//检查是否有新增需求
-			if(!contacts.isEmpty()){
-				//有新增的联系人记录，加入数据库
-				for(ContactsInfo contact : contacts){
+	public ResultInfo addCustomerAndCategory(@RequestParam("body") String body){
+		JSONObject jsonObject=JSONObject.fromObject(body);
+		Customer customer = (Customer)JSONObject.toBean(jsonObject,Customer.class);
+		String userId = customer.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		//检查传进来的客户对象是否为空，为空则返回错误信息码并结束操作。
+		if(customer.getCusName().trim().equals("")||customer.getCusName()==null 
+			||customer.getCusCha().trim().equals("")||customer.getCusCha()==null 
+			||customer.getCusLoc().trim().equals("")||customer.getCusLoc()==null 
+			||customer.getCusType().trim().equals("")||customer.getCusType()==null){
+			readResult.setCode("500");
+			readResult.setMessage("用户信息不能为空！");
+			return readResult;
+		}
+		List<ContactsInfo> contacts = customer.getContacts();
+		List<Category> categorys = customer.getCategorys();
+		//客户对象不为空，完善客户对象
+		customer.setCreateUser(userId);
+		String customerId = UUID.randomUUID().toString().replace("-", "");
+		customer.setCustomerId(customerId);
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		customer.setCreateTime(now);
+		customer.setCusCreateTime(now);
+		customer.setCkStatus("00");
+		//向数据库中添加一条客户数据。
+		try {
+			//添加客户数据
+			cusSer.insertCustomer(customer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			readResult.setMessage("操作失败，新增客户出错。");
+			readResult.setCode("500");
+			return readResult;
+		}
+		//新增联系人
+		//检查是否有新增需求
+		if(!contacts.isEmpty()){
+			//有新增的联系人记录，加入数据库
+			for(ContactsInfo contact : contacts){
+				if(contact.getContactName().trim().equals("")||contact.getContactName()==null||contact.getContactPhone().trim().equals("")||contact.getContactPhone()==null){
+					continue;
+				}else{
 					contact.setCreateUser(userId);
 					contact.setCreateTime(now);
 					contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
@@ -114,41 +121,42 @@ public class WriteController {
 					contactsSer.insertContactsInfo(contact);
 				}
 			}
-			//新增品类
-			//检查是否有新增需求
-			if(!categorys.isEmpty()){
-				for(Category cat : categorys){
-					//检查要新增的品类是否已存在于数据库中
-					if(catSer.checkCategoryExist(cat)==null){
-						//新增品类
-						cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
-						cat.setCreateTime(now);
-						cat.setCreateUser(userId);
-						catSer.insertCategory(cat);
-						RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
-						relCustomerCategory.setCreateTime(now);
-						relCustomerCategory.setCreateUser(userId);
-						relCustomerCategory.setCategoryId(cat.getCategoryId());
-						relCustomerCategory.setCateScale(cat.getCateScale());
-						relCustomerCategory.setCooInten(cat.getCooInten());
-						relCustomerCategory.setCooIntenComm(cat.getCooIntenComm());
-						relCustomerCategory.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
-						relCustomerCategory.setCusLoc(customer.getCusLoc());
-						cusCatSer.insertRelCustomerCategory(relCustomerCategory);
-					}else{
-						continue;
-					}
+		}
+		//新增品类
+		//检查是否有新增需求
+		if(!categorys.isEmpty()){
+			for(Category cat : categorys){
+				//检查要新增的品类是否已存在于数据库中
+				if(catSer.checkCategoryExist(cat)==null){
+					//新增品类
+					cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
+					cat.setCreateTime(now);
+					cat.setCreateUser(userId);
+					catSer.insertCategory(cat);
+					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
+					relCustomerCategory.setCreateTime(now);
+					relCustomerCategory.setCreateUser(userId);
+					relCustomerCategory.setCategoryId(cat.getCategoryId());
+					relCustomerCategory.setCateScale(cat.getCateScale());
+					relCustomerCategory.setCooInten(cat.getCooInten());
+					relCustomerCategory.setCooIntenComm(cat.getCooIntenComm());
+					relCustomerCategory.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
+					relCustomerCategory.setCusLoc(customer.getCusLoc());
+					cusCatSer.insertRelCustomerCategory(relCustomerCategory);
+				}else{
+					continue;
 				}
 			}
-			//添加一条操作记录
-			BusinessDiary bd = new BusinessDiary();
-			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
-			bd.setOprTime(now);
-			bd.setOprUser(userId);
-			bd.setOprType("/writeData/In0001");
-			bd.setOprContent(userId+customer);
-			busDiaSer.insertBusinessDiary(bd);
 		}
+		//添加一条操作记录
+		BusinessDiary bd = new BusinessDiary();
+		bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+		bd.setOprTime(now);
+		bd.setOprUser(userId);
+		bd.setOprType("/writeData/In0001");
+		bd.setOprContent(userId+customer);
+		busDiaSer.insertBusinessDiary(bd);
+		
 		return readResult;
 	}
 	

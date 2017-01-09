@@ -7,7 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>buss-ocs</name>
+  <name>buss-ocs</name> 
 
   <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
