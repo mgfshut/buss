@@ -119,7 +119,7 @@ public class OutController {
 	}
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0001")
 	public ResultInfo addCustomerAndCategory(HttpServletRequest request,@RequestBody Customer customer){
-		System.out.println(customer.getCusName());
+//		System.out.println(customer.getCusName());
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
