@@ -111,16 +111,17 @@ public class OutController {
 	}
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0001")
 	public ResultInfo addCustomerAndCategory(HttpServletRequest request,@RequestBody Customer customer){
+		System.out.println(customer.getCusName());
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
+		if (!"200".equals(result.get("code").toString())) {
 			customer.setUpdateUser(userId);
 			JSONObject jsonCustomer = JSONObject.fromObject(customer);
-			readResult = (ResultInfo) service.invoke("wirteData-In0001", "POST", jsonCustomer.toString() , ResultInfo.class);
+			readResult = (ResultInfo) service.invoke("writeData-In0001", "POST", jsonCustomer.toString() , ResultInfo.class);
 		}
 		return readResult;
 	}

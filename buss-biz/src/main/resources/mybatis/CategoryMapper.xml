@@ -182,7 +182,7 @@
         	cate_pic_ = #{catePic},
       	</if>
 		<if test="updateUser != null and updateUser != ''" >
-        	update_user = #{updateUser},
+        	update_user_ = #{updateUser},
       	</if>
     </set>
     where 
@@ -199,7 +199,7 @@
   	SELECT 
   	<include refid="Base_Column_List"/>
   	FROM buss_category_ 
-  	WHERE cate_name = #{cateName} 
+  	WHERE cate_name_ = #{cateName} 
   	  AND comm_ = #{comm} 
   	  AND manu_num_ = #{manuNum} 
   	  AND prod_pla_ = #{prodPla} 

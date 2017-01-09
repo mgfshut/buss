@@ -17,7 +17,7 @@ public class BusinessDiary {
 	private String oprTime;//操作时间
 	
 	private String oprContent;//操作内容
-	
+	//
 	private String oprType;//操作类型
 	
 	private String oprUser;//操作人
