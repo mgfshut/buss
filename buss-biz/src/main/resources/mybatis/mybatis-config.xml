@@ -30,6 +30,12 @@
 		<typeAlias alias="RelCustomerCategory" type="com.rhtop.buss.common.entity.RelCustomerCategory" />
 		<!-- 客户联系人表 -->
 		<typeAlias alias="ContactsInfo" type="com.rhtop.buss.common.entity.ContactsInfo" />
+		<!-- 联系人信息表 -->
+		<typeAlias alias="ContactsInfo" type="com.rhtop.buss.common.entity.ContactsInfo"/>
+		<!-- 品类与价格关系表 -->
+		<typeAlias alias="RelCategoryPrice" type="com.rhtop.buss.common.entity.RelCategoryPrice"/>
+		<!-- 操作日志信息表 -->
+		<typeAlias alias="BusinessDiary" type="com.rhtop.buss.common.entity.BusinessDiary"/>
     </typeAliases>
     <!-- 实体接口映射资源 -->  
     
@@ -73,5 +79,9 @@
         <mapper resource="mybatis/RelCategoryPriceMapper.xml"/>
         <!-- 客户联系人信息 -->
         <mapper resource="mybatis/ContactsInfoMapper.xml"/>
+        <!-- 联系人信息表 -->
+        <mapper resource="mybatis/ContactsInfoMapper.xml"/>
+        <!-- 操作日志信息表 -->
+        <mapper resource="mybatis/BusinessDiaryMapper.xml"/>
     </mappers>
     </configuration>

@@ -26,6 +26,7 @@ import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.security.UserLoginToken;
 import com.rhtop.buss.common.service.RestService;
 import com.rhtop.buss.common.utils.Jwt;
+import com.rhtop.buss.common.utils.PropertyUtil;
 
 /**
  * 对外接口的读取功能控制器，内部接口按照操作类型分为两类， 信息采集相关接口的命名为前缀In+四位编号0001依次递增,
@@ -74,6 +75,13 @@ public class OutController {
 			readResult.setMessage("登录成功");
 			readResult.setResObject(member);
 			System.out.println("登录成功");
+			PropertyUtil propertyUtil = new PropertyUtil("properties/token.properties");
+			//从配置文件中读取上传文件的存放根路径
+			String readToken = propertyUtil.readValue(kuser.getUserId());
+			if(!token.equals(readToken)){
+				propertyUtil.setValue(kuser.getUserId(), token);
+			}
+			System.out.println(readToken);
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
@@ -113,16 +121,17 @@ public class OutController {
 	}
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0001")
 	public ResultInfo addCustomerAndCategory(HttpServletRequest request,@RequestBody Customer customer){
+		System.out.println(customer.getCusName());
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
 		Map<String, Object> result = Jwt.validToken(token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
+		if (!"200".equals(result.get("code").toString())) {
 			customer.setUpdateUser(userId);
 			JSONObject jsonCustomer = JSONObject.fromObject(customer);
-			readResult = (ResultInfo) service.invoke("wirteData-In0001", "POST", jsonCustomer.toString() , ResultInfo.class);
+			readResult = (ResultInfo) service.invoke("writeData-In0001", "POST", jsonCustomer.toString() , ResultInfo.class);
 		}
 		return readResult;
 	}

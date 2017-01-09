@@ -24,15 +24,8 @@ import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.web.HtmlMessage;
 
-/**
- * 
- * @author MakeItHappen
- * 
- */
 @RestController
 @RequestMapping(value = "service/readData")
-// 设置跨域支持
-//@CrossOrigin
 public class ReadController {
 	@Autowired
 	private CategoryService catSer;
@@ -48,8 +41,6 @@ public class ReadController {
 	private BusinessDiaryService busDiaSer;
 	@Autowired
 	private MemberService memberService;
-	
-	
 	@RequestMapping("/viewMember")
 	public ResultInfo viewMember(@RequestParam("body") String body) {
 		JSONObject jsonObject=JSONObject.fromObject(body);

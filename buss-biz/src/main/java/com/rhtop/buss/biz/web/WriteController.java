@@ -1,5 +1,6 @@
 package com.rhtop.buss.biz.web;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
@@ -36,6 +40,7 @@ import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.utils.Jwt;
+import com.rhtop.buss.common.web.BaseController;
 import com.sun.corba.se.pept.transport.ContactInfo;
 /**
  * 对外接口的写入功能控制器，内部接口按照操作类型分为两类，
@@ -48,7 +53,7 @@ import com.sun.corba.se.pept.transport.ContactInfo;
 @RequestMapping(value="service/writeData")
 //配置跨域支持
 @CrossOrigin
-public class WriteController {
+public class WriteController extends BaseController{
 	@Autowired
 	private CategoryService catSer;
 	@Autowired
@@ -70,20 +75,29 @@ public class WriteController {
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0001")
 	public ResultInfo addCustomerAndCategory(@RequestParam("body") String body){
-		JSONObject jsonObject=JSONObject.fromObject(body);
-		Customer customer = (Customer)JSONObject.toBean(jsonObject,Customer.class);
+		ObjectMapper mapper = new ObjectMapper();
+		Customer customer = null;
+		try{
+			customer = mapper.readValue(body, Customer.class);
+		}catch(Exception e){
+			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
+		}
+		 
 		String userId = customer.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
+//		System.out.println("biz");
+//		System.out.println(customer.getCusName());
 		//检查传进来的客户对象是否为空，为空则返回错误信息码并结束操作。
-		if(customer.getCusName().trim().equals("")||customer.getCusName()==null 
-			||customer.getCusCha().trim().equals("")||customer.getCusCha()==null 
-			||customer.getCusLoc().trim().equals("")||customer.getCusLoc()==null 
-			||customer.getCusType().trim().equals("")||customer.getCusType()==null){
-			readResult.setCode("500");
-			readResult.setMessage("用户信息不能为空！");
-			return readResult;
-		}
+//		if(customer.getCusName().trim().equals("")||customer.getCusName()==null 
+//			||customer.getCusCha().trim().equals("")||customer.getCusCha()==null 
+//			||customer.getCusLoc().trim().equals("")||customer.getCusLoc()==null 
+//			||customer.getCusType().trim().equals("")||customer.getCusType()==null){
+//			readResult.setCode("500");
+//			readResult.setMessage("客户信息不能为空！");
+//			return readResult;
+//		}
+		
 		List<ContactsInfo> contacts = customer.getContacts();
 		List<Category> categorys = customer.getCategorys();
 		//客户对象不为空，完善客户对象
@@ -148,14 +162,19 @@ public class WriteController {
 				}
 			}
 		}
-		//添加一条操作记录
-		BusinessDiary bd = new BusinessDiary();
-		bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
-		bd.setOprTime(now);
-		bd.setOprUser(userId);
-		bd.setOprType("/writeData/In0001");
-		bd.setOprContent(userId+customer);
-		busDiaSer.insertBusinessDiary(bd);
+		try{
+			//添加一条操作记录
+			BusinessDiary bd = new BusinessDiary();
+			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+			bd.setOprTime(now);
+			bd.setOprUser(userId);
+			bd.setOprType("/writeData/In0001");
+			bd.setOprContent(userId+customer);
+			busDiaSer.insertBusinessDiary(bd);
+		}catch(Exception e){
+			
+		}
+		
 		
 		return readResult;
 	}
