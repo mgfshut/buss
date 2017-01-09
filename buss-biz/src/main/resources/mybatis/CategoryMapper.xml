@@ -194,16 +194,15 @@
 	from buss_category_ bca LEFT JOIN buss_rel_customer_category_ rcc on rcc.category_id_ =bca.category_id_
 	where category_id_ = #{0}
   </select>
-  <!-- 根据五个判别品类唯一性的条件查询品类 -->
+  <!-- 根据四个判别品类唯一性的条件查询品类 -->
   <select id="selectByPrimaryParam" parameterType="com.rhtop.buss.common.entity.Category" resultType="com.rhtop.buss.common.entity.Category">
   	SELECT 
   	<include refid="Base_Column_List"/>
   	FROM buss_category_ 
   	WHERE cate_name = #{cateName} 
-  	  AND cate_stan_ = #{cateStan} 
+  	  AND comm_ = #{comm} 
   	  AND manu_num_ = #{manuNum} 
   	  AND prod_pla_ = #{prodPla} 
-  	  AND pkg_quan_ = #{pkgQuan}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listCategorys" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
