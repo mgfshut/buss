@@ -28,6 +28,8 @@
 		<typeAlias alias="Category" type="com.rhtop.buss.common.entity.Category" />
 		<!-- 客户与品类关系表 -->
 		<typeAlias alias="RelCustomerCategory" type="com.rhtop.buss.common.entity.RelCustomerCategory" />
+		<!-- 客户联系人表 -->
+		<typeAlias alias="ContactsInfo" type="com.rhtop.buss.common.entity.ContactsInfo" />
     </typeAliases>
     <!-- 实体接口映射资源 -->  
     
@@ -69,5 +71,7 @@
         <mapper resource="mybatis/RelCustomerCategoryMapper.xml"/>
         <!-- 品类与价格关系表 -->
         <mapper resource="mybatis/RelCategoryPriceMapper.xml"/>
+        <!-- 客户联系人信息 -->
+        <mapper resource="mybatis/ContactsInfoMapper.xml"/>
     </mappers>
     </configuration>

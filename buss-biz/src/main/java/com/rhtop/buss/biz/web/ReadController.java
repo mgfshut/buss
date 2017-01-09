@@ -17,6 +17,8 @@ import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
+import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.ResultInfo;
@@ -59,31 +61,6 @@ public class ReadController {
 		return readResult;
 	}
 	
-
-	
-	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2001")
-	public ReadResult<List<Customer>>  listCustomers(HttpServletRequest request,
-			@RequestBody Customer customer) {
-		ReadResult<List<Customer>> readResult = new ReadResult<List<Customer>>();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-//			 Customer customers =new  Customer();
-//			customer.setCreateUser(member.getMemberId());
-//			customer.setCusType(custype);
-//			customer.setCusLoc(cusLoc);
-//			customer.setCusCha(cusCha);
-			//获取客户经理的id
-			customer.setCreateUser("");
-			List<Customer> customers = cusSer.selectCustomerInfo(customer);
-			readResult.setMessage("数据获取成功！");
-			readResult.setResObject(customers);
-		}
-		return readResult;
-	}*/
-	
 	/**
 	 * 接口id：R2001
 	 * 客户经理 客户信息查询 
@@ -96,50 +73,38 @@ public class ReadController {
 		JSONObject jsonObject=JSONObject.fromObject(body);
 		Customer customer = (Customer)JSONObject.toBean(jsonObject, Customer.class);
 		ResultInfo readResult = new ResultInfo();
-		List<Customer> customers = cusSer.selectCustomerInfo(customer);
+		List<Customer> customers = cusSer.listPageCustomer(customer);
 		readResult.setCode("200");
-		readResult.setResObject(customers);
+		readResult.setRecords(customers);
 		return readResult;
 	}
 	
-	
-	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2002")
-	public ReadResult<Customer>  customerInfo(HttpServletRequest request,
-			@RequestBody Customer customer) {
-		ReadResult<Customer> readResult = new ReadResult<Customer>();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-			//查询客户信息
-			customer.setCustomerId(customer.getCustomerId());;
-			Customer cus  = cusSer.selectCustomerInfo(customer).get(0);
-			//查询联系人
-			ContactsInfo contactsinfo = new ContactsInfo();
-			contactsinfo.setCustomerId(customer.getCustomerId());
-			List<ContactsInfo> conts = contactsSer.listContactsInfos(contactsinfo);
-			//查询品类
-			List<Category> cates = catSer.listCategoryByCustomer(customer.getCustomerId());
-			//添加联系人和品类
-			cus.setCategorys(cates);
-			cus.setContacts(conts);
-			readResult.setMessage("数据获取成功！");
-			readResult.setResObject(cus);
-		}
-		return readResult;
-	}*/
 	/**
 	 * 接口id：R2002
 	 * 客户经理 查看 客户的详细信息
 	 * 根据客户的id
 	 * 包括 联系人，以及品类信息
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2002")
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/R2002")
 	public ResultInfo customerInfo(@RequestParam("body") String body) {
 		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Customer customer = (Customer) JSONObject.toBean(jsonObject, Customer.class);
+		// 查询客户信息
+		customer.setCustomerId(customer.getCustomerId());
+		Customer cus = cusSer.selectCustomerInfo(customer).get(0);
+		// 查询联系人
+		ContactsInfo contactsinfo = new ContactsInfo();
+		contactsinfo.setCustomerId(customer.getCustomerId());
+		List<ContactsInfo> conts = contactsSer.listContactsInfos(contactsinfo);
+		// 查询品类
+		List<Category> cates = catSer.listCategoryByCustomer(customer.getCustomerId());
+		// 添加联系人和品类
+		cus.setCategorys(cates);
+		cus.setContacts(conts);
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(cus);
 		return readResult;
-		
 	}
 	
 	/**
