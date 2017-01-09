@@ -11,6 +11,7 @@
 	<result column="contact_name_" property="contactName" jdbcType="VARCHAR" />
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
 	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="contact_total_" property="contactTotal" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -124,7 +125,15 @@
   <!-- 根据条件查询列表 -->
   <select id="listContactsInfos" parameterType="com.rhtop.buss.common.entity.ContactsInfo" resultMap="BaseResultMap">
   	select 
-    <include refid="Base_Column_List" />
+    create_user_,
+  	contacts_info_id_,
+  	contact_tel_,
+  	update_user_,
+  	create_time_,
+  	contact_name_,
+  	customer_id_,
+  	update_time_,
+  	COUNT(contacts_info_id_) as contact_total_
     from buss_contacts_info_ where 1=1
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}

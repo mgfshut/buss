@@ -30,6 +30,16 @@ public class CodeValue {
 	
 	private Page page;//分页
 	
+	private String code;//
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public Page getPage() {
 		return page;
 	}

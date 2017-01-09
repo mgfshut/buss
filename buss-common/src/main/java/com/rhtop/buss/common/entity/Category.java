@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.util.List;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,9 +28,9 @@ public class Category {
 	
 	private String createUser;//创建人
 	
-	private String offerAging;//报盘时效
+	private String offerAging;//报盘时效（品类表和价格关系表中的公用字段）
 	
-	private String offerPri;//报盘价
+	private String offerPri;//报盘价(这是经过了单位换算的价格)
 	
 	private String prodPla;//产地
 	
@@ -40,7 +42,27 @@ public class Category {
 	
 	private String updateUser;//修改人
 	
+	private String cateScale;//品类规模
+	
+	private String cooInten;//合作意向
+	
+	private String cooIntenComm;//合作意向备注
+	
+	private String cateSup;//品类供应商（品类价格关系表中的字段）
+	
+	private String currency;//货币币种（品类价格关系表中的字段）
+	
+	private String unit;//计量单位（品类价格关系表中的字段）
+	
+	private String catePri;//品类价格（未经过单位换算的价格）（品类价格关系表中的字段）
+	
 	private Page page;//分页
+	
+	private String cusLoc;//客户地区
+	
+	private String cateTotal;//品类总数
+	
+	private List<RelCategoryPrice> rcps;//价格列表
 	
 	public Page getPage() {
 		return page;
@@ -256,5 +278,85 @@ public class Category {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getCateScale() {
+		return cateScale;
+	}
+
+	public void setCateScale(String cateScale) {
+		this.cateScale = cateScale;
+	}
+
+	public String getCooInten() {
+		return cooInten;
+	}
+
+	public void setCooInten(String cooInten) {
+		this.cooInten = cooInten;
+	}
+
+	public String getCooIntenComm() {
+		return cooIntenComm;
+	}
+
+	public void setCooIntenComm(String cooIntenComm) {
+		this.cooIntenComm = cooIntenComm;
+	}
+
+	public String getCateSup() {
+		return cateSup;
+	}
+
+	public void setCateSup(String cateSup) {
+		this.cateSup = cateSup;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getCatePri() {
+		return catePri;
+	}
+
+	public void setCatePri(String catePri) {
+		this.catePri = catePri;
+	}
+
+	public String getCusLoc() {
+		return cusLoc;
+	}
+
+	public void setCusLoc(String cusLoc) {
+		this.cusLoc = cusLoc;
+	}
+
+	public String getCateTotal() {
+		return cateTotal;
+	}
+
+	public void setCateTotal(String cateTotal) {
+		this.cateTotal = cateTotal;
+	}
+
+	public List<RelCategoryPrice> getRcps() {
+		return rcps;
+	}
+
+	public void setRcps(List<RelCategoryPrice> rcps) {
+		this.rcps = rcps;
 	}
 }

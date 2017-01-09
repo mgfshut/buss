@@ -19,7 +19,7 @@ $(function () {
 		}else{
 			ids = ids.substring(0, ids.length - 1);
 			names = names.substring(0,names.length - 1);
-			getValues(ids,names,'${deptId}','${deptname}','${type}');
+			getValues(ids,names,'${deptId}','${deptName}','${type}');
 			$.pdialog.closeCurrent();			
 		}
 	});

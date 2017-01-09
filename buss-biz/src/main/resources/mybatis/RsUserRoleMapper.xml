@@ -96,5 +96,9 @@
 			and role_id_ = #{roleId}
 		</if>
   </select>
-  
+  <!-- 根据用户ID删除所有相关的用户角色关系 -->
+  <delete id="deleteRsUserRoleByMemberId" parameterType="java.lang.String" >
+    delete from sys_rs_user_role_ where
+	member_id_ = #{0}
+  </delete>
 </mapper>

@@ -16,7 +16,7 @@ import java.util.List;
 public class Role {
 	private String updateUser;//修改人
 	
-	private String roleDescribe;//角色描述
+	private String roleDescribe;//角色名称
 	
 	private String updateTime;//修改时间
 	

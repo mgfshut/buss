@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.RsUserRole;
 
 public interface RsUserRoleMapper {
@@ -32,5 +33,11 @@ public interface RsUserRoleMapper {
      * 根据条件分页查询列表
      */
 	List<RsUserRole> listPageRsUserRole(RsUserRole rsUserRole);
+	/**
+	 * 根据用户ID删除所有相关的用户角色关系
+	 * @param memberId
+	 * @return
+	 */
+	int deleteRsUserRoleByMemberId(String memberId);
     
 }

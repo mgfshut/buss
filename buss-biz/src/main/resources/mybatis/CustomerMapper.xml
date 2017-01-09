@@ -17,6 +17,8 @@
 	<result column="flg_update_time_" property="flgUpdateTime" jdbcType="VARCHAR" />
 	<result column="cus_cha_" property="cusCha" jdbcType="VARCHAR" />
 	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<!-- 外键字段 -->
+	<result column="crt_qua_" property="crtQua" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -283,5 +285,32 @@
 			and create_time_ = #{createTime}
 		</if>
   </select>
+  <!-- 查客户经理所属的客户 ,合同状态为11-->
+  <select id="selectCustomerByCreateUser" parameterType="com.rhtop.buss.common.entity.Customer"
+	resultMap="BaseResultMap">
+	select
+	bcu.customer_id_,
+	bcu.cus_name_,
+	bcu.update_time_,
+	bcu.cus_cha_,
+	bcu.cus_type_ ,
+	bcu.cus_create_time_,
+	bcu.cus_loc_,
+	bcu.cus_addr_,
+	bcu.cus_desc_,
+	COUNT(bct.cont_status_) as crt_qua_ 
+	from buss_customer_ bcu LEFT JOIN buss_contract_info_ bct on bcu.customer_id_ = bct.customer_id_ and bct.cont_status_='11'
+	where create_user_ = #{createUser}
+        <if test="cusCha != null and cusCha != ''" >
+			and cus_cha_ = #{cusCha}
+		</if>
+		<if test="cusType != null and cusType != ''" >
+			and cus_type_ = #{cusType}
+		</if>
+		<if test="customerId != null and customerId != ''" >
+			and customer_id_ = #{customerId}
+		</if>
+  </select>
+  
   
 </mapper>

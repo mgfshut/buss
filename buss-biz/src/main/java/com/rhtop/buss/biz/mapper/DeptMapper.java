@@ -4,33 +4,33 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
-import com.rhtop.buss.common.entity.Company;
+import com.rhtop.buss.common.entity.Dept;
 
-public interface CompanyMapper {
+public interface DeptMapper {
 	
 	/**
 	 * 根据条件新增对象
 	 */
-    int insertSelective(Company company);
+    int insertSelective(Dept dept);
 	/**
 	 * 根据主键删除对象
 	 */
-    int deleteByPrimaryKey(String companyId);
+    int deleteByPrimaryKey(String deptId);
     /**
 	 * 根据条件修改对象
 	 */
-    int updateByPrimaryKeySelective(Company company);
+    int updateByPrimaryKeySelective(Dept dept);
     /**
 	 * 根据主键查询对象
 	 */
-    Company selectByPrimaryKey(String companyId);
+    Dept selectByPrimaryKey(String deptId);
     /**
      * 根据条件查询列表
      */
-	List<Company> listCompanys(Company company);
+	List<Dept> listDepts(Dept dept);
     /**
      * 根据条件分页查询列表
      */
-	List<Company> listPageCompany(Company company);
+	List<Dept> listPageDept(Dept dept);
     
 }

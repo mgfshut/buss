@@ -6,7 +6,11 @@ package com.rhtop.buss.biz.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -46,6 +50,68 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	public List<RelCategoryPrice> listPageRelCategoryPrice(RelCategoryPrice relCategoryPrice) {
 		List<RelCategoryPrice> relCategoryPrices = relCategoryPriceMapper.listPageRelCategoryPrice(relCategoryPrice);
 		return relCategoryPrices;
+	}
+
+	@Override
+	public int createOrUpdateWholesaleAndAcptPriceByCategoryId(RelCategoryPrice relCategoryPrice) {
+		//先通过品类ID检查这条关系记录是否已经存在
+		RelCategoryPrice rel = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		int status = 0;
+		if(rel==null){
+			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+			relCategoryPrice.setCreateUser(relCategoryPrice.getMgrId());
+			relCategoryPrice.setCreateTime(now);
+			status = relCategoryPriceMapper.insertSelective(relCategoryPrice);
+			return status;
+		}else{
+			rel.setMidUpdateTime(now);
+			rel.setWholesalePri(relCategoryPrice.getWholesalePri());
+			rel.setAcptPri(relCategoryPrice.getAcptPri());
+			rel.setUpdateUser(relCategoryPrice.getMgrId());
+			rel.setUpdateTime(now);
+			status = relCategoryPriceMapper.updateByCategoryId(rel);
+			return status;
+		}
+	}
+
+	@Override
+	public int createOrUpdateMidPriceByCategoryId(RelCategoryPrice relCategoryPrice) {
+		//先通过品类ID检查这条关系记录是否已经存在
+		RelCategoryPrice rel = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		int status = 0;
+		if(rel==null){
+			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+			relCategoryPrice.setCreateUser(relCategoryPrice.getRegMgrId());
+			relCategoryPrice.setCreateTime(now);
+			status = relCategoryPriceMapper.insertSelective(relCategoryPrice);
+			return status;
+		}else{
+			rel.setMidUpdateTime(now);
+			rel.setSpotMin(relCategoryPrice.getSpotMin());
+			rel.setSpotMax(relCategoryPrice.getSpotMax());
+			rel.setInterFutMin(relCategoryPrice.getInterFutMin());
+			rel.setInterFutMax(relCategoryPrice.getInterFutMax());
+			rel.setFutMin(relCategoryPrice.getFutMin());
+			rel.setFutMax(relCategoryPrice.getFutMax());
+			rel.setUpdateUser(relCategoryPrice.getRegMgrId());
+			rel.setMidUpdateTime(now);
+			rel.setUpdateTime(now);
+			status = relCategoryPriceMapper.updateByCategoryId(rel);
+			return status;
+		}
+	}
+
+	@Override
+	public int createOrUpdateOfferPriceAndTimeByCategoryId(
+			RelCategoryPrice relCategoryPrice) {
+		relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+		return 0;
 	}
 
 }

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.DeptMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Dept" >
+	<id column="dept_id_" property="deptId" jdbcType="CHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="dept_city_" property="deptCity" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="dept_type_" property="deptType" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="parent_dept_" property="parentDept" jdbcType="VARCHAR" />
+	<result column="dept_name_" property="deptName" jdbcType="VARCHAR" />
+	<result column="dept_code_" property="deptCode" jdbcType="VARCHAR" />
+	<!-- 通过外键查询的字段 -->
+	<result column="parentDeptName" property="parentDeptName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	create_time_,
+  	dept_city_,
+  	update_time_,
+  	dept_type_,
+  	update_user_,
+  	create_user_,
+  	parent_dept_,
+  	dept_id_,
+  	dept_name_,
+  	dept_code_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Dept" >
+    insert into sys_dept_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="deptCity != null" >
+	    	dept_city_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="deptType != null" >
+	    	dept_type_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="parentDept != null" >
+	    	parent_dept_,
+	    </if>
+    	<if test="deptId != null" >
+	    	dept_id_,
+	    </if>
+    	<if test="deptName != null" >
+	    	dept_name_,
+	    </if>
+    	<if test="deptCode != null" >
+	    	dept_code_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="deptCity != null" >
+	    	#{deptCity},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="deptType != null" >
+	    	#{deptType},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="parentDept != null" >
+	    	#{parentDept},
+	    </if>
+    	<if test="deptId != null" >
+	    	#{deptId},
+	    </if>
+    	<if test="deptName != null" >
+	    	#{deptName},
+	    </if>
+    	<if test="deptCode != null" >
+	    	#{deptCode},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_dept_ where
+	dept_id_ = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Dept" >
+    update sys_dept_
+    <set >
+		<if test="createTime != null and createTime != ''" >
+        	create_time_ = #{createTime},
+      	</if>
+		<if test="deptCity != null and deptCity != ''" >
+        	dept_city_ = #{deptCity},
+      	</if>
+		<if test="updateTime != null and updateTime != ''" >
+        	update_time_ = #{updateTime},
+      	</if>
+		<if test="deptType != null and deptType != ''" >
+        	dept_type_ = #{deptType},
+      	</if>
+		<if test="updateUser != null and updateUser != ''" >
+        	update_user_ = #{updateUser},
+      	</if>
+		<if test="createUser != null and createUser != ''" >
+        	create_user_ = #{createUser},
+      	</if>
+		<if test="parentDept != null and parentDept != ''" >
+        	parent_dept_ = #{parentDept},
+      	</if>
+		<if test="deptName != null and deptName != ''" >
+        	dept_name_ = #{deptName},
+      	</if>
+		<if test="deptCode != null and deptCode != ''" >
+        	dept_code_ = #{deptCode},
+      	</if>
+    </set>
+    where 
+	dept_id_ = #{deptId}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select a.*,b.dept_name_ AS parentDeptName FROM sys_dept_ a LEFT JOIN sys_dept_ b 
+  	ON a.parent_dept_ = b.dept_id_  where a.dept_id_ = #{0}
+  </select>
+  <!-- 根据条件查询列表 -->
+  <select id="listDepts" parameterType="com.rhtop.buss.common.entity.Dept" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_dept_ where 1=1
+    	<if test="createTime != null and createTime != ''" >
+			and create_time_ = #{createTime}
+		</if>
+    	<if test="deptCity != null and deptCity != ''" >
+			and dept_city_ = #{deptCity}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and update_time_ = #{updateTime}
+		</if>
+    	<if test="deptType != null and deptType != ''" >
+			and dept_type_ = #{deptType}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and update_user_ = #{updateUser}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and create_user_ = #{createUser}
+		</if>
+    	<if test="parentDept != null and parentDept != ''" >
+			and parent_dept_ = #{parentDept}
+		</if>
+    	<if test="deptId != null and deptId != ''" >
+			and dept_id_ = #{deptId}
+		</if>
+    	<if test="deptName != null and deptName != ''" >
+			and dept_name_ = #{deptName}
+		</if>
+    	<if test="deptCode != null and deptCode != ''" >
+			and dept_code_ = #{deptCode}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageDept" parameterType="com.rhtop.buss.common.entity.Dept" resultMap="BaseResultMap">
+  	select a.*,b.dept_name_ AS parentDeptName FROM sys_dept_ a LEFT JOIN sys_dept_ b 
+  	ON a.parent_dept_ = b.dept_id_  where 1=1
+    	<if test="createTime != null and createTime != ''" >
+			and a.create_time_ = #{createTime}
+		</if>
+    	<if test="deptCity != null and deptCity != ''" >
+			and a.dept_city_ = #{deptCity}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and a.update_time_ = #{updateTime}
+		</if>
+    	<if test="deptType != null and deptType != ''" >
+			and a.dept_type_ = #{deptType}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and a.update_user_ = #{updateUser}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and a.create_user_ = #{createUser}
+		</if>
+    	<if test="parentDept != null and parentDept != ''" >
+			and a.parent_dept_ = #{parentDept}
+		</if>
+    	<if test="deptId != null and deptId != ''" >
+			and a.dept_id_ = #{deptId}
+		</if>
+    	<if test="deptName != null and deptName != ''" >
+			and a.dept_name_ = #{deptName}
+		</if>
+    	<if test="deptCode != null and deptCode != ''" >
+			and a.dept_code_ = #{deptCode}
+		</if>
+		<if test="parentDeptName != null and parentDeptName != ''" >
+			and b.dept_name_ = #{parentDeptName}
+		</if>
+		 ORDER BY a.dept_code_ ASC
+  </select>
+  
+</mapper>

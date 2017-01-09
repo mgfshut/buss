@@ -9,16 +9,18 @@
 	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
 	<result column="member_name_" property="memberName" jdbcType="VARCHAR" />
 	<result column="member_email_" property="memberEmail" jdbcType="VARCHAR" />
-	<result column="department_code_" property="departmentCode" jdbcType="VARCHAR" />
+	<result column="dept_id_" property="deptId" jdbcType="VARCHAR" />
 	<result column="member_id_card_no_" property="memberIdCardNo" jdbcType="VARCHAR" />
 	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
 	<result column="member_phone_" property="memberPhone" jdbcType="VARCHAR" />
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
-	<result column="company_city_" property="companyCity" jdbcType="VARCHAR" />
+	<result column="dept_city_" property="deptCity" jdbcType="VARCHAR" />
 	<result column="head_image_" property="headImage" jdbcType="VARCHAR" />
+	<result column="member_job_" property="memberJob" jdbcType="VARCHAR" />
 	<!-- 通过外键查询的字段 -->
 	<result column="user_name_" property="userName" jdbcType="VARCHAR" />
 	<result column="user_status_" property="userStatus" jdbcType="VARCHAR" />
+	<result column="dept_name_" property="deptName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -27,14 +29,15 @@
   	create_time_,
   	member_name_,
   	member_email_,
-  	department_code_,
+  	dept_id_,
   	member_id_card_no_,
   	update_time_,
   	member_phone_,
   	member_id_,
   	create_user_,
-  	company_city_,
-  	head_image_
+  	dept_city_,
+  	head_image_,
+  	member_job_
   </sql>
   
   <!-- 根据条件新增对象-->
@@ -56,8 +59,8 @@
     	<if test="memberEmail != null" >
 	    	member_email_,
 	    </if>
-    	<if test="departmentCode != null" >
-	    	department_code_,
+    	<if test="deptId != null" >
+	    	dept_id_,
 	    </if>
     	<if test="memberIdCardNo != null" >
 	    	member_id_card_no_,
@@ -74,11 +77,14 @@
     	<if test="createUser != null" >
 	    	create_user_,
 	    </if>
-    	<if test="companyCity != null" >
-	    	company_city_,
+    	<if test="deptCity != null" >
+	    	dept_city_,
 	    </if>
     	<if test="headImage != null" >
 	    	head_image_,
+	    </if>
+	    <if test="memberJob != null" >
+	    	member_job_,
 	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -97,8 +103,8 @@
     	<if test="memberEmail != null" >
 	    	#{memberEmail},
 	    </if>
-    	<if test="departmentCode != null" >
-	    	#{departmentCode},
+    	<if test="deptId != null" >
+	    	#{deptId},
 	    </if>
     	<if test="memberIdCardNo != null" >
 	    	#{memberIdCardNo},
@@ -115,11 +121,14 @@
     	<if test="createUser != null" >
 	    	#{createUser},
 	    </if>
-    	<if test="companyCity != null" >
-	    	#{companyCity},
+    	<if test="deptCity != null" >
+	    	#{deptCity},
 	    </if>
     	<if test="headImage != null" >
 	    	#{headImage},
+	    </if>
+	    <if test="memberJob != null" >
+	    	#{memberJob},
 	    </if>
     </trim>
   </insert>
@@ -147,8 +156,8 @@
 		<if test="memberEmail != null and memberEmail != ''" >
         	member_email_ = #{memberEmail},
       	</if>
-		<if test="departmentCode != null and departmentCode != ''" >
-        	department_code_ = #{departmentCode},
+		<if test="deptId != null and deptId != ''" >
+        	dept_id_ = #{deptId},
       	</if>
 		<if test="memberIdCardNo != null and memberIdCardNo != ''" >
         	member_id_card_no_ = #{memberIdCardNo},
@@ -162,11 +171,14 @@
 		<if test="createUser != null and createUser != ''" >
         	create_user_ = #{createUser},
       	</if>
-		<if test="companyCity != null and companyCity != ''" >
-        	company_city_ = #{companyCity},
+		<if test="deptCity != null and deptCity != ''" >
+        	dept_city_ = #{deptCity},
       	</if>
 		<if test="headImage != null and headImage != ''" >
         	head_image_ = #{headImage},
+      	</if>
+      	<if test="memberJob != null and memberJob != ''" >
+        	member_job_ = #{memberJob},
       	</if>
     </set>
     where 
@@ -174,8 +186,9 @@
   </update>
   <!-- 根据主键查询对象-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-	select a.*,b.user_name_,b.user_status_
+	select a.*,b.user_name_,b.user_status_,c.dept_name_
     from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ 
+    LEFT JOIN sys_dept_ c ON a.dept_id_ = c.dept_id_ 
     where a.member_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
@@ -198,8 +211,8 @@
     	<if test="memberEmail != null and memberEmail != ''" >
 			and member_email_ = #{memberEmail}
 		</if>
-    	<if test="departmentCode != null and departmentCode != ''" >
-			and department_code_ = #{departmentCode}
+    	<if test="deptId != null and deptId != ''" >
+			and dept_id_ = #{deptId}
 		</if>
     	<if test="memberIdCardNo != null and memberIdCardNo != ''" >
 			and member_id_card_no_ = #{memberIdCardNo}
@@ -216,17 +229,21 @@
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}
 		</if>
-    	<if test="companyCity != null and companyCity != ''" >
-			and company_city_ = #{companyCity}
+    	<if test="deptCity != null and deptCity != ''" >
+			and dept_city_ = #{deptCity}
 		</if>
     	<if test="headImage != null and headImage != ''" >
 			and head_image_ = #{headImage}
 		</if>
+		<if test="memberJob != null and memberJob != ''" >
+        	and member_job_ = #{memberJob}
+      	</if>
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageMember" parameterType="com.rhtop.buss.common.entity.Member" resultMap="BaseResultMap">
-  	select a.*,b.user_name_,b.user_status_
-    from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ where 1=1
+  	select a.*,b.user_name_,b.user_status_,c.dept_name_
+    from sys_member_ a LEFT JOIN sys_user_ b ON a.member_id_ = b.user_id_ 
+    LEFT JOIN sys_dept_ c ON a.dept_id_ = c.dept_id_ where 1=1
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user_ = #{updateUser}
 		</if>
@@ -242,8 +259,8 @@
     	<if test="memberEmail != null and memberEmail != ''" >
 			and member_email_ = #{memberEmail}
 		</if>
-    	<if test="departmentCode != null and departmentCode != ''" >
-			and department_code_ = #{departmentCode}
+    	<if test="deptId != null and deptId != ''" >
+			and dept_id_ = #{deptId}
 		</if>
     	<if test="memberIdCardNo != null and memberIdCardNo != ''" >
 			and member_id_card_no_ = #{memberIdCardNo}
@@ -260,12 +277,15 @@
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}
 		</if>
-    	<if test="companyCity != null and companyCity != ''" >
-			and company_city_ = #{companyCity}
+    	<if test="deptCity != null and deptCity != ''" >
+			and dept_city_ = #{deptCity}
 		</if>
     	<if test="headImage != null and headImage != ''" >
 			and head_image_ = #{headImage}
 		</if>
+		<if test="memberJob != null and memberJob != ''" >
+        	and member_job_ = #{memberJob}
+      	</if>
   </select>
   
 </mapper>

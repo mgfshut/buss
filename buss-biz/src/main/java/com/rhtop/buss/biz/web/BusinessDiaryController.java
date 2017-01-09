@@ -23,7 +23,7 @@ public class BusinessDiaryController {
 	private BusinessDiaryService businessDiaryService;
 	
     /**
-     * 新增
+     * 新增 
      */
 	@ResponseBody
 	@RequestMapping("/save")

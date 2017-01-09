@@ -30,6 +30,8 @@ public class ContactsInfo {
 	
 	private Page page;//分页
 	
+	private String contactTotal;//联系人数量
+	
 	public Page getPage() {
 		return page;
 	}
@@ -166,5 +168,13 @@ public class ContactsInfo {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getContactTotal() {
+		return contactTotal;
+	}
+
+	public void setContactTotal(String contactTotal) {
+		this.contactTotal = contactTotal;
 	}
 }
