@@ -1,6 +1,7 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.hash.Hashing;
 import com.rhtop.buss.common.entity.Module;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.User;
@@ -20,6 +22,7 @@ import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.biz.service.ModuleService;
 import com.rhtop.buss.biz.service.UserService;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/user")
@@ -159,6 +162,29 @@ public class UserController {
 	public User logout(@RequestParam("userId") String userId) {
 		User user = userService.selectByPrimaryKey(userId);
 		return user;
+	}
+	
+	@RequestMapping("/modifyUserPass")
+	@ResponseBody
+	public HtmlMessage modifyUserPass(
+			@RequestParam(value = "userId") String userId,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "newPassword", required = false) String newPassword,
+			@RequestParam(value = "newPassword1", required = false) String newPassword1) {
+		if (newPassword.equals(newPassword1)) {
+			User user = userService.selectByPrimaryKey(userId);
+			if (user.getUserPassword().equals(Hashing.md5().hashString(password, Charset.forName("utf-8")).toString())) {
+				user.setUserPassword(Hashing.md5().hashString(newPassword, Charset.forName("utf-8")).toString());
+				user.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				user.setUpdateUser(userId);
+				userService.updateUser(user);
+				return new HtmlMessage("200", "密码修改成功");
+			} else {
+				return new HtmlMessage("300", "当前输入密码错误!");
+			}
+		} else {
+			return new HtmlMessage("300", "两次输入密码不相符!");
+		}
 	}
 	
 }

@@ -76,6 +76,9 @@ public class OutController {
 			if(!token.equals(readToken)){
 				propertyUtil.setValue(kuser.getUserId(), token);
 			}
+			
+			System.out.println("token=========="+token);
+			System.out.println("memberId==========="+kuser.getUserId());
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
@@ -160,6 +163,8 @@ public class OutController {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
+		System.out.println("token=========="+token);
+		System.out.println("memberId==========="+memberId);
 		Map<String,Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
