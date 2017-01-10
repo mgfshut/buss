@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.Page;
@@ -138,7 +139,7 @@ public class OutController {
 
 	
 	/**
-	 * 客户经理查询所属的客户信息，条件查询（地区，类型，渠道）
+	 * 客户经理查询所属的客户信息列表，分页，条件查询（地区，类型，渠道）
 	 * @param request
 	 * @param customer
 	 * @author lujin
@@ -146,7 +147,6 @@ public class OutController {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2001")
 	public ResultInfo listCustomers(HttpServletRequest request,@RequestBody Customer customer){
-		
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
@@ -184,5 +184,91 @@ public class OutController {
 		return readResult;
 	}
 	
+	/**
+	 * 客户经理查看品类列表，分页查询
+	 * @param request
+	 * @param category
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2003")
+	public ResultInfo listCategorys(HttpServletRequest request,@RequestBody Category category){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		Map<String,Object> result = Jwt.validToken(token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if(!"200".equals(result.get("code").toString())){
+			readResult.setResObject(category);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2003", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
 
+	/**
+	 * 客户经理查看品类详情
+	 * @param request
+	 * @param category
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2004")
+	public ResultInfo categorys(HttpServletRequest request, @RequestBody Category category) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		Map<String, Object> result = Jwt.validToken(token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(category);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2004", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+
+	
+	/**
+	 * 客户经理查看信息采集列表
+	 * @param request
+	 * @param member
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2005")
+	public ResultInfo listRelCategoryPrices(HttpServletRequest request, @RequestBody Member member) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		Map<String, Object> result = Jwt.validToken(token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(member);
+			JSONObject jsonUser = JSONObject.fromObject(member);
+			readResult =(ResultInfo)service.invoke("readData-R2005", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 客户经理查看信息采集详情
+	 * @param request
+	 * @param member
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2006")
+	public ResultInfo categoryPriceInfo(HttpServletRequest request, @RequestBody Category category) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		Map<String, Object> result = Jwt.validToken(token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(category);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2006", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
 }

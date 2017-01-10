@@ -21,8 +21,8 @@ import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
-import com.rhtop.buss.common.web.HtmlMessage;
 
 @RestController
 @RequestMapping(value = "service/readData")
@@ -101,11 +101,17 @@ public class ReadController {
 	/**
 	 * 接口id:R2003
 	 * 客户经理  查询 品类信息
-	 * 查询所有， 根据地区,品名，厂号查询
+	 * 查询所有， 分页查询 根据地区,品名，厂号查询
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2003")
 	public ResultInfo listCategorys(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		category.setCusLoc(category.getCusLoc());
+		List<Category> listCategorys = catSer.listPageCategory(category);
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(listCategorys);
 		return readResult;
 	}
 	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2003")
@@ -129,6 +135,18 @@ public class ReadController {
 	 * 接口id：R2004
 	 * 客户经理 查询品类的详细信息
 	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2004")
+	public ResultInfo categoryInfo(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Customer.class);
+		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		// TODO 需要返回的是图片在服务器上的绝对路径
+		cate.setCatePic("" + cate.getCatePic());
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(cate);
+		return readResult;
+	}
 	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2004")
 	public ReadResult<Category>  categoryInfo(HttpServletRequest request,
 			@RequestBody Category category) {
@@ -154,6 +172,16 @@ public class ReadController {
 	 * 客户经理已采集
 	 * 所有未采集
 	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
+	public ResultInfo listRelcategoryPrice(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Member member = (Member) JSONObject.toBean(jsonObject, Member.class);
+		List<Category> categoeylist =catSer.listPageCategoeyByPrice(member.getMemberId());
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(categoeylist);
+		return readResult;
+	}
 	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
 	public ReadResult<List<Category>>  listRelCategoryPrices(HttpServletRequest request,
 			@RequestBody Member member) {
@@ -175,6 +203,22 @@ public class ReadController {
 	 * 品类的采集信息详情
 	 * 品类id
 	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2006")
+	public ResultInfo categoryPriceInfo(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		//品类信息
+		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		//获取品类价格信息
+		RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+		relCategoryPrice.setCategoryId(category.getCategoryId());
+		List<RelCategoryPrice> rcps = catPriSer.listRelCategoryPrices(relCategoryPrice);
+		cate.setRcps(rcps);
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(cate);
+		return readResult;
+	}
 /*	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2006")
 	public ReadResult<Category> categoryPriceInfo(HttpServletRequest request,
 			@RequestBody Category category ) {

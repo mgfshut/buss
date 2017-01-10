@@ -38,6 +38,6 @@ public interface CustomerMapper {
 	 * @param customer
 	 * @return
 	 */
-	List<Customer> selectCustomerByCreateUser(Customer customer);
+	List<Customer> listPageCustomerByCreateUser(Customer customer);
     
 }

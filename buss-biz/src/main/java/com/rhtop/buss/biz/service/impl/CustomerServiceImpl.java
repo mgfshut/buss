@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public List<Customer> listPageCustomer(Customer customer) {
-		List<Customer> customers = customerMapper.listPageCustomer(customer);
+		List<Customer> customers = customerMapper.listPageCustomerByCreateUser(customer);
 		return customers;
 	}
 
@@ -84,7 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<Customer> selectCustomerInfo(Customer customer) {
-		List<Customer> customers = customerMapper.selectCustomerByCreateUser(customer);
+		List<Customer> customers = customerMapper.listPageCustomerByCreateUser(customer);
 		return customers;
 	}
 
