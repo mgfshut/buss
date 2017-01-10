@@ -9,6 +9,7 @@
 	<result column="opr_user_" property="oprUser" jdbcType="VARCHAR" />
 	<result column="opr_time_" property="oprTime" jdbcType="VARCHAR" />
 	<result column="opr_type_" property="oprType" jdbcType="VARCHAR" />
+	<result column="opr_name_" property="oprName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -17,7 +18,8 @@
   	opr_user_,
   	deal_log_id_,
   	opr_time_,
-  	opr_type_
+  	opr_type_,
+  	opr_name_
   </sql>
   
   <!-- 根据条件新增对象-->
@@ -42,6 +44,9 @@
     	<if test="oprType != null" >
 	    	opr_type_,
 	    </if>
+	    <if test="oprName != null" >
+	    	opr_name_,
+	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="oprContent != null" >
@@ -61,6 +66,9 @@
 	    </if>
     	<if test="oprType != null" >
 	    	#{oprType},
+	    </if>
+	    <if test="oprName != null" >
+	    	#{oprName},
 	    </if>
     </trim>
   </insert>
@@ -87,6 +95,9 @@
       	</if>
 		<if test="oprType != null and oprType != ''" >
         	opr_type_ = #{oprType},
+      	</if>
+      	<if test="oprName != null and oprName != ''" >
+        	opr_name_ = #{oprName},
       	</if>
     </set>
     where 
@@ -122,6 +133,9 @@
     	<if test="oprType != null and oprType != ''" >
 			and opr_type_ = #{oprType}
 		</if>
+		<if test="oprName != null and oprName != ''" >
+			and opr_name_ = #{oprName}
+		</if>
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageDealLog" parameterType="com.rhtop.buss.common.entity.DealLog" resultMap="BaseResultMap">
@@ -145,6 +159,9 @@
 		</if>
     	<if test="oprType != null and oprType != ''" >
 			and opr_type_ = #{oprType}
+		</if>
+		<if test="oprName != null and oprName != ''" >
+			and opr_name_ = #{oprName}
 		</if>
   </select>
   
