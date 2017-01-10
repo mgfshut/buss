@@ -20,9 +20,7 @@ import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
-import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.ResultInfo;
-import com.rhtop.buss.common.web.HtmlMessage;
 
 @RestController
 @RequestMapping(value = "service/readData")
@@ -41,16 +39,6 @@ public class ReadController {
 	private BusinessDiaryService busDiaSer;
 	@Autowired
 	private MemberService memberService;
-	@RequestMapping("/viewMember")
-	public ResultInfo viewMember(@RequestParam("body") String body) {
-		JSONObject jsonObject=JSONObject.fromObject(body);
-		Member mem = (Member)JSONObject.toBean(jsonObject, Member.class);
-		ResultInfo readResult = new ResultInfo();
-		Member member = memberService.selectByPrimaryKey(mem.getMemberId());
-		readResult.setCode("200");
-		readResult.setResObject(member);
-		return readResult;
-	}
 	
 	/**
 	 * 接口id：R2001

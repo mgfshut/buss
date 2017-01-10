@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
-import com.rhtop.buss.common.entity.Page;
-import com.rhtop.buss.common.entity.ReadResult;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.security.UserLoginToken;
@@ -48,9 +46,6 @@ public class OutController {
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/login")
 	public ResultInfo login(HttpServletRequest request, @RequestBody User user){
 		ResultInfo readResult = new ResultInfo();
-		System.out.println(user.getUserName());
-		System.out.println(user.getUserPassword());
-		System.out.println(request.getHeader("token"));
 		try{
 			UserLoginToken loginToken = new UserLoginToken();
 			loginToken.setHost(request.getHeader("host"));
@@ -68,20 +63,18 @@ public class OutController {
 			Date date=new Date();
 			payload.put("uid", kuser.getUserId());//用户ID+设备类型
 			payload.put("iat", date.getTime());//生成时间
-			payload.put("ext",date.getTime()+1000*60*60);//过期时间1小时
+			payload.put("ext",date.getTime()+30*24*1000*60*60);//过期时间30天
 			String token=Jwt.createToken(payload);
 			member.setToken(token);
 			readResult.setCode("200");
 			readResult.setMessage("登录成功");
 			readResult.setResObject(member);
-			System.out.println("登录成功");
 			PropertyUtil propertyUtil = new PropertyUtil("properties/token.properties");
 			//从配置文件中读取上传文件的存放根路径
 			String readToken = propertyUtil.readValue(kuser.getUserId());
 			if(!token.equals(readToken)){
 				propertyUtil.setValue(kuser.getUserId(), token);
 			}
-			System.out.println(readToken);
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
@@ -90,46 +83,17 @@ public class OutController {
 		return readResult;
 	}
 	
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/readData/viewMember")
-	public ResultInfo readData(HttpServletRequest request,
-			@RequestBody Member member) {
-		ResultInfo readResult = new ResultInfo();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if (!"200".equals(result.get("code").toString())) {
-			JSONObject jsonUser = JSONObject.fromObject(member); 
-			readResult = (ResultInfo) service.invoke("readData-viewMember", "POST", jsonUser.toString(), ResultInfo.class);
-		}
-		return readResult;
-	}
-	
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/viewMember")
-	public ResultInfo writeData(HttpServletRequest request,
-			@RequestBody Member member) {
-		ResultInfo readResult = new ResultInfo();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-			JSONObject jsonUser = JSONObject.fromObject(member); 
-			readResult = (ResultInfo) service.invoke("writeData-viewMember", "POST", jsonUser.toString(), ResultInfo.class);
-		}
-		return readResult;
-	}
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0001")
 	public ResultInfo addCustomerAndCategory(HttpServletRequest request,@RequestBody Customer customer){
 //		System.out.println(customer.getCusName());
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if (!"200".equals(result.get("code").toString())) {
-			customer.setUpdateUser(userId);
+			customer.setUpdateUser(memberId);
 			JSONObject jsonCustomer = JSONObject.fromObject(customer);
 			readResult = (ResultInfo) service.invoke("writeData-In0001", "POST", jsonCustomer.toString() , ResultInfo.class);
 		}
@@ -150,7 +114,7 @@ public class OutController {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if (!"200".equals(result.get("code").toString())) {
@@ -173,7 +137,8 @@ public class OutController {
 	public ResultInfo customersInfo(HttpServletRequest request, @RequestBody Customer customer) {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
-		Map<String,Object> result = Jwt.validToken(token);
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if(!"200".equals(result.get("code").toString())){
