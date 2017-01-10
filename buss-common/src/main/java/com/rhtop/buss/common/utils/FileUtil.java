@@ -77,7 +77,7 @@ public class FileUtil {
 			String uploadPath = sdf.format(date); 
 			File dir = FileUtil.findOrCreateDirectory(locRootPath, uploadPath);
 			//读取文件后缀名
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			String suffix = fileName.substring(fileName.lastIndexOf(".")+1);
 			//生成前缀,32位UUID+5位随机数
 			double ran = 100000.0*Math.random();
