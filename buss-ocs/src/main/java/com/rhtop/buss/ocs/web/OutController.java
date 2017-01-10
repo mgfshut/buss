@@ -150,5 +150,24 @@ public class OutController {
 		return readResult;
 	}
 	
+	/**
+	 * 查询所有代码集编码
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/getAllCodeMap")
+	public ResultInfo customersInfo(HttpServletRequest request) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			readResult = (ResultInfo) service.invoke("readData-getAllCodeMap", "POST", new String(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
 
 }
