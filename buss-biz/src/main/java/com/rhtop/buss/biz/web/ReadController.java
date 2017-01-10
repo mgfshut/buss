@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.CodeMap;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
@@ -41,16 +43,8 @@ public class ReadController {
 	private BusinessDiaryService busDiaSer;
 	@Autowired
 	private MemberService memberService;
-	@RequestMapping("/viewMember")
-	public ResultInfo viewMember(@RequestParam("body") String body) {
-		JSONObject jsonObject=JSONObject.fromObject(body);
-		Member mem = (Member)JSONObject.toBean(jsonObject, Member.class);
-		ResultInfo readResult = new ResultInfo();
-		Member member = memberService.selectByPrimaryKey(mem.getMemberId());
-		readResult.setCode("200");
-		readResult.setResObject(member);
-		return readResult;
-	}
+	@Autowired
+	private CodeMapService codeMapService;
 	
 	/**
 	 * 接口id：R2001
@@ -113,6 +107,19 @@ public class ReadController {
 		List<Category> listCategorys = catSer.listPageCategory(category);
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(listCategorys);
+		return readResult;
+	}
+	
+	/**
+	 * 查询所有代码集和代码值
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/getAllCodeMap")
+	public ResultInfo getAllCodeMap(){
+		ResultInfo readResult = new ResultInfo();
+		List<CodeMap> codeMapList = codeMapService.listAllCode();
+		readResult.setCode("200");
+		readResult.setRecords(codeMapList);
 		return readResult;
 	}
 	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2003")

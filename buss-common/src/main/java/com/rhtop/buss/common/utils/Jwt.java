@@ -65,31 +65,39 @@ public class Jwt {
      * @param token
      * @return  Map<String, Object>
      */
-	public static Map<String, Object> validToken(String token) {
+	public static Map<String, Object> validToken(String memberId,String token) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			JWSObject jwsObject = JWSObject.parse(token);
 			Payload payload = jwsObject.getPayload();
 			JWSVerifier verifier = new MACVerifier(SECRET);
+			
+			PropertyUtil propertyUtil = new PropertyUtil("properties/token.properties");
+			//从配置文件中读取上传文件的存放根路径
+			String readToken = propertyUtil.readValue(memberId);
 
 			if (jwsObject.verify(verifier)) {
-				JSONObject jsonOBj = payload.toJSONObject();
-				// token校验成功（此时没有校验是否过期）
-//				resultMap.put("message", TokenState.VALID.toString());
-				// 若payload包含ext字段，则校验是否过期
-				if (jsonOBj.containsKey("ext")) {
-					long extTime = Long.valueOf(jsonOBj.get("ext").toString());
-					long curTime = new Date().getTime();
-					// 过期了
-					if (curTime > extTime) {
-						resultMap.clear();
-						resultMap.put("code", "999");
-						resultMap.put("message", "token过期！");
-						return resultMap;
+				if (token.equals(readToken)) {
+					JSONObject jsonOBj = payload.toJSONObject();
+					// 若payload包含ext字段，则校验是否过期
+					if (jsonOBj.containsKey("ext")) {
+						long extTime = Long.valueOf(jsonOBj.get("ext").toString());
+						long curTime = new Date().getTime();
+						// 过期了
+						if (curTime > extTime) {
+							resultMap.clear();
+							resultMap.put("code", "999");
+							resultMap.put("message", "token过期！");
+							return resultMap;
+						}
 					}
+					resultMap.put("code", "200");
+					resultMap.put("message", "token校验成功！");
+				}else{
+					// 校验失败
+					resultMap.put("code", "999");
+					resultMap.put("message", "token校验失败！");
 				}
-				resultMap.put("code", "200");
-				resultMap.put("message", "token校验成功！");
 			} else {
 				// 校验失败
 				resultMap.put("code", "999");

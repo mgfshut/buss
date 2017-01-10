@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.util.List;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,6 +29,16 @@ public class CodeMap {
 	private String codeMapId;//代码集ID
 	
 	private Page page;//分页
+	
+	private List<CodeValue> CodeValueList;//代码值列表
+	
+	public List<CodeValue> getCodeValueList() {
+		return CodeValueList;
+	}
+
+	public void setCodeValueList(List<CodeValue> codeValueList) {
+		CodeValueList = codeValueList;
+	}
 	
 	public Page getPage() {
 		return page;

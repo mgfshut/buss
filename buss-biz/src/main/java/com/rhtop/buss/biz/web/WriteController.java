@@ -1,6 +1,5 @@
 package com.rhtop.buss.biz.web;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
@@ -41,7 +37,6 @@ import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.utils.Jwt;
 import com.rhtop.buss.common.web.BaseController;
-import com.sun.corba.se.pept.transport.ContactInfo;
 /**
  * 对外接口的写入功能控制器，内部接口按照操作类型分为两类，
  * 信息采集相关接口的命名为前缀In+四位编号0001依次递增,
@@ -194,7 +189,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String mgrId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(mgrId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过
@@ -230,7 +225,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(userId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过
@@ -271,7 +266,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(userId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过
@@ -311,7 +306,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(userId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过
@@ -358,7 +353,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(userId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过
@@ -407,7 +402,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(userId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过
@@ -447,7 +442,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(userId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过
@@ -516,7 +511,7 @@ public class WriteController extends BaseController{
 		ReadResult<String> readResult = new ReadResult<String>();
 		String token = request.getHeader("token");
 		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(token);
+		Map<String, Object> result = Jwt.validToken(userId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		//检查校验是否通过

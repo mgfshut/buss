@@ -9,13 +9,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import com.rhtop.buss.common.entity.CodeMap;
+import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.biz.mapper.CodeMapMapper;
+import com.rhtop.buss.biz.mapper.CodeValueMapper;
 import com.rhtop.buss.biz.service.CodeMapService;
 
 @Service("codeMapService")
 public class CodeMapServiceImpl implements CodeMapService {
 	@Autowired
 	private CodeMapMapper codeMapMapper;
+	@Autowired
+	private CodeValueMapper codeValueMapper;
 	
 	@Override
 	public int insertCodeMap(CodeMap codeMap) {
@@ -47,6 +51,16 @@ public class CodeMapServiceImpl implements CodeMapService {
 	public List<CodeMap> listPageCodeMap(CodeMap codeMap) {
 		List<CodeMap> codeMaps = codeMapMapper.listPageCodeMap(codeMap);
 		return codeMaps;
+	}
+
+	@Override
+	public List<CodeMap> listAllCode() {
+		List<CodeMap> codeMapList = codeMapMapper.listCodeMaps(new CodeMap());
+		for(CodeMap codeMap:codeMapList){
+			List<CodeValue> codeValueList = codeValueMapper.listCodeValuesByCode(codeMap.getCode());
+			codeMap.setCodeValueList(codeValueList);
+		}
+		return codeMapList;
 	}
 
 }
