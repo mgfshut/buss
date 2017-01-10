@@ -161,6 +161,7 @@ public class OutController {
 	public ResultInfo listCategorys(HttpServletRequest request,@RequestBody Category category){
 		ResultInfo readResult = new ResultInfo();
 		String memberId = request.getHeader("memberId");
+		String token = request.getHeader("token");
 		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
