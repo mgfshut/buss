@@ -3,13 +3,24 @@ package com.rhtop.buss.common.entity;
 import java.util.List;
 
 public class ResultInfo {
-	private String code;
-	private String message;
-	private Object resObject;
+	
+	private String code;//响应消息码
+	
+	private String message;//响应消息文本
+	
+	private Object resObject;//数据对象
+	
 	@SuppressWarnings("rawtypes")
-	private List records;
+	private List records;//数据列表
 	
+	private Page page;//分页属性
 	
+	public Page getPage() {
+		return page;
+	}
+	public void setPage(Page page) {
+		this.page = page;
+	}
 	@SuppressWarnings("rawtypes")
 	public List getRecords() {
 		return records;

@@ -3,7 +3,7 @@ package com.rhtop.buss.ocs.web;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,10 +79,11 @@ public class OutController {
 			Member member = (Member) service.invoke("member-" + kuser.getUserId(), "GET", new HashMap(), Member.class);
 			//生成token
 			Map<String , Object> payload=new HashMap<String, Object>();
-			Date date=new Date();
 			payload.put("uid", kuser.getUserId());//用户ID+设备类型
-			payload.put("iat", date.getTime());//生成时间
-			payload.put("ext",date.getTime()+30*24*1000*60*60);//过期时间30天
+			Calendar ca = Calendar.getInstance();
+			payload.put("iat", ca.getTime().getTime());//生成时间
+			ca.add(Calendar.DATE, 30);// num为增加的天数，可以改变的
+			payload.put("ext",ca.getTime().getTime());//过期时间30天
 			String token=Jwt.createToken(payload);
 			member.setToken(token);
 			readResult.setCode("200");
@@ -329,14 +329,32 @@ public class OutController {
 		Map<String,Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if(!"200".equals(result.get("code").toString())){
+		if("200".equals(result.get("code").toString())){
+			readResult.setResObject(customer);
 			JSONObject jsonUser = JSONObject.fromObject(customer);
 			readResult = (ResultInfo) service.invoke("readData-R2002", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
+	} 
+	
+	/**
+	 * 查询所有代码集编码
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/getAllCodeMap")
+	public ResultInfo customersInfo(HttpServletRequest request) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			readResult = (ResultInfo) service.invoke("readData-getAllCodeMap", "POST", new String(), ResultInfo.class);
+		}
+		return readResult;
 	}
-	
-	
 	
 
 }

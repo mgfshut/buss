@@ -37,4 +37,9 @@ public interface CodeMapService{
 	 * 根据条件分页查询列表
 	 */
 	List<CodeMap> listPageCodeMap(CodeMap codeMap);
+	/**
+	 * 查询所有代码集和代码值
+	 * @return
+	 */
+	List<CodeMap> listAllCode();
 }
