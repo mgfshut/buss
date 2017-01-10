@@ -67,6 +67,7 @@ public class ReadController {
 		List<Customer> customers = cusSer.listPageCustomer(customer);
 		readResult.setCode("200");
 		readResult.setRecords(customers);
+		readResult.setPage(customer.getPage());
 		return readResult;
 	}
 	
