@@ -102,8 +102,27 @@ public class OutController {
 		return readResult;
 	}
 
+	/**
+	 * 查询所有代码集编码
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/getAllCodeMap")
+	public ResultInfo customersInfo(HttpServletRequest request) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			readResult = (ResultInfo) service.invoke("readData-getAllCodeMap", "POST", new String(), ResultInfo.class);
+		}
+		return readResult;
+	}
 	
 	/**
+	 * 接口id:R2001
 	 * 客户经理查询所属的客户信息列表，分页，条件查询（地区，类型，渠道）
 	 * @param request
 	 * @param customer
@@ -128,6 +147,7 @@ public class OutController {
 	}
 	
 	/**
+	 * 接口id:R2002
 	 * 客户经理查询客户的详细信息
 	 * @param request
 	 * @param customer
@@ -151,6 +171,7 @@ public class OutController {
 	}
 	
 	/**
+	 * 接口id:R2003
 	 * 客户经理查看品类列表，分页查询
 	 * @param request
 	 * @param category
@@ -172,27 +193,9 @@ public class OutController {
 		}
 		return readResult;
 	}
-	/**
-	 * 查询所有代码集编码
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/getAllCodeMap")
-	public ResultInfo customersInfo(HttpServletRequest request) {
-		ResultInfo readResult = new ResultInfo();
-		String token = request.getHeader("token");
-		String memberId = request.getHeader("memberId");
-		Map<String,Object> result = Jwt.validToken(memberId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if("200".equals(result.get("code").toString())){
-			readResult = (ResultInfo) service.invoke("readData-getAllCodeMap", "POST", new String(), ResultInfo.class);
-		}
-		return readResult;
-	}
-	
 
 	/**
+	 * 接口id:R2004
 	 * 客户经理查看品类详情
 	 * @param request
 	 * @param category
@@ -217,6 +220,7 @@ public class OutController {
 
 	
 	/**
+	 * 接口id:R2005
 	 * 客户经理查看信息采集列表
 	 * @param request
 	 * @param member
@@ -240,9 +244,11 @@ public class OutController {
 	}
 	
 	/**
+	 * 接口id:R2006
 	 * 客户经理查看信息采集详情
 	 * @param request
 	 * @param member
+	 * @author lujin
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2006")
@@ -259,5 +265,30 @@ public class OutController {
 			readResult =(ResultInfo)service.invoke("readData-R2006", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
+	}
+	
+	/**
+	 * 接口id:R2007
+	 * 客户经理查看交易信息列表
+	 * @param request
+	 * @param member
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2007")
+	public ResultInfo listtransactions(HttpServletRequest request,@RequestBody Member member){
+		ResultInfo readResultInfo = new ResultInfo();
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(memberId);
+			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResultInfo;
 	}
 }

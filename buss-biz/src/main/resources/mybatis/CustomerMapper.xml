@@ -285,13 +285,13 @@
 			and create_time_ = #{createTime}
 		</if>
   </select>
-  <!-- 查客户经理所属的客户 ,合同状态为11-->
+  <!-- 查客户经理所属的客户 ,交易状态为50-->
   <select id="listPageCustomerByCreateUser" parameterType="com.rhtop.buss.common.entity.Customer"
 	resultMap="BaseResultMap">
 	SELECT a.* ,ifnull(b.count,0) as crt_qua_ 
 	FROM buss_customer_ a LEFT JOIN (
-	SELECT customer_id_,COUNT(*) AS count FROM buss_contract_info_
-	where cont_status_='11' GROUP BY customer_id_
+	SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_
+	where tx_status_='50' GROUP BY customer_id_
 	) b ON a.customer_id_ = b.customer_id_
 	where a.create_user_ = #{createUser}
         <if test="cusCha != null and cusCha != ''" >
