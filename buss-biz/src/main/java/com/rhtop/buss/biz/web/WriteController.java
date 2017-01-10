@@ -3,12 +3,9 @@ package com.rhtop.buss.biz.web;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
@@ -30,12 +28,10 @@ import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
-import com.rhtop.buss.common.entity.ReadResult;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.utils.FileUtil;
-import com.rhtop.buss.common.utils.Jwt;
 import com.rhtop.buss.common.web.BaseController;
 /**
  * 对外接口的写入功能控制器，内部接口按照操作类型分为两类，
@@ -81,17 +77,15 @@ public class WriteController extends BaseController{
 		String userId = customer.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
-//		System.out.println("biz");
-//		System.out.println(customer.getCusName());
 		//检查传进来的客户对象是否为空，为空则返回错误信息码并结束操作。
-//		if(customer.getCusName().trim().equals("")||customer.getCusName()==null 
-//			||customer.getCusCha().trim().equals("")||customer.getCusCha()==null 
-//			||customer.getCusLoc().trim().equals("")||customer.getCusLoc()==null 
-//			||customer.getCusType().trim().equals("")||customer.getCusType()==null){
-//			readResult.setCode("500");
-//			readResult.setMessage("客户信息不能为空！");
-//			return readResult;
-//		}
+		if(customer.getCusName().trim().equals("")||customer.getCusName()==null 
+			||customer.getCusCha().trim().equals("")||customer.getCusCha()==null 
+			||customer.getCusLoc().trim().equals("")||customer.getCusLoc()==null 
+			||customer.getCusType().trim().equals("")||customer.getCusType()==null){
+			readResult.setCode("500");
+			readResult.setMessage("客户信息不能为空！");
+			return readResult;
+		}
 		
 		List<ContactsInfo> contacts = customer.getContacts();
 		List<Category> categorys = customer.getCategorys();
@@ -163,11 +157,12 @@ public class WriteController extends BaseController{
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/writeData/In0001");
+			bd.setOprType("01");//0开头是客户操作、1是品类操作、2是价格操作、3是交易操作、4是合同操作、5文件操作。||后面一位1为新增、2修改、3删除。
+			bd.setOprName("客户新增");
 			bd.setOprContent(userId+customer);
 			busDiaSer.insertBusinessDiary(bd);
 		}catch(Exception e){
-			
+			log.error("[WriteController.addCustomerAndCategory]操作日志记录异常", e);
 		}
 		
 		
@@ -185,28 +180,32 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0002")
-	public ReadResult<String> uploadPic(HttpServletRequest request, @Valid @RequestParam("picFile") MultipartFile picFile){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String mgrId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(mgrId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			String catePic = FileUtil.uploadOneFile(picFile);
+	public ResultInfo uploadPic(HttpServletRequest request, MultipartFile picFile, @RequestParam("memberId") String memberId){
+		String userId = memberId;
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		String catePic = null;
+		try {
+			catePic = FileUtil.uploadOneFile(picFile);
 			readResult.setResObject(catePic);
-			//添加一条操作记录
+		} catch (Exception e) {
+			log.error("[WriteController.uploadPic]图片上传异常", e);
+		}
+		//添加一条操作记录
+		try {
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String now = sdf.format(date);
 			BusinessDiary bd = new BusinessDiary();
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
-			bd.setOprUser(mgrId);
-			bd.setOprType("/sriteData/In0002");
+			bd.setOprUser(userId);
+			bd.setOprType("51");
+			bd.setOprName("图片上传");
 			bd.setOprContent(catePic);
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.uploadPic]操作日志记录异常", e);
 		}
 		return readResult;
 	}
@@ -221,24 +220,30 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0003")
-	public ReadResult<String> fixWholesaleAndAcptPrice(HttpServletRequest request, @Valid @RequestBody RelCategoryPrice catePri){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(userId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			try {
-				catePri.setMgrId(userId);
-				catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(catePri);
-			} catch (Exception e) {
-				e.printStackTrace();
-				readResult.setCode("500");
-				readResult.setMessage("更新失败！");
-			}
-			//新增一条操作记录
+	public ResultInfo fixWholesaleAndAcptPrice(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		RelCategoryPrice catePri = null;
+		try{
+			catePri = mapper.readValue(body, RelCategoryPrice.class);
+		}catch(Exception e){
+			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
+		}
+		 
+		String userId = catePri.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		
+		try {
+			catePri.setMgrId(userId);
+			catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(catePri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			readResult.setCode("500");
+			readResult.setMessage("更新失败！");
+			log.error("[WriteController.fixWholesaleAndAcptPrice]数据更新失败", e);
+		}
+		//新增一条操作记录
+		try {
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String now = sdf.format(date);
@@ -246,9 +251,12 @@ public class WriteController extends BaseController{
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0003");
+			bd.setOprType("22");
+			bd.setOprName("客户经理完善批发价与接盘价格。");
 			bd.setOprContent(catePri.toString());
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.fixWholesaleAndAcptPrice]日志记录异常", e);
 		}
 		return readResult;
 	}
@@ -262,24 +270,28 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0004")
-	public ReadResult<String> fixMidPrice(HttpServletRequest request, @Valid @RequestBody RelCategoryPrice catePri){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(userId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			try {
-				catePri.setRegMgrId(userId);
-				catPriSer.createOrUpdateMidPriceByCategoryId(catePri);
-			} catch (Exception e) {
-				e.printStackTrace();
-				readResult.setCode("500");
-				readResult.setMessage("更新失败！");
-			}
-			//新增一条操作记录
+	public ResultInfo fixMidPrice(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		RelCategoryPrice catePri = null;
+		try{
+			catePri = mapper.readValue(body, RelCategoryPrice.class);
+		}catch(Exception e){
+			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
+		}
+		String userId = catePri.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		try {
+			catePri.setRegMgrId(userId);
+			catPriSer.createOrUpdateMidPriceByCategoryId(catePri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			readResult.setCode("500");
+			readResult.setMessage("更新失败！");
+			log.error("[WriteController.fixMidPrice]数据更新失败", e);
+		}
+		//新增一条操作记录
+		try {
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String now = sdf.format(date);
@@ -287,9 +299,12 @@ public class WriteController extends BaseController{
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0004");
+			bd.setOprType("22");
+			bd.setOprName("分部经理完善现货价、期货价、半期货价。");
 			bd.setOprContent(catePri.toString());
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.fixMidPrice]日志记录异常", e);
 		}
 		return readResult;
 	}
@@ -302,42 +317,52 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0005")
-	public ReadResult<String> commitNewCustomerLevelOne(HttpServletRequest request, @Valid @RequestBody List<Customer> cuss){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(userId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
-			for(Customer cus : cuss){
-				cus.setUpdateTime(now);
-				cus.setUpdateUser(userId);
-				try {
-					int status = cusSer.checkCustomer(1, userId, cus);
-					if(status==0){
-						readResult.setResObject("确认完成！");
-					}else if(status == 1){
-						readResult.setResObject("后台异常！");
-					}else if(status == 2){
-						readResult.setResObject("审核流程错误！");
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+	public ResultInfo commitNewCustomerLevelOne(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		List<Customer> cuss = null;
+		try{
+			//接List的写法
+			cuss = mapper.readValue(body, new TypeReference<List<Customer>>() {});
+		}catch(Exception e){
+			log.error("[WriteController.commitNewCustomerLevelOne]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = null;
+		for(Customer cus : cuss){
+			cus.setUpdateTime(now);
+			userId = cus.getUpdateUser();
+			try {
+				int status = cusSer.checkCustomer(1, userId, cus);
+				if(status==0){
+					readResult.setMessage("确认完成！");
+				}else if(status == 1){
+					readResult.setCode("500");
+					readResult.setMessage("后台异常！");
+				}else if(status == 2){
+					readResult.setCode("500");
+					readResult.setMessage("审核流程错误！");
 				}
+			} catch (Exception e) {
+				log.error("[WriteController.commitNewCustomerLevelOne]数据更新失败", e);
 			}
-			//新增一条操作记录
+		}
+		//新增一条操作记录
+		try {
 			BusinessDiary bd = new BusinessDiary();
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0005");
+			bd.setOprType("02");
+			bd.setOprName("分部经理批量确认新增客户信息");
 			bd.setOprContent(cuss.toString());
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.commitNewCustomerLevelOne]日志记录异常", e);
 		}
 		return readResult;
 	}
@@ -349,21 +374,25 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0006")
-	public ReadResult<String> commitNewCustomerLevelTwo(HttpServletRequest request, @Valid @RequestBody List<Customer> cuss){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(userId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
+	public ResultInfo commitNewCustomerLevelTwo(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		List<Customer> cuss = null;
+		try{
+			//接List的写法
+			cuss = mapper.readValue(body, new TypeReference<List<Customer>>() {});
+		}catch(Exception e){
+			log.error("[WriteController.commitNewCustomerLevelTwo]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = null;
+		try {
 			for(Customer cus : cuss){
 				cus.setUpdateTime(now);
-				cus.setUpdateUser(userId);
+				userId = cus.getUpdateUser();
 				try {
 					int status = cusSer.checkCustomer(2, userId, cus);
 					if(status==0){
@@ -376,58 +405,72 @@ public class WriteController extends BaseController{
 						readResult.setMessage("审核流程错误！");
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.error("[WriteController.commitNewCustomerLevelTwo]数据更新失败", e);
 				}
 			}
-			//新增一条操作记录
+		} catch (Exception e) {
+			log.error("[WriteController.commitNewCustomerLevelTwo]数据更新失败", e);
+		}
+			
+		//新增一条操作记录
+		try {
 			BusinessDiary bd = new BusinessDiary();
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0006");
+			bd.setOprType("02");
+			bd.setOprName("总经理批量确认新增客户信息");
 			bd.setOprContent(cuss.toString());
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.commitNewCustomerLevelTwo]日志记录异常", e);
 		}
 		return readResult;
 	}
 	/**
 	 * 国际部完善品类报盘信息的接口
-	 * @param request 拿token做校验
 	 * @param catPri 一个品类价格关系对象
 	 * @return
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0007")
-	public ReadResult<String> fixOfferPrice(HttpServletRequest request, @Valid @RequestBody RelCategoryPrice catPri){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(userId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
-			catPri.setUpdateTime(now);
-			catPri.setUpdateUser(userId);
-			catPri.setUniMgrId(userId);
-			catPri.setOfferUpdateTime(now);
-			try {
-				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catPri);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			//记录日志
+	public ResultInfo fixOfferPrice(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		RelCategoryPrice catePri = null;
+		try{
+			catePri = mapper.readValue(body, RelCategoryPrice.class);
+		}catch(Exception e){
+			log.error("[WriteController.fixOfferPrice]数据解析异常", e);
+		}
+		String userId = catePri.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		try {
+			catePri.setUpdateTime(now);
+			catePri.setUpdateUser(userId);
+			catePri.setUniMgrId(userId);
+			catePri.setOfferUpdateTime(now);
+			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catePri);
+		} catch (Exception e) {
+			log.error("[WriteController.fixOfferPrice]数据更新异常", e);
+		}
+		//记录日志
+		try {
 			BusinessDiary bd = new BusinessDiary();
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0007");
-			bd.setOprContent(catPri.toString());
+			bd.setOprType("22");
+			bd.setOprName("国际部完善品类报盘信息的接口");
+			bd.setOprContent(catePri.toString());
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.fixOfferPrice]日志记录异常", e);
 		}
+		
 		return readResult;
 	}
 	/**
@@ -438,18 +481,21 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0008")
-	public ReadResult<String> universeAddCategory(HttpServletRequest request, @Valid @RequestBody Category cat){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(userId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
+	public ResultInfo universeAddCategory(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		Category cat = null;
+		try{
+			cat = mapper.readValue(body, Category.class);
+		}catch(Exception e){
+			log.error("[WriteController.universeAddCategory]数据解析异常", e);
+		}
+		String userId = cat.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		try {
 			//检查要新增的品类是否已存在于数据库中
 			if(catSer.checkCategoryExist(cat)==null){
 				//新增品类
@@ -488,15 +534,23 @@ public class WriteController extends BaseController{
 				catPri.setCatePri(cat.getCatePri());
 				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catPri);
 			}
-			//记录日志
+		} catch (Exception e) {
+			log.error("[WriteController.universeAddCategory]数据更新异常", e);
+		}
+		//记录日志
+		try {
 			BusinessDiary bd = new BusinessDiary();
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0008");
+			bd.setOprType("11");
+			bd.setOprName("国际部新增品类信息");
 			bd.setOprContent(cat.toString());
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e2) {
+			log.error("[WriteController.universeAddCategory]日志记录异常", e2);
 		}
+		
 		return readResult;
 	}
 	/**
@@ -507,28 +561,25 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0009")
-	public ReadResult<String> updateCustomerAndCategory(HttpServletRequest request, @Valid @RequestBody Customer customer){
-		ReadResult<String> readResult = new ReadResult<String>();
-		String token = request.getHeader("token");
-		String userId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(userId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		//检查校验是否通过
-		if ("200".equals(result.get("code").toString())) {
-			//检查传进来的客户对象是否为空，为空则返回错误信息码并结束操作。
-			if(customer==null){
-				readResult.setCode("500");
-				readResult.setMessage("用户信息不能为空！");
-				return readResult;
-			}
+	public ResultInfo updateCustomerAndCategory(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		Customer customer = null;
+		try{
+			customer = mapper.readValue(body, Customer.class);
+		}catch(Exception e){
+			log.error("[WriteController.updateCustomerAndCategory]数据解析异常", e);
+		}
+		String userId = customer.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		try {
 			List<ContactsInfo> contacts = customer.getContacts();
 			List<Category> categorys = customer.getCategorys();
 			//客户对象不为空，完善客户对象
 			customer.setUpdateUser(userId);
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
 			customer.setUpdateTime(now);
 			String customerId = customer.getCustomerId();
 			//数据库更新一条客户数据。
@@ -583,15 +634,23 @@ public class WriteController extends BaseController{
 					}
 				}
 			}
-			//添加一条操作记录
+		} catch (Exception e) {
+			log.error("[WriteController.updateCustomerAndCategory]数据更新异常", e);
+		}	
+		//添加一条操作记录
+		try {
 			BusinessDiary bd = new BusinessDiary();
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("/sriteData/In0009");
+			bd.setOprType("02");
+			bd.setOprName("客户经理和分部经理编辑（更新）客户、品类、联系人信息");
 			bd.setOprContent(userId+customer);
 			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.updateCustomerAndCategory]日志记录异常", e);
 		}
+		
 		return readResult;
 	}
 }

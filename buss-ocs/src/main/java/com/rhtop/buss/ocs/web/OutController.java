@@ -1,26 +1,43 @@
 package com.rhtop.buss.ocs.web;
 
+import java.io.File;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.io.Files;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.security.UserLoginToken;
 import com.rhtop.buss.common.service.RestService;
@@ -42,6 +59,8 @@ public class OutController {
 	@Autowired(required=false)
 	@Qualifier("restService")
 	private RestService service;
+	
+	private @Value("${biz.server.url}") String coreUrl;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/login")
@@ -77,6 +96,9 @@ public class OutController {
 			if(!token.equals(readToken)){
 				propertyUtil.setValue(kuser.getUserId(), token);
 			}
+			
+			System.out.println("token=========="+token);
+			System.out.println("memberId==========="+kuser.getUserId());
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
@@ -84,10 +106,15 @@ public class OutController {
 		}
 		return readResult;
 	}
-	
+	/**
+	 * 客户经理新增用户、品类、，联系人的接口
+	 * @param request
+	 * @param customer
+	 * @author MakeItHappen
+	 * @return
+	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0001")
 	public ResultInfo addCustomerAndCategory(HttpServletRequest request,@RequestBody Customer customer){
-//		System.out.println(customer.getCusName());
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
@@ -122,6 +149,172 @@ public class OutController {
 	}
 	
 	/**
+	 * 单图片上传接口
+	 * 图片上传暂不做用户信息验证
+	 * @param request
+	 * @param picFile
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/uploads")
+	public ResultInfo uploadPic(HttpServletRequest request, MultipartFile[] files){
+		ResultInfo resultInfo = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>();
+		URI uri = null;
+		try{
+			uri = new URI(coreUrl + "/service/writeData/In0002");
+		}catch(Exception e){
+			
+		}
+		mvm.add("memberId", memberId);
+		for (int i=0; i<files.length; i++){
+			MultipartFile file = files[i];
+			File localFile = new File(FileUtils.getTempDirectoryPath() + File.separator + RandomStringUtils.randomAlphanumeric(8) + file.getOriginalFilename()) ;
+			try{
+				Files.write(file.getBytes(), localFile);
+				mvm.add("file", new FileSystemResource(localFile));
+			}catch(Exception e){
+				
+			}
+			
+			if (localFile.exists()) {
+				localFile.delete();
+			}
+		}
+		
+		resultInfo = restTemplate.postForObject(uri, mvm, ResultInfo.class);
+		
+		return resultInfo;
+	}
+	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0003")
+	public ResultInfo fixWholesaleAndAcptPrice(HttpServletRequest request, @RequestBody RelCategoryPrice catePri){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			catePri.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(catePri);
+			readResult = (ResultInfo) service.invoke("writeData-In0003", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0004")
+	public ResultInfo fixMidPrice(HttpServletRequest request, @RequestBody RelCategoryPrice catePri){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			catePri.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(catePri);
+			readResult = (ResultInfo) service.invoke("writeData-In0004", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0005")
+	public ResultInfo commitNewCustomerLevelOne(HttpServletRequest request,@RequestBody Map map){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			List<String> ids = (List<String>)map.get("ids");
+			List<Customer> cuss = new ArrayList<Customer>();
+			for(String cusId : ids){
+				Customer cus = new Customer();
+				cus.setCustomerId(cusId);
+				cus.setUpdateUser(memberId);
+				cuss.add(cus);
+			}
+			JSONArray jsonObject = JSONArray.fromObject(cuss);
+			readResult = (ResultInfo) service.invoke("writeData-In0005", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0006")
+	public ResultInfo commitNewCustomerLevelTwo(HttpServletRequest request,@RequestBody Map map){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			List<String> ids = (List<String>)map.get("ids");
+			List<Customer> cuss = new ArrayList<Customer>();
+			for(String cusId : ids){
+				Customer cus = new Customer();
+				cus.setCustomerId(cusId);
+				cus.setUpdateUser(memberId);
+				cuss.add(cus);
+			}
+			JSONArray jsonObject = JSONArray.fromObject(cuss);
+			readResult = (ResultInfo) service.invoke("writeData-In0006", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0007")
+	public ResultInfo fixOfferPrice(HttpServletRequest request, @RequestBody RelCategoryPrice catePri){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			catePri.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(catePri);
+			readResult = (ResultInfo) service.invoke("writeData-In0007", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0008")
+	public ResultInfo universeAddCategory(HttpServletRequest request, @RequestBody Category cat){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			cat.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(cat);
+			readResult = (ResultInfo) service.invoke("writeData-In0008", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0009")
+	public ResultInfo updateCustomerAndCategory(HttpServletRequest request, @Valid @RequestBody Customer customer){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			customer.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(customer);
+			readResult = (ResultInfo) service.invoke("writeData-In0009", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
 	 * 接口id:R2001
 	 * 客户经理查询所属的客户信息列表，分页，条件查询（地区，类型，渠道）
 	 * @param request
@@ -139,7 +332,6 @@ public class OutController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			customer.setCreateUser(memberId);
-			readResult.setResObject(customer);
 			JSONObject jsonUser = JSONObject.fromObject(customer);
 			readResult = (ResultInfo) service.invoke("readData-R2001", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -168,7 +360,7 @@ public class OutController {
 			readResult = (ResultInfo) service.invoke("readData-R2002", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
-	}
+	} 
 	
 	/**
 	 * 接口id:R2003
@@ -207,7 +399,7 @@ public class OutController {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(memberId,token);
+		Map<String,Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if (!"200".equals(result.get("code").toString())) {
@@ -287,6 +479,30 @@ public class OutController {
 		if (!"200".equals(result.get("code").toString())) {
 			readResult.setResObject(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(memberId);
+			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResultInfo;
+	}
+	/**
+	 * 接口id:R2008
+	 * 客户经理查看交易信息列表
+	 * @param request
+	 * @param member
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2007")
+	public ResultInfo  transactionInfo(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResultInfo = new ResultInfo();
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(transactionInfo);
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
 			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResultInfo;

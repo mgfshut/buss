@@ -124,7 +124,7 @@ public class ReadController {
 		category.setCusLoc(category.getCusLoc());
 		List<Category> listCategorys = catSer.listPageCategory(category);
 		readResult.setMessage("数据获取成功！");
-		readResult.setResObject(listCategorys);
+		readResult.setRecords(listCategorys);
 		readResult.setPage(category.getPage());
 		return readResult;
 	}
@@ -159,7 +159,7 @@ public class ReadController {
 		Member member = (Member) JSONObject.toBean(jsonObject, Member.class);
 		List<Category> categoeylist =catSer.listPageCategoeyByPrice(member.getMemberId());
 		readResult.setMessage("数据获取成功！");
-		readResult.setResObject(categoeylist);
+		readResult.setRecords(categoeylist);
 		readResult.setPage(member.getPage());
 		return readResult;
 	}
@@ -206,10 +206,21 @@ public class ReadController {
 		return readResult;
 	}
 	
+	/**
+	 * 接口id：R2008
+	 * 客户经理查看交易详情
+	 * @author lujin
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2007")
 	public ResultInfo transaction(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
+		TransactionInfo tras = traSer.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(tras);
 		return readResult;
 		
 	}
