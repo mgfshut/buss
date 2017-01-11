@@ -772,7 +772,6 @@ public class WriteController extends BaseController{
 		String now = sdf.format(date);
 		String userId = tx.getUpdateUser();
 		tx.setUpdateTime(now);
-		tx.setUpdateUser(userId);
 		tx.setTxStatus("21");
 		try {
 			txSer.universeNegotiate(tx);
@@ -794,4 +793,40 @@ public class WriteController extends BaseController{
 		return readResult;
 	}
 	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0004")
+	public ResultInfo domainNegotiate(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		TransactionInfo tx = null;
+		try{
+			tx = mapper.readValue(body, TransactionInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.domainNegotiate]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = tx.getUpdateUser();
+		tx.setUpdateTime(now);
+		tx.setTxStatus("22");
+		try {
+			txSer.domainNegotiate(tx);
+		} catch (Exception e) {
+			log.error("[WriteController.domainNegotiate]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(tx.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("32");
+			dlog.setOprName("决委会审核回盘");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.domainNegotiate]日志记录异常", e);
+		}
+		return readResult;
+	}
 }

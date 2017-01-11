@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import com.rhtop.buss.common.entity.SlaTransactionInfo;
 
+import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
@@ -118,6 +118,24 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		slaTx.setCtofPerId(userId);
 		slaTx.setUniCtofPri(tx.getCtofPri());
 		slaTx.setCtofCkSta("00");
+		slaTxMapper.updateByPrimaryKeySelective(slaTx);
+		return transactionInfoId;
+	}
+	
+	@Override
+	public String domainNegotiate(TransactionInfo tx){
+		String transactionInfoId = tx.getTransactionInfoId();
+		String userId = tx.getUpdateUser();
+		transactionInfoMapper.updateByPrimaryKeySelective(tx);
+		SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(transactionInfoId);
+		String now = tx.getUpdateTime();
+		slaTx.setCtofCkSta("22");
+		slaTx.setCtofCkPer(userId);
+		slaTx.setCtofCkTime(now);
+		slaTx.setDomCtofPri(tx.getCtofPri());
+		slaTx.setCtofAging(tx.getCtofAging());
+		slaTx.setUpdateTime(now);
+		slaTx.setUpdateUser(userId);
 		slaTxMapper.updateByPrimaryKeySelective(slaTx);
 		return transactionInfoId;
 	}
