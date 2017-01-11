@@ -21,9 +21,15 @@ public interface CustomerMapper {
 	 */
     int updateByPrimaryKeySelective(Customer customer);
     /**
-	 * 根据主键查询对象
+	 * 查看自己的创建的客户信息，根据主键查询对象
 	 */
     Customer selectByPrimaryKey(String customerId);
+    /**
+     * 根据主键查询对象，部门经理查看自己的客户经理的客户信息
+     * @param creat
+     * @return
+     */
+    Customer selectByCreater(String createUser);
     /**
      * 根据条件查询列表
      */
@@ -34,10 +40,33 @@ public interface CustomerMapper {
 	List<Customer> listPageCustomer(Customer customer);
 	
 	/**
-	 * 经理所属的客户
+	 * 根据条件分页查询列表
+	 * 
+	 * 客户经理 :客户信息查询列表
+	 * 根据传入的用户id，查询客户经理创建的客户。
+	 * 
 	 * @param customer
 	 * @return
 	 */
-	List<Customer> listPageCustomerByCreateUser(Customer customer);
+	List<Customer> listPageCustomerByMgr(Customer customer);
+	/**
+	 * 根据条件分页查询列表
+	 * 
+	 * 部门经理：客户信息查询列表
+	 * 根据传入的用户id，判断用户的职称，继而查询该用户是否存在客户经理，查询自己创建的客户以及客户经理创建的客户。
+	 * 
+	 * @param customer
+	 * @return
+	 */
+	List<Customer> listPageCustomerByRegMgr(Customer customer);
+	/**
+	 * 根据条件分页查询列表
+	 * 
+	 * 总经理  ：客户信息查询列表
+	 * 
+	 * @param customer
+	 * @return
+	 */
+	List<Customer> listPageCustomerByGenMgr(Customer customer);
     
 }
