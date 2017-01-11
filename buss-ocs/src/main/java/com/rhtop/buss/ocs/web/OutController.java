@@ -128,6 +128,25 @@ public class OutController {
 		}
 		return readResult;
 	}
+
+	/**
+	 * 查询所有代码集编码
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/getAllCodeMap")
+	public ResultInfo customersInfo(HttpServletRequest request) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			readResult = (ResultInfo) service.invoke("readData-getAllCodeMap", "POST", new String(), ResultInfo.class);
+		}
+		return readResult;
+	}
 	
 	/**
 	 * 单图片上传接口
@@ -351,7 +370,8 @@ public class OutController {
 	
 	
 	/**
-	 * 客户经理查询所属的客户信息，条件查询（地区，类型，渠道）
+	 * 接口id:R2001
+	 * 客户经理查询所属的客户信息列表，分页，条件查询（地区，类型，渠道）
 	 * @param request
 	 * @param customer
 	 * @author lujin
@@ -359,7 +379,6 @@ public class OutController {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2001")
 	public ResultInfo listCustomers(HttpServletRequest request,@RequestBody Customer customer){
-		
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
@@ -375,6 +394,7 @@ public class OutController {
 	}
 	
 	/**
+	 * 接口id:R2002
 	 * 客户经理查询客户的详细信息
 	 * @param request
 	 * @param customer
@@ -396,25 +416,6 @@ public class OutController {
 		}
 		return readResult;
 	} 
-	
-	/**
-	 * 查询所有代码集编码
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/getAllCodeMap")
-	public ResultInfo customersInfo(HttpServletRequest request) {
-		ResultInfo readResult = new ResultInfo();
-		String token = request.getHeader("token");
-		String memberId = request.getHeader("memberId");
-		Map<String,Object> result = Jwt.validToken(memberId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if("200".equals(result.get("code").toString())){
-			readResult = (ResultInfo) service.invoke("readData-getAllCodeMap", "POST", new String(), ResultInfo.class);
-		}
-		return readResult;
-	}
 	
 	/**
 	 * 接口id:R2003
@@ -488,9 +489,7 @@ public class OutController {
 		}
 		return readResult;
 	}
-	
-	/**
-	 * 接口id:R2006
+	 /* 接口id:R2006
 	 * 客户经理查看信息采集详情
 	 * @param request
 	 * @param member
@@ -545,7 +544,7 @@ public class OutController {
 	 * @author lujin
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2007")
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2008")
 	public ResultInfo  transactionInfo(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
 		ResultInfo readResultInfo = new ResultInfo();
 		ResultInfo readResult = new ResultInfo();
@@ -557,9 +556,32 @@ public class OutController {
 		if (!"200".equals(result.get("code").toString())) {
 			readResult.setResObject(transactionInfo);
 			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
-			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
+			readResult =(ResultInfo)service.invoke("readData-R2008", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResultInfo;
 	}
-
+	/**
+	 * 接口id:R2009
+	 * 总经理查看合同信息
+	 * @param request
+	 * @param transactionInfo
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2008")
+	public ResultInfo  listContract(HttpServletRequest request,@RequestBody Member member){
+		ResultInfo readResultInfo = new ResultInfo();
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(member);
+			JSONObject jsonUser = JSONObject.fromObject(member);
+			readResult =(ResultInfo)service.invoke("readData-R2009", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResultInfo;
+	}
+	
 }

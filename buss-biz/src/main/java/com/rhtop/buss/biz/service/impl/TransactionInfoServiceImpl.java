@@ -8,13 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
-import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.TransactionInfoMapper;
@@ -35,7 +33,6 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	private SlaTransactionInfoService slaSer; 
 	@Autowired
 	private ContractInfoService conSer;
-	
 	@Autowired
 	private TransactionInfoMapper transactionInfoMapper;
 	@Autowired

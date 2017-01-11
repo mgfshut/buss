@@ -57,5 +57,5 @@ public interface CategoryService{
 	 * @param memberId
 	 * @return
 	 */
-	List<Category> listCategoeyByPrice(String memberId);
+	List<Category> listPageCategoeyByPrice(String memberId);
 }

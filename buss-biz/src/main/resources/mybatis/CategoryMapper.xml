@@ -314,14 +314,14 @@
   </select>
   
 	<!-- 根据客户经理的id ，查询品类的报价以及详情  已报价的 -->  
-	<select id="listPrice" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="listPagePrice" resultMap="BaseResultMap" parameterType="java.lang.String">
 	select brc.* 
 	from buss_rel_category_price_ brc RIGHT JOIN buss_category_ bca on brc.category_id_ = bca.category_id_
 	where brc.mgr_id_ = #{0} and brc.wholesale_pri_ != ""  and brc.acpt_pri_ != ""
 	</select>
 	
 	<!-- 查询未报价的品类 -->
-	<select id="listNotPrice" resultMap="BaseResultMap"  parameterType="java.lang.String">
+	<select id="listPageNotPrice" resultMap="BaseResultMap"  parameterType="java.lang.String">
 	select brc.* 
 	from buss_rel_category_price_ brc RIGHT JOIN buss_category_ bca on brc.category_id_ = bca.category_id_
 	where brc.wholesale_pri_ = ""  and brc.acpt_pri_ = ""

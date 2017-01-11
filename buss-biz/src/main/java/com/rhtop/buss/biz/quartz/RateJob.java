@@ -22,6 +22,6 @@ public class RateJob extends QuartzJobBean{
 	 * @date 2017年1月10日 下午3:06:57
 	 */
 	public void getRate(){
-		System.out.println("----------获取汇率定时任务-------------");
+//		System.out.println("----------获取汇率定时任务-------------");
 	}
 }

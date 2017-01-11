@@ -66,7 +66,7 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a  href="module/sys-user-modifyUserPass" title="修改密码" target="dialog" width="420" height="320">
+                    <li><a  href="module/sys-member-modifyUserPass" title="修改密码" target="dialog" width="420" height="320">
 						修改密码</a></li>
                     <li><a href="user/logout">退出系统</a></li>
                 </ul>

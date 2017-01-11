@@ -14,15 +14,21 @@ import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
+import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
+import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeMap;
 import com.rhtop.buss.common.entity.ContactsInfo;
+import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.Member;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.common.entity.TransactionInfo;
 
 @RestController
 @RequestMapping(value = "service/readData")
@@ -43,7 +49,24 @@ public class ReadController {
 	private MemberService memberService;
 	@Autowired
 	private CodeMapService codeMapService;
+	@Autowired
+	private TransactionInfoService traSer;  
+	@Autowired
+	private ContractInfoService contractSer;
 	
+	
+	/**
+	 * 查询所有代码集和代码值
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/getAllCodeMap")
+	public ResultInfo getAllCodeMap(){
+		ResultInfo readResult = new ResultInfo();
+		List<CodeMap> codeMapList = codeMapService.listAllCode();
+		readResult.setCode("200");
+		readResult.setRecords(codeMapList);
+		return readResult;
+	}
 	/**
 	 * 接口id：R2001
 	 * 客户经理 客户信息查询 
@@ -59,6 +82,7 @@ public class ReadController {
 		List<Customer> customers = cusSer.listPageCustomer(customer);
 		readResult.setCode("200");
 		readResult.setRecords(customers);
+		readResult.setPage(customer.getPage());
 		return readResult;
 	}
 	
@@ -93,65 +117,37 @@ public class ReadController {
 	/**
 	 * 接口id:R2003
 	 * 客户经理  查询 品类信息
-	 * 查询所有， 根据地区,品名，厂号查询
+	 * 查询所有， 分页查询 根据地区,品名，厂号查询
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2003")
 	public ResultInfo listCategorys(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		category.setCusLoc(category.getCusLoc());
+		List<Category> listCategorys = catSer.listPageCategory(category);
+		readResult.setMessage("数据获取成功！");
+		readResult.setRecords(listCategorys);
+		readResult.setPage(category.getPage());
 		return readResult;
 	}
-	
-	/**
-	 * 查询所有代码集和代码值
-	 * @return
-	 */
-	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/getAllCodeMap")
-	public ResultInfo getAllCodeMap(){
-		ResultInfo readResult = new ResultInfo();
-		List<CodeMap> codeMapList = codeMapService.listAllCode();
-		readResult.setCode("200");
-		readResult.setRecords(codeMapList);
-		return readResult;
-	}
-	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2003")
-	public ReadResult<List<Category>>  listCategorys(HttpServletRequest request,
-			@RequestBody Category category) {
-		ReadResult<List<Category>> readResult = new ReadResult<List<Category>>();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-			category.setCusLoc(category.getCusLoc());
-			List<Category> listCategorys = catSer.listCategorys(category);
-			readResult.setMessage("数据获取成功！");
-			readResult.setResObject(listCategorys);
-		}
-		return readResult;
-	}*/
 	
 	/**
 	 * 接口id：R2004
 	 * 客户经理 查询品类的详细信息
 	 */
-	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2004")
-	public ReadResult<Category>  categoryInfo(HttpServletRequest request,
-			@RequestBody Category category) {
-		ReadResult<Category> readResult = new ReadResult<Category>();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-			 category.setCusLoc(category.getCusLoc());
-			 Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
-			 //TODO 需要返回的是图片在服务器上的绝对路径 
-			 cate.setCatePic(""+cate.getCatePic());
-			readResult.setMessage("数据获取成功！");
-			readResult.setResObject(cate);
-		}
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2004")
+	public ResultInfo categoryInfo(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Customer.class);
+		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		// TODO 需要返回的是图片在服务器上的绝对路径
+		cate.setCatePic("" + cate.getCatePic());
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(cate);
 		return readResult;
-	}*/
+	}
 	
 	/**
 	 * 接口id：R2005
@@ -159,49 +155,93 @@ public class ReadController {
 	 * 客户经理已采集
 	 * 所有未采集
 	 */
-	/*@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
-	public ReadResult<List<Category>>  listRelCategoryPrices(HttpServletRequest request,
-			@RequestBody Member member) {
-		ReadResult<List<Category>> readResult = new ReadResult<List<Category>>();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-			List<Category> categoeylist =catSer.listCategoeyByPrice(member.getMemberId());
-			readResult.setMessage("数据获取成功！");
-			readResult.setResObject(categoeylist);
-		}
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
+	public ResultInfo listRelcategoryPrice(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Member member = (Member) JSONObject.toBean(jsonObject, Member.class);
+		List<Category> categoeylist =catSer.listPageCategoeyByPrice(member.getMemberId());
+		readResult.setMessage("数据获取成功！");
+		readResult.setRecords(categoeylist);
+		readResult.setPage(member.getPage());
 		return readResult;
-	}*/
+	}
+	
 	
 	/**
 	 * 接口id：R2006
 	 * 品类的采集信息详情
 	 * 品类id
 	 */
-/*	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2006")
-	public ReadResult<Category> categoryPriceInfo(HttpServletRequest request,
-			@RequestBody Category category ) {
-		ReadResult<Category>  readResult = new ReadResult<Category> ();
-		String token = request.getHeader("token");
-		Map<String, Object> result = Jwt.validToken(token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if ("200".equals(result.get("code").toString())) {
-			readResult.setMessage("数据获取成功！");
-			Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
-			RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
-			relCategoryPrice.setCategoryId(category.getCategoryId());
-			//获取品类价格信息
-			List<RelCategoryPrice> rcps = catPriSer.listRelCategoryPrices(relCategoryPrice);
-			cate.setRcps(rcps);
-			readResult.setMessage("数据获取成功！");
-			readResult.setResObject(cate);
-			
-		}
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2006")
+	public ResultInfo categoryPriceInfo(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		//品类信息
+		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		//获取品类价格信息
+		RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+		relCategoryPrice.setCategoryId(category.getCategoryId());
+		List<RelCategoryPrice> rcps = catPriSer.listRelCategoryPrices(relCategoryPrice);
+		cate.setRcps(rcps);
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(cate);
 		return readResult;
 	}
-*/	 
-
+	
+	
+	/**
+	 * 接口id：R2007
+	 * 客户经理查看交易列表
+	 * @author lujin
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2007")
+	public ResultInfo listtransactions(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
+		List<TransactionInfo> tras = traSer.listPageTransactionInfo(transactionInfo);
+		readResult.setMessage("数据获取成功！");
+		readResult.setRecords(tras);
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2008
+	 * 客户经理查看交易详情
+	 * @author lujin
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2007")
+	public ResultInfo transaction(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
+		TransactionInfo tras = traSer.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(tras);
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2009
+	 * 总经理查看合同列表
+	 * @param body
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2008")
+	public ResultInfo listContract(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
+		List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(conts);
+		return readResult;
+	}
 }

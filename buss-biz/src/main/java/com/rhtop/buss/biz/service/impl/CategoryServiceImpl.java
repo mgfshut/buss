@@ -60,13 +60,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> listCategoeyByPrice(String memberId) {
+	public List<Category> listPageCategoeyByPrice(String memberId) {
 		List<Category> categorys = null;
 		//判断memberId是否为空,
 		if("".equals(memberId)){//查询所有未采集（接盘价和批发价）的品类信息
-			   categorys = categoryMapper.listNotPrice(memberId);
+			   categorys = categoryMapper.listPageNotPrice(memberId);
 		}else{//查询客户经理采集的品类信息
-			  categorys = categoryMapper.listPrice(memberId);
+			  categorys = categoryMapper.listPagePrice(memberId);
 		}
 		return categorys;
 	}

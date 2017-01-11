@@ -50,12 +50,12 @@ public interface CategoryMapper {
 	 * @param customerId
 	 * @return
 	 */
-	List<Category> listPrice(String memberId);
+	List<Category> listPagePrice(String memberId);
 	
 	/**
 	 * 查询所有未采集(接盘价和批发价)的品类
 	 * @param customerId
 	 * @return
 	 */
-	List<Category> listNotPrice(String memberId);
+	List<Category> listPageNotPrice(String memberId);
 }

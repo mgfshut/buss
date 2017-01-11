@@ -36,6 +36,13 @@
 		<typeAlias alias="RelCategoryPrice" type="com.rhtop.buss.common.entity.RelCategoryPrice"/>
 		<!-- 操作日志信息表 -->
 		<typeAlias alias="BusinessDiary" type="com.rhtop.buss.common.entity.BusinessDiary"/>
+		<!-- 合同信息表 -->
+		<typeAlias alias="ContractInfo" type="com.rhtop.buss.common.entity.ContractInfo"/>
+		<!-- 交易信息主表 -->
+		<typeAlias alias="TransactionInfo" type="com.rhtop.buss.common.entity.TransactionInfo"/>
+		<!-- 交易信息从表 -->
+		<typeAlias alias="SlaTransactionInfo" type="com.rhtop.buss.common.entity.SlaTransactionInfo"/>
+		
     </typeAliases>
     <!-- 实体接口映射资源 -->  
     
@@ -83,5 +90,11 @@
         <mapper resource="mybatis/ContactsInfoMapper.xml"/>
         <!-- 操作日志信息表 -->
         <mapper resource="mybatis/BusinessDiaryMapper.xml"/>
+        <!-- 合同信息表 -->
+		 <mapper resource="mybatis/ContractInfoMapper.xml"/>
+		<!-- 交易信息主表 -->
+		 <mapper resource="mybatis/TransactionInfoMapper.xml"/>
+		<!-- 交易信息从表 -->
+		 <mapper resource="mybatis/SlaTransactionInfoMapper.xml"/>
     </mappers>
     </configuration>
