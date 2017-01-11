@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.util.List;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -44,6 +46,86 @@ public class TransactionInfo {
 	
 	private Page page;//分页
 	
+	private String cusName;//客户姓名
+	
+	private String custCha;//客户渠道
+	
+	private String cateName;//品类名
+	
+	private String manuNum;//厂号
+	
+	private Category cate;//交易的品类
+	
+	private Customer cust;//交易的客户
+	
+	private ContractInfo contract;//交易产生的合同
+	
+	private List<SlaTransactionInfo>  sla;//回盘记录
+	
+	public ContractInfo getContract() {
+		return contract;
+	}
+
+	public void setContract(ContractInfo contract) {
+		this.contract = contract;
+	}
+
+	public List<SlaTransactionInfo> get() {
+		return sla;
+	}
+
+	public void setSla(List<SlaTransactionInfo> sla ) {
+		this.sla  = sla ;
+	}
+
+	public Category getCate() {
+		return cate;
+	}
+
+	public void setCate(Category cate) {
+		this.cate = cate;
+	}
+
+	public Customer getCust() {
+		return cust;
+	}
+
+	public void setCust(Customer cust) {
+		this.cust = cust;
+	}
+
+	public String getCusName() {
+		return cusName;
+	}
+
+	public void setCusName(String cusName) {
+		this.cusName = cusName;
+	}
+
+	public String getCustCha() {
+		return custCha;
+	}
+
+	public void setCustCha(String custCha) {
+		this.custCha = custCha;
+	}
+
+	public String getCateName() {
+		return cateName;
+	}
+
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
+	}
+
+	public String getManuNum() {
+		return manuNum;
+	}
+
+	public void setManuNum(String manuNum) {
+		this.manuNum = manuNum;
+	}
+
 	public Page getPage() {
 		return page;
 	}

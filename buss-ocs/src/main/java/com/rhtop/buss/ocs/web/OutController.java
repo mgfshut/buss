@@ -96,6 +96,9 @@ public class OutController {
 			if(!token.equals(readToken)){
 				propertyUtil.setValue(kuser.getUserId(), token);
 			}
+			
+			System.out.println("token=========="+token);
+			System.out.println("memberId==========="+kuser.getUserId());
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
@@ -413,5 +416,150 @@ public class OutController {
 		return readResult;
 	}
 	
+	/**
+	 * 接口id:R2003
+	 * 客户经理查看品类列表，分页查询
+	 * @param request
+	 * @param category
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2003")
+	public ResultInfo listCategorys(HttpServletRequest request,@RequestBody Category category){
+		ResultInfo readResult = new ResultInfo();
+		String memberId = request.getHeader("memberId");
+		String token = request.getHeader("token");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if(!"200".equals(result.get("code").toString())){
+			readResult.setResObject(category);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2003", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+
+	/**
+	 * 接口id:R2004
+	 * 客户经理查看品类详情
+	 * @param request
+	 * @param category
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2004")
+	public ResultInfo categorys(HttpServletRequest request, @RequestBody Category category) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(category);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2004", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+
+	
+	/**
+	 * 接口id:R2005
+	 * 客户经理查看信息采集列表
+	 * @param request
+	 * @param member
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2005")
+	public ResultInfo listRelCategoryPrices(HttpServletRequest request, @RequestBody Member member) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(member);
+			JSONObject jsonUser = JSONObject.fromObject(member);
+			readResult =(ResultInfo)service.invoke("readData-R2005", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id:R2006
+	 * 客户经理查看信息采集详情
+	 * @param request
+	 * @param member
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2006")
+	public ResultInfo categoryPriceInfo(HttpServletRequest request, @RequestBody Category category) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(category);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2006", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id:R2007
+	 * 客户经理查看交易信息列表
+	 * @param request
+	 * @param member
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2007")
+	public ResultInfo listtransactions(HttpServletRequest request,@RequestBody Member member){
+		ResultInfo readResultInfo = new ResultInfo();
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(memberId);
+			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResultInfo;
+	}
+	/**
+	 * 接口id:R2008
+	 * 客户经理查看交易信息列表
+	 * @param request
+	 * @param member
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2007")
+	public ResultInfo  transactionInfo(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResultInfo = new ResultInfo();
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(transactionInfo);
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResultInfo;
+	}
 
 }
