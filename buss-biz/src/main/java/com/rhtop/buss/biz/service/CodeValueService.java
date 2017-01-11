@@ -44,4 +44,14 @@ public interface CodeValueService{
 	 * @return
 	 */
 	List<CodeValue> listCodeValuesByCode(String code);
+	/**
+	 * 根据代码集编码、代码值、代码值描述修改
+	 * @author mgf
+	 * @date 2017年1月11日 上午10:45:05 
+	 * @param code 代码集编码
+	 * @param codeValue 代码值
+	 * @param codeValueDescribe 代码值描述
+	 * @return
+	 */
+	int updateTheCodeValue(String code, String codeValue,String codeValueDescribe,String updateTime);
 }

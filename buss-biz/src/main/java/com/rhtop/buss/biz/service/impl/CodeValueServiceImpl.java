@@ -10,12 +10,15 @@ import java.util.List;
 
 import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.biz.mapper.CodeValueMapper;
+import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.CodeValueService;
 
 @Service("codeValueService")
 public class CodeValueServiceImpl implements CodeValueService {
 	@Autowired
 	private CodeValueMapper codeValueMapper;
+	@Autowired
+	private CodeMapService codeMapService;
 	
 	@Override
 	public int insertCodeValue(CodeValue codeValue) {
@@ -53,6 +56,12 @@ public class CodeValueServiceImpl implements CodeValueService {
 	public List<CodeValue> listCodeValuesByCode(String code) {
 		List<CodeValue> codeValues = codeValueMapper.listCodeValuesByCode(code);
 		return codeValues;
+	}
+
+	@Override
+	public int updateTheCodeValue(String code, String codeValue,
+			String codeValueDescribe,String updateTime) {
+		return codeValueMapper.updateTheCodeValue(code,codeValue,codeValueDescribe,updateTime);
 	}
 
 }
