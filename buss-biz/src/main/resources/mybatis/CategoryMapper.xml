@@ -18,12 +18,11 @@
 	<result column="cate_pic_" property="catePic" jdbcType="VARCHAR" />
 	<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
 	<!-- 外表字段 -->
-	<!-- 成交数量 -->
-	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
-	<!-- 所属地区 -->
+	<result column="cus_cha" property="cusCha" jdbcType="VARCHAR" />
 	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
-	<!-- 品类总数 -->
-	<result column="cate_total_" property="cateTotal" jdbcType="VARCHAR" />
+	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
+	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
+	<result column="mgr_name_" property="mgrName" jdbcType="VARCHAR" />
 	
   </resultMap>
   
@@ -190,8 +189,9 @@
   </update>
   <!-- 根据主键查询对象-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-	select bca.* ,rcc.cus_loc_ 
-	from buss_category_ bca LEFT JOIN buss_rel_customer_category_ rcc on rcc.category_id_ =bca.category_id_
+	select
+	<include refid="Base_Column_List"/>
+	from buss_category_ 
 	where category_id_ = #{0}
   </select>
   <!-- 根据四个判别品类唯一性的条件查询品类 -->
@@ -267,7 +267,7 @@
 			and comm_ = #{comm}
 		</if>
     	<if test="cateName != null and cateName != ''" >
-			and cate_name_ = #{cateName}
+			and cate_name_ like '%'#{cateName}'%'
 		</if>
     	<if test="createTime != null and createTime != ''" >
 			and create_time_ = #{createTime}
@@ -331,4 +331,14 @@
 	from buss_rel_category_price_ brc RIGHT JOIN buss_category_ bca on brc.category_id_ = bca.category_id_
 	where brc.wholesale_pri_ = ""  and brc.acpt_pri_ = ""
 	</select>
+	
+	<!-- 品类详情 -->
+	<select id="selectInfoByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select
+	a.cate_pic_,d.user_name_,c.cus_name_,c.cus_type_,c.cus_cha_,c.cus_loc_
+	from buss_category_ a LEFT JOIN buss_rel_customer_category_ b on a.category_id_ = b.cate_id_ and a.create_user_ = b.create_user_ 
+                          LEFT JOIN buss_customer_ c on b.customer_id_ = c.customer_id_ 
+                          LEFT JOIN sys_user_ d on d.user_id_ = a.create_user_ 
+	where a.category_id_ = #{0}
+  </select>
 </mapper>

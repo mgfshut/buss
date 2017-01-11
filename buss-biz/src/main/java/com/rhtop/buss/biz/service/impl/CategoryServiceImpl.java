@@ -3,19 +3,23 @@
  */
 package com.rhtop.buss.biz.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
+import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private CategoryMapper categoryMapper;
+	@Autowired
+	private RelCategoryPriceMapper relCategoryPriceMapper;
 	
 	@Override
 	public int insertCategory(Category category) {
@@ -34,7 +38,13 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public Category selectByPrimaryKey(String categoryId){
-		return categoryMapper.selectByPrimaryKey(categoryId);
+		//品类信息
+		Category cate = categoryMapper.selectInfoByPrimaryKey(categoryId);
+		//价格信息
+		RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
+		cate.setRelCategoryPrice(relCategoryPrice);
+		cate.setCatePic("" + cate.getCatePic());//需要返回的是图片在服务器上的绝对路径
+		return cate;
 	}
 
 	@Override

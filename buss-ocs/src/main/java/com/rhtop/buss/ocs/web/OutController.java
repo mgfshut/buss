@@ -439,7 +439,7 @@ public class OutController {
 	 * @author lujin
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2003")
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2003")
 	public ResultInfo listCategorys(HttpServletRequest request,@RequestBody Category category){
 		ResultInfo readResult = new ResultInfo();
 		String memberId = request.getHeader("memberId");
@@ -448,7 +448,7 @@ public class OutController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if(!"200".equals(result.get("code").toString())){
-			readResult.setResObject(category);
+//			category.setCreateUser(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2003", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -472,7 +472,6 @@ public class OutController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if (!"200".equals(result.get("code").toString())) {
-			readResult.setResObject(category);
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2004", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -510,7 +509,7 @@ public class OutController {
 	 * @author lujin
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2006")
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2006")
 	public ResultInfo categoryPriceInfo(HttpServletRequest request, @RequestBody Category category) {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");

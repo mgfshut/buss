@@ -133,10 +133,8 @@ public class ReadController {
 	public ResultInfo categoryInfo(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		Category category = (Category) JSONObject.toBean(jsonObject, Customer.class);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
 		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
-		// TODO 需要返回的是图片在服务器上的绝对路径
-		cate.setCatePic("" + cate.getCatePic());
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cate);
 		return readResult;

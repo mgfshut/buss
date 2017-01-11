@@ -389,7 +389,7 @@
       	</if>
     </set>
     where 
-	cate_id_ = #{categoryId}
+	category_id_ = #{categoryId}
   </update>
   <!-- 根据主键查询对象-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -403,7 +403,7 @@
   	SELECT 
   	<include refid="Base_Column_List" />
   	FROM buss_rel_category_price_ 
-  	WHERE cate_id_ = #{0}
+  	WHERE category_id_ = #{0}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listRelCategoryPrices" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">

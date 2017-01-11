@@ -58,4 +58,10 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	List<Category> listPageNotPrice(String memberId);
+	/**
+	 * 品类信息详情
+	 * @param customerId
+	 * @return
+	 */
+	Category selectInfoByPrimaryKey(String customerId);
 }
