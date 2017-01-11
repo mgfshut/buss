@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -312,7 +313,7 @@ public class OutController {
 		return readResult;
 	}
 	
-	//TODO: 发起交易的接口
+	//发起交易的接口
 	//入参：customerId，categoryId，txAmo交易数量，pcasPri客户价。
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0001")
 	public ResultInfo makeADeal(HttpServletRequest request, @RequestBody TransactionInfo tx){
@@ -330,7 +331,7 @@ public class OutController {
 		return readResult;
 	}
 	
-	//TODO:回盘接口
+	//回盘接口
 	//入参：transactionInfoId交易记录ID，pcasPri客户价。
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0002")
 	public ResultInfo makeANegotiate(HttpServletRequest request, @RequestBody TransactionInfo tx){
@@ -384,7 +385,7 @@ public class OutController {
 		return readResult;
 	}
 	
-	//客户经理定盘接口
+	//用户定盘接口
 	//入参：transactionInfoId交易记录ID，contractInfo合同对象。
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0005")
 	public ResultInfo createContract(HttpServletRequest request, @RequestBody ContractInfo contract){
@@ -401,7 +402,149 @@ public class OutController {
 		}
 		return readResult;
 	}
-
+	
+	//行政人员上传盖章后合同的接口
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/uploadContracts")
+	public ResultInfo uploadContract(HttpServletRequest request, MultipartFile[] files){
+		ResultInfo resultInfo = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>();
+		URI uri = null;
+		try{
+			uri = new URI(coreUrl + "/service/writeData/uploadContracts");
+		}catch(Exception e){
+			
+		}
+		mvm.add("memberId", memberId);
+		for (int i=0; i<files.length; i++){
+			MultipartFile file = files[i];
+			File localFile = new File(FileUtils.getTempDirectoryPath() + File.separator + RandomStringUtils.randomAlphanumeric(8) + file.getOriginalFilename()) ;
+			try{
+				Files.write(file.getBytes(), localFile);
+				mvm.add("file", new FileSystemResource(localFile));
+			}catch(Exception e){
+				
+			}
+			
+			if (localFile.exists()) {
+				localFile.delete();
+			}
+		}
+		
+		resultInfo = restTemplate.postForObject(uri, mvm, ResultInfo.class);
+		
+		return resultInfo;
+	}
+	
+	/**
+	 * TODO:app版本更新接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/appUpdate")
+	public ResultInfo appUpdate(){
+		return null;
+	}
+	/**
+	 * 总经理进行合同审定接口
+	 * 入参：合同ID
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0006")
+	public ResultInfo checkContract(HttpServletRequest request, @RequestBody ContractInfo contract){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			contract.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(contract);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0006", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 行政人员上传完文件后提交审核的接口
+	 * 入参：合同文件路径contUlName，contractInfoId合同ID。
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0007")
+	public ResultInfo contractStamp(HttpServletRequest request, @RequestBody ContractInfo contract){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			contract.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(contract);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0007", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 合同下载接口
+	 * 入参：contractInfoId合同ID
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0008")
+	public ResultInfo downloadContract(HttpServletRequest request, @RequestBody ContractInfo contract){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonObject = JSONObject.fromObject(contract);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0008", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 财务审核接口
+	 * 入参：contractInfoId合同ID
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0009")
+	public ResultInfo treasurerCheckContract(HttpServletRequest request, @RequestBody ContractInfo contract){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			contract.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(contract);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0009", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 填写快递单号接口
+	 * 入参：contractInfoId合同ID，expressId快递单号
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0010")
+	public ResultInfo setExpressId(HttpServletRequest request, @RequestBody ContractInfo contract){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			contract.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(contract);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0010", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
 	
 	/**
 	 * 接口id:R2001
