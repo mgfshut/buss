@@ -21,16 +21,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
+import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.biz.service.CustomerService;
+import com.rhtop.buss.biz.service.DealLogService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
+import com.rhtop.buss.biz.service.SlaTransactionInfoService;
+import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.web.BaseController;
 /**
@@ -57,6 +63,14 @@ public class WriteController extends BaseController{
 	private RelCustomerCategoryService cusCatSer;
 	@Autowired
 	private BusinessDiaryService busDiaSer;
+	@Autowired
+	private TransactionInfoService txSer;
+	@Autowired
+	private ContractInfoService conSer;
+	@Autowired
+	private SlaTransactionInfoService salTxSer;
+	@Autowired
+	private DealLogService dlogSer;
 	
 	/**
 	 * 客户经理第一次录入客户信息、联系人信息、品类信息的接口
@@ -91,12 +105,14 @@ public class WriteController extends BaseController{
 		List<Category> categorys = customer.getCategorys();
 		//客户对象不为空，完善客户对象
 		customer.setCreateUser(userId);
+		customer.setUpdateUser(userId);
 		String customerId = UUID.randomUUID().toString().replace("-", "");
 		customer.setCustomerId(customerId);
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(date);
 		customer.setCreateTime(now);
+		customer.setUpdateTime(now);
 		customer.setCusCreateTime(now);
 		customer.setCkStatus("00");
 		//向数据库中添加一条客户数据。
@@ -118,7 +134,9 @@ public class WriteController extends BaseController{
 					continue;
 				}else{
 					contact.setCreateUser(userId);
+					contact.setUpdateUser(userId);
 					contact.setCreateTime(now);
+					contact.setCreateUser(userId);
 					contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
 					contact.setCustomerId(customerId);
 					contactsSer.insertContactsInfo(contact);
@@ -138,6 +156,8 @@ public class WriteController extends BaseController{
 					catSer.insertCategory(cat);
 					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
 					relCustomerCategory.setCreateTime(now);
+					relCustomerCategory.setUpdateTime(now);
+					relCustomerCategory.setUpdateUser(userId);
 					relCustomerCategory.setCreateUser(userId);
 					relCustomerCategory.setCategoryId(cat.getCategoryId());
 					relCustomerCategory.setCateScale(cat.getCateScale());
@@ -159,7 +179,7 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("01");//0开头是客户操作、1是品类操作、2是价格操作、3是交易操作、4是合同操作、5文件操作。||后面一位1为新增、2修改、3删除。
 			bd.setOprName("客户新增");
-			bd.setOprContent(userId+customer);
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		}catch(Exception e){
 			log.error("[WriteController.addCustomerAndCategory]操作日志记录异常", e);
@@ -228,7 +248,7 @@ public class WriteController extends BaseController{
 		}catch(Exception e){
 			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
 		}
-		 
+		
 		String userId = catePri.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
@@ -253,7 +273,7 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("22");
 			bd.setOprName("客户经理完善批发价与接盘价格。");
-			bd.setOprContent(catePri.toString());
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
 			log.error("[WriteController.fixWholesaleAndAcptPrice]日志记录异常", e);
@@ -301,7 +321,7 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("22");
 			bd.setOprName("分部经理完善现货价、期货价、半期货价。");
-			bd.setOprContent(catePri.toString());
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
 			log.error("[WriteController.fixMidPrice]日志记录异常", e);
@@ -359,7 +379,7 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("02");
 			bd.setOprName("分部经理批量确认新增客户信息");
-			bd.setOprContent(cuss.toString());
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
 			log.error("[WriteController.commitNewCustomerLevelOne]日志记录异常", e);
@@ -420,7 +440,7 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("02");
 			bd.setOprName("总经理批量确认新增客户信息");
-			bd.setOprContent(cuss.toString());
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
 			log.error("[WriteController.commitNewCustomerLevelTwo]日志记录异常", e);
@@ -465,7 +485,7 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("22");
 			bd.setOprName("国际部完善品类报盘信息的接口");
-			bd.setOprContent(catePri.toString());
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
 			log.error("[WriteController.fixOfferPrice]日志记录异常", e);
@@ -545,7 +565,7 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("11");
 			bd.setOprName("国际部新增品类信息");
-			bd.setOprContent(cat.toString());
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e2) {
 			log.error("[WriteController.universeAddCategory]日志记录异常", e2);
@@ -645,12 +665,133 @@ public class WriteController extends BaseController{
 			bd.setOprUser(userId);
 			bd.setOprType("02");
 			bd.setOprName("客户经理和分部经理编辑（更新）客户、品类、联系人信息");
-			bd.setOprContent(userId+customer);
+			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
 			log.error("[WriteController.updateCustomerAndCategory]日志记录异常", e);
 		}
-		
 		return readResult;
 	}
+	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0001")
+	public ResultInfo makeADeal(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		TransactionInfo tx = null;
+		try{
+			tx = mapper.readValue(body, TransactionInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.makeADeal]数据解析异常", e);
+		}
+		String userId = tx.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		String now = sdf.format(date);
+		String date1 = sdf2.format(date);
+		tx.setUpdateTime(now);
+		tx.setUpdateUser(userId);
+		tx.setDealTime(date1);
+		String txId = null;
+		try {
+			txId = txSer.createDeal(tx);
+		} catch (Exception e) {
+			log.error("[WriteController.makeADeal]数据新增异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(txId);
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("31");
+			dlog.setOprName("发起交易");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.makeADeal]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0002")
+	public ResultInfo makeNegotiate(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		TransactionInfo tx = null;
+		try{
+			tx = mapper.readValue(body, TransactionInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.makeNegotiate]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = tx.getUpdateUser();
+		tx.setUpdateTime(now);
+		tx.setUpdateUser(userId);
+		tx.setTxAmo(null);
+		try {
+			txSer.cusNegotiate(tx);
+		} catch (Exception e) {
+			log.error("[WriteController.makeNegotiate]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(tx.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("32");
+			dlog.setOprName("客户回盘");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.makeNegotiate]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0003")
+	public ResultInfo universeNegotiate(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		TransactionInfo tx = null;
+		try{
+			tx = mapper.readValue(body, TransactionInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.universeNegotiate]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = tx.getUpdateUser();
+		tx.setUpdateTime(now);
+		tx.setUpdateUser(userId);
+		tx.setTxStatus("21");
+		try {
+			txSer.universeNegotiate(tx);
+		} catch (Exception e) {
+			log.error("[WriteController.universeNegotiate]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(tx.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("32");
+			dlog.setOprName("国际部回盘");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.universeNegotiate]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
 }

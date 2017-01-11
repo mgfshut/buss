@@ -14,6 +14,21 @@ public interface TransactionInfoService{
 	int insertTransactionInfo(TransactionInfo transactionInfo);
     
 	/**
+	 * 新增交易记录
+	 */
+	String createDeal(TransactionInfo tx);
+	
+	/**
+	 * 客户回盘
+	 */
+	String cusNegotiate(TransactionInfo tx);
+	
+	/**
+	 * 国际部回盘
+	 */
+	String universeNegotiate(TransactionInfo tx);
+	
+	/**
 	 * 根据ID删除数据
 	 */
 	int deleteTransactionInfo(String transactionInfoId);

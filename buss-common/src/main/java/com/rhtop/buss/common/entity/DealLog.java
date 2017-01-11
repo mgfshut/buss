@@ -24,6 +24,8 @@ public class DealLog {
 	
 	private String oprType;//操作类型
 	
+	private String oprName;//操作名称
+	
 	private Page page;//分页
 	
 	public Page getPage() {
@@ -136,5 +138,13 @@ public class DealLog {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getOprName() {
+		return oprName;
+	}
+
+	public void setOprName(String oprName) {
+		this.oprName = oprName;
 	}
 }

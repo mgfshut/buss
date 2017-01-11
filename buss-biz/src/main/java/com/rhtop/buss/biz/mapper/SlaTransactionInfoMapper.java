@@ -32,5 +32,8 @@ public interface SlaTransactionInfoMapper {
      * 根据条件分页查询列表
      */
 	List<SlaTransactionInfo> listPageSlaTransactionInfo(SlaTransactionInfo slaTransactionInfo);
-    
+    /**
+     * 根据交易ID查询最新的从表记录
+     */
+	SlaTransactionInfo selectLatestByTransactionInfoId(String TransactionInfoId);
 }
