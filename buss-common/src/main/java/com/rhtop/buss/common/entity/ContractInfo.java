@@ -72,6 +72,8 @@ public class ContractInfo {
 	
 	private Page page;//分页
 	
+	private String cateName;//品类名称
+	
 	public Page getPage() {
 		return page;
 	}
@@ -481,5 +483,13 @@ public class ContractInfo {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getCateName() {
+		return cateName;
+	}
+
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
 	}
 }

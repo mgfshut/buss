@@ -14,6 +14,7 @@ import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
+import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -22,6 +23,7 @@ import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeMap;
 import com.rhtop.buss.common.entity.ContactsInfo;
+import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
@@ -49,7 +51,8 @@ public class ReadController {
 	private CodeMapService codeMapService;
 	@Autowired
 	private TransactionInfoService traSer;  
-	
+	@Autowired
+	private ContractInfoService contractSer;
 	
 	
 	/**
@@ -222,7 +225,23 @@ public class ReadController {
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(tras);
 		return readResult;
-		
 	}
 	
+	/**
+	 * 接口id：R2009
+	 * 总经理查看合同列表
+	 * @param body
+	 * @author lujin
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2008")
+	public ResultInfo listContract(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
+		List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(conts);
+		return readResult;
+	}
 }
