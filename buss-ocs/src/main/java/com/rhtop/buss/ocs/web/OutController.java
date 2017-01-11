@@ -96,9 +96,6 @@ public class OutController {
 			if(!token.equals(readToken)){
 				propertyUtil.setValue(kuser.getUserId(), token);
 			}
-			
-			System.out.println("token=========="+token);
-			System.out.println("memberId==========="+kuser.getUserId());
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
@@ -567,7 +564,7 @@ public class OutController {
 	 * @param transactionInfo
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2008")
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2009")
 	public ResultInfo  listContract(HttpServletRequest request,@RequestBody Member member){
 		ResultInfo readResultInfo = new ResultInfo();
 		ResultInfo readResult = new ResultInfo();

@@ -216,7 +216,7 @@ public class ReadController {
 	 * @param body
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2007")
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2008")
 	public ResultInfo transaction(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
@@ -234,7 +234,7 @@ public class ReadController {
 	 * @author lujin
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2008")
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2009")
 	public ResultInfo listContract(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
