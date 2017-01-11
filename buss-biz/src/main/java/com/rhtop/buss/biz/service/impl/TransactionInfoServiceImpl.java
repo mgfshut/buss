@@ -75,6 +75,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			slaTx.setPcasPri(tx.getPcasPri());
 			slaTx.setPcasTime(now);
 			slaTx.setTxAmo(tx.getTxAmo());
+			slaTx.setCusAplSta("00");//00表示未接受，01表示接受。
 			slaTxMapper.insertSelective(slaTx);
 		}else{
 			throw new RuntimeException("交易记录已存在！");

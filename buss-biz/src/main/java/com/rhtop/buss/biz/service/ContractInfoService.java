@@ -14,6 +14,11 @@ public interface ContractInfoService{
 	int insertContractInfo(ContractInfo contractInfo);
     
 	/**
+	 * 创建合同、修改交易记录的状态
+	 */
+	String createContract(ContractInfo con);
+	
+	/**
 	 * 根据ID删除数据
 	 */
 	int deleteContractInfo(String contractInfoId);

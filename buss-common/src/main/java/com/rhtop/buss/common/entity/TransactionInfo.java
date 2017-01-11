@@ -44,6 +44,8 @@ public class TransactionInfo {
 	
 	private String createUser;//创建人
 	
+	private String endTime;//交易失效时间
+	
 	private Page page;//分页
 	
 	private String cusName;//客户姓名
@@ -353,5 +355,13 @@ public class TransactionInfo {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 }
