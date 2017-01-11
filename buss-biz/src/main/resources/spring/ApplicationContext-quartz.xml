@@ -30,7 +30,7 @@
 			<ref bean="getRateJobDetail" />
 		</property>
 		<property name="cronExpression">
-			<value>0 0 2 * * ?</value><!-- 每天凌晨2点执行一次 -->
+			<value>0 0 2 * * ?</value> <!--每天凌晨2点执行一次 -->
 			<!--<value>0 */1 * * * ?</value> 每分钟执行一次 -->
 		</property>
 	</bean>
