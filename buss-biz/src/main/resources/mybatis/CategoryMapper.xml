@@ -306,11 +306,16 @@
   
   <!-- 根据客户信息查询客户所属的品类信息 -->
   <select id="listCategoryByCustomer" resultMap="BaseResultMap" parameterType="java.lang.String">
-	select bca.* ,bca.cate_total_,
+	select bca.category_id_ , 
+	bca.cate_name_,
+	bca.manu_num_,
+	bca.prod_pla_,
+	bca.cate_stan_ ,
+	bca.pkg_quan_,
 	rcc.coo_inten_ as coo_inten_
 	from buss_rel_customer_category_ rcc LEFT JOIN buss_customer_ bco on rcc.customer_id_ = bco.customer_id_
 	LEFT JOIN buss_category_ bca on rcc.category_id_ = bca.category_id_
-	where bcu.customer_id_ = #{0}
+	where bco.customer_id_ = #{0}
   </select>
   
 	<!-- 根据客户经理的id ，查询品类的报价以及详情  已报价的 -->  

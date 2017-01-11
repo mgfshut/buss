@@ -29,6 +29,11 @@ public interface TransactionInfoService{
 	String universeNegotiate(TransactionInfo tx);
 	
 	/**
+	 * 决委会回盘确认
+	 */
+	String domainNegotiate(TransactionInfo tx);
+	
+	/**
 	 * 根据ID删除数据
 	 */
 	int deleteTransactionInfo(String transactionInfoId);

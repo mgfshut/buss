@@ -31,6 +31,7 @@ import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
+import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
@@ -772,7 +773,6 @@ public class WriteController extends BaseController{
 		String now = sdf.format(date);
 		String userId = tx.getUpdateUser();
 		tx.setUpdateTime(now);
-		tx.setUpdateUser(userId);
 		tx.setTxStatus("21");
 		try {
 			txSer.universeNegotiate(tx);
@@ -794,4 +794,77 @@ public class WriteController extends BaseController{
 		return readResult;
 	}
 	
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0004")
+	public ResultInfo domainNegotiate(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		TransactionInfo tx = null;
+		try{
+			tx = mapper.readValue(body, TransactionInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.domainNegotiate]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = tx.getUpdateUser();
+		tx.setUpdateTime(now);
+		tx.setTxStatus("22");
+		String endTime = sdf.format(new Date(date.getTime()+Integer.parseInt(tx.getCtofAging())*60*60*1000));
+		tx.setEndTime(endTime);
+		try {
+			txSer.domainNegotiate(tx);
+		} catch (Exception e) {
+			log.error("[WriteController.domainNegotiate]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(tx.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("32");
+			dlog.setOprName("决委会审核回盘");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.domainNegotiate]日志记录异常", e);
+		}
+		return readResult;
+	}
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0005")
+	public ResultInfo createContract(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.createContract]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = con.getUpdateUser();
+		con.setUpdateTime(now);
+		try {
+			conSer.createContract(con);
+		} catch (Exception e) {
+			log.error("[WriteController.createContract]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("41");
+			dlog.setOprName("合同创建");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.createContract]日志记录异常", e);
+		}
+		return readResult;
+	}
 }

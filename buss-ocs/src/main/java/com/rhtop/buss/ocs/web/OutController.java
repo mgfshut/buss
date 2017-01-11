@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.io.Files;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
@@ -348,7 +349,7 @@ public class OutController {
 	}
 	
 	//国际部回盘接口
-	//入参：transactionInfoId交易记录ID，uniCtofPri国际部回盘价，ctofAging回盘时效
+	//入参：transactionInfoId交易记录ID，ctofPri回盘价，ctofAging回盘时效
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0003")
 	public ResultInfo universeNegotiate(HttpServletRequest request, @RequestBody TransactionInfo tx){
 		ResultInfo readResult = new ResultInfo();
@@ -365,6 +366,42 @@ public class OutController {
 		return readResult;
 	}
 	
+	//决委会回盘审核接口
+	//入参：transactionInfoId交易记录ID，domCtofPri决委会回盘价,(ctofAging回盘时效如果传了就会修改)
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0004")
+	public ResultInfo domainNegotiate(HttpServletRequest request, @RequestBody TransactionInfo tx){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			tx.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(tx);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0004", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	//客户经理定盘接口
+	//入参：transactionInfoId交易记录ID，contractInfo合同对象。
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0005")
+	public ResultInfo createContract(HttpServletRequest request, @RequestBody ContractInfo contract){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			contract.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(contract);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0005", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+
 	
 	/**
 	 * 接口id:R2001
@@ -383,7 +420,7 @@ public class OutController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
-			customer.setCreateUser(memberId);
+			customer.setCreateUser(memberId);//将用户的id作为创建者给保存起来
 			JSONObject jsonUser = JSONObject.fromObject(customer);
 			readResult = (ResultInfo) service.invoke("readData-R2001", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -392,7 +429,7 @@ public class OutController {
 	
 	/**
 	 * 接口id:R2002
-	 * 客户经理查询客户的详细信息
+	 * 客户经理,分部经理 查询客户的详细信息
 	 * @param request
 	 * @param customer
 	 * @author lujin
@@ -407,7 +444,7 @@ public class OutController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if("200".equals(result.get("code").toString())){
-			readResult.setResObject(customer);
+			customer.setCreateUser(memberId);//将用户的id作为创建者给保存起来
 			JSONObject jsonUser = JSONObject.fromObject(customer);
 			readResult = (ResultInfo) service.invoke("readData-R2002", "POST", jsonUser.toString(), ResultInfo.class);
 		}

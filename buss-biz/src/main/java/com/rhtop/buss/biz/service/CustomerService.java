@@ -41,13 +41,23 @@ public interface CustomerService{
 	
     /**
 	 * 根据条件分页查询列表
+	 * 
+	 * 客户信息查询列表
+	 * 客户经理 ：客户信息查询
+	 * 部门经理： 客户信息查询
+	 * 总经理    ： 客户信心查询
+	 * 根据传入的用户id，判断用户的职称，继而查询该用户是否存在客户经理。
+	 * 
+	 * @param customer
+	 * @return
 	 */
 	List<Customer> listPageCustomer(Customer customer);
 	
 	/**
-	 * 经理所属的客户
-	 * @param customer
+	 * 客户信息详情
+	 * @param custome
 	 * @return
 	 */
-	List<Customer> selectCustomerInfo(Customer customer);
+	Customer selectCustomerInfo(Customer customer);
+	
 }

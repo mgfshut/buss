@@ -16,13 +16,13 @@ public class ContractInfo {
 	
 	private String carNum;//提货车牌号码
 	
-	private String totPri;//总价
+	private Float totPri;//总价
 	
 	private String txAmo;//交易数量
 	
 	private String delvOpt;//配送方式选择
 	
-	private String ctofPri;//回盘价
+	private Float ctofPri;//回盘价
 	
 	private String driNum;//驾驶证号
 	
@@ -96,11 +96,11 @@ public class ContractInfo {
 	public void setCarNum(String carNum){
 		this.carNum = carNum;
 	}
-	public String getTotPri(){
+	public Float getTotPri(){
 		return this.totPri;
 	}
 	
-	public void setTotPri(String totPri){
+	public void setTotPri(Float totPri){
 		this.totPri = totPri;
 	}
 	public String getTxAmo(){
@@ -117,11 +117,11 @@ public class ContractInfo {
 	public void setDelvOpt(String delvOpt){
 		this.delvOpt = delvOpt;
 	}
-	public String getCtofPri(){
+	public Float getCtofPri(){
 		return this.ctofPri;
 	}
 	
-	public void setCtofPri(String ctofPri){
+	public void setCtofPri(Float ctofPri){
 		this.ctofPri = ctofPri;
 	}
 	public String getDriNum(){

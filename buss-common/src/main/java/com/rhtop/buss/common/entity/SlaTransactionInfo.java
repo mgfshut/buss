@@ -30,7 +30,7 @@ public class SlaTransactionInfo {
 	
 	private String ctofCkTime;//回盘审核时间
 	
-	private String domCtofPri;//决委会回盘价
+	private Float domCtofPri;//决委会回盘价
 	
 	private String txAmo;//交易数量
 	
@@ -38,7 +38,7 @@ public class SlaTransactionInfo {
 	
 	private String ctofAging;//回盘时效
 	
-	private String pcasPri;//客户价
+	private Float pcasPri;//客户价
 	
 	private String createTime;//创建时间
 	
@@ -46,7 +46,7 @@ public class SlaTransactionInfo {
 	
 	private String ctofCkPer;//回盘审核人
 	
-	private String uniCtofPri;//国际部回盘价
+	private Float uniCtofPri;//国际部回盘价
 	
 	private Page page;//分页
 	
@@ -121,11 +121,11 @@ public class SlaTransactionInfo {
 	public void setCtofCkTime(String ctofCkTime){
 		this.ctofCkTime = ctofCkTime;
 	}
-	public String getDomCtofPri(){
+	public Float getDomCtofPri(){
 		return this.domCtofPri;
 	}
 	
-	public void setDomCtofPri(String domCtofPri){
+	public void setDomCtofPri(Float domCtofPri){
 		this.domCtofPri = domCtofPri;
 	}
 	public String getTxAmo(){
@@ -149,11 +149,11 @@ public class SlaTransactionInfo {
 	public void setCtofAging(String ctofAging){
 		this.ctofAging = ctofAging;
 	}
-	public String getPcasPri(){
+	public Float getPcasPri(){
 		return this.pcasPri;
 	}
 	
-	public void setPcasPri(String pcasPri){
+	public void setPcasPri(Float pcasPri){
 		this.pcasPri = pcasPri;
 	}
 	public String getCreateTime(){
@@ -177,11 +177,11 @@ public class SlaTransactionInfo {
 	public void setCtofCkPer(String ctofCkPer){
 		this.ctofCkPer = ctofCkPer;
 	}
-	public String getUniCtofPri(){
+	public Float getUniCtofPri(){
 		return this.uniCtofPri;
 	}
 	
-	public void setUniCtofPri(String uniCtofPri){
+	public void setUniCtofPri(Float uniCtofPri){
 		this.uniCtofPri = uniCtofPri;
 	}
 	

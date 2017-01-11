@@ -18,6 +18,7 @@
 	<result column="deal_time_" property="dealTime" jdbcType="VARCHAR" />
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="end_time_" property="endTime" jdbcType="VARCHAR" />
 	
 	<!-- 外键字段 -->
 	<result column="cus_name_" property="cusName" jdbcType="VARCHAR" />

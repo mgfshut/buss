@@ -14,7 +14,7 @@ import java.util.List;
  */
 //@XmlRootElement(name = "TransactionInfo")
 public class TransactionInfo {
-	private String ctofPri;//回盘价
+	private Float ctofPri;//回盘价
 	
 	private String txStatus;//交易状态
 	
@@ -24,7 +24,7 @@ public class TransactionInfo {
 	
 	private String createTime;//创建时间
 	
-	private String pcasPri;//客户价
+	private Float pcasPri;//客户价
 	
 	private String categoryId;//品类ID
 	
@@ -43,6 +43,8 @@ public class TransactionInfo {
 	private String customerId;//客户的ID
 	
 	private String createUser;//创建人
+	
+	private String endTime;//交易失效时间
 	
 	private Page page;//分页
 	
@@ -134,11 +136,11 @@ public class TransactionInfo {
 		this.page = page;
 	}
 	
-	public String getCtofPri(){
+	public Float getCtofPri(){
 		return this.ctofPri;
 	}
 	
-	public void setCtofPri(String ctofPri){
+	public void setCtofPri(Float ctofPri){
 		this.ctofPri = ctofPri;
 	}
 	public String getTxStatus(){
@@ -169,11 +171,11 @@ public class TransactionInfo {
 	public void setCreateTime(String createTime){
 		this.createTime = createTime;
 	}
-	public String getPcasPri(){
+	public Float getPcasPri(){
 		return this.pcasPri;
 	}
 	
-	public void setPcasPri(String pcasPri){
+	public void setPcasPri(Float pcasPri){
 		this.pcasPri = pcasPri;
 	}
 	public String getCategoryId(){
@@ -353,5 +355,13 @@ public class TransactionInfo {
 	
 	public String toString(){
 		return super.toString();
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 }
