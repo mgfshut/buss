@@ -500,8 +500,32 @@ public class OutController {
 		if (!"200".equals(result.get("code").toString())) {
 			readResult.setResObject(transactionInfo);
 			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
-			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
+			readResult =(ResultInfo)service.invoke("readData-R2008", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResultInfo;
 	}
+	/**
+	 * 接口id:R2009
+	 * 总经理查看合同信息
+	 * @param request
+	 * @param transactionInfo
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2009")
+	public ResultInfo  listContract(HttpServletRequest request,@RequestBody Member member){
+		ResultInfo readResultInfo = new ResultInfo();
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if (!"200".equals(result.get("code").toString())) {
+			readResult.setResObject(member);
+			JSONObject jsonUser = JSONObject.fromObject(member);
+			readResult =(ResultInfo)service.invoke("readData-R2009", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResultInfo;
+	}
+	
 }
