@@ -69,7 +69,10 @@ public class ReadController {
 	}
 	/**
 	 * 接口id：R2001
-	 * 客户经理 客户信息查询 
+	 * 【客户信息】
+	 * 客户经理 ：客户信息查询
+	 * 部门经理： 客户信息查询
+	 * 总经理    ： 客户信心查询
 	 * 根据传入的用户的id，客户类型，渠道，地区，查与之相关的客户信息
 	 * 
 	 * @return
@@ -88,27 +91,17 @@ public class ReadController {
 	
 	/**
 	 * 接口id：R2002
-	 * 客户经理 查看 客户的详细信息
-	 * 根据客户的id
-	 * 包括 联系人，以及品类信息
+	 * 客户经理，分部经理 查看 客户的详细信息
+	 * 根据客户的id 
+	 * 包括 联系人列表，以及品类列表信息
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/R2002")
 	public ResultInfo customerInfo(@RequestParam("body") String body) {
-		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Customer customer = (Customer) JSONObject.toBean(jsonObject, Customer.class);
-		// 查询客户信息
+		ResultInfo readResult = new ResultInfo();
 		customer.setCustomerId(customer.getCustomerId());
-		Customer cus = cusSer.selectCustomerInfo(customer).get(0);
-		// 查询联系人
-		ContactsInfo contactsinfo = new ContactsInfo();
-		contactsinfo.setCustomerId(customer.getCustomerId());
-		List<ContactsInfo> conts = contactsSer.listContactsInfos(contactsinfo);
-		// 查询品类
-		List<Category> cates = catSer.listCategoryByCustomer(customer.getCustomerId());
-		// 添加联系人和品类
-		cus.setCategorys(cates);
-		cus.setContacts(conts);
+		Customer cus = cusSer.selectCustomerInfo(customer);
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cus);
 		return readResult;
