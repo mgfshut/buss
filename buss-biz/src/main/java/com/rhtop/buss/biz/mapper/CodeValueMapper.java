@@ -39,5 +39,14 @@ public interface CodeValueMapper {
 	 * @return
 	 */
 	List<CodeValue> listCodeValuesByCode(String code);
+	/**
+	 * 根据代码集编码、代码值、代码值描述修改
+	 * @author mgf
+	 * @date 2017年1月11日 上午10:50:43 
+	 * @param codeValue
+	 * @return
+	 */
+	int updateTheCodeValue(String code, String codeValue,
+			String codeValueDescribe,String updateTime);
     
 }
