@@ -86,7 +86,7 @@ public class FileUtil {
 			//组成在服务器保存的文件名
 			fileName = perfix+suffix;
 			//储存该文件在服务器中保存的相对路径（文件夹/文件名）
-			String filePath = dir + File.pathSeparator + fileName;
+			String filePath = File.pathSeparator + dir.getName() + File.pathSeparator + fileName;
 			//创建空文件
 			File pic = new File(dir, fileName);
 			//如果新文件创建成功，就向其写入信息
@@ -104,6 +104,21 @@ public class FileUtil {
 		}
 		//出错则返回空。
 		return null;
-		
+	}
+	/**
+	 * 获取图片完整url的方法
+	 * @throws Exception 
+	 */
+	public static String getPicUrl(String catPic) throws Exception{
+		String picUrl = null;
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			String picUrlPerfix = propertyUtil.readValue("picUrlPerfix");
+			picUrl = picUrlPerfix+catPic;
+		} catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+		return picUrl;
 	}
 }
