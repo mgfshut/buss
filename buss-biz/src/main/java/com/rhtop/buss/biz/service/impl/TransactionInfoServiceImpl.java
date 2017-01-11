@@ -56,13 +56,13 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			tx.setCreateUser(userId);
 			tx.setCreateTime(now);
 			tx.setPcasTime(now);
-			if(tx.getPcasPri()==null||tx.getPcasPri().trim().equals("")){
-				//如果没有填写价格，默认他是发起交易。
-				tx.setTxStatus("10");
-			}else{
+//			if(tx.getPcasPri()==null||tx.getPcasPri().trim().equals("")){
+//				//如果没有填写价格，默认他是发起交易。
+//				tx.setTxStatus("10");
+//			}else{
 				//填写了价格，认为它是询价中。
-				tx.setTxStatus("20");
-			}
+				tx.setTxStatus("20");//现在先丢掉“发起交易”这个状态
+//			}
 			transactionInfoMapper.insertSelective(tx);
 			SlaTransactionInfo slaTx = new SlaTransactionInfo();
 			slaTransactionInfoId = UUID.randomUUID().toString().replace("-", "");
@@ -108,7 +108,17 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	public String universeNegotiate(TransactionInfo tx){
 		String transactionInfoId = tx.getTransactionInfoId();
 		transactionInfoMapper.updateByPrimaryKeySelective(tx);
-		//TODO:这里没做完啊！
+		SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(transactionInfoId);
+		String now = tx.getUpdateTime();
+		String userId = tx.getUpdateUser();
+		slaTx.setUpdateTime(now);
+		slaTx.setUpdateUser(userId);
+		slaTx.setCtofTime(now);
+		slaTx.setCtofAging(tx.getCtofAging());
+		slaTx.setCtofPerId(userId);
+		slaTx.setUniCtofPri(tx.getCtofPri());
+		slaTx.setCtofCkSta("00");
+		slaTxMapper.updateByPrimaryKeySelective(slaTx);
 		return transactionInfoId;
 	}
 

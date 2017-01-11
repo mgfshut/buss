@@ -752,6 +752,10 @@ public class WriteController extends BaseController{
 		return readResult;
 	}
 	
+	/**
+	 * @param body
+	 * @return
+	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0003")
 	public ResultInfo universeNegotiate(@RequestBody String body){
 		ObjectMapper mapper = new ObjectMapper();
@@ -771,7 +775,7 @@ public class WriteController extends BaseController{
 		tx.setUpdateUser(userId);
 		tx.setTxStatus("21");
 		try {
-			
+			txSer.universeNegotiate(tx);
 		} catch (Exception e) {
 			log.error("[WriteController.universeNegotiate]数据更新异常", e);
 		}
