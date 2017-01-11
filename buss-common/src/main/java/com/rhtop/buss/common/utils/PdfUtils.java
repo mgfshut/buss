@@ -40,10 +40,10 @@ public class PdfUtils {
 	 * 通过模板生成HTML
 	 * @author mgf
 	 * @date 2017年1月11日 下午3:37:09 
-	 * @param ftlPath
-	 * @param ftlName
-	 * @param params
-	 * @return
+	 * @param ftlPath 模板文件路径
+	 * @param ftlName 模板文件名称
+	 * @param params  参数map
+	 * @return HTML输入流
 	 */
 	public static InputStream generateHtml(String ftlPath,String ftlName,Map<String,Object> params){
 		Configuration cfg = new Configuration();
@@ -93,6 +93,7 @@ public class PdfUtils {
 	 * @param ftlName 模板文件名称
 	 * @param params  参数map
 	 * @param pdfFile PDF文件全路径
+	 * @return 生成的PDF文件全路径
 	 */
 	public static String pdfGennernator(String ftlPath,String ftlName,Map<String,Object> params,String pdfFile){
 		String resFile = null;
@@ -125,7 +126,7 @@ public class PdfUtils {
 	 * @author mgf
 	 * @date 2017年1月11日 下午5:38:50 
 	 * @param pdfFile PDF文件全路径
-	 * @return
+	 * @return 生成的图片全路径，多个文件用逗号分隔
 	 */
 	@SuppressWarnings({ "resource" })
 	public static String setup(String pdfFile){  
