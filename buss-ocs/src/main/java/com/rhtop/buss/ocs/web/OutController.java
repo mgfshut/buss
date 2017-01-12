@@ -547,6 +547,26 @@ public class OutController {
 	}
 	
 	/**
+	 * 经理取消交易的接口
+	 * 入参：transactionInfoId合同ID，clRea取消原因。
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0011")
+	public ResultInfo cancleTransaction(HttpServletRequest request, @RequestBody TransactionInfo tx){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			tx.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(tx);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0011", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
 	 * 接口id:R2001
 	 * 客户经理查询所属的客户信息列表，分页，条件查询（地区，类型，渠道）
 	 * @param request

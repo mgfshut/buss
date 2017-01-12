@@ -1131,4 +1131,45 @@ public class WriteController extends BaseController{
 		return readResult;
 	}
 	
+	/**
+	 * 经理取消合同的接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0011")
+	public ResultInfo cancleTransaction(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		TransactionInfo tx = null;
+		try{
+			tx = mapper.readValue(body, TransactionInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.cancleTransaction]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = tx.getUpdateUser();
+		tx.setTxStatus("70");
+		try {
+			txSer.updateTransactionInfo(tx);
+		} catch (Exception e) {
+			log.error("[WriteController.cancleTransaction]数据更新异常", e);
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(tx.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("取消合同");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.cancleTransaction]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
 }
