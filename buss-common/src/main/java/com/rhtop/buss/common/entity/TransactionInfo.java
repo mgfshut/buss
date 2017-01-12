@@ -18,6 +18,8 @@ public class TransactionInfo {
 	
 	private String txStatus;//交易状态
 	
+	private String clRea;//交易取消原因
+	
 	private String txAmo;//交易数量
 	
 	private String updateTime;//修改时间
@@ -363,5 +365,13 @@ public class TransactionInfo {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getClRea() {
+		return clRea;
+	}
+
+	public void setClRea(String clRea) {
+		this.clRea = clRea;
 	}
 }
