@@ -15,12 +15,12 @@ public class CusckLogServiceImpl implements CusckLogService {
 	private CusckLogMapper cusckLogMapper;
 	
 	@Override
-	public int insertBusinessDiary(CusckLog cusckLog) {
+	public int insertCusckLog(CusckLog cusckLog) {
 		return cusckLogMapper.insertSelective(cusckLog);
 	}
 
 	@Override
-	public int deleteBusinessDiary(String cusckLogId) {
+	public int deleteCusckLog(String cusckLogId) {
 		return cusckLogMapper.deleteByPrimaryKey(cusckLogId);
 	}
 

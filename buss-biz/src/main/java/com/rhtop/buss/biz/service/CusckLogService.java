@@ -8,12 +8,12 @@ public interface CusckLogService {
 	/**
 	 * 新增
 	 */
-	int insertBusinessDiary(CusckLog cusckLog);
+	int insertCusckLog(CusckLog cusckLog);
     
 	/**
 	 * 根据ID删除数据
 	 */
-	int deleteBusinessDiary(String cusckLogId);
+	int deleteCusckLog(String cusckLogId);
 	
 	/**
 	 * 根据Id查找数据

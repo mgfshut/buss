@@ -22,6 +22,7 @@ import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
 import com.rhtop.buss.biz.service.ContractInfoService;
+import com.rhtop.buss.biz.service.CusckLogService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.DealLogService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -32,6 +33,7 @@ import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.CusckLog;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
@@ -72,6 +74,8 @@ public class WriteController extends BaseController{
 	private SlaTransactionInfoService salTxSer;
 	@Autowired
 	private DealLogService dlogSer;
+	@Autowired
+	private CusckLogService clSer;
 	
 	/**
 	 * 客户经理第一次录入客户信息、联系人信息、品类信息的接口
@@ -382,7 +386,15 @@ public class WriteController extends BaseController{
 			bd.setOprName("分部经理批量确认新增客户信息");
 			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
-		} catch (Exception e) {
+			CusckLog cl = new CusckLog();
+			cl.setOprTime(now);
+			cl.setOprUser(userId);
+			for(Customer cus : cuss){
+				cl.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+				cl.setCustomerId(cus.getCustomerId());
+				clSer.insertCusckLog(cl);
+			}
+			} catch (Exception e) {
 			log.error("[WriteController.commitNewCustomerLevelOne]日志记录异常", e);
 		}
 		return readResult;
@@ -443,6 +455,14 @@ public class WriteController extends BaseController{
 			bd.setOprName("总经理批量确认新增客户信息");
 			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
+			CusckLog cl = new CusckLog();
+			cl.setOprTime(now);
+			cl.setOprUser(userId);
+			for(Customer cus : cuss){
+				cl.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+				cl.setCustomerId(cus.getCustomerId());
+				clSer.insertCusckLog(cl);
+			}
 		} catch (Exception e) {
 			log.error("[WriteController.commitNewCustomerLevelTwo]日志记录异常", e);
 		}
