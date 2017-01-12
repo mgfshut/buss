@@ -288,7 +288,7 @@ public class WriteController extends BaseController{
 
 	
 	/**
-	 * 分部经理完善现货价、半期货价、期货价的接口
+	 * 分部经理完善(解盘价、批发价、)现货价、半期货价、期货价的接口
 	 * @param request 拿token做校验
 	 * @param catePri 品类价格对象，包含品类ID，现货、半期货、期货价的最大最小值。
 	 * @return 状态码和状态消息
@@ -325,7 +325,7 @@ public class WriteController extends BaseController{
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
 			bd.setOprType("22");
-			bd.setOprName("分部经理完善现货价、期货价、半期货价。");
+			bd.setOprName("分部经理完善(解盘价、批发价、)现货价、期货价、半期货价。");
 			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
