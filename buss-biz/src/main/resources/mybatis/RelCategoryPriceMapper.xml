@@ -561,4 +561,34 @@
 	</if>
 </select>
 
+	  <!-- 定时任务 删除价格等信息；保留主键，品类id,创建时间，创建人四个字段 -->
+  <update id="updateSelective" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" >
+    update buss_rel_category_price_
+    <set >
+        	mgr_id_ = '',
+        	wholesale_pri_ = '',
+        	unit_ = '',
+        	inter_fut_max_ = '',
+        	flg_update_time_ = '',
+        	currency_ = '',
+        	update_time_ = '',
+        	offer_aging_ = '',
+        	spot_min_ = '',
+        	reg_mgr_id_ ='',
+        	update_user_ = '',
+        	mid_update_time_ ='',
+        	acpt_pri_ = '',
+        	fut_min_ = '',
+        	spot_max_ = '',
+        	mgr_loc_ = '',
+        	fut_max_ = '',
+        	inter_fut_min_ = '',
+        	cate_sup_ = '',
+        	uni_mgr_id_ = '',
+        	offer_update_time_ = '',
+    </set>
+    where 
+	rel_category_price_id_ = #{relCategoryPriceId}
+  </update>
+
 </mapper>

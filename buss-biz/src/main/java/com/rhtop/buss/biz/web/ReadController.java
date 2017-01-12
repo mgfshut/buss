@@ -109,8 +109,8 @@ public class ReadController {
 	
 	/**
 	 * 接口id:R2003
-	 * 客户经理  查询 品类信息
-	 * 查询所有， 分页查询 根据地区,品名，厂号查询
+	 * 查询 品类信息
+	 * 查询所有， 分页查询 根据 品名查询
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2003")
 	public ResultInfo listCategorys(@RequestParam("body") String body){
@@ -127,7 +127,7 @@ public class ReadController {
 	
 	/**
 	 * 接口id：R2004
-	 * 客户经理 查询品类的详细信息
+	 * 查询品类的详细信息
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2004")
 	public ResultInfo categoryInfo(@RequestParam("body") String body){
@@ -142,9 +142,8 @@ public class ReadController {
 	
 	/**
 	 * 接口id：R2005
-	 * 客户经理  查询 信息采集 
-	 * 客户经理已采集
-	 * 所有未采集
+	 * 客户经理，部门经理  查询 信息采集 
+	 * 国际采购部 已报盘/未报盘
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
 	public ResultInfo listRelcategoryPrice(@RequestParam("body") String body){
@@ -158,6 +157,22 @@ public class ReadController {
 		return readResult;
 	}
 	
+	/**
+	 * 接口id：R2010
+	 * 国际采购部 已报盘/未报盘
+	 */
+	/*
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2010")
+	public ResultInfo listRelcategoryPriceByUniMgr(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Member member = (Member) JSONObject.toBean(jsonObject, Member.class);
+		List<Category> categoeylist =catSer.listPageCategoeyByPrice(member.getMemberId());
+		readResult.setMessage("数据获取成功！");
+		readResult.setRecords(categoeylist);
+		readResult.setPage(member.getPage());
+		return readResult;
+	}*/
 	
 	/**
 	 * 接口id：R2006

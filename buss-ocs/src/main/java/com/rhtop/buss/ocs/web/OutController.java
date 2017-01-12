@@ -405,7 +405,7 @@ public class OutController {
 	
 	/**
 	 * 接口id:R2001
-	 * 客户经理查询所属的客户信息列表，分页，条件查询（地区，类型，渠道）
+	 * 客户经理,分部经理 ，总经理查询所属的客户信息列表，分页，条件查询（名称）
 	 * @param request
 	 * @param customer
 	 * @author lujin
@@ -429,7 +429,7 @@ public class OutController {
 	
 	/**
 	 * 接口id:R2002
-	 * 客户经理,分部经理 查询客户的详细信息
+	 * 客户经理,分部经理 ，总经理查询客户的详细信息
 	 * @param request
 	 * @param customer
 	 * @author lujin
@@ -453,7 +453,7 @@ public class OutController {
 	
 	/**
 	 * 接口id:R2003
-	 * 客户经理查看品类列表，分页查询
+	 * 查看品类列表，分页查询 ,条件查询（品名）
 	 * @param request
 	 * @param category
 	 * @author lujin
@@ -467,7 +467,7 @@ public class OutController {
 		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if(!"200".equals(result.get("code").toString())){
+		if("200".equals(result.get("code").toString())){
 //			category.setCreateUser(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2003", "POST", jsonUser.toString(), ResultInfo.class);
@@ -477,7 +477,7 @@ public class OutController {
 
 	/**
 	 * 接口id:R2004
-	 * 客户经理查看品类详情
+	 * 查看品类详情
 	 * @param request
 	 * @param category
 	 * @author lujin
@@ -491,7 +491,7 @@ public class OutController {
 		Map<String,Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if (!"200".equals(result.get("code").toString())) {
+		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2004", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -501,7 +501,7 @@ public class OutController {
 	
 	/**
 	 * 接口id:R2005
-	 * 客户经理查看信息采集列表
+	 * 客户经理、部门经理查看信息采集列表
 	 * @param request
 	 * @param member
 	 * @author lujin
@@ -515,14 +515,14 @@ public class OutController {
 		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if (!"200".equals(result.get("code").toString())) {
-			readResult.setResObject(member);
+		if ("200".equals(result.get("code").toString())) {
+			member.setMemberId(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(member);
 			readResult =(ResultInfo)service.invoke("readData-R2005", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}
-	 /* 接口id:R2006
+	 /** 接口id:R2006
 	 * 客户经理查看信息采集详情
 	 * @param request
 	 * @param member
@@ -537,8 +537,7 @@ public class OutController {
 		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if (!"200".equals(result.get("code").toString())) {
-			readResult.setResObject(category);
+		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2006", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -562,8 +561,7 @@ public class OutController {
 		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if (!"200".equals(result.get("code").toString())) {
-			readResult.setResObject(memberId);
+		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(memberId);
 			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -586,8 +584,7 @@ public class OutController {
 		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if (!"200".equals(result.get("code").toString())) {
-			readResult.setResObject(transactionInfo);
+		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
 			readResult =(ResultInfo)service.invoke("readData-R2008", "POST", jsonUser.toString(), ResultInfo.class);
 		}
@@ -609,8 +606,7 @@ public class OutController {
 		Map<String, Object> result = Jwt.validToken(memberId,token);
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
-		if (!"200".equals(result.get("code").toString())) {
-			readResult.setResObject(member);
+		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(member);
 			readResult =(ResultInfo)service.invoke("readData-R2009", "POST", jsonUser.toString(), ResultInfo.class);
 		}

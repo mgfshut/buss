@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -111,6 +112,12 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	public int createOrUpdateOfferPriceAndTimeByCategoryId(
 			RelCategoryPrice relCategoryPrice) {
 		relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+		return 0;
+	}
+
+	@Override
+	public int updateSelective(RelCategoryPrice relCategoryPrice) {
+		relCategoryPriceMapper.updateSelective(relCategoryPrice);
 		return 0;
 	}
 
