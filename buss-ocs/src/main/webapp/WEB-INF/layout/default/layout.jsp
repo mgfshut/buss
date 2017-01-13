@@ -43,7 +43,6 @@
 <ys:script src="/js/dwz/dwz.plugins.js" />
 
 
-
 <ys:script src="/js/lib/bootstrap.min.js"/>
 <ys:script src="/js/lib/bootstrap-datepicker.js"/>
 <ys:script src="/js/lib/bootstrap-datetimepicker.js"/>
@@ -52,6 +51,9 @@
 <script src="/js/lib/jquery.knob.js"></script>
 <script src="/js/lib/theme.js"></script>
 <script src="/js/lib/fuelux.wizard.js"></script>
+
+<script src="/js/printThis/printThis.js"></script>
+
 <ys:script src="/js/lib/showImg.js"/>
 <ys:script src="/js/ckeditor/ckeditor.js"></ys:script> 
 <ys:script src="/js/module/common.js"/>

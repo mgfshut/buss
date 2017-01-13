@@ -44,7 +44,8 @@
 		<typeAlias alias="TransactionInfo" type="com.rhtop.buss.common.entity.TransactionInfo"/>
 		<!-- 交易信息从表 -->
 		<typeAlias alias="SlaTransactionInfo" type="com.rhtop.buss.common.entity.SlaTransactionInfo"/>
-		
+		<!-- 品类与价格关系历史表 -->
+		<typeAlias alias="HisRelCategoryPrice" type="com.rhtop.buss.common.entity.HisRelCategoryPrice"/>
     </typeAliases>
     <!-- 实体接口映射资源 -->  
     
@@ -100,5 +101,8 @@
 		 <mapper resource="mybatis/TransactionInfoMapper.xml"/>
 		<!-- 交易信息从表 -->
 		 <mapper resource="mybatis/SlaTransactionInfoMapper.xml"/>
+		<!-- 品类与价格关系历史表 -->
+		 <mapper resource="mybatis/HisRelCategoryPriceMapper.xml"/>
+		 
     </mappers>
     </configuration>

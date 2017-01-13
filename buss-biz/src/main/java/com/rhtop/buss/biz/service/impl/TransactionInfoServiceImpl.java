@@ -185,5 +185,11 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		List<TransactionInfo> transactionInfos = transactionInfoMapper.listPageTransactionInfo(transactionInfo);
 		return transactionInfos;
 	}
+	
+	@Override
+	public List<TransactionInfo> listPageTransactionInfoBycreateUser(TransactionInfo transactionInfo) {
+		List<TransactionInfo> transactionInfos = transactionInfoMapper.listPageTransactionInfo(transactionInfo);
+		return transactionInfos;
+	}
 
 }

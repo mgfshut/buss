@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.HisRelCategoryPriceMapper">
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.HisRelCategoryPrice" >
+  	<id column="his_rel_category_price_id_" property="hisRelCategoryPriceId" jdbcType="CHAR" />
+	<result column="rel_category_price_id_" property="relCategoryPriceId" jdbcType="CHAR" />
+	<result column="mgr_id_" property="mgrId" jdbcType="VARCHAR" />
+	<result column="wholesale_pri_" property="wholesalePri" jdbcType="VARCHAR" />
+	<result column="unit_" property="unit" jdbcType="VARCHAR" />
+	<result column="inter_fut_max_" property="interFutMax" jdbcType="VARCHAR" />
+	<result column="flg_update_time_" property="flgUpdateTime" jdbcType="VARCHAR" />
+	<result column="currency_" property="currency" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="offer_aging_" property="offerAging" jdbcType="VARCHAR" />
+	<result column="spot_min_" property="spotMin" jdbcType="VARCHAR" />
+	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
+	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
+	<result column="reg_mgr_id_" property="regMgrId" jdbcType="VARCHAR" />
+	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="mid_update_time_" property="midUpdateTime" jdbcType="VARCHAR" />
+	<result column="acpt_pri_" property="acptPri" jdbcType="VARCHAR" />
+	<result column="fut_min_" property="futMin" jdbcType="VARCHAR" />
+	<result column="spot_max_" property="spotMax" jdbcType="VARCHAR" />
+	<result column="mgr_loc_" property="mgrLoc" jdbcType="VARCHAR" />
+	<result column="fut_max_" property="futMax" jdbcType="VARCHAR" />
+	<result column="category_id_" property="categoryId" jdbcType="VARCHAR" />
+	<result column="inter_fut_min_" property="interFutMin" jdbcType="VARCHAR" />
+	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
+	<result column="uni_mgr_id_" property="uniMgrId" jdbcType="VARCHAR" />
+	<result column="offer_update_time_" property="offerUpdateTime" jdbcType="VARCHAR" />
+	<result column="cate_pri_" property="catePri" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  his_rel_category_price_id_,
+  	mgr_id_,
+  	wholesale_pri_,
+  	unit_,
+  	inter_fut_max_,
+  	flg_update_time_,
+  	currency_,
+  	rel_category_price_id_,
+  	update_time_,
+  	offer_aging_,
+  	spot_min_,
+  	create_time_,
+  	create_user_,
+  	reg_mgr_id_,
+  	update_user_,
+  	mid_update_time_,
+  	acpt_pri_,
+  	fut_min_,
+  	spot_max_,
+  	mgr_loc_,
+  	fut_max_,
+  	category_id_,
+  	inter_fut_min_,
+  	cate_sup_,
+  	uni_mgr_id_,
+  	offer_update_time_,
+  	cate_pri_
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.HisRelCategoryPrice" >
+    insert into buss_rel_category_price_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="mgrId != null" >
+	    	mgr_id_,
+	    </if>
+    	<if test="wholesalePri != null" >
+	    	wholesale_pri_,
+	    </if>
+    	<if test="unit != null" >
+	    	unit_,
+	    </if>
+    	<if test="interFutMax != null" >
+	    	inter_fut_max_,
+	    </if>
+    	<if test="flgUpdateTime != null" >
+	    	flg_update_time_,
+	    </if>
+    	<if test="currency != null" >
+	    	currency_,
+	    </if>
+    	<if test="relCategoryPriceId != null" >
+	    	rel_category_price_id_,
+	    </if>
+    	<if test="updateTime != null" >
+	    	update_time_,
+	    </if>
+    	<if test="offerAging != null" >
+	    	offer_aging_,
+	    </if>
+    	<if test="spotMin != null" >
+	    	spot_min_,
+	    </if>
+    	<if test="createTime != null" >
+	    	create_time_,
+	    </if>
+    	<if test="createUser != null" >
+	    	create_user_,
+	    </if>
+    	<if test="regMgrId != null" >
+	    	reg_mgr_id_,
+	    </if>
+    	<if test="updateUser != null" >
+	    	update_user_,
+	    </if>
+    	<if test="midUpdateTime != null" >
+	    	mid_update_time_,
+	    </if>
+    	<if test="acptPri != null" >
+	    	acpt_pri_,
+	    </if>
+    	<if test="futMin != null" >
+	    	fut_min_,
+	    </if>
+    	<if test="spotMax != null" >
+	    	spot_max_,
+	    </if>
+    	<if test="mgrLoc != null" >
+	    	mgr_loc_,
+	    </if>
+    	<if test="futMax != null" >
+	    	fut_max_,
+	    </if>
+    	<if test="categoryId != null" >
+	    	category_id_,
+	    </if>
+    	<if test="interFutMin != null" >
+	    	inter_fut_min_,
+	    </if>
+    	<if test="cateSup != null" >
+	    	cate_sup_,
+	    </if>
+    	<if test="uniMgrId != null" >
+	    	uni_mgr_id_,
+	    </if>
+    	<if test="offerUpdateTime != null" >
+	    	offer_update_time_,
+	    </if>
+    	<if test="catePri != null" >
+	    	cate_pri_,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="mgrId != null" >
+	    	#{mgrId},
+	    </if>
+    	<if test="wholesalePri != null" >
+	    	#{wholesalePri},
+	    </if>
+    	<if test="unit != null" >
+	    	#{unit},
+	    </if>
+    	<if test="interFutMax != null" >
+	    	#{interFutMax},
+	    </if>
+    	<if test="flgUpdateTime != null" >
+	    	#{flgUpdateTime},
+	    </if>
+    	<if test="currency != null" >
+	    	#{currency},
+	    </if>
+    	<if test="relCategoryPriceId != null" >
+	    	#{relCategoryPriceId},
+	    </if>
+    	<if test="updateTime != null" >
+	    	#{updateTime},
+	    </if>
+    	<if test="offerAging != null" >
+	    	#{offerAging},
+	    </if>
+    	<if test="spotMin != null" >
+	    	#{spotMin},
+	    </if>
+    	<if test="createTime != null" >
+	    	#{createTime},
+	    </if>
+    	<if test="createUser != null" >
+	    	#{createUser},
+	    </if>
+    	<if test="regMgrId != null" >
+	    	#{regMgrId},
+	    </if>
+    	<if test="updateUser != null" >
+	    	#{updateUser},
+	    </if>
+    	<if test="midUpdateTime != null" >
+	    	#{midUpdateTime},
+	    </if>
+    	<if test="acptPri != null" >
+	    	#{acptPri},
+	    </if>
+    	<if test="futMin != null" >
+	    	#{futMin},
+	    </if>
+    	<if test="spotMax != null" >
+	    	#{spotMax},
+	    </if>
+    	<if test="mgrLoc != null" >
+	    	#{mgrLoc},
+	    </if>
+    	<if test="futMax != null" >
+	    	#{futMax},
+	    </if>
+    	<if test="categoryId != null" >
+	    	#{categoryId},
+	    </if>
+    	<if test="interFutMin != null" >
+	    	#{interFutMin},
+	    </if>
+    	<if test="cateSup != null" >
+	    	#{cateSup},
+	    </if>
+    	<if test="uniMgrId != null" >
+	    	#{uniMgrId},
+	    </if>
+    	<if test="offerUpdateTime != null" >
+	    	#{offerUpdateTime},
+	    </if>
+    	<if test="catePri != null" >
+	    	#{catePri},
+	    </if>
+    </trim>
+  </insert>
+
+</mapper>

@@ -1,0 +1,45 @@
+package com.rhtop.buss.biz.quartz;
+
+import java.util.List;
+
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.QuartzJobBean;
+
+import com.rhtop.buss.biz.service.HisRelCategoryPriceService;
+import com.rhtop.buss.biz.service.RelCategoryPriceService;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
+
+public class ClearPriceJob  extends QuartzJobBean{
+
+	/**
+	 * 1.定时 将价格表中的数据导入价格从表中
+	 * 2.将价格主表的价格清零，以及留下品类主键
+	 */
+	@Autowired
+	private RelCategoryPriceService relSer;
+	@Autowired
+	private HisRelCategoryPriceService hisSer;
+
+	@Override
+	protected void executeInternal(JobExecutionContext context)
+			throws JobExecutionException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void clearPrice(){
+		//得到记录
+		List<RelCategoryPrice>  rels = relSer.listRelCategoryPrices(new RelCategoryPrice());
+		for(RelCategoryPrice rel:rels){
+			//复制记录
+			hisSer.insertRelCategoryPrice(rel);
+		}
+		//删除主表记录
+		for(RelCategoryPrice rel:rels){
+			relSer.updateSelective(rel);
+		}
+	}
+	
+}
