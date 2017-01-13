@@ -31,12 +31,12 @@ public interface RelCategoryPriceService{
 	/**
 	 * 创建或更新品类批发价和接盘价
 	 */
-	int createOrUpdateWholesaleAndAcptPriceByCategoryId(RelCategoryPrice relCategoryPrice);
+	int createOrUpdateWholesaleAndAcptPriceByCategoryId(List<RelCategoryPrice> relCategoryPrices);
 	
 	/**
 	 * 创建或更新品类三个中间价
 	 */
-	int createOrUpdateMidPriceByCategoryId(RelCategoryPrice relCategoryPrice);
+	int createOrUpdateMidPriceByCategoryId(List<RelCategoryPrice> relCategoryPrices);
 	
 	/**
 	 * 创建或更新报盘价和报盘时效

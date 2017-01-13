@@ -25,6 +25,10 @@ public interface RelCustomerCategoryMapper {
 	 */
     RelCustomerCategory selectByPrimaryKey(String relCustomerCategoryId);
     /**
+     * 根据客户、品类、客户经理（创建人）查询对象
+     */
+    RelCustomerCategory selectByPrimaryParam(RelCustomerCategory relCustomerCategory);
+    /**
      * 根据条件查询列表
      */
 	List<RelCustomerCategory> listRelCustomerCategorys(RelCustomerCategory relCustomerCategory);
