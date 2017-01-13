@@ -66,6 +66,8 @@ public class TransactionInfo {
 	
 	private List<SlaTransactionInfo>  sla;//回盘记录
 	
+	private RelCategoryPrice rel;
+	
 	public ContractInfo getContract() {
 		return contract;
 	}
@@ -373,5 +375,13 @@ public class TransactionInfo {
 
 	public void setClRea(String clRea) {
 		this.clRea = clRea;
+	}
+
+	public RelCategoryPrice getRel() {
+		return rel;
+	}
+
+	public void setRel(RelCategoryPrice rel) {
+		this.rel = rel;
 	}
 }

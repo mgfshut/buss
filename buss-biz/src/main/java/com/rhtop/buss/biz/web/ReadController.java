@@ -150,11 +150,11 @@ public class ReadController  extends BaseController {
 	public ResultInfo listRelcategoryPrice(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		Member member = (Member) JSONObject.toBean(jsonObject, Member.class);
-		List<Category> categoeylist =catSer.listPageCategoeyByPrice(member.getMemberId());
-		readResult.setMessage("数据获取成功！");
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		List<Category> categoeylist =catSer.listPageCategoeyByPrice(category.getCreateUser());
 		readResult.setRecords(categoeylist);
-		readResult.setPage(member.getPage());
+		readResult.setMessage("数据获取成功！");
+		readResult.setPage(category.getPage());
 		return readResult;
 	}
 	
@@ -200,35 +200,78 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id：R2007
-	 * 客户经理查看交易列表
+	 * 客户经理,部门经理 ,决策委员会 查看交易列表
 	 * @author lujin
 	 * @param body
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2007")
-	public ResultInfo listtransactions(@RequestParam ("body") String body){
+	public ResultInfo listTransactions(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
-		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactionInfo);
+		Category category = (Category) JSONObject.toBean(jsonObject,Category.class);
+		TransactionInfo transactioninfo = new TransactionInfo();
+		transactioninfo.setCreateUser(category.getCreateUser());
+		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactioninfo);
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(tras);
 		return readResult;
 	}
+
+	/**
+	 * 接口id：R2011
+	 * 发起交易(对客户信息的查询)
+	 * 客户经理，分部经理 查询自己创建的客户信息
+	 * @author lujin
+	 * @date 2017-1-13
+	 * @param body
+	 * @return readResult
+	 */
+	public ResultInfo startTransactionByCu(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
+		//查询客户信息
+		List<Customer> customerlist = cusSer.listCustomers(customer); 
+		readResult.setMessage("数据获取成功！");
+		readResult.setRecords(customerlist);
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2012
+	 * 发起交易(对品类信息的查询)
+	 * 客户经理，分部经理 查询所选客户所属的品类
+	 * @author lujin
+	 * @date 2017-1-13
+	 * @param body
+	 * @return readResult
+	 */
+	public ResultInfo startTransactionByCa(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
+		//查询客户所属的品类信息
+		List<Category> categorylist = catSer.listCategoryByCustomer(customer.getCustomerId());
+		readResult.setMessage("数据获取成功！");
+		readResult.setRecords(categorylist);
+		return readResult;
+	}
+	
 	
 	/**
 	 * 接口id：R2008
-	 * 客户经理查看交易详情
+	 * 客户经理，分部经理，决策委员会查看交易详情
 	 * @author lujin
 	 * @param body
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2008")
-	public ResultInfo transaction(@RequestParam ("body") String body){
+	public ResultInfo transactionInfo(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
-		TransactionInfo tras = traSer.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
+		TransactionInfo tras = traSer.selectTransactionInfo(transactionInfo);
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(tras);
 		return readResult;
@@ -247,6 +290,24 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
 		List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(conts);
+		return readResult;
+	}
+	/**
+	 * 接口id:R2013
+	 * 总经理查看合同详情
+	 * @author lujin
+	 * @date 2017-1-13
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2013")
+	public ResultInfo ContractInfo(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
+		ContractInfo conts = contractSer.selectByPrimaryKey(contractInfo.getContractInfoId());
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(conts);
 		return readResult;
