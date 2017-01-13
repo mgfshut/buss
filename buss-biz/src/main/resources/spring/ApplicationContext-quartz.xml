@@ -9,9 +9,13 @@
 
 	<!-- 监控定时任务 -->
 	<bean id="RateJob" class="com.rhtop.buss.biz.quartz.RateJob" />
+	<bean id="ClearPriceJob" class="com.rhtop.buss.biz.quartz.ClearPriceJob" />
 	
     <bean id="codeValueService" class="com.rhtop.buss.biz.service.impl.CodeValueServiceImpl" />
 	<bean id="CodeMapService" class="com.rhtop.buss.biz.service.impl.CodeMapServiceImpl" />
+
+	<bean id="relCategoryPriceService" class="com.rhtop.buss.biz.service.impl.RelCategoryPriceServiceImpl" />
+	<bean id="hisRelcategoryPriceService" class="com.rhtop.buss.biz.service.impl.HisRelCategoryPriceServiceImpl" />
 
 	<!--定义调用对象和调用对象的方法 -->
 	<bean id="getRateJobDetail"
@@ -23,7 +27,18 @@
 			<value>getRate</value><!-- 执行的方法 -->
 		</property>
 	</bean>
-
+	
+	<!--价格定时清除任务 调用对象和调用方法 -->
+	<bean id="getClearPriceJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ClearPriceJob" />
+		</property>
+		<property name="targetMethod">
+			<value>clearPrice</value><!-- 执行的方法 -->
+		</property>
+	</bean>
+	
 	<!--定义触发时间 -->
 	<bean id="getRateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail">
@@ -35,10 +50,22 @@
 		</property>
 	</bean>
 
+	<!--价格定时清除任务 触发时间 -->
+	<bean id="getClearPriceJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="getClearPriceJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- <value>0 0 0 ? * L </value> --> <!--每周星期天凌晨0点实行一次 -->
+			<value>0 */1 * * * ?</value><!--  每分钟执行一次 -->
+		</property>
+	</bean>
+
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref local="getRateJobTrigger" />
+				<ref local="getClearPriceJobTrigger" />
 			</list>
 		</property>
 	</bean>

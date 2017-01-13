@@ -517,51 +517,118 @@
 		</if>
 	</select>
 
-	<!-- 根据条件分页查询列表 查找采集信息【已采集\未采集】 -->
-	<select id="listPageRelCategoryPrice" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice"
-	resultMap="BaseResultMap">
-	select
-	rcp.rel_category_price_id_,
-	rcp.mgr_loc_,
-	rcp.cus_cha_val_,
-	bc.cate_name_ ,
-	bc.offer_Pri_ ,
-	rcp.cate_sup_,
-	rcp.create_time_,
-	(select user_name_ from sys_user_ where user_id_ = mgr_id_) as mar_name_,
-	rcp.wholesale_pri_,
-	rcp.acpt_pri_,
-	rcp.flg_update_time_,
-	(select user_name_ from sys_user_ where user_id_ = reg_mgr_id_) as reg_mar_name_,
-	rcp.spot_min_,
-	rcp.fut_min_,
-	rcp.inter_fut_min_,
-	(select user_name_ from sys_user_ where user_id_ = uni_mgr_id_) as uni_mgr_name_,
-	rcp.offer_aging_,
-	rcp.cate_pri_
-	from buss_rel_category_price_ as rcp,buss_category_ as bc where
-	rcp.category_id_ = bc.category_id_
-	<if test="cateName != null and cateName != ''">
-		and cate_name_ = #{cateName}
-	</if>
-	<if test="mgrName != null and mgrName != ''">
-		and mgr_name_ = #{mgrName}
-	</if>
-	<if test="regMgrId != null and regMgrId != ''">
-		and reg_mgr_id_ =
-		#{regMgrId}
-	</if>
-	<if test="categoryId != null and categoryId != ''">
-		and category_id_
-		= #{categoryId}
-	</if>
-	<if test="uniMgrId != null and uniMgrId != ''">
-		and uni_mgr_id_ =
-		#{uniMgrId}
-	</if>
-</select>
+<select id="listPageRelCategoryPrice" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_rel_category_price_ where 1=1
+    	<if test="mgrId != null and mgrId != ''" >
+			and mgr_id_ = #{mgrId}
+		</if>
+		<if test="wholesalePri != null and wholesalePri != ''">
+			and
+			wholesale_pri_ = #{wholesalePri}
+		</if>
+		<if test="unit != null and unit != ''">
+			and unit_ = #{unit}
+		</if>
+		<if test="interFutMax != null and interFutMax != ''">
+			and
+			inter_fut_max_ = #{interFutMax}
+		</if>
+		<if test="flgUpdateTime != null and flgUpdateTime != ''">
+			and
+			flg_update_time_ = #{flgUpdateTime}
+		</if>
+		<if test="currency != null and currency != ''">
+			and currency_ =
+			#{currency}
+		</if>
+		<if test="relCategoryPriceId != null and relCategoryPriceId != ''">
+			and rel_category_price_id_ = #{relCategoryPriceId}
+		</if>
+		<if test="updateTime != null and updateTime != ''">
+			and update_time_
+			= #{updateTime}
+		</if>
+		<if test="offerAging != null and offerAging != ''">
+			and offer_aging_
+			= #{offerAging}
+		</if>
+		<if test="spotMin != null and spotMin != ''">
+			and spot_min_ =
+			#{spotMin}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			and create_time_
+			= #{createTime}
+		</if>
+		<if test="createUser != null and createUser != ''">
+			and create_user_
+			= #{createUser}
+		</if>
+		<if test="regMgrId != null and regMgrId != ''">
+			and reg_mgr_id_ =
+			#{regMgrId}
+		</if>
+		<if test="updateUser != null and updateUser != ''">
+			and update_user_
+			= #{updateUser}
+		</if>
+		<if test="midUpdateTime != null and midUpdateTime != ''">
+			and
+			mid_update_time_ = #{midUpdateTime}
+		</if>
+		<if test="acptPri != null and acptPri != ''">
+			and acpt_pri_ =
+			#{acptPri}
+		</if>
+		<if test="futMin != null and futMin != ''">
+			and fut_min_ = #{futMin}
+		</if>
+		<if test="spotMax != null and spotMax != ''">
+			and spot_max_ =
+			#{spotMax}
+		</if>
+		<if test="mgrLoc != null and mgrLoc != ''">
+			and mgr_loc_ = #{mgrLoc}
+		</if>
+		<if test="futMax != null and futMax != ''">
+			and fut_max_ = #{futMax}
+		</if>
+		<if test="categoryId != null and categoryId != ''">
+			and category_id_
+			= #{categoryId}
+		</if>
+		<if test="interFutMin != null and interFutMin != ''">
+			and
+			inter_fut_min_ = #{interFutMin}
+		</if>
+		<if test="cateSup != null and cateSup != ''">
+			and cate_sup_ =
+			#{cateSup}
+		</if>
+		<if test="uniMgrId != null and uniMgrId != ''">
+			and uni_mgr_id_ =
+			#{uniMgrId}
+		</if>
+		<if test="offerUpdateTime != null and offerUpdateTime != ''">
+			and
+			offer_update_time_ = #{offerUpdateTime}
+		</if>
+		<if test="catePri != null and catePri != ''">
+			and cate_pri_ =
+			#{catePri}
+		</if>
+		<if test="cusChaVal != null and cusChaVal != ''">
+			and cus_cha_val_ =
+			#{cusChaVal}
+		</if>
+		<if test="cusChaId != null and cusChaId !='' ">
+			and	cus_cha_Id_ = #{cusChaId},
+		</if>
+	</select>
 
-	  <!-- 定时任务 删除价格等信息；保留主键，品类id,创建时间，创建人四个字段 -->
+  <!-- 定时任务 删除价格等信息；保留主键，品类id,创建时间，创建人四个字段 -->
   <update id="updateSelective" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" >
     update buss_rel_category_price_
     <set >
