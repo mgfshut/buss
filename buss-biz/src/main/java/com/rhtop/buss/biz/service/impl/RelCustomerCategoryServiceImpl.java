@@ -35,6 +35,11 @@ public class RelCustomerCategoryServiceImpl implements RelCustomerCategoryServic
 	public RelCustomerCategory selectByPrimaryKey(String relCustomerCategoryId){
 		return relCustomerCategoryMapper.selectByPrimaryKey(relCustomerCategoryId);
 	}
+	
+	@Override
+	public RelCustomerCategory selectByPrimaryParam(RelCustomerCategory relCustomerCategory){
+		return relCustomerCategoryMapper.selectByPrimaryParam(relCustomerCategory);
+	}
 
 	@Override
 	public List<RelCustomerCategory> listRelCustomerCategorys(RelCustomerCategory relCustomerCategory) {
