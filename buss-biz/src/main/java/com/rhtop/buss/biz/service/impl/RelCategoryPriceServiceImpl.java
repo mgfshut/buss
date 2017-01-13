@@ -94,6 +94,8 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			return status;
 		}else{
 			rel.setMidUpdateTime(now);
+			rel.setAcptPri(relCategoryPrice.getAcptPri());
+			rel.setWholesalePri(relCategoryPrice.getWholesalePri());
 			rel.setSpotMin(relCategoryPrice.getSpotMin());
 			rel.setSpotMax(relCategoryPrice.getSpotMax());
 			rel.setInterFutMin(relCategoryPrice.getInterFutMin());

@@ -24,6 +24,8 @@
 		<typeAlias alias="RsUserRole" type="com.rhtop.buss.common.entity.RsUserRole" />
 		<!-- 客户信息表 -->
 		<typeAlias alias="Customer" type="com.rhtop.buss.common.entity.Customer"/>
+		<!-- 客户审核日志表 -->
+		<typeAlias alias="CusckLog" type="com.rhtop.buss.common.entity.CusckLog"/>
 		<!-- 品类信息表 -->
 		<typeAlias alias="Category" type="com.rhtop.buss.common.entity.Category" />
 		<!-- 客户与品类关系表 -->
@@ -79,6 +81,8 @@
         <mapper resource="mybatis/RsUserRoleMapper.xml" />
         <!-- 客户信息表 -->
         <mapper resource="mybatis/CustomerMapper.xml"/>
+        <!-- 客户审核日志表 -->
+        <mapper resource="mybatis/CusckLogMapper.xml"/>
         <!-- 品类信息表 -->
         <mapper resource="mybatis/CategoryMapper.xml"/>
         <!-- 客户与品类关系表 -->

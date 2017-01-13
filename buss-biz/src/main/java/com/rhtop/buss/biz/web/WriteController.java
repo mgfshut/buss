@@ -22,6 +22,7 @@ import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
 import com.rhtop.buss.biz.service.ContractInfoService;
+import com.rhtop.buss.biz.service.CusckLogService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.DealLogService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -32,6 +33,7 @@ import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.CusckLog;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
@@ -72,6 +74,8 @@ public class WriteController extends BaseController{
 	private SlaTransactionInfoService salTxSer;
 	@Autowired
 	private DealLogService dlogSer;
+	@Autowired
+	private CusckLogService clSer;
 	
 	/**
 	 * 客户经理第一次录入客户信息、联系人信息、品类信息的接口
@@ -178,7 +182,7 @@ public class WriteController extends BaseController{
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
-			bd.setOprType("01");//0开头是客户操作、1是品类操作、2是价格操作、3是交易操作、4是合同操作、5文件操作。||后面一位1为新增、2修改、3删除。
+			bd.setOprType("01");//0开头是客户操作、1是品类操作、2是价格操作、3是交易操作、4是合同操作、5文件操作。||后面一位1为新增、2修改、3删除、4查看。
 			bd.setOprName("客户新增");
 			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
@@ -207,7 +211,7 @@ public class WriteController extends BaseController{
 		readResult.setCode("200");
 		String catePic = null;
 		try {
-			catePic = FileUtil.uploadOneFile(picFile);
+			catePic = FileUtil.uploadPic(picFile);
 			readResult.setResObject(catePic);
 		} catch (Exception e) {
 			log.error("[WriteController.uploadPic]图片上传异常", e);
@@ -284,7 +288,7 @@ public class WriteController extends BaseController{
 
 	
 	/**
-	 * 分部经理完善现货价、半期货价、期货价的接口
+	 * 分部经理完善(解盘价、批发价、)现货价、半期货价、期货价的接口
 	 * @param request 拿token做校验
 	 * @param catePri 品类价格对象，包含品类ID，现货、半期货、期货价的最大最小值。
 	 * @return 状态码和状态消息
@@ -321,7 +325,7 @@ public class WriteController extends BaseController{
 			bd.setOprTime(now);
 			bd.setOprUser(userId);
 			bd.setOprType("22");
-			bd.setOprName("分部经理完善现货价、期货价、半期货价。");
+			bd.setOprName("分部经理完善(解盘价、批发价、)现货价、期货价、半期货价。");
 			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
 		} catch (Exception e) {
@@ -382,7 +386,15 @@ public class WriteController extends BaseController{
 			bd.setOprName("分部经理批量确认新增客户信息");
 			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
-		} catch (Exception e) {
+			CusckLog cl = new CusckLog();
+			cl.setOprTime(now);
+			cl.setOprUser(userId);
+			for(Customer cus : cuss){
+				cl.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+				cl.setCustomerId(cus.getCustomerId());
+				clSer.insertCusckLog(cl);
+			}
+			} catch (Exception e) {
 			log.error("[WriteController.commitNewCustomerLevelOne]日志记录异常", e);
 		}
 		return readResult;
@@ -443,6 +455,14 @@ public class WriteController extends BaseController{
 			bd.setOprName("总经理批量确认新增客户信息");
 			bd.setOprContent(body);
 			busDiaSer.insertBusinessDiary(bd);
+			CusckLog cl = new CusckLog();
+			cl.setOprTime(now);
+			cl.setOprUser(userId);
+			for(Customer cus : cuss){
+				cl.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+				cl.setCustomerId(cus.getCustomerId());
+				clSer.insertCusckLog(cl);
+			}
 		} catch (Exception e) {
 			log.error("[WriteController.commitNewCustomerLevelTwo]日志记录异常", e);
 		}
@@ -867,4 +887,289 @@ public class WriteController extends BaseController{
 		}
 		return readResult;
 	}
+	
+	/**
+	 * 合同盖章后上传的接口
+	 * @param request
+	 * @param contracts
+	 * @param memberId
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/uploadContracts")
+	public ResultInfo uploadContract(HttpServletRequest request, MultipartFile[] contracts, @RequestParam("memberId") String memberId){
+		String userId = memberId;
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		String contUlName = null;
+		try {
+			String contractName = null;
+			for(int i = 0; i < contracts.length ; i++){
+				contractName = FileUtil.uploadContract(contracts[i]);
+				if(i==contracts.length){
+					contUlName += contractName;
+				}else{
+					contUlName += contractName+"|";
+				}
+			}
+		} catch (Exception e) {
+			log.error("[WriteController.uploadPic]图片上传异常", e);
+		}
+		readResult.setResObject(contUlName);
+		//添加一条操作记录
+		try {
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String now = sdf.format(date);
+			BusinessDiary bd = new BusinessDiary();
+			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+			bd.setOprTime(now);
+			bd.setOprUser(userId);
+			bd.setOprType("51");
+			bd.setOprName("合同上传");
+			bd.setOprContent(contUlName);
+			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.uploadPic]操作日志记录异常", e);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 总经理合同审定接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0006")
+	public ResultInfo checkContract(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.checkContract]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = con.getUpdateUser();
+		con.setUpdateTime(now);
+		try {
+			conSer.checkContract(con);
+		} catch (Exception e) {
+			log.error("[WriteController.checkContract]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("总经理合同审定");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.checkContract]日志记录异常", e);
+		}
+		return readResult;
+	}
+	/**
+	 * 合同盖章上传后行政审核接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0007")
+	public ResultInfo contractStamp(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.contractStamp]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = con.getUpdateUser();
+		con.setUpdateTime(now);
+		try {
+			conSer.contractStamp(con);
+		} catch (Exception e) {
+			log.error("[WriteController.contractStamp]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("行政合同审定、盖章");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.contractStamp]日志记录异常", e);
+		}
+		return readResult;
+	}
+	/**
+	 * 合同下载接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0008")
+	public ResultInfo downloadContract(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.downloadContract]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = con.getUpdateUser();
+		con.setUpdateTime(now);
+		try {
+			List<String> urlList = conSer.downloadContract(con);
+			readResult.setResObject(urlList);
+		} catch (Exception e) {
+			log.error("[WriteController.downloadContract]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("54");
+			dlog.setOprName("合同下载");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.downloadContract]日志记录异常", e);
+		}
+		return readResult;
+	}
+	/**
+	 * 财务审核接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0009")
+	public ResultInfo treasurerCheckContract(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.treasurerCheckContract]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = con.getUpdateUser();
+		con.setUpdateTime(now);
+		try {
+			conSer.treasurerCheckContract(con);
+		} catch (Exception e) {
+			log.error("[WriteController.treasurerCheckContract]数据更新异常", e);
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("财务审核合同");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.treasurerCheckContract]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 填写快递单号接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0010")
+	public ResultInfo setExpressId(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.setExpressId]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = con.getUpdateUser();
+		try {
+			con.setUpdateUser(null);
+			conSer.updateContractInfo(con);
+		} catch (Exception e) {
+			log.error("[WriteController.setExpressId]数据更新异常", e);
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("填写快递单号");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.setExpressId]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 经理取消合同的接口
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0011")
+	public ResultInfo cancleTransaction(@RequestBody String body){
+		ObjectMapper mapper = new ObjectMapper();
+		TransactionInfo tx = null;
+		try{
+			tx = mapper.readValue(body, TransactionInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.cancleTransaction]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = tx.getUpdateUser();
+		tx.setTxStatus("70");
+		try {
+			txSer.updateTransactionInfo(tx);
+		} catch (Exception e) {
+			log.error("[WriteController.cancleTransaction]数据更新异常", e);
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(tx.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("取消合同");
+			dlog.setOprContent(body);
+		} catch (Exception e) {
+			log.error("[WriteController.cancleTransaction]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
 }
