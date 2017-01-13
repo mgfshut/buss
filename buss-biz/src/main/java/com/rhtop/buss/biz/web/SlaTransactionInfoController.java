@@ -3,9 +3,12 @@ package com.rhtop.buss.biz.web;
 
 import java.util.UUID;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,11 +18,12 @@ import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.biz.service.SlaTransactionInfoService;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/slaTransactionInfo")
-public class SlaTransactionInfoController {
+public class SlaTransactionInfoController  extends BaseController {
 	@Autowired
 	private SlaTransactionInfoService slaTransactionInfoService;
 	

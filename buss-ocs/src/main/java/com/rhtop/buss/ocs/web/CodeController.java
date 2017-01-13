@@ -57,6 +57,7 @@ public class CodeController extends BaseController {
 		return "module/sys/codeMap/codeitem-form";
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("item/form/{codeValueId}")
 	public String codeItemModForm(HttpServletRequest request, Model model, @PathVariable("codeValueId") String codeValueId){
 		model.addAllAttributes(rs.invoke("codeValue-" + codeValueId, new HashMap()));

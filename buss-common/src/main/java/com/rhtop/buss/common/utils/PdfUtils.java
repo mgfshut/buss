@@ -184,7 +184,7 @@ public class PdfUtils {
 	public static void main(String[] args) throws IOException {
 		Map<String, Object> params =new HashMap<String, Object>();
 		params.put("contractNo", "sdfasfdasfdsdaf");
-		String pdfFile = pdfGennernator("C:/work/git/java/buss-biz/src/main/webapp/WEB-INF/configs", "sellTemp.ftl", params, "C:/sellTemp.pdf");
+		String pdfFile = pdfGennernator("C:/work/git/java/buss-biz/src/main/webapp/WEB-INF/configs", "sellTemp.ftl", params, "C:/sellTemp123.pdf");
 		String imgFilePath = setup(pdfFile);
 		System.out.println(imgFilePath);
 	}

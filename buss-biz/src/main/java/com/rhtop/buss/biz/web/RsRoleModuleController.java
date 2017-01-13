@@ -2,6 +2,7 @@ package com.rhtop.buss.biz.web;
 
 
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.RsRoleModule;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.biz.service.RsRoleModuleService;
 
 @Controller
 @RequestMapping("service/rsRoleModule")
-public class RsRoleModuleController {
+public class RsRoleModuleController  extends BaseController {
 	@Autowired
 	private RsRoleModuleService rsRoleModuleService;
 	
