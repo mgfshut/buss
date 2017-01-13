@@ -9,36 +9,40 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.biz.mapper.CategoryMapper;
+import com.rhtop.buss.biz.mapper.ContractInfoMapper;
+import com.rhtop.buss.biz.mapper.CustomerMapper;
+import com.rhtop.buss.biz.mapper.MemberMapper;
+import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.TransactionInfoMapper;
-import com.rhtop.buss.biz.service.CategoryService;
-import com.rhtop.buss.biz.service.ContractInfoService;
-import com.rhtop.buss.biz.service.CustomerService;
-import com.rhtop.buss.biz.service.SlaTransactionInfoService;
 import com.rhtop.buss.biz.service.TransactionInfoService;
 
 @Service("transactionInfoService")
 public class TransactionInfoServiceImpl implements TransactionInfoService {
 	
 	@Autowired
-	private CategoryService catSer;
+	private CategoryMapper catMapper;
 	@Autowired
-	private CustomerService cusSer;
+	private CustomerMapper cusMapper;
 	@Autowired
-	private SlaTransactionInfoService slaSer; 
+	private SlaTransactionInfoMapper slaMapper; 
 	@Autowired
-	private ContractInfoService conSer;
+	private ContractInfoMapper conMapper;
 	@Autowired
 	private TransactionInfoMapper transactionInfoMapper;
 	@Autowired
 	private SlaTransactionInfoMapper slaTxMapper;
-	
-	
+	@Autowired
+	private MemberMapper memberMapper;
+	@Autowired
+	private RelCategoryPriceMapper relCPMapper;
 	
 	@Override
 	public int insertTransactionInfo(TransactionInfo transactionInfo) {
@@ -155,17 +159,17 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	public TransactionInfo selectByPrimaryKey(String transactionInfoId){
 		TransactionInfo tra= transactionInfoMapper.selectByPrimaryKey(transactionInfoId);
 		//查询该交易的品类详情
-		Category cate = catSer.selectByPrimaryKey(tra.getCategoryId());
+		Category cate = catMapper.selectByPrimaryKey(tra.getCategoryId());
 		//查询该交易的客户详情
-		Customer cust = cusSer.selectByPrimaryKey(tra.getCustomerId());
+		Customer cust = cusMapper.selectByPrimaryKey(tra.getCustomerId());
 		//回盘信息
 		SlaTransactionInfo slatransaction = new SlaTransactionInfo();
 		slatransaction.setTransactionInfoId(transactionInfoId);
-		List<SlaTransactionInfo> sla = slaSer.listSlaTransactionInfos(slatransaction);
+		List<SlaTransactionInfo> sla = slaMapper.listSlaTransactionInfos(slatransaction);
 		//合同信息	
 		ContractInfo contractinfo = new ContractInfo();
 		contractinfo.setTransactionInfoId(transactionInfoId);
-		ContractInfo con = conSer.listContractInfos(contractinfo).get(0);
+		ContractInfo con = conMapper.listContractInfos(contractinfo).get(0);
 		
 		tra.setSla(sla);
 		tra.setCate(cate);
@@ -188,8 +192,52 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	
 	@Override
 	public List<TransactionInfo> listPageTransactionInfoBycreateUser(TransactionInfo transactionInfo) {
-		List<TransactionInfo> transactionInfos = transactionInfoMapper.listPageTransactionInfo(transactionInfo);
+		//判断用户的类型
+		String memberJob = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberJob();
+		if("04".equals(memberJob)){//决策委员会,查询所有的交易详情
+			transactionInfo.setCreateUser("");
+		}
+		List<TransactionInfo> transactionInfos = transactionInfoMapper.listPageTransactionInfoBycreateUser(transactionInfo);
 		return transactionInfos;
 	}
-
+	
+	public TransactionInfo selectTransactionInfo(TransactionInfo transactionInfo) {
+		// 交易信息
+		TransactionInfo tran = transactionInfoMapper.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
+		//客户信息
+		Customer cust = cusMapper.selectByPrimaryKey(tran.getCustomerId());
+		//品类信息
+		Category cate = catMapper.selectByPrimaryKey(tran.getCategoryId());
+		//回盘记录信息
+		SlaTransactionInfo slaTransactionInfo =	new SlaTransactionInfo();
+		slaTransactionInfo.setTransactionInfoId(tran.getTransactionInfoId());
+		List<SlaTransactionInfo> listSla = slaTxMapper.listSlaTransactionInfos(slaTransactionInfo);
+		//用户的判断
+		String memberJob = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberJob();
+		if("04".equals(memberJob)){//决策委员会
+			//价格信息
+			RelCategoryPrice rel = new RelCategoryPrice();
+			rel.setCategoryId(tran.getCategoryId());
+			rel.setCusChaVal(cust.getCusCha());
+			RelCategoryPrice relInfo = relCPMapper.listPageRelCategoryPrice(rel).get(0);
+			
+			tran.setCate(cate);
+			tran.setCust(cust);
+			tran.setRel(relInfo);
+			tran.setSla(listSla);
+		}else{
+			//合同信息
+			ContractInfo contractInfo = new ContractInfo();
+			contractInfo.setCategoryId(tran.getCategoryId());
+			contractInfo.setCustomerId(tran.getCustomerId());
+			contractInfo.setTransactionInfoId(tran.getTransactionInfoId());
+			ContractInfo cont = conMapper.listContractInfos(contractInfo).get(0);
+			
+			tran.setCate(cate);
+			tran.setCust(cust);
+			tran.setContract(cont);
+			tran.setSla(listSla);
+		}
+		return tran;
+	}
 }

@@ -18,9 +18,9 @@ public class ClearPriceJob  extends QuartzJobBean{
 	 * 2.将价格主表的价格清零，以及留下品类主键
 	 */
 	@Autowired
-	private RelCategoryPriceService relSer;
+	private RelCategoryPriceService relCategoryPriceService;
 	@Autowired
-	private HisRelCategoryPriceService hisSer;
+	private HisRelCategoryPriceService hisRelcategoryPriceService;
 
 	@Override
 	protected void executeInternal(JobExecutionContext context)
@@ -31,14 +31,14 @@ public class ClearPriceJob  extends QuartzJobBean{
 	
 	public void clearPrice(){
 		//得到记录
-		List<RelCategoryPrice>  rels = relSer.listRelCategoryPrices(new RelCategoryPrice());
+		List<RelCategoryPrice>  rels = relCategoryPriceService.listRelCategoryPrices(new RelCategoryPrice());
 		for(RelCategoryPrice rel:rels){
 			//复制记录
-			hisSer.insertRelCategoryPrice(rel);
+			hisRelcategoryPriceService.insertRelCategoryPrice(rel);
 		}
 		//删除主表记录
 		for(RelCategoryPrice rel:rels){
-			relSer.updateSelective(rel);
+			relCategoryPriceService.updateSelective(rel);
 		}
 	}
 	
