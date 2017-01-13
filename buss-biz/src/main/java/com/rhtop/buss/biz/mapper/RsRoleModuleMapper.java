@@ -6,6 +6,7 @@ package com.rhtop.buss.biz.mapper;
 import java.util.List;
 
 import com.rhtop.buss.common.entity.RsRoleModule;
+import com.rhtop.buss.common.entity.TransactionInfo;
 
 public interface RsRoleModuleMapper {
 	
@@ -39,5 +40,5 @@ public interface RsRoleModuleMapper {
 	 * @return
 	 */
 	int deleteRsRoleModuleByRoleId(String roleId);
-    
+	List<TransactionInfo> listPageTransactionInfoBycreateUser(TransactionInfo transactionInfo);
 }

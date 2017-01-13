@@ -209,7 +209,7 @@ public class ReadController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
-		List<TransactionInfo> tras = traSer.listPageTransactionInfo(transactionInfo);
+		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactionInfo);
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(tras);
 		return readResult;

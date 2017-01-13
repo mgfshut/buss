@@ -57,4 +57,6 @@ public interface TransactionInfoService{
 	 * 根据条件分页查询列表
 	 */
 	List<TransactionInfo> listPageTransactionInfo(TransactionInfo transactionInfo);
+	
+	List<TransactionInfo> listPageTransactionInfoBycreateUser(TransactionInfo transactionInfo);
 }
