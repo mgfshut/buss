@@ -60,10 +60,57 @@ public class Category {
 	
 	private String cusLoc;//客户地区
 	
-	private String cateTotal;//品类总数
+	private String cusName;//客户名称
+	
+	private String cusCha;//客户渠道
+
+	private String cusType;//客户类型
+	
+	private String mgrName;//客户经理姓名
+	
+	private RelCategoryPrice relCategoryPrice;//价格信息
 	
 	private List<RelCategoryPrice> rcps;//价格列表
 	
+	public String getCusName() {
+		return cusName;
+	}
+
+	public void setCusName(String cusName) {
+		this.cusName = cusName;
+	}
+
+	public RelCategoryPrice getRelCategoryPrice() {
+		return relCategoryPrice;
+	}
+
+	public void setRelCategoryPrice(RelCategoryPrice relCategoryPrice) {
+		this.relCategoryPrice = relCategoryPrice;
+	}
+
+	public String getCusCha() {
+		return cusCha;
+	}
+
+	public void setCusCha(String cusCha) {
+		this.cusCha = cusCha;
+	}
+
+	public String getCusType() {
+		return cusType;
+	}
+
+	public void setCusType(String cusType) {
+		this.cusType = cusType;
+	}
+
+	public String getMgrName() {
+		return mgrName;
+	}
+
+	public void setMgrName(String mgrName) {
+		this.mgrName = mgrName;
+	}
 	public Page getPage() {
 		return page;
 	}
@@ -342,14 +389,6 @@ public class Category {
 
 	public void setCusLoc(String cusLoc) {
 		this.cusLoc = cusLoc;
-	}
-
-	public String getCateTotal() {
-		return cateTotal;
-	}
-
-	public void setCateTotal(String cateTotal) {
-		this.cateTotal = cateTotal;
 	}
 
 	public List<RelCategoryPrice> getRcps() {

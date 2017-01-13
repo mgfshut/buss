@@ -60,6 +60,8 @@ public class ContractInfo {
 	
 	private String csgTel;//收货人联系方式
 	
+	private String expressId;//快递单号
+	
 	private String createTime;//创建时间
 	
 	private String createUser;//创建人
@@ -288,6 +290,14 @@ public class ContractInfo {
 	
 	
 	
+	public String getExpressId() {
+		return expressId;
+	}
+
+	public void setExpressId(String expressId) {
+		this.expressId = expressId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

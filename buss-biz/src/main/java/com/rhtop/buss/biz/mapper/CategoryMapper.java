@@ -46,16 +46,41 @@ public interface CategoryMapper {
 	List<Category> listCategoryByCustomer(String customerId);
 	
 	/**
-	 * 根据客户经理的id查询客户经理已采集的价格
-	 * @param customerId
+	 * 查询客户经理采集报价的价格
+	 * 根据客户经理的id
+	 * @param memberId
 	 * @return
 	 */
-	List<Category> listPagePrice(String memberId);
+	List<Category> listPriceByMgr(String memberId);
 	
 	/**
-	 * 查询所有未采集(接盘价和批发价)的品类
+	 * 分部经理查询报价信息
+	 * 根据分部经理的id
+	 * @param memberId
+	 * @return
+	 */
+	List<Category> listPriceByRegMgr(String memberId);
+	/**
+	 * 国际采购人员查询未报盘情况
+	 * @param memberId
+	 * @return
+	 */
+	List<Category> listNotPriceByUniMgr(String memberId);
+	
+	/**
+	 * 国际采购人员查询已报盘情况
+	 * @param memberId
+	 * @return
+	 */
+	List<Category> listPriceByUniMgr(String memberId);
+	
+	/**
+	 * 品类详情 
+	 * 根据品类的id查询
 	 * @param customerId
 	 * @return
 	 */
-	List<Category> listPageNotPrice(String memberId);
+	Category selectInfoByPrimaryKey(String categoryId);
+	
+	
 }

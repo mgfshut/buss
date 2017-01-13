@@ -110,8 +110,8 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id:R2003
-	 * 客户经理  查询 品类信息
-	 * 查询所有， 分页查询 根据地区,品名，厂号查询
+	 * 查询 品类信息
+	 * 查询所有， 分页查询 根据 品名查询
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2003")
 	public ResultInfo listCategorys(@RequestParam("body") String body){
@@ -128,16 +128,14 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id：R2004
-	 * 客户经理 查询品类的详细信息
+	 * 查询品类的详细信息
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/R2004")
 	public ResultInfo categoryInfo(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		Category category = (Category) JSONObject.toBean(jsonObject, Customer.class);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
 		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
-		// TODO 需要返回的是图片在服务器上的绝对路径
-		cate.setCatePic("" + cate.getCatePic());
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cate);
 		return readResult;
@@ -145,9 +143,8 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id：R2005
-	 * 客户经理  查询 信息采集 
-	 * 客户经理已采集
-	 * 所有未采集
+	 * 客户经理，部门经理  查询 信息采集 
+	 * 国际采购部 已报盘/未报盘
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
 	public ResultInfo listRelcategoryPrice(@RequestParam("body") String body){
@@ -161,6 +158,22 @@ public class ReadController  extends BaseController {
 		return readResult;
 	}
 	
+	/**
+	 * 接口id：R2010
+	 * 国际采购部 已报盘/未报盘
+	 */
+	/*
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2010")
+	public ResultInfo listRelcategoryPriceByUniMgr(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Member member = (Member) JSONObject.toBean(jsonObject, Member.class);
+		List<Category> categoeylist =catSer.listPageCategoeyByPrice(member.getMemberId());
+		readResult.setMessage("数据获取成功！");
+		readResult.setRecords(categoeylist);
+		readResult.setPage(member.getPage());
+		return readResult;
+	}*/
 	
 	/**
 	 * 接口id：R2006
@@ -197,7 +210,7 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
-		List<TransactionInfo> tras = traSer.listPageTransactionInfo(transactionInfo);
+		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactionInfo);
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(tras);
 		return readResult;

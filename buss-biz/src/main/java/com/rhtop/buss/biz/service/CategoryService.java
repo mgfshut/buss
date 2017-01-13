@@ -51,11 +51,10 @@ public interface CategoryService{
 	List<Category> listCategoryByCustomer(String customerId);
 
 	/**
-	 * 根据客户经理的id 查询已采集的和未采集的的品类信息
-	 * 规则：memberId 为 空，表示查询（批发价和接盘价）未报价的品类信息
-	 *     memberId 不为空，表示查询客户经理已报价的品类信息
+	 * 根据用户的id 查询已采集的和未采集的的品类信息
 	 * @param memberId
 	 * @return
 	 */
 	List<Category> listPageCategoeyByPrice(String memberId);
+
 }

@@ -6,6 +6,7 @@
 	<id column="transaction_info_id_" property="transactionInfoId" jdbcType="CHAR" />
 	<result column="ctof_pri_" property="ctofPri" jdbcType="VARCHAR" />
 	<result column="tx_status_" property="txStatus" jdbcType="VARCHAR" />
+	<result column="cl_rea_" property="clRea" jdbcType="VARCHAR" />
 	<result column="tx_amo_" property="txAmo" jdbcType="VARCHAR" />
 	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
 	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
@@ -32,6 +33,7 @@
   <sql id="Base_Column_List" >
   	ctof_pri_,
   	tx_status_,
+  	cl_rea_,
   	tx_amo_,
   	update_time_,
   	create_time_,
@@ -56,6 +58,9 @@
 	    </if>
     	<if test="txStatus != null" >
 	    	tx_status_,
+	    </if>
+	    <if test="clRea != null" >
+	    	cl_rea_,
 	    </if>
     	<if test="txAmo != null" >
 	    	tx_amo_,
@@ -103,6 +108,9 @@
 	    </if>
     	<if test="txStatus != null" >
 	    	#{txStatus},
+	    </if>
+	    <if test="clRea != null" >
+	    	#{clRea},
 	    </if>
     	<if test="txAmo != null" >
 	    	#{txAmo},
@@ -159,6 +167,9 @@
       	</if>
 		<if test="txStatus != null and txStatus != ''" >
         	tx_status_ = #{txStatus},
+      	</if>
+      	<if test="clRea != null and clRea != ''" >
+        	cl_rea_ = #{clRea},
       	</if>
 		<if test="txAmo != null and txAmo != ''" >
         	tx_amo_ = #{txAmo},
@@ -218,6 +229,9 @@
     	<if test="txStatus != null and txStatus != ''" >
 			and tx_status_ = #{txStatus}
 		</if>
+		<if test="clRea != null and clRea != ''" >
+			and cl_rea_ = #{clRea}
+		</if>
     	<if test="txAmo != null and txAmo != ''" >
 			and tx_amo_ = #{txAmo}
 		</if>
@@ -261,8 +275,63 @@
   <!-- 根据条件分页查询列表 -->
   <select id="listPageTransactionInfo" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
 	select 
+    <include refid="Base_Column_List" />
+    from buss_transaction_info_ where 1=1
+    	<if test="ctofPri != null and ctofPri != ''" >
+			and a.ctof_pri_ = #{ctofPri}
+		</if>
+    	<if test="txStatus != null and txStatus != ''" >
+			and a.tx_status_ = #{txStatus}
+		</if>
+		<if test="clRea != null and clRea != ''" >
+			and a.cl_rea_ = #{clRea}
+		</if>
+    	<if test="txAmo != null and txAmo != ''" >
+			and a.tx_amo_ = #{txAmo}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and a.update_time_ = #{updateTime}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and a.create_time_ = #{createTime}
+		</if>
+    	<if test="pcasPri != null and pcasPri != ''" >
+			and a.pcas_pri_ = #{pcasPri}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and a.category_id_ = #{categoryId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and a.update_user = #{updateUser}
+		</if>
+    	<if test="ctofAging != null and ctofAging != ''" >
+			and a.ctof_aging_ = #{ctofAging}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and a.transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="timingSta != null and timingSta != ''" >
+			and a.timing_sta_ = #{timingSta}
+		</if>
+    	<if test="pcasTime != null and pcasTime != ''" >
+			and a.pcas_time_ = #{pcasTime}
+		</if>
+    	<if test="dealTime != null and dealTime != ''" >
+			and a.deal_time_ = #{dealTime}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and a.customer_id_ = #{customerId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and a.create_user_ = #{createUser}
+		</if>
+  </select>
+  <!-- 根据条件分页查询列表 -->
+  <select id="listPageTransactionInfoBycreateUser" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
+	select 
 	a.transaction_info_id_,
 	a.tx_status_,
+	a.cl_rea_,
 	b.cus_name_,
 	b.cus_cha_,
 	c.cate_name_,
@@ -275,6 +344,9 @@
 		</if>
     	<if test="txStatus != null and txStatus != ''" >
 			and a.tx_status_ = #{txStatus}
+		</if>
+		<if test="clRea != null and clRea != ''" >
+			and a.cl_rea_ = #{clRea}
 		</if>
     	<if test="txAmo != null and txAmo != ''" >
 			and a.tx_amo_ = #{txAmo}

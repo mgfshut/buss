@@ -4,6 +4,8 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 
 public interface RelCategoryPriceMapper {
@@ -40,5 +42,12 @@ public interface RelCategoryPriceMapper {
      * 根据条件分页查询列表
      */
 	List<RelCategoryPrice> listPageRelCategoryPrice(RelCategoryPrice relCategoryPrice);
+	
+	/**
+	 * 定时任务 删除价格，保留主键，品类id,创建时间，创建人四个字段
+	 * @param category
+	 * @return
+	 */
+	int updateSelective(RelCategoryPrice relCategoryPrice);
     
 }

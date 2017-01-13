@@ -18,12 +18,11 @@
 	<result column="cate_pic_" property="catePic" jdbcType="VARCHAR" />
 	<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
 	<!-- 外表字段 -->
-	<!-- 成交数量 -->
-	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
-	<!-- 所属地区 -->
+	<result column="cus_cha" property="cusCha" jdbcType="VARCHAR" />
 	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
-	<!-- 品类总数 -->
-	<result column="cate_total_" property="cateTotal" jdbcType="VARCHAR" />
+	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
+	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
+	<result column="mgr_name_" property="mgrName" jdbcType="VARCHAR" />
 	
   </resultMap>
   
@@ -190,8 +189,9 @@
   </update>
   <!-- 根据主键查询对象-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-	select bca.* ,rcc.cus_loc_ 
-	from buss_category_ bca LEFT JOIN buss_rel_customer_category_ rcc on rcc.category_id_ =bca.category_id_
+	select
+	<include refid="Base_Column_List"/>
+	from buss_category_ 
 	where category_id_ = #{0}
   </select>
   <!-- 根据四个判别品类唯一性的条件查询品类 -->
@@ -206,8 +206,8 @@
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listCategorys" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
-	select bca.* ,COUNT(bca.category_id_) as category_tatol_
-	from buss_category_ bca LEFT JOIN buss_rel_customer_category_ rcc on rcc.category_id_ =bca.category_id_
+	select 
+		<include refid="Base_Column_List"/>
 	where 1=1
 		<if test="cusLoc != null and cusLoc != ''">
 			and cus_loc_ =#{cusLoc}
@@ -267,7 +267,7 @@
 			and comm_ = #{comm}
 		</if>
     	<if test="cateName != null and cateName != ''" >
-			and cate_name_ = #{cateName}
+			and cate_name_ like '%'#{cateName}'%'
 		</if>
     	<if test="createTime != null and createTime != ''" >
 			and create_time_ = #{createTime}
@@ -305,7 +305,7 @@
   </select>
   
   <!-- 根据客户信息查询客户所属的品类信息 -->
-  <select id="listCategoryByCustomer" resultMap="BaseResultMap" parameterType="java.lang.String">
+  <select id="listCategoryByCustomer" parameterType="java.lang.String" resultMap="BaseResultMap">
 	select bca.category_id_ , 
 	bca.cate_name_,
 	bca.manu_num_,
@@ -318,17 +318,98 @@
 	where bco.customer_id_ = #{0}
   </select>
   
-	<!-- 根据客户经理的id ，查询品类的报价以及详情  已报价的 -->  
-	<select id="listPagePrice" resultMap="BaseResultMap" parameterType="java.lang.String">
-	select brc.* 
-	from buss_rel_category_price_ brc RIGHT JOIN buss_category_ bca on brc.category_id_ = bca.category_id_
-	where brc.mgr_id_ = #{0} and brc.wholesale_pri_ != ""  and brc.acpt_pri_ != ""
+	
+	<!-- 客户经理查询报价信息  -->
+	<select id="listPriceByMgr" resultMap="BaseResultMap"  parameterType="java.lang.String">
+	select
+	b.category_id_ ,
+	b.cate_name_,
+	b.cate_stan_,
+	b.manu_num_,
+	b.prod_pla_,
+	b.pkg_quan_,
+	c.wholesale_pri_,
+	c.acpt_pri_
+	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_
+	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_
+	where a.create_user_ = #{createUser } order by c.wholesale_pri_ DESC
 	</select>
 	
-	<!-- 查询未报价的品类 -->
-	<select id="listPageNotPrice" resultMap="BaseResultMap"  parameterType="java.lang.String">
-	select brc.* 
-	from buss_rel_category_price_ brc RIGHT JOIN buss_category_ bca on brc.category_id_ = bca.category_id_
-	where brc.wholesale_pri_ = ""  and brc.acpt_pri_ = ""
+	<!--分部经理查询报价信息  -->
+	<select id="listPriceByRegMgr" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	b.category_id_ , 
+	b.cate_name_, 
+	b.cate_stan_, 
+	b.manu_num_,
+	b.prod_pla_,
+	b.pkg_quan_,
+	c.wholesale_pri_,
+	c.acpt_pri_,
+	c.spot_min_,
+	c.spot_max_ ,
+	c.fut_min_,
+	c.fut_max_,
+	c.inter_fut_min_,
+	c.inter_fut_max_
+	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_ 
+	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_ 
+	where  a.create_user_ in
+	( select a.member_id_ from sys_member_ a LEFT JOIN sys_member_ b on a.dept_id_ = b.dept_id_  where b.member_id_ = #{createUser } ) 
+	 order by c.wholesale_pri_ DESC 
+	 </select>
+	
+	<!-- 国际采购人员查询未报盘情况 -->
+	<select id="listNotPriceByUniMgr" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select
+	b.category_id_ ,
+	b.cate_name_,
+	b.cate_stan_,
+	b.manu_num_,
+	b.prod_pla_,
+	b.pkg_quan_,
+	a.cate_sup_ ,
+	a.currency_,
+	a.unit_,
+	b.offer_pri_
+	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
+	WHERE ISNULL(b.offer_pri_) 
 	</select>
+	
+	<!-- 国际采购人员查询已报盘情况 -->
+	<select id="listPriceByUniMgr" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select
+	b.category_id_ ,
+	b.cate_name_,
+	b.cate_stan_,
+	b.manu_num_,
+	b.prod_pla_,
+	b.pkg_quan_,
+	a.cate_sup_ ,
+	a.currency_,
+	a.unit_,
+	b.offer_pri_,
+	a.cate_pri_,
+	a.offer_aging_,
+	cus_cha_val_
+	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
+	WHERE b.offer_pri_ != '' 
+	</select>
+	
+	<!-- 品类详情 -->
+	<select id="selectInfoByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select
+	a.cate_pic_,
+	d.user_name_,
+	c.cus_name_,
+	c.cus_type_,
+	c.cus_cha_,
+	c.cus_loc_
+	from buss_category_ a LEFT JOIN buss_rel_customer_category_ b on a.category_id_ = b.cate_id_ and a.create_user_ = b.create_user_ 
+                          LEFT JOIN buss_customer_ c on b.customer_id_ = c.customer_id_ 
+                          LEFT JOIN sys_user_ d on d.user_id_ = a.create_user_ 
+	where a.category_id_ = #{0}
+  </select>
+  
+  
 </mapper>

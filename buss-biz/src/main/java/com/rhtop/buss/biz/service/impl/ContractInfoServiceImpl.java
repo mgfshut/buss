@@ -6,12 +6,15 @@ package com.rhtop.buss.biz.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.biz.mapper.ContractInfoMapper;
 import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.TransactionInfoMapper;
@@ -78,6 +81,87 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		con.setEndTime(tx.getEndTime());
 		con.setContStatus("10");
 		contractInfoMapper.insertSelective(con);
+		return conId;
+	}
+
+	@Override
+	public String checkContract(ContractInfo con) {
+		String conId = con.getContractInfoId();
+		try {
+			ContractInfo contract = contractInfoMapper.selectByPrimaryKey(conId);
+			if(contract==null){
+				throw new RuntimeException("非法操作，合同记录不存在！");
+			}
+			//检查审核状态是否是“10”
+			if(contract.getContStatus()=="10"||contract.getContStatus().trim().equals("10")){
+				con.setContStatus("20");
+				contractInfoMapper.updateByPrimaryKeySelective(con);
+			}else{
+				throw new RuntimeException("非法操作，审核顺序错误！");
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return conId;
+	}
+
+	@Override
+	public String contractStamp(ContractInfo con) {
+		String conId = con.getContractInfoId();
+		try {
+			ContractInfo contract = contractInfoMapper.selectByPrimaryKey(conId);
+			if(contract==null){
+				throw new RuntimeException("非法操作，合同记录不存在！");
+			}
+			//检查审核状态是否是“20”
+			if(contract.getContStatus()=="20"||contract.getContStatus().trim().equals("20")){
+				con.setContStatus("30");
+				contractInfoMapper.updateByPrimaryKeySelective(con);
+			}else{
+				throw new RuntimeException("非法操作，审核顺序错误！");
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return conId;
+	}
+
+	@Override
+	public List<String> downloadContract(ContractInfo con) {
+		List<String> urlList = new ArrayList<String>();
+		String[] urls = contractInfoMapper.selectByPrimaryKey(con.getContractInfoId()).getContUlName().split("|");
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			String contractUrlPerfix = propertyUtil.readValue("contractUrlPerfix");
+			String temp = null;
+			for(String url : urls){
+				temp = contractUrlPerfix+url;
+				urlList.add(temp);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return urlList;
+	}
+
+	@Override
+	public String treasurerCheckContract(ContractInfo con) {
+		String conId = con.getContractInfoId();
+		try {
+			ContractInfo contract = contractInfoMapper.selectByPrimaryKey(conId);
+			if(contract==null){
+				throw new RuntimeException("非法操作，合同记录不存在！");
+			}
+			//检查审核状态是否是“30”
+			if(contract.getContStatus()=="30"||contract.getContStatus().trim().equals("30")){
+				con.setContStatus("40");
+				contractInfoMapper.updateByPrimaryKeySelective(con);
+			}else{
+				throw new RuntimeException("非法操作，审核顺序错误！");
+			}
+		} catch (Exception e) {
+			throw e;
+		}
 		return conId;
 	}
 	

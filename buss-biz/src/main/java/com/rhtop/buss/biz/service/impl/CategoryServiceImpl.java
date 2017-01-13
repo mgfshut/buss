@@ -3,19 +3,27 @@
  */
 package com.rhtop.buss.biz.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
+import com.rhtop.buss.biz.mapper.MemberMapper;
+import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.utils.FileUtil;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private CategoryMapper categoryMapper;
+	@Autowired
+	private RelCategoryPriceMapper relCategoryPriceMapper;
+	@Autowired
+	private MemberMapper memberMapper;
 	
 	@Override
 	public int insertCategory(Category category) {
@@ -34,7 +42,19 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public Category selectByPrimaryKey(String categoryId){
-		return categoryMapper.selectByPrimaryKey(categoryId);
+		//品类信息
+		Category cate = categoryMapper.selectInfoByPrimaryKey(categoryId);
+		//价格信息
+		RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
+		cate.setRelCategoryPrice(relCategoryPrice);
+		String newUrl = null;
+		try {
+			newUrl = FileUtil.getPicUrl(cate.getCatePic());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		cate.setCatePic(newUrl);//需要返回的是图片在服务器上的绝对路径
+		return cate;
 	}
 
 	@Override
@@ -61,14 +81,22 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> listPageCategoeyByPrice(String memberId) {
-		List<Category> categorys = null;
-		//判断memberId是否为空,
-		if("".equals(memberId)){//查询所有未采集（接盘价和批发价）的品类信息
-			   categorys = categoryMapper.listPageNotPrice(memberId);
-		}else{//查询客户经理采集的品类信息
-			  categorys = categoryMapper.listPagePrice(memberId);
+		List<Category> catelist =null; 
+		String memberJob = memberMapper.selectByPrimaryKey(memberId).getMemberJob();
+		//对职务进行判断
+		if("01".equals(memberJob)){//客户经理
+			//客户经理查询自己的信息采集情况
+			catelist = categoryMapper.listPriceByMgr(memberId);
+		}else if("02".equals(memberJob)){//分部经理
+			//分部经理查询自己的信息采集情况（自己创建的五个价格需要自己填写）
+			catelist = categoryMapper.listPriceByRegMgr(memberId);
+		}else if("04".equals(memberJob)){//国际采购部
+			//国际采购人员查看报盘情况(已报盘/未报盘)
+			catelist = categoryMapper.listNotPriceByUniMgr(memberId);
+			//TODO 已报盘和未报盘的传参
+			
 		}
-		return categorys;
+		return catelist;
 	}
 
 }

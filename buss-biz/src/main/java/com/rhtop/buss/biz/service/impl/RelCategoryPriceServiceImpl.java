@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -93,6 +94,8 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			return status;
 		}else{
 			rel.setMidUpdateTime(now);
+			rel.setAcptPri(relCategoryPrice.getAcptPri());
+			rel.setWholesalePri(relCategoryPrice.getWholesalePri());
 			rel.setSpotMin(relCategoryPrice.getSpotMin());
 			rel.setSpotMax(relCategoryPrice.getSpotMax());
 			rel.setInterFutMin(relCategoryPrice.getInterFutMin());
@@ -111,6 +114,12 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	public int createOrUpdateOfferPriceAndTimeByCategoryId(
 			RelCategoryPrice relCategoryPrice) {
 		relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+		return 0;
+	}
+
+	@Override
+	public int updateSelective(RelCategoryPrice relCategoryPrice) {
+		relCategoryPriceMapper.updateSelective(relCategoryPrice);
 		return 0;
 	}
 

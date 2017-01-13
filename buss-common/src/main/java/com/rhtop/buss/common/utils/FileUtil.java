@@ -65,7 +65,7 @@ public class FileUtil {
 	 * @param file 文件 要求ContentType必须为MultipartFile
 	 * @return 文件相对路径
 	 */
-	public static String uploadOneFile(MultipartFile file){
+	public static String uploadPic(MultipartFile file){
 		String locRootPath = null;
 		try {
 			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
@@ -86,7 +86,7 @@ public class FileUtil {
 			//组成在服务器保存的文件名
 			fileName = perfix+suffix;
 			//储存该文件在服务器中保存的相对路径（文件夹/文件名）
-			String filePath = dir + File.pathSeparator + fileName;
+			String filePath = File.pathSeparator + dir.getName() + File.pathSeparator + fileName;
 			//创建空文件
 			File pic = new File(dir, fileName);
 			//如果新文件创建成功，就向其写入信息
@@ -104,6 +104,73 @@ public class FileUtil {
 		}
 		//出错则返回空。
 		return null;
-		
 	}
+	/**
+	 * 获取图片完整url的方法
+	 * @throws Exception 
+	 */
+	public static String getPicUrl(String catPic) throws Exception{
+		String picUrl = null;
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			String picUrlPerfix = propertyUtil.readValue("picUrlPerfix");
+			picUrl = picUrlPerfix+catPic;
+		} catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+		return picUrl;
+	}
+	/**
+	 * 上传合同方法
+	 * @throws Exception 
+	 */
+	public static String uploadContract(MultipartFile file) throws Exception{
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			String contractsUploadPath = propertyUtil.readValue("contractsUploadPath");
+			//按日期生成中间文件夹
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String uploadPath = sdf.format(date); 
+			File dir = FileUtil.findOrCreateDirectory(contractsUploadPath, uploadPath);
+			String mid = UUID.randomUUID().toString().replace("-", "");
+			File dir2 = FileUtil.findOrCreateDirectory(dir.getPath(), mid);
+			//读取文件名
+			String fileName = file.getOriginalFilename();
+			//储存该文件在服务器中保存的相对路径（文件夹/文件名）
+			String filePath = File.pathSeparator + dir.getName() + File.pathSeparator + dir2.getName() + File.pathSeparator + fileName;
+			File contract = new File(dir2, fileName);
+			//如果新文件创建成功，就向其写入信息
+			if(contract.createNewFile()){
+				OutputStream os = new FileOutputStream(contract);
+				FileUtil.write(file.getInputStream(), os);
+				if(os!=null){
+					os.close();
+				}
+			}
+			//返回文件相对路径
+			return filePath;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	/**
+	 * 获取合同文件URL的接口
+	 * 传入合同的一个相对路径，返回一个url
+	 */
+	public static String getConUrl(String conFileName) throws Exception{
+		String singleFileUrl = null;
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			String contractUrlPerfix = propertyUtil.readValue("contractUrlPerfix");
+			singleFileUrl = contractUrlPerfix+conFileName;
+		} catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+		return singleFileUrl;
+	}
+	
 }
