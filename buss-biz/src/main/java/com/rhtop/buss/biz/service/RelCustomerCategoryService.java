@@ -29,6 +29,11 @@ public interface RelCustomerCategoryService{
 	RelCustomerCategory selectByPrimaryKey(String relCustomerCategoryId);
 	
 	/**
+	 * 根据客户经理、客户、品类查找数据
+	 */
+	RelCustomerCategory selectByPrimaryParam(RelCustomerCategory relCustomerCategory);
+	
+	/**
 	 * 根据条件查询列表
 	 */
 	List<RelCustomerCategory> listRelCustomerCategorys(RelCustomerCategory relCustomerCategory);

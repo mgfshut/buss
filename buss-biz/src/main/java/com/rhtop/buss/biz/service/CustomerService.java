@@ -4,7 +4,9 @@
 package com.rhtop.buss.biz.service;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.ResultInfo;
 
 public interface CustomerService{
     
@@ -12,6 +14,11 @@ public interface CustomerService{
 	 * 新增
 	 */
 	int insertCustomer(Customer customer);
+	
+	/**
+	 * 新增客户信息、品类信息、联系人信息
+	 */
+	ResultInfo addCustomer(ResultInfo readResult, Customer customer);
     
 	/**
 	 * 根据ID删除数据
