@@ -65,7 +65,7 @@
 			debug : false,
 			importCSS : false,
 			printContainer : false, //* grab outer container as well as the contents of the selector
-			pageTitle : "XXXXX业务登记表", //* add title to print page
+			pageTitle : "商品销售合同", //* add title to print page
 			removeInline : false
 		});
 	}
