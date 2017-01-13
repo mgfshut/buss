@@ -44,6 +44,7 @@ import com.rhtop.buss.common.security.UserLoginToken;
 import com.rhtop.buss.common.service.RestService;
 import com.rhtop.buss.common.utils.Jwt;
 import com.rhtop.buss.common.utils.PropertyUtil;
+import com.rhtop.buss.common.web.BaseController;
 
 /**
  * 对外接口的读取功能控制器，内部接口按照操作类型分为两类， 信息采集相关接口的命名为前缀In+四位编号0001依次递增,
@@ -56,7 +57,7 @@ import com.rhtop.buss.common.utils.PropertyUtil;
 @RequestMapping(value = "/interface")
 // 设置跨域支持
 @CrossOrigin
-public class OutController {
+public class OutController extends BaseController {
 	@Autowired(required=false)
 	@Qualifier("restService")
 	private RestService service;

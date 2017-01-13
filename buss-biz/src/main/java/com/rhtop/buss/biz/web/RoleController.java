@@ -23,11 +23,12 @@ import com.rhtop.buss.biz.service.ModuleService;
 import com.rhtop.buss.biz.service.RoleService;
 import com.rhtop.buss.biz.service.RsRoleModuleService;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/role")
-public class RoleController {
+public class RoleController  extends BaseController {
 	@Autowired
 	private RoleService roleService;
 	@Autowired

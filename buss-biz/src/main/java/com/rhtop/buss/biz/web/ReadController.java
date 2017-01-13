@@ -29,10 +29,11 @@ import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.web.BaseController;
 
 @RestController
 @RequestMapping(value = "service/readData")
-public class ReadController {
+public class ReadController  extends BaseController {
 	@Autowired
 	private CategoryService catSer;
 	@Autowired

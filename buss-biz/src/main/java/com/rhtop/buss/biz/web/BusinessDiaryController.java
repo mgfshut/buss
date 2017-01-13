@@ -3,9 +3,12 @@ package com.rhtop.buss.biz.web;
 
 import java.util.UUID;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,11 +17,12 @@ import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
+import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/businessDiary")
-public class BusinessDiaryController {
+public class BusinessDiaryController  extends BaseController {
 	@Autowired
 	private BusinessDiaryService businessDiaryService;
 	
