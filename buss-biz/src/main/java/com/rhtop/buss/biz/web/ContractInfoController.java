@@ -3,9 +3,13 @@ package com.rhtop.buss.biz.web;
 
 import java.util.UUID;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import javax.validation.Valid;
+
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,11 +19,12 @@ import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/contractInfo")
-public class ContractInfoController {
+public class ContractInfoController  extends BaseController {
 	@Autowired
 	private ContractInfoService contractInfoService;
 	
@@ -104,5 +109,12 @@ public class ContractInfoController {
 		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
 		infoResult.setResObject(contractInfo);
 		return infoResult;
+	}
+	
+	@RequestMapping("/{contractInfoId}")
+	@ResponseBody
+	public ContractInfo getByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
+		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
+		return contractInfo;
 	}
 }

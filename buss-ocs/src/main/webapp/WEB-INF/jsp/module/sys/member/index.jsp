@@ -37,6 +37,7 @@
 			<a class="btn btn-danger btn-sm" href="service/member-remove-{memberId}" target="ajaxTodo" title="确定要删除用户吗?" ><i class="icon-minus"></i> <span>删除</span></a></li>
 			<a class="btn btn-success btn-sm" href="module/sys-member-form1/member-{memberId}" title="修改用户" target="navTab" rel="usereditmanager" data-parent="usereditmanager"  ><i class="icon-pencil"></i> <span>修改</span></a>
 			<a class="btn btn-info btn-sm" href="module/sys-member-roles/member-roles-{memberId}" mask="true" title="角色分配" target="navTab" rel="usereditmanager" width="550" height="450"><i class="icon-user"></i> <span>角色分配</span></a>
+			<a class="btn btn-primary btn-sm" href="sys/excel/member/{memberId}" target="ajaxTodo" title="确定要导出EXCEL吗?"><i class="icon-user"></i> <span>导出EXCEL</span></a>
 	</div>	
 </div>
 <table class="table" width="100%" layoutH="140">

@@ -284,6 +284,7 @@
 		<if test="parentName != null and parentName != ''" >
 			and b.module_name_ = #{parentName}
 		</if>
+		ORDER BY a.module_no_ ASC
   </select>
   <!-- 根据用户ID获取功能列表-->
   <select id="listModulesByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >

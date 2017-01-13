@@ -9,6 +9,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.Page;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.Role;
 import com.rhtop.buss.common.entity.RsUserRole;
 import com.rhtop.buss.common.entity.User;
@@ -29,11 +32,12 @@ import com.rhtop.buss.biz.service.RsUserRoleService;
 import com.rhtop.buss.biz.service.UserService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.PasswordUtils;
+import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/member")
-public class MemberController {
+public class MemberController  extends BaseController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
@@ -122,6 +126,24 @@ public class MemberController {
 		infoResult.setResList(memberList);
 		infoResult.setPage(member.getPage());
 		return infoResult;
+	}
+	/**
+	 * 根据条件查询用户信息列表
+	 * @author mgf
+	 * @date 2017年1月11日 下午7:38:51 
+	 * @param body
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/listMembers")
+	public ResultInfo listCustomers(@RequestParam("body") String body) {
+		JSONObject jsonObject=JSONObject.fromObject(body);
+		Member member = (Member)JSONObject.toBean(jsonObject, Member.class);
+		ResultInfo readResult = new ResultInfo();
+		List<Member> members = memberService.listMembers(member);
+		readResult.setCode("200");
+		readResult.setRecords(members);
+		return readResult;
 	}
 	/**
 	 * 根据主键查询

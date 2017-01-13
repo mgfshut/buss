@@ -23,11 +23,12 @@ import com.rhtop.buss.common.model.ListData;
 import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/codeValue")
-public class CodeValueController {
+public class CodeValueController  extends BaseController {
 	@Autowired
 	private CodeValueService codeValueService;
 	@Autowired

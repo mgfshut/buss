@@ -27,7 +27,7 @@ public class TreeUtils {
 		}
 		
 		if(tn.getParent() == null){
-			list.add(tn);
+			list.add(maps.get(tn.getId()));
 		}else{
 			if(maps.containsKey(tn.getParent())){
 				maps.get(tn.getParent()).addChildren(tn);
