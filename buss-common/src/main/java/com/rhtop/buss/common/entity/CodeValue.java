@@ -30,7 +30,7 @@ public class CodeValue {
 	
 	private Page page;//分页
 	
-	private String code;//
+	private String code;//代码集编码
 	
 	public String getCode() {
 		return code;

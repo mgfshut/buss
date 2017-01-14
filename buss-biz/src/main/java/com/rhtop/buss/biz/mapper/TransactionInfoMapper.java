@@ -32,5 +32,10 @@ public interface TransactionInfoMapper {
      * 根据条件分页查询列表
      */
 	List<TransactionInfo> listPageTransactionInfo(TransactionInfo transactionInfo);
+	 
+	/**
+     * 客户经理，部门经理，决策委员会（createUser赋值为空） 查看 交易列表
+     */
+	List<TransactionInfo> listPageTransactionInfoBycreateUser(TransactionInfo transactionInfo);
     
 }

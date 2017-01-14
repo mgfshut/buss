@@ -37,18 +37,22 @@
 	<thead>
 		<tr>
 			<th orderField="cateName" class="${param.orderField eq 'cateName'?param.orderDirection:''}">品类名称</th>
+			<th orderField="cateStan" class="${param.orderField eq 'cateStan'?param.orderDirection:''}">规格</th>
+			<th orderField="pkgQuan" class="${param.orderField eq 'pkgQuan'?param.orderDirection:''}">包装</th>
 			<th orderField="manuNum" class="${param.orderField eq 'manuNum'?param.orderDirection:''}">厂号</th>
 			<th orderField="prodPla" class="${param.orderField eq 'prodPla'?param.orderDirection:''}">产地</th>
-			<th orderField="cateStan" class="${param.orderField eq 'cateStan'?param.orderDirection:''}">品类规格</th>
+			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">备注</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${resList}" var="item">
 			<tr target="categoryId" rel="${item.categoryId}">
 				<td>${item.cateName}</td>
+				<td>${item.cateStan}</td>
+				<td>${item.pkgQuan}</td>
 				<td>${item.manuNum}</td>
 				<td>${item.prodPla}</td>
-				<td>${item.cateStan}</td>
+				<td>${item.comm}</td>
 			</tr>
 		</c:forEach>
 	</tbody>

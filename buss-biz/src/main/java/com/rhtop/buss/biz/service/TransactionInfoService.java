@@ -58,5 +58,21 @@ public interface TransactionInfoService{
 	 */
 	List<TransactionInfo> listPageTransactionInfo(TransactionInfo transactionInfo);
 	
+	/**
+	 * 客户经理，分部经理，决策委员会 查询交易列表
+	 * @author lujin
+	 * @date 2017-1-13
+	 * @param transactionInfo
+	 * @return
+	 */
 	List<TransactionInfo> listPageTransactionInfoBycreateUser(TransactionInfo transactionInfo);
+	
+	/**
+	 * 客户经理，部门经理,决策委员会 查看交易详情
+	 * @author lujin
+	 * @date 2017-1-13
+	 * @param transactionInfo
+	 * @return
+	 */
+	TransactionInfo selectTransactionInfo(TransactionInfo transactionInfo);
 }

@@ -18,9 +18,13 @@
 <div class="pageHeader">
 <div class="searchBar container-fluid">
 	<div class="row">
-		<div class="col-xs-4"><input id="selectCateName" name="cateName" placeholder="输入名称筛选" type="text" class="form-control input-sm col-xs-4" size="10" value="${param.cateName}"></div>
-		<div class="col-xs-4"><input id="selectManuNum" name="manuNum" size="10" placeholder="输入厂号筛选" type="text" class="form-control input-sm col-xs-4" value="${param.manuNum}"></div>
-		<div class="col-xs-offset-2 col-xs-2" style="text-align: right;"><button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button></div>
+		<div class="col-xs-4"><input  name="contractInfoId" placeholder="输入合同编号筛选" type="text" 
+			class="form-control input-sm col-xs-4" size="10" value="${param.contractInfoId}"></div>
+		<div class="col-xs-4"><input  name="totPri" size="10" placeholder="输入总价筛选" type="text" 
+			class="form-control input-sm col-xs-4" value="${param.totPri}"></div>
+		<div class="col-xs-offset-2 col-xs-2" style="text-align: right;">
+			<button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button>
+		</div>
 	</div>
 </div>
 </div>
@@ -28,8 +32,10 @@
 <div class="pageContent">
 <div class="panelBar">
 		<div class="btn-group" style="margin:4px 5px;">
-			<a class="btn btn-success btn-sm" href="module/sys-contractInfo-form/contractInfo-{contractInfoId}"  
-				 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-pencil"></i> <span>合同审核</span></a>
+			<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-{contractInfoId}"  
+				 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
+			<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/{contractInfoId}"  
+				 title="打印合同"  target="_blank" ><i class="icon-check"></i> <span>打印合同</span></a>
 		</div>
 </div>
 <table class="table" width="100%" layoutH="140">

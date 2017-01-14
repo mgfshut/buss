@@ -54,4 +54,12 @@ public interface CodeValueService{
 	 * @return
 	 */
 	int updateTheCodeValue(String code, String codeValue,String codeValueDescribe,String updateTime);
+	/**
+	 * 增加代码值
+	 * @author mgf
+	 * @date 2017年1月14日 上午10:43:15 
+	 * @param codeValue
+	 * @return
+	 */
+	int addCodeValue(CodeValue codeValue);
 }
