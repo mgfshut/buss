@@ -49,6 +49,9 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public Category selectByPrimaryKey(String categoryId){
+		return categoryMapper.selectByPrimaryKey(categoryId);
+	}
+	public Category selectInfoByPrimaryKey(String categoryId){
 		//品类信息
 		Category cate = categoryMapper.selectInfoByPrimaryKey(categoryId);
 		//价格信息

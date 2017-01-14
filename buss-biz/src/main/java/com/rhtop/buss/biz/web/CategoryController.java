@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -220,5 +221,9 @@ public class CategoryController  extends BaseController {
 		}
 		categoryService.insertExcelCategory(categorys);
 		return new HtmlMessage(new Category());
+	}
+	@RequestMapping("{categoryId}")
+	public Category getByCategoryId(@PathVariable("categoryId") String categoryId){
+		return categoryService.selectByPrimaryKey(categoryId);
 	}
 }
