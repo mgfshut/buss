@@ -47,7 +47,7 @@ $(document).ready(function() {
 		<div class="formBar">
 			<ul>
 				<li><button class="btn btn-sm btn-primary" type="submit">提交</button></li>
-				<li><button class="btn btn-sm btn-warning closedialog" type="button">取消</button></li>
+				<li><button class="btn btn-sm btn-warning" data-dismiss="modal" type="button">取消</button></li>
 			</ul>
 		</div>
 	</form>

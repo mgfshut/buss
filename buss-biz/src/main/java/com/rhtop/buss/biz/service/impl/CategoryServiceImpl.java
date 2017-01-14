@@ -114,20 +114,20 @@ public class CategoryServiceImpl implements CategoryService {
 		for(Category category:categorys){
 			Category cate = new Category();
 			cate.setCateName(category.getCateName());
-			cate.setCateStan(category.getCategoryId());
+			cate.setCateStan(category.getCateStan());
 			cate.setManuNum(category.getManuNum());
 			cate.setProdPla(category.getProdPla());
 			List<Category> categoryList = categoryMapper.listCategorys(cate);
 			if(categoryList.size()>0){
-				cate = categoryList.get(0);
+				category = categoryList.get(0);
 			}else{
-				categoryMapper.insertSelective(cate);
+				categoryMapper.insertSelective(category);
 			}
 			RelCustomerCategory relcc = new RelCustomerCategory();
 			relcc.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
-			relcc.setCategoryId(cate.getCategoryId());
+			relcc.setCategoryId(category.getCategoryId());
 //			relcc.setCusChaId(cusChaId);
-			relcc.setCusChaVal(cate.getCusCha());
+			relcc.setCusChaVal(category.getCusCha());
 			relcc.setCreateUser(category.getUpdateUser());
 			relcc.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			relcc.setUpdateUser(category.getUpdateUser());
@@ -136,9 +136,9 @@ public class CategoryServiceImpl implements CategoryService {
 			
 			RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
 			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
-			relCategoryPrice.setCategoryId(cate.getCategoryId());
-			relCategoryPrice.setCatePri(cate.getOfferPri().toString());
-			relCategoryPrice.setCusChaVal(cate.getCusCha());
+			relCategoryPrice.setCategoryId(category.getCategoryId());
+			relCategoryPrice.setCatePri(category.getOfferPri().toString());
+			relCategoryPrice.setCusChaVal(category.getCusCha());
 			relCategoryPrice.setCreateUser(UUID.randomUUID().toString().replace("-", ""));
 			relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			relCategoryPrice.setUpdateUser(UUID.randomUUID().toString().replace("-", ""));

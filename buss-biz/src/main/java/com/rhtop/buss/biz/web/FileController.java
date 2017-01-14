@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,18 +34,21 @@ import com.google.common.io.Files;
 @Controller
 @RequestMapping("/service/file")
 public class FileController extends BaseController {
+	private @Value("${file.root.path}") String filePath;
 	
 	@RequestMapping("/upload")
 	@ResponseBody
 	public AjaxObject uploadPhoto(@RequestParam(value = "file") MultipartFile[] files, 
 			HttpServletRequest request, HttpServletResponse res)throws Exception{
-		String basePath = Constant.GETBASEPATH(request);
+//		String basePath = Constant.GETBASEPATH(request);
 		res.setCharacterEncoding("UTF-8");
 		res.setContentType("text/plain;charset=utf-8");
 		AjaxObject result = new AjaxObject("");
-		String relativeFolder = Constant.UPLOADPATH + "reportimage" + File.separator + DateUtils.getToday("yyyyMMdd") + File.separator;
+		
+		String path = "excel"+File.separator+DateUtils.getToday("yyyyMMdd")+File.separator;
+		filePath = "/filestore/";
 		//设置保存路径，如果路径不存在，则自动创建
-		File saveFolder = new File(basePath + relativeFolder);
+		File saveFolder = new File(filePath+path);
 		if (!saveFolder.exists()){
 			saveFolder.mkdirs();
 		}
@@ -55,7 +59,7 @@ public class FileController extends BaseController {
 			String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
 			File localFile = new File(saveFolder.getAbsolutePath() + File.separator  + new Date().getTime() + suffix);
 			Files.write(file.getBytes(), localFile);
-			filePath = (relativeFolder+localFile.getName()).replaceAll("\\\\", "\\/");
+			filePath = (path+localFile.getName()).replaceAll("\\\\", "\\/");
 		}
 		
 		if (!"".equals(filePath)){

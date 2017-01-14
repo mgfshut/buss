@@ -18,14 +18,18 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.common.entity.Category;
@@ -41,6 +45,7 @@ import com.rhtop.buss.common.web.HtmlMessage;
 @Controller
 @RequestMapping("service/category")
 public class CategoryController  extends BaseController {
+	private @Value("${file.root.path}") String rootPath;
 	@Autowired
 	private CategoryService categoryService;
 	
@@ -171,8 +176,8 @@ public class CategoryController  extends BaseController {
 	@ResponseBody
 	public HtmlMessage excelImport(@Valid @RequestParam(value = "userId") String userId,
 			@Valid @RequestParam(value = "filePath") String filePath){
-		String relativeFolder = Constant.UPLOADPATH + "reportimage" + File.separator + DateUtils.getToday("yyyyMMdd") + File.separator;
-		filePath = relativeFolder+filePath;
+		rootPath = "/filestore/";
+		filePath = rootPath+filePath;
 		POIFSFileSystem fs = null;
 		try {
 			fs = new POIFSFileSystem(new FileInputStream(filePath));
@@ -197,7 +202,7 @@ public class CategoryController  extends BaseController {
 			//遍历excel,从第三行开始 即 rowNum=2,逐个获取单元格的内容,然后进行格式处理,最后插入数据库
 			for(int rowNum=2;rowNum<=hssfSheet.getLastRowNum();rowNum++){
 				HSSFRow hssfRow=hssfSheet.getRow(rowNum);
-				if(hssfRow==null){
+				if(hssfRow==null||hssfRow.getCell(0) == null||"".equals(formatCell(hssfRow.getCell(0)))){
 					continue;
 				}
 				Category category = new Category();
@@ -210,7 +215,10 @@ public class CategoryController  extends BaseController {
 				category.setComm(formatCell(hssfRow.getCell(5)));
 				category.setCusCha(formatCell(hssfRow.getCell(6)));
 				category.setCusLoc(formatCell(hssfRow.getCell(7)));
-				category.setOfferPri(new BigDecimal(formatCell(hssfRow.getCell(7))));
+				if(hssfRow.getCell(8) == null || "".equals(formatCell(hssfRow.getCell(8)))){
+				}else{
+					category.setOfferPri(new BigDecimal(formatCell(hssfRow.getCell(8)).toString()));
+				}
 				category.setOfferAging(formatCell(hssfRow.getCell(9)));
 				category.setCreateUser(userId);
 				category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
