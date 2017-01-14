@@ -136,7 +136,7 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
-		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		Category cate = catSer.selectInfoByPrimaryKey(category.getCategoryId());
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cate);

@@ -183,18 +183,11 @@
 	customer_id_ = #{customerId}
   </update>
   
-  <!-- 查看自己的创建的客户信息，根据主键查询对象-->
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    cus_desc_,
-  	cus_loc_,
-  	cus_type_,
-  	cus_name_,
-  	cus_addr_,
-  	cus_cha_,
-  	customer_id_,
-  	create_user_
-    from buss_customer_
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select
+	<include refid="Base_Column_List" />
+	from buss_customer_
 	where customer_id_ = #{0}
   </select>
 

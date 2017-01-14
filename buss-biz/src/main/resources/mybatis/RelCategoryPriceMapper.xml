@@ -407,10 +407,9 @@
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listRelCategoryPrices" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
-  	select 
-    <include refid="Base_Column_List" />
+  	select *
     from buss_rel_category_price_ where 1=1
-    	<if test="mgrId != null and mgrId != ''" >
+    	<!-- <if test="mgrId != null and mgrId != ''" >
 			and mgr_id_ = #{mgrId}
 		</if>
 		<if test="wholesalePri != null and wholesalePri != ''">
@@ -514,7 +513,7 @@
 		</if>
 		<if test="cusChaId != null and cusChaId !='' ">
 			and	cus_cha_Id_ = #{cusChaId},
-		</if>
+		</if> -->
 	</select>
 
 <select id="listPageRelCategoryPrice" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
