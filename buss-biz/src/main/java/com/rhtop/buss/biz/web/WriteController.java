@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
 import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
 import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.biz.service.CusckLogService;
@@ -31,6 +32,7 @@ import com.rhtop.buss.biz.service.SlaTransactionInfoService;
 import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.CusckLog;
@@ -76,6 +78,8 @@ public class WriteController extends BaseController{
 	private DealLogService dlogSer;
 	@Autowired
 	private CusckLogService clSer;
+	@Autowired
+	private CodeValueService codeValueService;
 	
 	/**
 	 * 客户经理第一次录入客户信息、联系人信息、品类信息的接口
@@ -1099,6 +1103,62 @@ public class WriteController extends BaseController{
 			log.error("[WriteController.cancleTransaction]日志记录异常", e);
 		}
 		return readResult;
+	}
+	
+	/**
+	 * 增加代码值
+	 * @author mgf
+	 * @date 2017年1月14日 上午10:42:49 
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/addCodeValue")
+	public ResultInfo addCodeValue(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		CodeValue codeValue =  null;
+		try{
+			codeValue = mapper.readValue(body, CodeValue.class);
+		}catch(Exception e){
+			log.error("[WriteController.addCodeValue]数据解析异常", e);
+		}
+		
+		ResultInfo resultInfo = new ResultInfo();
+		int i = codeValueService.addCodeValue(codeValue);
+		if(i>0){
+			resultInfo.setCode("200");
+		}else{
+			resultInfo.setCode("500");
+			resultInfo.setMessage("插入数据失败");
+		}
+		return resultInfo;
+	}
+	
+	/**
+	 * 删除代码值
+	 * @author mgf
+	 * @date 2017年1月14日 上午10:42:49 
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/deleteCodeValue")
+	public ResultInfo deleteCodeValue(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		CodeValue codeValue =  null;
+		try{
+			codeValue = mapper.readValue(body, CodeValue.class);
+		}catch(Exception e){
+			log.error("[WriteController.addCodeValue]数据解析异常", e);
+		}
+		
+		ResultInfo resultInfo = new ResultInfo();
+		int i = codeValueService.deleteCodeValue(codeValue.getCodeValueId());
+		if(i>0){
+			resultInfo.setCode("200");
+		}else{
+			resultInfo.setCode("500");
+			resultInfo.setMessage("删除数据失败");
+		}
+		return resultInfo;
 	}
 	
 }

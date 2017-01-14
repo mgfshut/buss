@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.io.Files;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
@@ -144,6 +145,52 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if("200".equals(result.get("code").toString())){
 			readResult = (ResultInfo) service.invoke("readData-getAllCodeMap", "POST", new String(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 增加代码值
+	 * @author mgf
+	 * @date 2017年1月14日 上午10:34:57 
+	 * @param request
+	 * @param codeValue
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/addCodeValue")
+	public ResultInfo addCodeValue(HttpServletRequest request,@RequestBody CodeValue codeValue) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			codeValue.setUpdateUser(memberId);
+			JSONObject jsonCodeValue = JSONObject.fromObject(codeValue);
+			readResult = (ResultInfo) service.invoke("writeData-addCodeValue", "POST", jsonCodeValue.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 删除代码值
+	 * @author mgf
+	 * @date 2017年1月14日 上午10:34:57 
+	 * @param request
+	 * @param codeValue
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/deleteCodeValue")
+	public ResultInfo deleteCodeValue(HttpServletRequest request,@RequestBody CodeValue codeValue) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			codeValue.setUpdateUser(memberId);
+			JSONObject jsonCodeValue = JSONObject.fromObject(codeValue);
+			readResult = (ResultInfo) service.invoke("writeData-deleteCodeValue", "POST", jsonCodeValue.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}
