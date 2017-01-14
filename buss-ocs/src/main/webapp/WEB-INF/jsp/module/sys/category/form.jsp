@@ -22,7 +22,7 @@ $(document).ready(function() {
 		var json = data.response;
 		console.log(json);
 		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-			var filePath = json.res;
+			var filePath = json.rel;
 			$('#filePath').val(filePath);
 		}else{
 			alert("文件上传失败");
