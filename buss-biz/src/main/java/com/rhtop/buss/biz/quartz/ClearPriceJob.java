@@ -42,7 +42,7 @@ public class ClearPriceJob  extends QuartzJobBean{
 		//删除主表记录
 		for(RelCategoryPrice rel:rels){
 			relCategoryPriceService.updateSelective(rel);
-			categoryService.updateCategory(category);
+//			categoryService.updateCategory(category);
 		}
 	}
 	
