@@ -877,7 +877,7 @@ public class OutController extends BaseController {
 	 * @param contractInfo
 	 * @return
 	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2012")
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2013")
 	public ResultInfo ContractInfo(HttpServletRequest request, @RequestBody ContractInfo contractInfo) {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
