@@ -68,5 +68,6 @@ public interface CustomerMapper {
 	 * @return
 	 */
 	List<Customer> listPageCustomerByGenMgr(Customer customer);
-    
+	Customer selectInfoByPrimaryKey(String customerId);
+	
 }
