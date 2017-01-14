@@ -56,5 +56,7 @@ public interface CategoryService{
 	 * @return
 	 */
 	List<Category> listPageCategoeyByPrice(String memberId);
+	
+	Category selectInfoByPrimaryKey(String categoryId);
 
 }

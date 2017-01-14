@@ -229,7 +229,7 @@ public class CustomerServiceImpl implements CustomerService {
 		// 判断是否是客户经理或者总经理
 		if ("05".equals(creater) || "01".equals(creater)) {
 			// 查询客户信息
-			cus = customerMapper.selectByPrimaryKey(customer.getCustomerId());
+			cus = customerMapper.selectInfoByPrimaryKey(customer.getCustomerId());
 			customer.setCustomerId(customer.getCustomerId());
 			// 查询联系人
 			ContactsInfo contactsinfo = new ContactsInfo();
