@@ -16,6 +16,7 @@
 
 	<bean id="relCategoryPriceService" class="com.rhtop.buss.biz.service.impl.RelCategoryPriceServiceImpl" />
 	<bean id="hisRelcategoryPriceService" class="com.rhtop.buss.biz.service.impl.HisRelCategoryPriceServiceImpl" />
+	<bean id="categoryService" class="com.rhtop.buss.biz.service.impl.CategoryServiceImpl" />
 
 	<!--定义调用对象和调用对象的方法 -->
 	<bean id="getRateJobDetail"
