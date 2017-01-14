@@ -5,6 +5,8 @@ package com.rhtop.buss.common.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -14,6 +16,7 @@ import java.util.List;
  */
 //@XmlRootElement(name = "Category")
 public class Category {
+	@JsonIgnore
 	private String updateTime;//修改时间
 	
 	private String comm;//备注信息

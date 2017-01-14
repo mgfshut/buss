@@ -83,6 +83,7 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		List<Customer> customers = cusSer.listPageCustomer(customer);
 		readResult.setCode("200");
+		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(customers);
 		readResult.setPage(customer.getPage());
 		return readResult;
@@ -101,6 +102,7 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		customer.setCustomerId(customer.getCustomerId());
 		Customer cus = cusSer.selectCustomerInfo(customer);
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cus);
 		return readResult;
@@ -118,6 +120,7 @@ public class ReadController  extends BaseController {
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
 		category.setCusLoc(category.getCusLoc());
 		List<Category> listCategorys = catSer.listPageCategory(category);
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(listCategorys);
 		readResult.setPage(category.getPage());
@@ -134,6 +137,7 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
 		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cate);
 		return readResult;
@@ -150,6 +154,7 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
 		List<Category> categoeylist =catSer.listPageCategoeyByPrice(category.getCreateUser());
+		readResult.setCode("200");
 		readResult.setRecords(categoeylist);
 		readResult.setMessage("数据获取成功！");
 		readResult.setPage(category.getPage());
@@ -190,6 +195,7 @@ public class ReadController  extends BaseController {
 		relCategoryPrice.setCategoryId(category.getCategoryId());
 		List<RelCategoryPrice> rcps = catPriSer.listRelCategoryPrices(relCategoryPrice);
 		cate.setRcps(rcps);
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cate);
 		return readResult;
@@ -211,6 +217,7 @@ public class ReadController  extends BaseController {
 		TransactionInfo transactioninfo = new TransactionInfo();
 		transactioninfo.setCreateUser(category.getCreateUser());
 		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactioninfo);
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(tras);
 		return readResult;
@@ -230,7 +237,8 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
 		//查询客户信息
-		List<Customer> customerlist = cusSer.listCustomers(customer); 
+		List<Customer> customerlist = cusSer.listCustomers(customer);
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(customerlist);
 		return readResult;
@@ -252,6 +260,7 @@ public class ReadController  extends BaseController {
 		//查询客户所属的品类信息
 		List<Category> categorylist = catSer.listCategoryByCustomer(customer.getCustomerId());
 		readResult.setMessage("数据获取成功！");
+		readResult.setCode("200");
 		readResult.setRecords(categorylist);
 		return readResult;
 	}
@@ -271,6 +280,7 @@ public class ReadController  extends BaseController {
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
 		TransactionInfo tras = traSer.selectTransactionInfo(transactionInfo);
 		readResult.setMessage("数据获取成功！");
+		readResult.setCode("200");
 		readResult.setResObject(tras);
 		return readResult;
 	}
@@ -288,6 +298,7 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
 		List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(conts);
 		return readResult;
@@ -306,6 +317,7 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
 		ContractInfo conts = contractSer.selectByPrimaryKey(contractInfo.getContractInfoId());
+		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(conts);
 		return readResult;

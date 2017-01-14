@@ -10,6 +10,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.HisRelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 
 public class ClearPriceJob  extends QuartzJobBean{
@@ -42,7 +43,11 @@ public class ClearPriceJob  extends QuartzJobBean{
 		//删除主表记录
 		for(RelCategoryPrice rel:rels){
 			relCategoryPriceService.updateSelective(rel);
-//			categoryService.updateCategory(category);
+			Category category = new Category();
+			category.setCategoryId(rel.getCategoryId());
+			category.setOfferAging("0");//将报盘价格报价时效赋值为0
+			category.setOfferPri(0f);
+			categoryService.updateCategory(category);
 		}
 	}
 	

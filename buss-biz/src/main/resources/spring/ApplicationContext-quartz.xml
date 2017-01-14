@@ -12,7 +12,7 @@
 	<bean id="ClearPriceJob" class="com.rhtop.buss.biz.quartz.ClearPriceJob" />
 	
     <bean id="codeValueService" class="com.rhtop.buss.biz.service.impl.CodeValueServiceImpl" />
-	<bean id="CodeMapService" class="com.rhtop.buss.biz.service.impl.CodeMapServiceImpl" />
+	<bean id="codeMapService" class="com.rhtop.buss.biz.service.impl.CodeMapServiceImpl" />
 
 	<bean id="relCategoryPriceService" class="com.rhtop.buss.biz.service.impl.RelCategoryPriceServiceImpl" />
 	<bean id="hisRelcategoryPriceService" class="com.rhtop.buss.biz.service.impl.HisRelCategoryPriceServiceImpl" />
