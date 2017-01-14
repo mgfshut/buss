@@ -877,7 +877,7 @@ public class OutController extends BaseController {
 	 * @param contractInfo
 	 * @return
 	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2012")
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2013")
 	public ResultInfo ContractInfo(HttpServletRequest request, @RequestBody ContractInfo contractInfo) {
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
@@ -888,7 +888,7 @@ public class OutController extends BaseController {
 		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(contractInfo);
 			contractInfo.setCreateUser(memberId);
-			readResult = (ResultInfo) service.invoke("readData-R2012", "POST", jsonUser.toString(), ResultInfo.class);
+			readResult = (ResultInfo) service.invoke("readData-R2013", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}

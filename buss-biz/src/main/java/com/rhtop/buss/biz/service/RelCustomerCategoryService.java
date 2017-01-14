@@ -4,6 +4,8 @@
 package com.rhtop.buss.biz.service;
 
 import java.util.List;
+
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 
 public interface RelCustomerCategoryService{
@@ -42,4 +44,12 @@ public interface RelCustomerCategoryService{
 	 * 根据条件分页查询列表
 	 */
 	List<RelCustomerCategory> listPageRelCustomerCategory(RelCustomerCategory relCustomerCategory);
+	/**
+	 * 品类导出数据查询
+	 * @author mgf
+	 * @date 2017年1月14日 下午3:34:00 
+	 * @param category
+	 * @return
+	 */
+	List<RelCustomerCategory> categoryExportList(Category category);
 }

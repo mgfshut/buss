@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.biz.mapper.RelCustomerCategoryMapper;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
@@ -51,6 +53,11 @@ public class RelCustomerCategoryServiceImpl implements RelCustomerCategoryServic
 	public List<RelCustomerCategory> listPageRelCustomerCategory(RelCustomerCategory relCustomerCategory) {
 		List<RelCustomerCategory> relCustomerCategorys = relCustomerCategoryMapper.listPageRelCustomerCategory(relCustomerCategory);
 		return relCustomerCategorys;
+	}
+
+	@Override
+	public List<RelCustomerCategory> categoryExportList(Category category) {
+		return relCustomerCategoryMapper.categoryExportList(category);
 	}
 
 }

@@ -4,6 +4,8 @@ package com.rhtop.buss.biz.web;
 import java.util.UUID;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -13,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
@@ -108,4 +113,26 @@ public class RelCustomerCategoryController  extends BaseController {
 		infoResult.setResObject(relCustomerCategory);
 		return infoResult;
 	}
+	/**
+	 * 品类导出数据查询
+	 */
+	@ResponseBody
+	@RequestMapping(value="/categoryExportList")
+	public ResultInfo categoryExportList(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		Category category = null;
+		try{
+			category = mapper.readValue(body, Category.class);
+		}catch(Exception e){
+			log.error("[RelCustomerCategoryController.categoryExportList]数据解析异常", e);
+		}
+		
+		JSONObject jsonObject=JSONObject.fromObject(body);
+		ResultInfo resultInfo = new ResultInfo();
+		List<RelCustomerCategory> relCustomerCategoryList = relCustomerCategoryService.categoryExportList(category);
+		resultInfo.setCode("200");
+		resultInfo.setRecords(relCustomerCategoryList);
+		return resultInfo;
+	}
+	
 }

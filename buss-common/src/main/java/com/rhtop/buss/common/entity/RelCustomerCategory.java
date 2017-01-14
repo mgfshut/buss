@@ -40,8 +40,191 @@ public class RelCustomerCategory {
 	
 	private Page page;//分页
 	
+	/**导出用字段 begin**/
+	private String cateName;//品类名称
+	
+	private String cateStan;//规格
+	
+	private String pkgQuan;//包装
+	
+	private String manuNum;//厂号
+	
+	private String prodPla;//产地
+	
+	private String comm;//备注
+	
+	private String memberName;//客户经理
+	
+	private String wholesalePri;//批发价
+	
+	private String acptPri;//接盘价
+	
+	private String spotMin;//现货价最小值
+	
+	private String spotMax;//现货价最大值
+	
+	private String interFutMin;//半期货价最小值
+	
+	private String interFutMax;//半期货价最大值
+	
+	private String futMin;//期货价最小值
+	
+	private String futMax;//期货价最大值
+	
+	private String cateSup;//供应商
+	
+	private Float offerPri;//报盘价(这是经过了单位换算的价格)
+	
+	private String offerAging;//报盘时效
+	/**导出用字段end**/
+	
+	
 	public Page getPage() {
 		return page;
+	}
+
+	public String getCateName() {
+		return cateName;
+	}
+
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
+	}
+
+	public String getCateStan() {
+		return cateStan;
+	}
+
+	public void setCateStan(String cateStan) {
+		this.cateStan = cateStan;
+	}
+
+	public String getPkgQuan() {
+		return pkgQuan;
+	}
+
+	public void setPkgQuan(String pkgQuan) {
+		this.pkgQuan = pkgQuan;
+	}
+
+	public String getManuNum() {
+		return manuNum;
+	}
+
+	public void setManuNum(String manuNum) {
+		this.manuNum = manuNum;
+	}
+
+	public String getProdPla() {
+		return prodPla;
+	}
+
+	public void setProdPla(String prodPla) {
+		this.prodPla = prodPla;
+	}
+
+	public String getComm() {
+		return comm;
+	}
+
+	public void setComm(String comm) {
+		this.comm = comm;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getWholesalePri() {
+		return wholesalePri;
+	}
+
+	public void setWholesalePri(String wholesalePri) {
+		this.wholesalePri = wholesalePri;
+	}
+
+	public String getAcptPri() {
+		return acptPri;
+	}
+
+	public void setAcptPri(String acptPri) {
+		this.acptPri = acptPri;
+	}
+
+	public String getSpotMin() {
+		return spotMin;
+	}
+
+	public void setSpotMin(String spotMin) {
+		this.spotMin = spotMin;
+	}
+
+	public String getSpotMax() {
+		return spotMax;
+	}
+
+	public void setSpotMax(String spotMax) {
+		this.spotMax = spotMax;
+	}
+
+	public String getInterFutMin() {
+		return interFutMin;
+	}
+
+	public void setInterFutMin(String interFutMin) {
+		this.interFutMin = interFutMin;
+	}
+
+	public String getInterFutMax() {
+		return interFutMax;
+	}
+
+	public void setInterFutMax(String interFutMax) {
+		this.interFutMax = interFutMax;
+	}
+
+	public String getFutMin() {
+		return futMin;
+	}
+
+	public void setFutMin(String futMin) {
+		this.futMin = futMin;
+	}
+
+	public String getFutMax() {
+		return futMax;
+	}
+
+	public void setFutMax(String futMax) {
+		this.futMax = futMax;
+	}
+
+	public String getCateSup() {
+		return cateSup;
+	}
+
+	public void setCateSup(String cateSup) {
+		this.cateSup = cateSup;
+	}
+
+	public Float getOfferPri() {
+		return offerPri;
+	}
+
+	public void setOfferPri(Float offerPri) {
+		this.offerPri = offerPri;
+	}
+
+	public String getOfferAging() {
+		return offerAging;
+	}
+
+	public void setOfferAging(String offerAging) {
+		this.offerAging = offerAging;
 	}
 
 	public void setPage(Page page) {
