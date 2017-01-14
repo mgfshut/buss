@@ -16,6 +16,26 @@
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
 	<result column="cus_cha_val_" property="cusChaVal" jdbcType="VARCHAR" />
 	<result column="cus_cha_id" property="cusChaId" jdbcType="VARCHAR"/>
+	<!-- 导出用字段begin -->
+	<result column="cate_name_" property="cateName" jdbcType="VARCHAR"/>
+	<result column="cate_stan_" property="cateStan" jdbcType="VARCHAR"/>
+	<result column="pkg_quan_" property="pkgQuan" jdbcType="VARCHAR"/>
+	<result column="manu_num_" property="manuNum" jdbcType="VARCHAR"/>
+	<result column="prod_pla_" property="prodPla" jdbcType="VARCHAR"/>
+	<result column="comm_" property="comm" jdbcType="VARCHAR"/>
+	<result column="member_name_" property="memberName" jdbcType="VARCHAR"/>
+	<result column="wholesale_pri_" property="wholesalePri" jdbcType="VARCHAR"/>
+	<result column="acpt_pri_" property="acptPri" jdbcType="VARCHAR"/>
+	<result column="spot_min_" property="spotMin" jdbcType="VARCHAR"/>
+	<result column="spot_max_" property="spotMax" jdbcType="VARCHAR"/>
+	<result column="inter_fut_min_" property="interFutMin" jdbcType="VARCHAR"/>
+	<result column="inter_fut_max_" property="interFutMax" jdbcType="VARCHAR"/>
+	<result column="fut_min_" property="futMin" jdbcType="VARCHAR"/>
+	<result column="fut_max_" property="futMax" jdbcType="VARCHAR"/>
+	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR"/>
+	<result column="offer_pri_" property="offerPri" jdbcType="VARCHAR"/>
+	<result column="offer_aging_" property="offerAging" jdbcType="VARCHAR"/>
+	<!-- 导出用字段end-->
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -271,7 +291,25 @@
 		</if>
 		<if test="cusChaId != null and cusChaId !='' ">
 			and cus_cha_Id_ = #{cusChaId},
-			</if>
+		</if>
   </select>
   
+   <!-- 品类导出数据查询 -->
+  <select id="categoryExportList" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
+  	SELECT a.category_id_,b.cate_name_,b.cate_stan_,b.pkg_quan_,b.manu_num_,b.prod_pla_,b.comm_,
+	a.cus_loc_,a.cus_cha_val_,d.member_name_,c.wholesale_pri_,c.acpt_pri_,
+	c.spot_min_,c.spot_max_,c.inter_fut_min_,c.inter_fut_max_,
+	c.fut_min_,c.fut_max_,c.cate_sup_,b.offer_pri_,c.offer_aging_ from  
+	buss_rel_customer_category_ a LEFT JOIN buss_category_ b ON
+	a.category_id_ = b.category_id_ LEFT JOIN buss_rel_category_price_ c ON
+	a.category_id_ = c.category_id_ LEFT JOIN sys_member_ d ON c.mgr_id_ = d.member_id_
+	where a.cus_cha_id_ = c.cus_cha_id_ 
+	<if test="cateName != null and cateName !='' ">
+		and b.cate_name_ = #{cateName},
+	</if>
+	<if test="manuNum != null and manuNum !='' ">
+		and b.manu_num_ = #{manuNum},
+	</if>
+  </select>
+  	
 </mapper>

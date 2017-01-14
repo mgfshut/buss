@@ -63,5 +63,12 @@ public interface CategoryService{
 	 * @return
 	 */
 	Category selectInfoByPrimaryKey(String categoryId);
+	/**
+	 * 批量插入品类
+	 * @author mgf
+	 * @date 2017年1月14日 下午5:39:51 
+	 * @param categorys
+	 */
+	int insertExcelCategory(List<Category> categorys);
 
 }

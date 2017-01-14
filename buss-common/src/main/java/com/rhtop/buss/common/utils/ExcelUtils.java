@@ -1,107 +1,168 @@
-package com.rhtop.buss.common.utils;
-
-import java.io.OutputStream;  
-import java.util.List;  
-import java.lang.reflect.Field;  
-  
-import jxl.Workbook;  
-import jxl.format.Alignment;  
-import jxl.format.Border;  
-import jxl.format.BorderLineStyle;  
-import jxl.format.VerticalAlignment;  
-import jxl.write.Label;  
-import jxl.write.WritableCellFormat;  
-import jxl.write.WritableFont;  
-import jxl.write.WritableSheet;  
-import jxl.write.WritableWorkbook;  
-
-public class ExcelUtils {
-	
-//	/*************************************************************************** 
-//	  * @param fileName EXCEL文件名称 
-//	  * @param listTitle EXCEL文件第一行列标题集合 
-//	  * @param listContent EXCEL文件正文数据集合 
-//	  * @return 
-//	  */  
-//	 public  final static String exportExcel(String fileName,String[] Title, List<Object> listContent) {  
-//	  String result="系统提示：Excel文件导出成功！";    
-//	  // 以下开始输出到EXCEL  
-//	  try {      
-//	   //定义输出流，以便打开保存对话框______________________begin  
-//	   HttpServletResponse response=ServletActionContext.getResponse();  
-//	   OutputStream os = response.getOutputStream();// 取得输出流        
-//	   response.reset();// 清空输出流        
-//	   response.setHeader("Content-disposition", "attachment; filename="+ new String(fileName.getBytes("GB2312"),"ISO8859-1"));  
-//	// 设定输出文件头        
-//	   response.setContentType("application/msexcel");// 定义输出类型      
-//	   //定义输出流，以便打开保存对话框_______________________end  
-//	  
-//	   /** **********创建工作簿************ */  
-//	   WritableWorkbook workbook = Workbook.createWorkbook(os);  
-//	  
-//	   /** **********创建工作表************ */  
-//	  
-//	   WritableSheet sheet = workbook.createSheet("Sheet1", 0);  
-//	  
-//	   /** **********设置纵横打印（默认为纵打）、打印纸***************** */  
-//	   jxl.SheetSettings sheetset = sheet.getSettings();  
-//	   sheetset.setProtected(false);  
-//	  
-//	  
-//	   /** ************设置单元格字体************** */  
-//	   WritableFont NormalFont = new WritableFont(WritableFont.ARIAL, 10);  
-//	   WritableFont BoldFont = new WritableFont(WritableFont.ARIAL, 10,WritableFont.BOLD);  
-//	  
-//	   /** ************以下设置三种单元格样式，灵活备用************ */  
-//	   // 用于标题居中  
-//	   WritableCellFormat wcf_center = new WritableCellFormat(BoldFont);  
-//	   wcf_center.setBorder(Border.ALL, BorderLineStyle.THIN); // 线条  
-//	   wcf_center.setVerticalAlignment(VerticalAlignment.CENTRE); // 文字垂直对齐  
-//	   wcf_center.setAlignment(Alignment.CENTRE); // 文字水平对齐  
-//	   wcf_center.setWrap(false); // 文字是否换行  
-//	     
-//	   // 用于正文居左  
-//	   WritableCellFormat wcf_left = new WritableCellFormat(NormalFont);  
-//	   wcf_left.setBorder(Border.NONE, BorderLineStyle.THIN); // 线条  
-//	   wcf_left.setVerticalAlignment(VerticalAlignment.CENTRE); // 文字垂直对齐  
-//	   wcf_left.setAlignment(Alignment.LEFT); // 文字水平对齐  
-//	   wcf_left.setWrap(false); // 文字是否换行     
-//	   
-//	  
-//	   /** ***************以下是EXCEL开头大标题，暂时省略********************* */  
-//	   //sheet.mergeCells(0, 0, colWidth, 0);  
-//	   //sheet.addCell(new Label(0, 0, "XX报表", wcf_center));  
-//	   /** ***************以下是EXCEL第一行列标题********************* */  
-//	   for (int i = 0; i < Title.length; i++) {  
-//	    sheet.addCell(new Label(i, 0,Title[i],wcf_center));  
-//	   }     
-//	   /** ***************以下是EXCEL正文数据********************* */  
-//	   Field[] fields=null;  
-//	   int i=1;  
-//	   for(Object obj:listContent){  
-//	       fields=obj.getClass().getDeclaredFields();  
-//	       int j=0;  
-//	       for(Field v:fields){  
-//	           v.setAccessible(true);  
-//	           Object va=v.get(obj);  
-//	           if(va==null){  
-//	               va="";  
-//	           }  
-//	           sheet.addCell(new Label(j, i,va.toString(),wcf_left));  
-//	           j++;  
-//	       }  
-//	       i++;  
-//	   }  
-//	   /** **********将以上缓存中的内容写到EXCEL文件中******** */  
-//	   workbook.write();  
-//	   /** *********关闭文件************* */  
-//	   workbook.close();     
-//	  
-//	  } catch (Exception e) {  
-//	   result="系统提示：Excel文件导出失败，原因："+ e.toString();  
-//	   System.out.println(result);   
-//	   e.printStackTrace();  
-//	  }  
-//	  return result;  
-//	 }  
-}
+    package com.rhtop.buss.common.utils;  
+      
+    import java.io.InputStream;  
+    import java.sql.ResultSet;  
+    import java.text.SimpleDateFormat;  
+    import java.util.Date;  
+      
+    import org.apache.poi.hssf.usermodel.HSSFCell;  
+    import org.apache.poi.hssf.usermodel.HSSFDateUtil;  
+    import org.apache.poi.hssf.usermodel.HSSFWorkbook;  
+    import org.apache.poi.poifs.filesystem.POIFSFileSystem;  
+    import org.apache.poi.ss.usermodel.Row;  
+    import org.apache.poi.ss.usermodel.Sheet;  
+    import org.apache.poi.ss.usermodel.Workbook;  
+      
+    /** 
+     * Excel文件处理工具类: 包括填充数据到普通excel、模板excel文件,单元格格式处理 
+     * @author 钟林森 
+     * 
+     */  
+    public class ExcelUtils {  
+      
+        /** 
+         * 填充数据到普通的excel文件中 
+         * @param rs 
+         * @param wb 
+         * @param headers 
+         * @throws Exception 
+         */  
+        public static void fillExcelData(ResultSet rs,Workbook wb,String[] headers)throws Exception{  
+            Sheet sheet=wb.createSheet();  
+            Row row=sheet.createRow(0);  
+              
+            //先填充行头 : "编号","姓名","电话","Email","QQ","出生日期"  
+            for(int i=0;i<headers.length;i++){  
+                row.createCell(i).setCellValue(headers[i]);  
+            }  
+              
+            //再填充数据  
+            int rowIndex=1;  
+            while(rs.next()){  
+                row=sheet.createRow(rowIndex++);  
+                for(int i=0;i<headers.length;i++){  
+                    Object objVal=rs.getObject(i+1);  
+                    if (objVal instanceof Date) {  
+                        row.createCell(i).setCellValue(DateUtils.getDateStr((Date)objVal, "yyyy-MM-dd"));  
+                    }else{  
+                        row.createCell(i).setCellValue(objVal.toString());  
+                    }  
+                }  
+            }  
+        }  
+          
+        /** 
+         * 填充数据到模板excel文件 
+         * @param rs 
+         * @param templateFileName 
+         * @return 
+         * @throws Exception 
+         */  
+        public static Workbook fillExcelDataWithTemplate(ResultSet rs,String templateFileName)throws Exception{  
+            //首先:从本地磁盘读取模板excel文件,然后读取第一个sheet  
+            InputStream inp=ExcelUtils.class.getResourceAsStream("C:/work/"+templateFileName);  
+            POIFSFileSystem fs=new POIFSFileSystem(inp);  
+            Workbook wb=new HSSFWorkbook(fs);  
+            Sheet sheet=wb.getSheetAt(0);  
+              
+            //开始写入数据到模板中: 需要注意的是,因为行头以及设置好,故而需要跳过行头  
+            int cellNums=sheet.getRow(0).getLastCellNum();  
+            int rowIndex=1;  
+            while(rs.next()){  
+                Row row=sheet.createRow(rowIndex++);  
+                for(int i=0;i<cellNums;i++){  
+                    Object objVal=rs.getObject(i+1);  
+                    if (objVal instanceof Date) {  
+                        row.createCell(i).setCellValue(DateUtils.getDateStr((Date)objVal, "yyyy-MM-dd"));  
+                    }else{  
+                        row.createCell(i).setCellValue(objVal.toString());  
+                    }  
+                }  
+            }  
+            return wb;  
+        }  
+          
+        /** 
+         * 处理单元格格式的简单方式 
+         * @param hssfCell 
+         * @return 
+         */  
+        public static String formatCell(HSSFCell hssfCell){  
+            if(hssfCell==null){  
+                return "";  
+            }else{  
+                if(hssfCell.getCellType()==HSSFCell.CELL_TYPE_BOOLEAN){  
+                    return String.valueOf(hssfCell.getBooleanCellValue());  
+                }else if(hssfCell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){  
+                    return String.valueOf(hssfCell.getNumericCellValue());  
+                }else{  
+                    return String.valueOf(hssfCell.getStringCellValue());  
+                }  
+            }  
+        }  
+          
+        /** 
+         * 处理单元格格式的第二种方式: 包括如何对单元格内容是日期的处理 
+         * @param cell 
+         * @return 
+         */  
+        public static String formatCell2(HSSFCell cell) {  
+            if (cell.getCellType() == HSSFCell.CELL_TYPE_BOOLEAN) {  
+                return String.valueOf(cell.getBooleanCellValue());  
+            } else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {  
+                  
+                //针对单元格式为日期格式  
+                if (HSSFDateUtil.isCellDateFormatted(cell)) {  
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+                    return sdf.format(HSSFDateUtil.getJavaDate(cell.getNumericCellValue())).toString();  
+                }  
+                return String.valueOf(cell.getNumericCellValue());  
+            } else {  
+                return cell.getStringCellValue();  
+            }  
+        }  
+      
+        /** 
+         * 处理单元格格式的第三种方法:比较全面 
+         * @param cell 
+         * @return 
+         */  
+        public static String formatCell3(HSSFCell cell) {  
+            if (cell == null) {  
+                return "";  
+            }  
+            switch (cell.getCellType()) {  
+            case HSSFCell.CELL_TYPE_NUMERIC:  
+      
+                //日期格式的处理  
+                if (HSSFDateUtil.isCellDateFormatted(cell)) {  
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+                    return sdf.format(HSSFDateUtil.getJavaDate(cell.getNumericCellValue())).toString();  
+                }  
+      
+                return String.valueOf(cell.getNumericCellValue());  
+      
+                //字符串  
+            case HSSFCell.CELL_TYPE_STRING:  
+                return cell.getStringCellValue();  
+      
+                // 公式  
+            case HSSFCell.CELL_TYPE_FORMULA:  
+                return cell.getCellFormula();  
+      
+                // 空白  
+            case HSSFCell.CELL_TYPE_BLANK:  
+                return "";  
+      
+                // 布尔取值  
+            case HSSFCell.CELL_TYPE_BOOLEAN:  
+                return cell.getBooleanCellValue() + "";  
+                  
+                //错误类型  
+            case HSSFCell.CELL_TYPE_ERROR:  
+                return cell.getErrorCellValue() + "";  
+            }  
+      
+            return "";  
+        }  
+    }  

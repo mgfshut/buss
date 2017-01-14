@@ -34,6 +34,8 @@
 <ys:style src="/css/lib/bootstrap.datepicker.css"/>
 <ys:style src="/css/layout/default/main.css"/>
 
+<ys:style src="/css/fileinput/fileinput.min.css"/>
+
  <ys:script src="/js/dwz/jquery-1.11.1.min.js"></ys:script> 
 
 
@@ -53,6 +55,8 @@
 <script src="/js/lib/fuelux.wizard.js"></script>
 
 <script src="/js/printThis/printThis.js"></script>
+<script src="/js/fileinput/fileinput.min.js"></script>
+<script src="/js/fileinput/locales/zh.js"></script>
 
 <ys:script src="/js/lib/showImg.js"/>
 <ys:script src="/js/ckeditor/ckeditor.js"></ys:script> 

@@ -3,6 +3,7 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,7 +34,7 @@ public class Category {
 	
 	private String offerAging;//报盘时效（品类表和价格关系表中的公用字段）
 	
-	private Float offerPri;//报盘价(这是经过了单位换算的价格)
+	private BigDecimal offerPri;//报盘价(这是经过了单位换算的价格)
 	
 	private String prodPla;//产地
 	
@@ -178,13 +179,15 @@ public class Category {
 	public void setOfferAging(String offerAging){
 		this.offerAging = offerAging;
 	}
-	public Float getOfferPri(){
-		return this.offerPri;
-	}
 	
-	public void setOfferPri(Float offerPri){
+	public BigDecimal getOfferPri() {
+		return offerPri;
+	}
+
+	public void setOfferPri(BigDecimal offerPri) {
 		this.offerPri = offerPri;
 	}
+
 	public String getProdPla(){
 		return this.prodPla;
 	}

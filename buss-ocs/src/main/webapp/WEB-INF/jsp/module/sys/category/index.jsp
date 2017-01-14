@@ -18,8 +18,13 @@
 <div class="pageHeader">
 <div class="searchBar container-fluid">
 	<div class="row">
-		<div class="col-xs-4"><input id="selectCateName" name="cateName" placeholder="输入名称筛选" type="text" class="form-control input-sm col-xs-4" size="10" value="${param.cateName}"></div>
-		<div class="col-xs-4"><input id="selectManuNum" name="manuNum" size="10" placeholder="输入厂号筛选" type="text" class="form-control input-sm col-xs-4" value="${param.manuNum}"></div>
+		<div class="col-xs-4"><input id="selectCateName" name="cateName" placeholder="请输入品类名称" type="text" class="form-control input-sm col-xs-4" size="10" value="${param.cateName}"></div>
+		<div class="col-xs-4">
+			<input id="selectManuNum" name="manuNum" size="10" placeholder="输入厂号筛选" 
+			type="text" class="form-control input-sm col-xs-4" value="${param.manuNum}">
+			<%-- <ys:codemapSelect2 codemap="job" required="required" selectName="memberJob" value="${param.manuNum}" 
+						classes="form-control"></ys:codemapSelect2> --%>
+		</div>
 		<div class="col-xs-offset-2 col-xs-2" style="text-align: right;"><button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button></div>
 	</div>
 </div>
@@ -37,10 +42,10 @@
 	<thead>
 		<tr>
 			<th orderField="cateName" class="${param.orderField eq 'cateName'?param.orderDirection:''}">品类名称</th>
-			<th orderField="cateStan" class="${param.orderField eq 'cateStan'?param.orderDirection:''}">规格</th>
-			<th orderField="pkgQuan" class="${param.orderField eq 'pkgQuan'?param.orderDirection:''}">包装</th>
 			<th orderField="manuNum" class="${param.orderField eq 'manuNum'?param.orderDirection:''}">厂号</th>
 			<th orderField="prodPla" class="${param.orderField eq 'prodPla'?param.orderDirection:''}">产地</th>
+			<th orderField="cateStan" class="${param.orderField eq 'cateStan'?param.orderDirection:''}">规格（kg/件）</th>
+			<th orderField="pkgQuan" class="${param.orderField eq 'pkgQuan'?param.orderDirection:''}">包装</th>
 			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">备注</th>
 		</tr>
 	</thead>
@@ -48,10 +53,10 @@
 		<c:forEach items="${resList}" var="item">
 			<tr target="categoryId" rel="${item.categoryId}">
 				<td>${item.cateName}</td>
-				<td>${item.cateStan}</td>
-				<td>${item.pkgQuan}</td>
 				<td>${item.manuNum}</td>
 				<td>${item.prodPla}</td>
+				<td>${item.cateStan}</td>
+				<td>${item.pkgQuan}</td>
 				<td>${item.comm}</td>
 			</tr>
 		</c:forEach>

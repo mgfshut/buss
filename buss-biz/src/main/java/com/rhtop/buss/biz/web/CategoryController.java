@@ -1,9 +1,12 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.List;
 
@@ -15,14 +18,18 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.common.entity.Category;
@@ -30,6 +37,7 @@ import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.common.utils.Constant;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
@@ -37,6 +45,7 @@ import com.rhtop.buss.common.web.HtmlMessage;
 @Controller
 @RequestMapping("service/category")
 public class CategoryController  extends BaseController {
+	private @Value("${file.root.path}") String rootPath;
 	@Autowired
 	private CategoryService categoryService;
 	
@@ -138,7 +147,7 @@ public class CategoryController  extends BaseController {
 		try{
 			category = mapper.readValue(body, Category.class);
 		}catch(Exception e){
-//			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
+			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
 		}
 		
 		JSONObject jsonObject=JSONObject.fromObject(body);
@@ -167,7 +176,8 @@ public class CategoryController  extends BaseController {
 	@ResponseBody
 	public HtmlMessage excelImport(@Valid @RequestParam(value = "userId") String userId,
 			@Valid @RequestParam(value = "filePath") String filePath){
-		
+		rootPath = "/filestore/";
+		filePath = rootPath+filePath;
 		POIFSFileSystem fs = null;
 		try {
 			fs = new POIFSFileSystem(new FileInputStream(filePath));
@@ -187,12 +197,12 @@ public class CategoryController  extends BaseController {
 			log.error("[CategoryController.excelImport]IO异常", e);
 		}
 		HSSFSheet hssfSheet=wb.getSheetAt(0);
-		
+		List<Category> categorys = new ArrayList<Category>();
 		if(hssfSheet!=null){
 			//遍历excel,从第三行开始 即 rowNum=2,逐个获取单元格的内容,然后进行格式处理,最后插入数据库
 			for(int rowNum=2;rowNum<=hssfSheet.getLastRowNum();rowNum++){
 				HSSFRow hssfRow=hssfSheet.getRow(rowNum);
-				if(hssfRow==null){
+				if(hssfRow==null||hssfRow.getCell(0) == null||"".equals(formatCell(hssfRow.getCell(0)))){
 					continue;
 				}
 				Category category = new Category();
@@ -203,13 +213,21 @@ public class CategoryController  extends BaseController {
 				category.setManuNum(formatCell(hssfRow.getCell(3)));
 				category.setProdPla(formatCell(hssfRow.getCell(4)));
 				category.setComm(formatCell(hssfRow.getCell(5)));
+				category.setCusCha(formatCell(hssfRow.getCell(6)));
+				category.setCusLoc(formatCell(hssfRow.getCell(7)));
+				if(hssfRow.getCell(8) == null || "".equals(formatCell(hssfRow.getCell(8)))){
+				}else{
+					category.setOfferPri(new BigDecimal(formatCell(hssfRow.getCell(8)).toString()));
+				}
+				category.setOfferAging(formatCell(hssfRow.getCell(9)));
 				category.setCreateUser(userId);
 				category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				category.setUpdateUser(userId);
 				category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				categoryService.insertCategory(category);
+				categorys.add(category);
 			}
 		}
+		categoryService.insertExcelCategory(categorys);
 		return new HtmlMessage(new Category());
 	}
 	@RequestMapping("{categoryId}")

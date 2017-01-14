@@ -888,7 +888,7 @@ public class OutController extends BaseController {
 		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(contractInfo);
 			contractInfo.setCreateUser(memberId);
-			readResult = (ResultInfo) service.invoke("readData-R2012", "POST", jsonUser.toString(), ResultInfo.class);
+			readResult = (ResultInfo) service.invoke("readData-R2013", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}

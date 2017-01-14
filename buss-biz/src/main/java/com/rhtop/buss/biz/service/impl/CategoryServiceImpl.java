@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,13 @@ import org.springframework.stereotype.Service;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.MemberMapper;
 import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
+import com.rhtop.buss.biz.mapper.RelCustomerCategoryMapper;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.entity.RelCustomerCategory;
+import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.FileUtil;
 
 @Service("categoryService")
@@ -24,6 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
 	private RelCategoryPriceMapper relCategoryPriceMapper;
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+	private RelCustomerCategoryMapper relCustomerCategoryMapper;
 	
 	@Override
 	public int insertCategory(Category category) {
@@ -100,6 +107,45 @@ public class CategoryServiceImpl implements CategoryService {
 			
 		}
 		return catelist;
+	}
+
+	@Override
+	public int insertExcelCategory(List<Category> categorys) {
+		for(Category category:categorys){
+			Category cate = new Category();
+			cate.setCateName(category.getCateName());
+			cate.setCateStan(category.getCateStan());
+			cate.setManuNum(category.getManuNum());
+			cate.setProdPla(category.getProdPla());
+			List<Category> categoryList = categoryMapper.listCategorys(cate);
+			if(categoryList.size()>0){
+				category = categoryList.get(0);
+			}else{
+				categoryMapper.insertSelective(category);
+			}
+			RelCustomerCategory relcc = new RelCustomerCategory();
+			relcc.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
+			relcc.setCategoryId(category.getCategoryId());
+//			relcc.setCusChaId(cusChaId);
+			relcc.setCusChaVal(category.getCusCha());
+			relcc.setCreateUser(category.getUpdateUser());
+			relcc.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			relcc.setUpdateUser(category.getUpdateUser());
+			relcc.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			relCustomerCategoryMapper.insertSelective(relcc);
+			
+			RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+			relCategoryPrice.setCategoryId(category.getCategoryId());
+			relCategoryPrice.setCatePri(category.getOfferPri().toString());
+			relCategoryPrice.setCusChaVal(category.getCusCha());
+			relCategoryPrice.setCreateUser(UUID.randomUUID().toString().replace("-", ""));
+			relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			relCategoryPrice.setUpdateUser(UUID.randomUUID().toString().replace("-", ""));
+			relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			relCategoryPriceMapper.insertSelective(relCategoryPrice);
+		}
+		return 0;
 	}
 
 }

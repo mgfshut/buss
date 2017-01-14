@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,40 +32,44 @@ import com.google.common.io.Files;
  *
  */
 @Controller
-@RequestMapping("/service/tools")
-public class ToolsController extends BaseController {
+@RequestMapping("/service/file")
+public class FileController extends BaseController {
+	private @Value("${file.root.path}") String filePath;
 	
-	/**
-	 * 文件上传操作
-	 * @param file
-	 * @param upload
-	 * @param request
-	 * @param res
-	 * @throws Exception
-	 */
 	@RequestMapping("/upload")
 	@ResponseBody
-	public AjaxObject upload(MultipartFile file, String json, HttpServletRequest request, HttpServletResponse res)
-			throws Exception {
-		String basePath = Constant.GETBASEPATH(request);
+	public AjaxObject uploadPhoto(@RequestParam(value = "file") MultipartFile[] files, 
+			HttpServletRequest request, HttpServletResponse res)throws Exception{
+//		String basePath = Constant.GETBASEPATH(request);
 		res.setCharacterEncoding("UTF-8");
 		res.setContentType("text/plain;charset=utf-8");
-		UploadBean upload = new ObjectMapper().readValue(json, UploadBean.class);
 		AjaxObject result = new AjaxObject("");
-		String relativeFolder = Constant.UPLOADPATH + upload.getFolder() + File.separator + DateUtils.getToday("yyyyMMdd") + File.separator;
+		
+		String path = "excel"+File.separator+DateUtils.getToday("yyyyMMdd")+File.separator;
+		filePath = "/filestore/";
 		//设置保存路径，如果路径不存在，则自动创建
-		File saveFolder = new File(basePath + relativeFolder);
+		File saveFolder = new File(filePath+path);
 		if (!saveFolder.exists()){
 			saveFolder.mkdirs();
 		}
-		//取文件后缀名
-		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
-		File localFile = new File(saveFolder.getAbsolutePath() + File.separator  + new Date().getTime() + suffix);
-		Files.write(file.getBytes(), localFile);
+		String filePath = "";
+		for (int i=0; i<files.length; i++){
+			MultipartFile file = files[i];
+			//取文件后缀名
+			String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
+			File localFile = new File(saveFolder.getAbsolutePath() + File.separator  + new Date().getTime() + suffix);
+			Files.write(file.getBytes(), localFile);
+			filePath = (path+localFile.getName()).replaceAll("\\\\", "\\/");
+		}
 		
-		result.setStatusCode(AjaxObject.STATUS_CODE_SUCCESS);
-		result.setMessage((relativeFolder+localFile.getName()).replaceAll("\\\\", "\\/"));
-		result.setRel(upload.getCallbackid());
+		if (!"".equals(filePath)){
+			result.setStatusCode(AjaxObject.STATUS_CODE_SUCCESS);
+			result.setMessage("文件上传成功！");
+			result.setRel(filePath);
+		}else{
+			result.setStatusCode(AjaxObject.STATUS_CODE_FAILURE);
+			result.setMessage("文件上传失败！");
+		}
 		
 		return result;
 	}
