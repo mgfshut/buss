@@ -34,8 +34,8 @@
 		<div class="btn-group" style="margin:4px 5px;">
 			<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-{contractInfoId}"  
 				 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
-			<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/{contractInfoId}"  
-				 title="打印合同"  target="_blank" ><i class="icon-check"></i> <span>打印合同</span></a>
+			<!-- <a class="btn btn-primary btn-sm" href="sys/print/contractInfo/{contractInfoId}"  
+				 title="打印合同"  target="_blank" ><i class="icon-check"></i> <span>打印合同</span></a> -->
 		</div>
 </div>
 <table class="table" width="100%" layoutH="140">
@@ -45,6 +45,7 @@
 			<th orderField="totPri" class="${param.orderField eq 'totPri'?param.orderDirection:''}">总价</th>
 			<th orderField="txAmo" class="${param.orderField eq 'txAmo'?param.orderDirection:''}">交易数量</th>
 			<th orderField="ctofPri" class="${param.orderField eq 'ctofPri'?param.orderDirection:''}">回盘价</th>
+			<th>操作</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -54,6 +55,10 @@
 				<td>${item.totPri}</td>
 				<td>${item.txAmo}</td>
 				<td>${item.ctofPri}</td>
+				<td>
+					<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/${item.contractInfoId}" style="line-height:11px;"
+				 	title="打印合同"  target="_blank" ><span>打印合同</span></a>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -79,5 +84,10 @@
         	var manuNum = $('#selectManuNum').val();
         	$.download('/sys/excel/category', 'post', cateName, manuNum); // 下载文件
         })
+        
+        function printContract(contractInfoId){
+        	alert(contractInfoId);
+        };
+        
     })
 </script>

@@ -2,6 +2,7 @@ package com.rhtop.buss.ocs.web;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -191,6 +192,30 @@ public class OutController extends BaseController {
 			codeValue.setUpdateUser(memberId);
 			JSONObject jsonCodeValue = JSONObject.fromObject(codeValue);
 			readResult = (ResultInfo) service.invoke("writeData-deleteCodeValue", "POST", jsonCodeValue.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * app合同打印
+	 * @author mgf
+	 * @date 2017年1月15日 上午10:01:24 
+	 * @param request
+	 * @param codeValue
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/contractInfoPrint")
+	public ResultInfo contractInfoPrint(HttpServletRequest request,@RequestBody ContractInfo contractInfo) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			contractInfo.setUpdateUser(memberId);
+			JSONObject jsonCodeValue = JSONObject.fromObject(contractInfo);
+			readResult = (ResultInfo) service.invoke("contractInfo-app-print", "POST", jsonCodeValue.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}
