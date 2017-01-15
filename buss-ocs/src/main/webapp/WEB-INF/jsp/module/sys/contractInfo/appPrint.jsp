@@ -112,18 +112,9 @@
 						<td colspan="8"></td>
 					</tr>
 					<tr>
-						<td colspan="2">合计金额</td>
+						<td colspan="2">其他费用(元)</td>
 						<!--<td></td>-->
-						<td colspan="8">${totPri }元</td>
-					</tr>
-					<tr>
-						<td colspan="2">备     注</td>
-						<!--<td></td>-->
-						<td colspan="8" style="text-align: left;">
-							1、	本表所列单价为本合同约定的固定价格，不受国际市场的商品价格波动影响；<br/>
-							2、	附带食品检验检疫证明复印件；<br/>
-							3、	船期由甲方根据商品情况提供。 
-						</td>
+						<td colspan="8"></td>
 					</tr>
 				</table>
 				<h3>二、交易要求</h3>
@@ -275,21 +266,8 @@
 				<p class="time">告知方：天津荣汇国际贸易有限公司</p>
 				<p class="time">时&nbsp;间：______年______月______日</p>
 			</div>
-			<div style="float: right;">
-				<button class="printButton" onclick="printArea()">合同打印</button>
-			</div>
 		</div>
 	</body>
 </html>
 <script type="text/javascript">
-	function printArea() {
-		$('#prtarea').printThis({
-			debug : false,
-			importCSS : true,
-			printContainer : false, //* grab outer container as well as the contents of the selector
-			pageTitle : "商品销售合同", //* add title to print page
-			removeInline : false,
-			importStyle:true
-		});
-	}
 </script>

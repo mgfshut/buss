@@ -124,7 +124,7 @@ public class ContractInfoController  extends BaseController {
 	@RequestMapping("/print/{contractInfoId}")
 	@ResponseBody
 	public ContractInfo printByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
-		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
+		ContractInfo contractInfo = contractInfoService.printByContractInfoId(contractInfoId);
 		return contractInfo;
 	}
 	

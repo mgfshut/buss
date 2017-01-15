@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.service;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.ContractInfo;
 
 public interface ContractInfoService{
@@ -62,4 +63,12 @@ public interface ContractInfoService{
 	 * 根据条件分页查询列表
 	 */
 	List<ContractInfo> listPageContractInfo(ContractInfo contractInfo);
+	/**
+	 * 根据合同ID获取合同打印相关信息
+	 * @author mgf
+	 * @date 2017年1月15日 下午1:31:43 
+	 * @param contractInfoId
+	 * @return
+	 */
+	ContractInfo printByContractInfoId(String contractInfoId);
 }

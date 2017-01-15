@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.math.BigDecimal;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -76,8 +78,92 @@ public class ContractInfo {
 	
 	private String cateName;//品类名称
 	
+	/**打印所用字段begin**/
+	private String buyName;//买方
+	private String manuNum;//厂号
+	private String comm;//规格
+	private String cateStan;//包装规格
+	private BigDecimal offerPri;//单价(这是经过了单位换算的价格)
+	private String ztcsgName;//自提收货人姓名
+	private String ztcsgTel;//自提收货人联系方式
+	private String ztcsgAddr;//自提收货人详细地址
+	private String ztcsgId;//自提收货人身份证号
+	/**打印所用字段end**/
+	
 	public Page getPage() {
 		return page;
+	}
+
+	public String getZtcsgName() {
+		return ztcsgName;
+	}
+
+	public void setZtcsgName(String ztcsgName) {
+		this.ztcsgName = ztcsgName;
+	}
+
+	public String getZtcsgTel() {
+		return ztcsgTel;
+	}
+
+	public void setZtcsgTel(String ztcsgTel) {
+		this.ztcsgTel = ztcsgTel;
+	}
+
+	public String getZtcsgAddr() {
+		return ztcsgAddr;
+	}
+
+	public void setZtcsgAddr(String ztcsgAddr) {
+		this.ztcsgAddr = ztcsgAddr;
+	}
+
+	public String getZtcsgId() {
+		return ztcsgId;
+	}
+
+	public void setZtcsgId(String ztcsgId) {
+		this.ztcsgId = ztcsgId;
+	}
+
+	public String getManuNum() {
+		return manuNum;
+	}
+
+	public void setManuNum(String manuNum) {
+		this.manuNum = manuNum;
+	}
+
+	public String getComm() {
+		return comm;
+	}
+
+	public void setComm(String comm) {
+		this.comm = comm;
+	}
+
+	public String getCateStan() {
+		return cateStan;
+	}
+
+	public void setCateStan(String cateStan) {
+		this.cateStan = cateStan;
+	}
+
+	public BigDecimal getOfferPri() {
+		return offerPri;
+	}
+
+	public void setOfferPri(BigDecimal offerPri) {
+		this.offerPri = offerPri;
+	}
+
+	public String getBuyName() {
+		return buyName;
+	}
+
+	public void setBuyName(String buyName) {
+		this.buyName = buyName;
 	}
 
 	public void setPage(Page page) {
