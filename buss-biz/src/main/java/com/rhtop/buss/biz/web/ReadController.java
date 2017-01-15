@@ -219,6 +219,7 @@ public class ReadController  extends BaseController {
 		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactioninfo);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
+		readResult.setPage(category.getPage());
 		readResult.setRecords(tras);
 		return readResult;
 	}
@@ -241,6 +242,7 @@ public class ReadController  extends BaseController {
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(customerlist);
+		readResult.setPage(customer.getPage());
 		return readResult;
 	}
 	
@@ -282,6 +284,7 @@ public class ReadController  extends BaseController {
 		readResult.setMessage("数据获取成功！");
 		readResult.setCode("200");
 		readResult.setResObject(tras);
+		readResult.setPage(transactionInfo.getPage());
 		return readResult;
 	}
 	
@@ -301,6 +304,7 @@ public class ReadController  extends BaseController {
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(conts);
+		readResult.setPage(contractInfo.getPage());
 		return readResult;
 	}
 	/**

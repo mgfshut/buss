@@ -52,7 +52,7 @@ public class TransactionInfo {
 	
 	private String cusName;//客户姓名
 	
-	private String custCha;//客户渠道
+	private String cusCha;//客户渠道
 	
 	private String cateName;//品类名
 	
@@ -108,12 +108,12 @@ public class TransactionInfo {
 		this.cusName = cusName;
 	}
 
-	public String getCustCha() {
-		return custCha;
+	public String getCusCha() {
+		return cusCha;
 	}
 
-	public void setCustCha(String custCha) {
-		this.custCha = custCha;
+	public void setCusCha(String cusCha) {
+		this.cusCha = cusCha;
 	}
 
 	public String getCateName() {
