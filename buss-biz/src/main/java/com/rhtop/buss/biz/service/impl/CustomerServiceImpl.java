@@ -52,7 +52,6 @@ public class CustomerServiceImpl implements CustomerService {
 		//检查传进来的客户对象是否为空，为空则返回错误信息码并结束操作。
 		if(customer.getCusName().trim().equals("")||customer.getCusName()==null 
 			||customer.getCusCha().trim().equals("")||customer.getCusCha()==null 
-			||customer.getCusLoc().trim().equals("")||customer.getCusLoc()==null 
 			||customer.getCusType().trim().equals("")||customer.getCusType()==null){
 			readResult.setCode("500");
 			readResult.setMessage("客户信息不能为空！");

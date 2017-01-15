@@ -20,9 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,8 +34,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.biz.service.RelCategoryPriceService;
+import com.rhtop.buss.common.utils.Constant;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.common.web.BaseController;
@@ -43,6 +49,8 @@ import com.rhtop.buss.common.web.HtmlMessage;
 public class CategoryController  extends BaseController {
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private RelCategoryPriceService catPriSer;
 	
     /**
      * 新增
@@ -143,7 +151,7 @@ public class CategoryController  extends BaseController {
 		try{
 			category = mapper.readValue(body, Category.class);
 		}catch(Exception e){
-			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
+			log.error("[CategoryController.listCategorys]数据解析异常", e);
 		}
 		
 		JSONObject jsonObject=JSONObject.fromObject(body);
@@ -238,7 +246,6 @@ public class CategoryController  extends BaseController {
 	@RequestMapping("/{categoryId}")
 	@ResponseBody
 	public Category getByCategoryId(@PathVariable("categoryId") String categoryId){
-		System.out.println(1);
 		Category category = categoryService.selectByPrimaryKey(categoryId);
 		return category;
 	}
@@ -256,5 +263,24 @@ public class CategoryController  extends BaseController {
 		Category category = new Category();
 		List<Category> categorylist = categoryService.listCategorys(category);
 		return categorylist;
+		}
+	@RequestMapping("/updateCategoryPrice")
+	@ResponseBody
+	public ResultInfo updateCategoryPrice(@Valid @RequestParam(value = "userId") String userId,@Valid RelCategoryPrice CategoryPrice){
+		RelCategoryPrice catePri = CategoryPrice;
+		ResultInfo readResult = new ResultInfo();
+		String now = DateUtils.getNowTime();
+		try {
+			catePri.setUpdateTime(now);
+			catePri.setUpdateUser(userId);
+			catePri.setUniMgrId(userId);
+			catePri.setOfferUpdateTime(now);
+			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catePri);
+		} catch (Exception e) {
+			log.error("[CategoryController.updateCategoryPrice]数据更新异常", e);
+		}
+		readResult.setCode("200");
+		readResult.setMessage("更新成功！");
+		return readResult;
 	}
 }

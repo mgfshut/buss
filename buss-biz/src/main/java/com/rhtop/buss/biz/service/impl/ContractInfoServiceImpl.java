@@ -11,11 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.utils.PropertyUtil;
+import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContractInfoMapper;
+import com.rhtop.buss.biz.mapper.CustomerMapper;
+import com.rhtop.buss.biz.mapper.MemberMapper;
 import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.TransactionInfoMapper;
 import com.rhtop.buss.biz.service.ContractInfoService;
@@ -24,12 +29,16 @@ import com.rhtop.buss.biz.service.ContractInfoService;
 public class ContractInfoServiceImpl implements ContractInfoService {
 	@Autowired
 	private ContractInfoMapper contractInfoMapper;
-	
 	@Autowired
 	private TransactionInfoMapper txMapper; 
-	
 	@Autowired
 	private SlaTransactionInfoMapper slaTxMapper;
+	@Autowired
+	private MemberMapper memberMapper;
+	@Autowired
+	private CustomerMapper customerMapper;
+	@Autowired
+	private CategoryMapper categoryMapper;
 	
 	@Override
 	public int insertContractInfo(ContractInfo contractInfo) {
@@ -163,6 +172,25 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			throw e;
 		}
 		return conId;
+	}
+
+	@Override
+	public ContractInfo printByContractInfoId(String contractInfoId) {
+		ContractInfo contract = contractInfoMapper.selectByPrimaryKey(contractInfoId);
+		Customer customer = customerMapper.selectByPrimaryKey(contract.getCustomerId());
+		contract.setBuyName(customer.getCusName());
+		Category category = categoryMapper.selectByPrimaryKey(contract.getCategoryId());
+		contract.setManuNum(category.getManuNum());
+		contract.setComm(category.getComm());
+		contract.setCateStan(category.getCateStan());
+		contract.setOfferPri(category.getOfferPri());
+		if("02".equals(contract.getDelvOpt())){
+			contract.setZtcsgName(contract.getCsgName());
+			contract.setZtcsgTel(contract.getCsgTel());
+			contract.setZtcsgAddr(contract.getCsgAddr());
+			contract.setZtcsgId(contract.getCsgId());
+		}
+		return contract;
 	}
 	
 

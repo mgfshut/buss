@@ -3,42 +3,63 @@
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="sdf" %>
 
 <div id="fixOfferPriceForm" class="pageContent">
-	<form method="post" action="service/category-save" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
+	<form method="post" action="service/category-updateCategoryPrice" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
 		<input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
 		<input type="hidden" name="codeValueId" value="${codeValueId}" />
 		<div class="pageFormContent container-fluid" layoutH="68">
+			<div class="form-group form-group-sm" style="display:none">
+				<label class="col-sm-2 control-label">品类ID：</label>
+				<div class="col-sm-8">
+				<input type="text" name="categoryId" class="form-control textInput" required="required" readOnly="readonly" value="${categoryId}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类名称：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateName" data-error="请输入1-20位字符" placeholder="请输入品类名称"  maxlength="20" class="form-control textInput" required="required" value="${category.cateName}">
+				<input type="text" name="cateName" class="form-control textInput" required="required" readOnly="readonly" value="${cateName}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">厂号：</label>
 				<div class="col-sm-8">
-				<input type="text" name="manuNum" data-error="请输入1-10位字符" placeholder="请输入厂号" maxlength="10" class="form-control textInput" required="required" value="${category.manuNum}">
+				<input type="text" name="manuNum" class="form-control textInput" required="required" readOnly="readonly" value="${manuNum}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				<input type="text" name="prodPla" data-error="请输入1-10位字符" placeholder="请输入产地" maxlength="10" class="form-control textInput" required="required" value="${category.prodPla}">
+				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="${prodPla}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="comm" data-error="请输入1-256位字符" placeholder="请输入规格" maxlength="256" class="form-control textInput" required="required" value="${category.comm}">
+				<input type="text" name="comm" class="form-control textInput" required="required" readOnly="readonly" value="${comm}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateStan" data-error="请输入1-10位字符" placeholder="请输入品类规格" maxlength="10" class="form-control textInput" required="required" value="${category.cateStan}">
+				<input type="text" name="cateStan" class="form-control textInput" required="required" readOnly="readonly" value="${cateStan}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">报盘价格：</label>
+				<div class="col-sm-8">
+				<input type="text" name="offerPri" data-error="请输入1-10位字符" placeholder="请输入报盘价格" maxlength="10" class="form-control textInput" required="required">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">报盘时效：</label>
+				<div class="col-sm-8">
+				<input type="text" name="offerAging" data-error="请输入1-10位字符" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput" required="required" >
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

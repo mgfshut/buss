@@ -117,7 +117,17 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	@Override
 	public int createOrUpdateOfferPriceAndTimeByCategoryId(
 			RelCategoryPrice relCategoryPrice) {
-		relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+		RelCategoryPrice catPri = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
+		if(catPri==null){
+			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+			relCategoryPrice.setCreateTime(relCategoryPrice.getUpdateTime());
+			relCategoryPrice.setCreateUser(relCategoryPrice.getUpdateUser());
+			int i = relCategoryPriceMapper.insertSelective(relCategoryPrice);
+			System.out.println("成功添加："+i+"条");
+		}else{
+			System.out.println(relCategoryPrice);
+			relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+		}
 		return 0;
 	}
 

@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 //@XmlRootElement(name = "Category")
 public class Category {
-	@JsonIgnore
 	private String updateTime;//修改时间
 	
 	private String comm;//备注信息
