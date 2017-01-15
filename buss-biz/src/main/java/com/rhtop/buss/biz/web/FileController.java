@@ -2,6 +2,7 @@ package com.rhtop.buss.biz.web;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +22,7 @@ import com.rhtop.buss.common.entity.UploadBean;
 import com.rhtop.buss.common.utils.AjaxObject;
 import com.rhtop.buss.common.utils.Constant;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.common.web.BaseController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Files;
@@ -34,8 +35,6 @@ import com.google.common.io.Files;
 @Controller
 @RequestMapping("/service/file")
 public class FileController extends BaseController {
-	private @Value("${file.root.path}") String filePath;
-	
 	@RequestMapping("/upload")
 	@ResponseBody
 	public AjaxObject uploadPhoto(@RequestParam(value = "file") MultipartFile[] files, 
@@ -45,14 +44,24 @@ public class FileController extends BaseController {
 		res.setContentType("text/plain;charset=utf-8");
 		AjaxObject result = new AjaxObject("");
 		
-		String path = "excel"+File.separator+DateUtils.getToday("yyyyMMdd")+File.separator;
-		filePath = "/filestore/";
+		String rootPath = "/filestore/";
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			//从配置文件中读取上传文件的存放根路径
+			rootPath = propertyUtil.readValue("file.root.path");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			log.error("[CategoryController.excelImport]IO异常", e1);
+		}
+		
+		String path = "upload"+File.separator+DateUtils.getToday("yyyyMMdd")+File.separator;
 		//设置保存路径，如果路径不存在，则自动创建
-		File saveFolder = new File(filePath+path);
+		File saveFolder = new File(rootPath+path);
 		if (!saveFolder.exists()){
 			saveFolder.mkdirs();
 		}
 		String filePath = "";
+		StringBuffer buff = new StringBuffer();
 		for (int i=0; i<files.length; i++){
 			MultipartFile file = files[i];
 			//取文件后缀名
@@ -60,8 +69,9 @@ public class FileController extends BaseController {
 			File localFile = new File(saveFolder.getAbsolutePath() + File.separator  + new Date().getTime() + suffix);
 			Files.write(file.getBytes(), localFile);
 			filePath = (path+localFile.getName()).replaceAll("\\\\", "\\/");
+			buff.append(filePath+",");
 		}
-		
+		filePath = buff.toString().substring(0,buff.length()-1);
 		if (!"".equals(filePath)){
 			result.setStatusCode(AjaxObject.STATUS_CODE_SUCCESS);
 			result.setMessage("文件上传成功！");

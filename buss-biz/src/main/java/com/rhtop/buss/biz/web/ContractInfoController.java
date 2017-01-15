@@ -4,6 +4,8 @@ package com.rhtop.buss.biz.web;
 import java.util.UUID;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
@@ -116,5 +119,49 @@ public class ContractInfoController  extends BaseController {
 	public ContractInfo getByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
 		return contractInfo;
+	}
+	
+	@RequestMapping("/print/{contractInfoId}")
+	@ResponseBody
+	public ContractInfo printByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
+		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
+		return contractInfo;
+	}
+	
+	@RequestMapping("/app/print")
+	@ResponseBody
+	public ResultInfo appPrintByContractInfoId(@RequestParam("body") String body){
+		JSONObject jsonObject=JSONObject.fromObject(body);
+		ContractInfo contractInfo = (ContractInfo)JSONObject.toBean(jsonObject, ContractInfo.class);
+		ResultInfo readResult = new ResultInfo();
+		ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
+		readResult.setCode("200");
+		readResult.setResObject(cif);
+		return readResult;
+	}
+	
+	/**
+     * 行政合同审核
+     */
+	@ResponseBody
+	@RequestMapping("/check")
+	public HtmlMessage checkContractInfo(@Valid @RequestParam(value = "userId") String userId,@Valid ContractInfo contractInfo){
+		HtmlMessage htmlMessage = new HtmlMessage();
+		if(contractInfo.getContractInfoId() == null || "".equals(contractInfo.getContractInfoId())){
+			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
+			htmlMessage.setMessage("合同ID不能为空");
+		}else if(contractInfo.getContUlName() == null || "".equals(contractInfo.getContUlName())){
+			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
+			htmlMessage.setMessage("请上传合同扫描件");
+		}else{
+			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
+			cif.setContUlName(contractInfo.getContUlName().substring(0, contractInfo.getContUlName().length()-1));
+			cif.setContStatus("02");
+			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			cif.setUpdateUser(userId);
+			contractInfoService.updateContractInfo(cif);
+		}
+		htmlMessage.setEntity(contractInfo);
+		return htmlMessage;
 	}
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -197,6 +196,30 @@ public class OutController extends BaseController {
 	}
 	
 	/**
+	 * app合同打印
+	 * @author mgf
+	 * @date 2017年1月15日 上午10:01:24 
+	 * @param request
+	 * @param codeValue
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/contractInfoPrint")
+	public ResultInfo contractInfoPrint(HttpServletRequest request,@RequestBody ContractInfo contractInfo) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			contractInfo.setUpdateUser(memberId);
+			JSONObject jsonCodeValue = JSONObject.fromObject(contractInfo);
+			readResult = (ResultInfo) service.invoke("contractInfo-app-print", "POST", jsonCodeValue.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
 	 * 单图片上传接口
 	 * 图片上传暂不做用户信息验证
 	 * @param request
@@ -219,23 +242,26 @@ public class OutController extends BaseController {
 			
 		}
 		mvm.add("memberId", memberId);
+		List<File> fileList = new ArrayList<File>();
 		for (int i=0; i<files.length; i++){
 			MultipartFile file = files[i];
 			File localFile = new File(FileUtils.getTempDirectoryPath() + File.separator + RandomStringUtils.randomAlphanumeric(8) + file.getOriginalFilename()) ;
 			try{
 				Files.write(file.getBytes(), localFile);
 				mvm.add("file", new FileSystemResource(localFile));
+				fileList.add(localFile);
 			}catch(Exception e){
 				
-			}
-			
-			if (localFile.exists()) {
-				localFile.delete();
 			}
 		}
 		
 		resultInfo = restTemplate.postForObject(uri, mvm, ResultInfo.class);
-		
+		for (int i=0; i<fileList.size(); i++){
+			File localFile = fileList.get(i);
+			if (localFile.exists()) {
+				localFile.delete();
+			}
+		}
 		return resultInfo;
 	}
 	

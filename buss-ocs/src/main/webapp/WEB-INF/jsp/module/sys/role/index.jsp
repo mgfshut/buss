@@ -53,7 +53,8 @@
 				<td>${item.createTime}</td>
 				<td>${item.updateTime}</td>
 				<td>
-<a href="module/sys-role-form/role-${item.roleId}" mask="true" height="500" title="修改角色" data-parent="rolemanage" target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>
+					<a href="module/sys-role-form/role-${item.roleId}" mask="true" height="500" title="修改角色"
+						data-parent="rolemanage" target="navTab" rel="roleSaveDialog"><i class="icon-pencil"></i> <span>修改</span></a>
 				</td>
 			</tr>
 		</c:forEach>
