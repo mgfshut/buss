@@ -1,5 +1,6 @@
 package com.rhtop.buss.biz.quartz;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.quartz.JobExecutionContext;
@@ -46,7 +47,7 @@ public class ClearPriceJob  extends QuartzJobBean{
 			Category category = new Category();
 			category.setCategoryId(rel.getCategoryId());
 			category.setOfferAging("0");//将报盘价格报价时效赋值为0
-			category.setOfferPri(0f);
+			category.setOfferPri(new BigDecimal(0));
 			categoryService.updateCategory(category);
 		}
 	}
