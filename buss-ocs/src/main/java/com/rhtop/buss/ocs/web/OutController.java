@@ -283,7 +283,7 @@ public class OutController extends BaseController {
 	}
 	
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0004")
-	public ResultInfo fixMidPrice(HttpServletRequest request, @RequestBody RelCategoryPrice catePri){
+	public ResultInfo fixMidPrice(HttpServletRequest request, @RequestBody Category cat){
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
@@ -291,8 +291,8 @@ public class OutController extends BaseController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
-			catePri.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(catePri);
+			cat.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(cat);
 			readResult = (ResultInfo) service.invoke("writeData-In0004", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;

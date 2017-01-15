@@ -229,6 +229,9 @@ public class WriteController extends BaseController{
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0004")
 	public ResultInfo fixMidPrice(@RequestParam("body") String body){
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
 		ObjectMapper mapper = new ObjectMapper();
 		Category catePri = null;
 		try{
@@ -239,7 +242,11 @@ public class WriteController extends BaseController{
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
 		List<RelCategoryPrice> rcps = catePri.getRcps();
-		String userId = rcps.get(0).getUpdateUser();
+		String userId = catePri.getUpdateUser();
+		for(RelCategoryPrice rcp : rcps){
+			rcp.setUpdateUser(userId);
+			rcp.setUpdateTime(now);
+		}
 		try {
 			catPriSer.createOrUpdateMidPriceByCategoryId(rcps);
 		} catch (Exception e) {
@@ -250,9 +257,6 @@ public class WriteController extends BaseController{
 		}
 		//新增一条操作记录
 		try {
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
 			BusinessDiary bd = new BusinessDiary();
 			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
 			bd.setOprTime(now);
@@ -549,6 +553,7 @@ public class WriteController extends BaseController{
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(date);
+		customer.setUpdateTime(now);
 		try {
 			List<ContactsInfo> contacts = customer.getContacts();
 			List<Category> categorys = customer.getCategorys();
@@ -573,6 +578,8 @@ public class WriteController extends BaseController{
 					if(contact.getContactsInfoId().trim().equals("")||contact.getContactsInfoId()==null){
 						contact.setCreateUser(userId);
 						contact.setCreateTime(now);
+						contact.setUpdateUser(userId);
+						contact.setUpdateTime(now);
 						contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
 						contact.setCustomerId(customerId);
 						contactsSer.insertContactsInfo(contact);

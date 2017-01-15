@@ -146,7 +146,7 @@ public class CategoryServiceImpl implements CategoryService {
 			RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
 			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 			relCategoryPrice.setCategoryId(category.getCategoryId());
-			relCategoryPrice.setCatePri(category.getOfferPri().toString());
+			relCategoryPrice.setCatePri(category.getOfferPri());
 			relCategoryPrice.setCusChaVal(category.getCusCha());
 			relCategoryPrice.setCreateUser(UUID.randomUUID().toString().replace("-", ""));
 			relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));

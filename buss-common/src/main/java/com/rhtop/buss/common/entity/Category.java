@@ -3,10 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,7 +31,7 @@ public class Category {
 	
 	private String offerAging;//报盘时效（品类表和价格关系表中的公用字段）
 	
-	private BigDecimal offerPri;//报盘价(这是经过了单位换算的价格)
+	private Float offerPri;//报盘价(这是经过了单位换算的价格)
 	
 	private String prodPla;//产地
 	
@@ -57,7 +55,7 @@ public class Category {
 	
 	private String unit;//计量单位（品类价格关系表中的字段）
 	
-	private String catePri;//品类价格（未经过单位换算的价格）（品类价格关系表中的字段）
+	private Float catePri;//品类价格（未经过单位换算的价格）（品类价格关系表中的字段）
 	
 	private Page page;//分页
 	
@@ -181,11 +179,11 @@ public class Category {
 		this.offerAging = offerAging;
 	}
 	
-	public BigDecimal getOfferPri() {
+	public Float getOfferPri() {
 		return offerPri;
 	}
 
-	public void setOfferPri(BigDecimal offerPri) {
+	public void setOfferPri(Float offerPri) {
 		this.offerPri = offerPri;
 	}
 
@@ -382,11 +380,11 @@ public class Category {
 		this.unit = unit;
 	}
 
-	public String getCatePri() {
+	public Float getCatePri() {
 		return catePri;
 	}
 
-	public void setCatePri(String catePri) {
+	public void setCatePri(Float catePri) {
 		this.catePri = catePri;
 	}
 
