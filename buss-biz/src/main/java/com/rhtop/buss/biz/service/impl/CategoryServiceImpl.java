@@ -51,11 +51,16 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category selectByPrimaryKey(String categoryId){
 		return categoryMapper.selectByPrimaryKey(categoryId);
 	}
+	
 	public Category selectInfoByPrimaryKey(String categoryId){
 		//品类信息
-		Category cate = categoryMapper.selectInfoByPrimaryKey(categoryId);
+		Category cate = categoryMapper.selectByPrimaryKey(categoryId);
 		//价格信息
 		RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
+		//防止cate为空，报空指针异常
+		if(null==cate){
+			return cate;
+		}
 		cate.setRelCategoryPrice(relCategoryPrice);
 		String newUrl = null;
 		try {
@@ -90,7 +95,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> listPageCategoeyByPrice(String memberId) {
+	public List<Category> listPageCategoeyByPrice(Category category) {
+		String memberId  = category.getCreateUser();
 		List<Category> catelist =null; 
 		String memberJob = memberMapper.selectByPrimaryKey(memberId).getMemberJob();
 		//对职务进行判断
@@ -102,9 +108,12 @@ public class CategoryServiceImpl implements CategoryService {
 			catelist = categoryMapper.listPriceByRegMgr(memberId);
 		}else if("04".equals(memberJob)){//国际采购部
 			//国际采购人员查看报盘情况(已报盘/未报盘)
-			catelist = categoryMapper.listNotPriceByUniMgr(memberId);
-			//TODO 已报盘和未报盘的传参
-			
+			String isOffer = category.getIsOffer();
+			if("00".equals(isOffer)){//未报盘
+				catelist = categoryMapper.listNotPriceByUniMgr(memberId);
+			}else{
+				catelist = categoryMapper.listPriceByUniMgr(memberId);
+			}
 		}
 		return catelist;
 	}

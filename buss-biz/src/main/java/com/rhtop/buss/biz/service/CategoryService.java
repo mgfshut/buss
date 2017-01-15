@@ -51,11 +51,11 @@ public interface CategoryService{
 	List<Category> listCategoryByCustomer(String customerId);
 
 	/**
-	 * 根据用户的id 查询已采集的和未采集的的品类信息
-	 * @param memberId
+	 * 查询已采集的和未采集的的品类信息
+	 * @param category
 	 * @return
 	 */
-	List<Category> listPageCategoeyByPrice(String memberId);
+	List<Category> listPageCategoeyByPrice(Category category);
 	
 	/**
 	 * 品类与价格的详情

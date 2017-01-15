@@ -535,7 +535,7 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0009")
-	public ResultInfo updateCustomerAndCategory(@RequestBody String body){
+	public ResultInfo updateCustomerAndCategory(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		Customer customer = null;
 		try{

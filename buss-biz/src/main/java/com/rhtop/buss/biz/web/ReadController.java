@@ -153,30 +153,13 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
-		List<Category> categoeylist =catSer.listPageCategoeyByPrice(category.getCreateUser());
+		List<Category> categoeylist =catSer.listPageCategoeyByPrice(category);
 		readResult.setCode("200");
 		readResult.setRecords(categoeylist);
 		readResult.setMessage("数据获取成功！");
 		readResult.setPage(category.getPage());
 		return readResult;
 	}
-	
-	/**
-	 * 接口id：R2010
-	 * 国际采购部 已报盘/未报盘
-	 */
-	/*
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2010")
-	public ResultInfo listRelcategoryPriceByUniMgr(@RequestParam("body") String body){
-		ResultInfo readResult = new ResultInfo();
-		JSONObject jsonObject = JSONObject.fromObject(body);
-		Member member = (Member) JSONObject.toBean(jsonObject, Member.class);
-		List<Category> categoeylist =catSer.listPageCategoeyByPrice(member.getMemberId());
-		readResult.setMessage("数据获取成功！");
-		readResult.setRecords(categoeylist);
-		readResult.setPage(member.getPage());
-		return readResult;
-	}*/
 	
 	/**
 	 * 接口id：R2006
