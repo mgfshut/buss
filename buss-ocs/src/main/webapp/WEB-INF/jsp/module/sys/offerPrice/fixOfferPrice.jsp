@@ -10,35 +10,35 @@
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类名称：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateName" data-error="请输入1-20位字符" placeholder="请输入品类名称"  maxlength="20" class="form-control textInput" required="required" value="${cateName}">
+				<input type="text" name="cateName" data-error="请输入1-20位字符" placeholder="请输入品类名称"  maxlength="20" class="form-control textInput" required="required" value="${category.cateName}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">厂号：</label>
 				<div class="col-sm-8">
-				<input type="text" name="manuNum" data-error="请输入1-10位字符" placeholder="请输入厂号" maxlength="10" class="form-control textInput" required="required" value="${manuNum}">
+				<input type="text" name="manuNum" data-error="请输入1-10位字符" placeholder="请输入厂号" maxlength="10" class="form-control textInput" required="required" value="${category.manuNum}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				<input type="text" name="prodPla" data-error="请输入1-10位字符" placeholder="请输入产地" maxlength="10" class="form-control textInput" required="required" value="${prodPla}">
+				<input type="text" name="prodPla" data-error="请输入1-10位字符" placeholder="请输入产地" maxlength="10" class="form-control textInput" required="required" value="${category.prodPla}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="comm" data-error="请输入1-256位字符" placeholder="请输入规格" maxlength="256" class="form-control textInput" required="required" value="${comm}">
+				<input type="text" name="comm" data-error="请输入1-256位字符" placeholder="请输入规格" maxlength="256" class="form-control textInput" required="required" value="${category.comm}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateStan" data-error="请输入1-10位字符" placeholder="请输入品类规格" maxlength="10" class="form-control textInput" required="required" value="${cateStan}">
+				<input type="text" name="cateStan" data-error="请输入1-10位字符" placeholder="请输入品类规格" maxlength="10" class="form-control textInput" required="required" value="${category.cateStan}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

@@ -12,10 +12,11 @@
 	<bean id="ClearPriceJob" class="com.rhtop.buss.biz.quartz.ClearPriceJob" />
 	
     <bean id="codeValueService" class="com.rhtop.buss.biz.service.impl.CodeValueServiceImpl" />
-	<bean id="CodeMapService" class="com.rhtop.buss.biz.service.impl.CodeMapServiceImpl" />
+	<bean id="codeMapService" class="com.rhtop.buss.biz.service.impl.CodeMapServiceImpl" />
 
 	<bean id="relCategoryPriceService" class="com.rhtop.buss.biz.service.impl.RelCategoryPriceServiceImpl" />
 	<bean id="hisRelcategoryPriceService" class="com.rhtop.buss.biz.service.impl.HisRelCategoryPriceServiceImpl" />
+	<bean id="categoryService" class="com.rhtop.buss.biz.service.impl.CategoryServiceImpl" />
 
 	<!--定义调用对象和调用对象的方法 -->
 	<bean id="getRateJobDetail"
@@ -45,8 +46,8 @@
 			<ref bean="getRateJobDetail" />
 		</property>
 		<property name="cronExpression">
-			<value>0 0 2 * * ?</value> <!--每天凌晨2点执行一次 -->
-			<!--<value>0 */1 * * * ?</value> 每分钟执行一次 -->
+			<!--<value>0 0 2 * * ?</value> 每天凌晨2点执行一次 -->
+			<value>0 */1 * * * ?</value> <!--每分钟执行一次 -->
 		</property>
 	</bean>
 

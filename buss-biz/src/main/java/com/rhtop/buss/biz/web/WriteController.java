@@ -535,7 +535,7 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0009")
-	public ResultInfo updateCustomerAndCategory(@RequestBody String body){
+	public ResultInfo updateCustomerAndCategory(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		Customer customer = null;
 		try{
@@ -628,7 +628,7 @@ public class WriteController extends BaseController{
 	}
 	
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0001")
-	public ResultInfo makeADeal(@RequestBody String body){
+	public ResultInfo makeADeal(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		TransactionInfo tx = null;
 		try{
@@ -669,7 +669,7 @@ public class WriteController extends BaseController{
 	}
 	
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0002")
-	public ResultInfo makeNegotiate(@RequestBody String body){
+	public ResultInfo makeNegotiate(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		TransactionInfo tx = null;
 		try{
@@ -711,7 +711,7 @@ public class WriteController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0003")
-	public ResultInfo universeNegotiate(@RequestBody String body){
+	public ResultInfo universeNegotiate(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		TransactionInfo tx = null;
 		try{
@@ -748,7 +748,7 @@ public class WriteController extends BaseController{
 	}
 	
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0004")
-	public ResultInfo domainNegotiate(@RequestBody String body){
+	public ResultInfo domainNegotiate(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		TransactionInfo tx = null;
 		try{
@@ -786,7 +786,7 @@ public class WriteController extends BaseController{
 		return readResult;
 	}
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0005")
-	public ResultInfo createContract(@RequestBody String body){
+	public ResultInfo createContract(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		ContractInfo con = null;
 		try{
@@ -871,7 +871,7 @@ public class WriteController extends BaseController{
 	 * 总经理合同审定接口
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0006")
-	public ResultInfo checkContract(@RequestBody String body){
+	public ResultInfo checkContract(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		ContractInfo con = null;
 		try{
@@ -909,7 +909,7 @@ public class WriteController extends BaseController{
 	 * 合同盖章上传后行政审核接口
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0007")
-	public ResultInfo contractStamp(@RequestBody String body){
+	public ResultInfo contractStamp(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		ContractInfo con = null;
 		try{
@@ -947,7 +947,7 @@ public class WriteController extends BaseController{
 	 * 合同下载接口
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0008")
-	public ResultInfo downloadContract(@RequestBody String body){
+	public ResultInfo downloadContract(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		ContractInfo con = null;
 		try{
@@ -986,7 +986,7 @@ public class WriteController extends BaseController{
 	 * 财务审核接口
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0009")
-	public ResultInfo treasurerCheckContract(@RequestBody String body){
+	public ResultInfo treasurerCheckContract(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		ContractInfo con = null;
 		try{
@@ -1027,7 +1027,7 @@ public class WriteController extends BaseController{
 	 * 填写快递单号接口
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0010")
-	public ResultInfo setExpressId(@RequestBody String body){
+	public ResultInfo setExpressId(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		ContractInfo con = null;
 		try{
@@ -1068,7 +1068,7 @@ public class WriteController extends BaseController{
 	 * 经理取消合同的接口
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0011")
-	public ResultInfo cancleTransaction(@RequestBody String body){
+	public ResultInfo cancleTransaction(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		TransactionInfo tx = null;
 		try{

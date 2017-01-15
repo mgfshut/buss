@@ -183,18 +183,11 @@
 	customer_id_ = #{customerId}
   </update>
   
-  <!-- 查看自己的创建的客户信息，根据主键查询对象-->
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    cus_desc_,
-  	cus_loc_,
-  	cus_type_,
-  	cus_name_,
-  	cus_addr_,
-  	cus_cha_,
-  	customer_id_,
-  	create_user_
-    from buss_customer_
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select
+	<include refid="Base_Column_List" />
+	from buss_customer_
 	where customer_id_ = #{0}
   </select>
 
@@ -311,11 +304,16 @@
   <!-- 查客户经理所属的客户 ,交易状态为'50'-->
   <select id="listPageCustomerByMgr" parameterType="com.rhtop.buss.common.entity.Customer"
 	resultMap="BaseResultMap">
-	SELECT a.customer_id_,a.cus_name_,a.cus_cha_,a.cus_type_,a.cus_loc_,ifnull(b.count,0) as crt_qua_ 
-	FROM buss_customer_ a LEFT JOIN (
-	SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_
-	where tx_status_='50' GROUP BY customer_id_
-	) b ON a.customer_id_ = b.customer_id_
+	SELECT 
+	a.customer_id_,
+	a.cus_name_,
+	a.cus_cha_,
+	a.cus_type_,
+	a.cus_loc_,
+	a.ck_status_,
+	ifnull(b.count,0) as crt_qua_ 
+	FROM buss_customer_ a LEFT JOIN 
+	( SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_ where tx_status_='50' GROUP BY customer_id_ ) b ON a.customer_id_ = b.customer_id_
 	where a.create_user_ = #{createUser}
 	    <if test="cusName != null and cusName != ''" >
 			and a.cus_name_ like "%" #{cusName} "%"
@@ -334,16 +332,19 @@
   <!-- 部门经理所属的客户及所属的客户经理的客户 ,'01'代表：职务是客户经理。 审核状态-->
   <select id="listPageCustomerByRegMgr" parameterType="com.rhtop.buss.common.entity.Customer" resultMap="BaseResultMap">
 	SELECT 
-	a.customer_id_ ,
-	a.cus_name_ , 
-	a.cus_cha_ , 
-	a.cus_type_ ,
-	a.cus_loc_ , 
-	a.ck_status_ , 
-	b.member_name_ as create_user_ 
-	FROM buss_customer_ a , sys_member_ b 
-	where a.create_user_ = b.member_id_ and a.create_user_ in 
-	 ( select s1.member_id_ from sys_member_ s1 LEFT JOIN  sys_member_ s2 on s1.dept_id_ =s2.dept_id_ where s1.member_job_ = '01'  and member_id_ = #{createUser}) 
+	a.customer_id_,
+	a.cus_name_,
+	a.cus_cha_,
+	a.cus_type_,
+	a.cus_loc_,
+	a.ck_status_,
+	ifnull(b.count,0) as crt_qua_ 
+	FROM buss_customer_ a 
+	LEFT JOIN 
+	( SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_ where tx_status_='50' GROUP BY customer_id_ ) b 
+	ON a.customer_id_ = b.customer_id_
+	where a.create_user_  in 
+	( select s1.member_id_  from sys_member_ s1 LEFT JOIN  sys_member_ s2 on s1.dept_id_ =s2.dept_id_ where  s1.member_id_ =  #{createUser})  
 	   <if test="cusName != null and cusName != ''" >
 			and a.cus_name_ like "%" #{cusName} "%"
 		</if>
@@ -360,13 +361,18 @@
   
   <!-- 总经理查询客户信息 -->
   <select id="listPageCustomerByGenMgr" parameterType="com.rhtop.buss.common.entity.Customer" resultMap="BaseResultMap" >
-	SELECT a.customer_id_,
+	SELECT 
+	a.customer_id_,
 	a.cus_name_,
 	a.cus_cha_,
 	a.cus_type_,
 	a.cus_loc_,
-	a.ck_status_ 
-	FROM buss_customer_ a
+	a.ck_status_,
+	ifnull(b.count,0) as crt_qua_ 
+	FROM buss_customer_ a 
+	LEFT JOIN 
+	( SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_ where tx_status_='50' GROUP BY customer_id_ ) b 
+	ON a.customer_id_ = b.customer_id_
 	where 1=1
 	<if test="cusName != null and cusName != ''" >
 			and a.cus_name_ like "%" #{cusName} "%"

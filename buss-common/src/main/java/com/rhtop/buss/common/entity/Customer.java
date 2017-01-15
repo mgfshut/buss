@@ -5,6 +5,8 @@ package com.rhtop.buss.common.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,6 +18,7 @@ import java.util.List;
 public class Customer {
 	private String cusDesc;//客户说明
 	
+	@JsonIgnore //隐藏返回的数据
 	private String updateTime;//修改时间
 	
 	private String cusType;//客户类型
@@ -24,6 +27,7 @@ public class Customer {
 	
 	private String cusName;//用户名称
 	
+	@JsonIgnore
 	private String updateUser;//修改人
 	
 	private String cusLoc;//客户地区

@@ -57,6 +57,11 @@ public interface CategoryService{
 	 */
 	List<Category> listPageCategoeyByPrice(String memberId);
 	
+	/**
+	 * 品类与价格的详情
+	 * @param categoryId
+	 * @return
+	 */
 	Category selectInfoByPrimaryKey(String categoryId);
 	/**
 	 * 批量插入品类
