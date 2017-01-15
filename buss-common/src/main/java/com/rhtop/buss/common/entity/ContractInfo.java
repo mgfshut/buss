@@ -20,7 +20,7 @@ public class ContractInfo {
 	
 	private Float totPri;//总价
 	
-	private String txAmo;//交易数量
+	private Float txAmo;//交易数量
 	
 	private String delvOpt;//配送方式选择
 	
@@ -83,7 +83,7 @@ public class ContractInfo {
 	private String manuNum;//厂号
 	private String comm;//规格
 	private String cateStan;//包装规格
-	private BigDecimal offerPri;//单价(这是经过了单位换算的价格)
+	private Float offerPri;//单价(这是经过了单位换算的价格)
 	private String ztcsgName;//自提收货人姓名
 	private String ztcsgTel;//自提收货人联系方式
 	private String ztcsgAddr;//自提收货人详细地址
@@ -150,11 +150,11 @@ public class ContractInfo {
 		this.cateStan = cateStan;
 	}
 
-	public BigDecimal getOfferPri() {
+	public Float getOfferPri() {
 		return offerPri;
 	}
 
-	public void setOfferPri(BigDecimal offerPri) {
+	public void setOfferPri(Float offerPri) {
 		this.offerPri = offerPri;
 	}
 
@@ -191,11 +191,11 @@ public class ContractInfo {
 	public void setTotPri(Float totPri){
 		this.totPri = totPri;
 	}
-	public String getTxAmo(){
+	public Float getTxAmo(){
 		return this.txAmo;
 	}
 	
-	public void setTxAmo(String txAmo){
+	public void setTxAmo(Float txAmo){
 		this.txAmo = txAmo;
 	}
 	public String getDelvOpt(){

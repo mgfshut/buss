@@ -47,8 +47,7 @@ public class ClearPriceJob  extends QuartzJobBean{
 			Category category = new Category();
 			category.setCategoryId(rel.getCategoryId());
 			category.setOfferAging("0");//将报盘价格报价时效赋值为0
-			BigDecimal i = new BigDecimal(0);
-			category.setOfferPri(i);
+			category.setOfferPri(0f);
 			categoryService.updateCategory(category);
 		}
 	}

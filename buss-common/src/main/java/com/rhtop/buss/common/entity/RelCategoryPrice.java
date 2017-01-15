@@ -14,11 +14,11 @@ package com.rhtop.buss.common.entity;
 public class RelCategoryPrice {
 	private String mgrId;//客户经理
 	
-	private String wholesalePri;//批发价
+	private Float wholesalePri;//批发价
 	
 	private String unit;//计量单位
 	
-	private String interFutMax;//半期货价最大值
+	private Float interFutMax;//半期货价最大值
 	
 	private String flgUpdateTime;//价格修改时间
 	
@@ -30,7 +30,7 @@ public class RelCategoryPrice {
 	
 	private String offerAging;//报盘时效
 	
-	private String spotMin;//现货价最小值
+	private Float spotMin;//现货价最小值
 	
 	private String createTime;//创建时间
 	
@@ -42,19 +42,19 @@ public class RelCategoryPrice {
 	
 	private String midUpdateTime;//中间价更新时间
 	
-	private String acptPri;//接盘价
+	private Float acptPri;//接盘价
 	
-	private String futMin;//期货价最小值
+	private Float futMin;//期货价最小值
 	
-	private String spotMax;//现货价最大值
+	private Float spotMax;//现货价最大值
 	
 	private String mgrLoc;//客户经理地区
 	
-	private String futMax;//期货价最大值
+	private Float futMax;//期货价最大值
 	
 	private String categoryId;//品类
 	
-	private String interFutMin;//半期货价最小值
+	private Float interFutMin;//半期货价最小值
 	
 	private String cateSup;//供应商
 	
@@ -62,7 +62,7 @@ public class RelCategoryPrice {
 	
 	private String offerUpdateTime;//报盘价更新时间
 	
-	private String catePri;//品类价格
+	private Float catePri;//品类价格
 	
 	private String cusChaVal;//渠道值
 	
@@ -130,11 +130,11 @@ public class RelCategoryPrice {
 	public void setMgrId(String mgrId){
 		this.mgrId = mgrId;
 	}
-	public String getWholesalePri(){
+	public Float getWholesalePri(){
 		return this.wholesalePri;
 	}
 	
-	public void setWholesalePri(String wholesalePri){
+	public void setWholesalePri(Float wholesalePri){
 		this.wholesalePri = wholesalePri;
 	}
 	public String getUnit(){
@@ -144,11 +144,11 @@ public class RelCategoryPrice {
 	public void setUnit(String unit){
 		this.unit = unit;
 	}
-	public String getInterFutMax(){
+	public Float getInterFutMax(){
 		return this.interFutMax;
 	}
 	
-	public void setInterFutMax(String interFutMax){
+	public void setInterFutMax(Float interFutMax){
 		this.interFutMax = interFutMax;
 	}
 	public String getFlgUpdateTime(){
@@ -186,11 +186,11 @@ public class RelCategoryPrice {
 	public void setOfferAging(String offerAging){
 		this.offerAging = offerAging;
 	}
-	public String getSpotMin(){
+	public Float getSpotMin(){
 		return this.spotMin;
 	}
 	
-	public void setSpotMin(String spotMin){
+	public void setSpotMin(Float spotMin){
 		this.spotMin = spotMin;
 	}
 	public String getCreateTime(){
@@ -228,25 +228,25 @@ public class RelCategoryPrice {
 	public void setMidUpdateTime(String midUpdateTime){
 		this.midUpdateTime = midUpdateTime;
 	}
-	public String getAcptPri(){
+	public Float getAcptPri(){
 		return this.acptPri;
 	}
 	
-	public void setAcptPri(String acptPri){
+	public void setAcptPri(Float acptPri){
 		this.acptPri = acptPri;
 	}
-	public String getFutMin(){
+	public Float getFutMin(){
 		return this.futMin;
 	}
 	
-	public void setFutMin(String futMin){
+	public void setFutMin(Float futMin){
 		this.futMin = futMin;
 	}
-	public String getSpotMax(){
+	public Float getSpotMax(){
 		return this.spotMax;
 	}
 	
-	public void setSpotMax(String spotMax){
+	public void setSpotMax(Float spotMax){
 		this.spotMax = spotMax;
 	}
 	public String getMgrLoc(){
@@ -256,11 +256,11 @@ public class RelCategoryPrice {
 	public void setMgrLoc(String mgrLoc){
 		this.mgrLoc = mgrLoc;
 	}
-	public String getFutMax(){
+	public Float getFutMax(){
 		return this.futMax;
 	}
 	
-	public void setFutMax(String futMax){
+	public void setFutMax(Float futMax){
 		this.futMax = futMax;
 	}
 	public String getCategoryId(){
@@ -270,11 +270,11 @@ public class RelCategoryPrice {
 	public void setCategoryId(String categoryId){
 		this.categoryId = categoryId;
 	}
-	public String getInterFutMin(){
+	public Float getInterFutMin(){
 		return this.interFutMin;
 	}
 	
-	public void setInterFutMin(String interFutMin){
+	public void setInterFutMin(Float interFutMin){
 		this.interFutMin = interFutMin;
 	}
 	public String getCateSup(){
@@ -298,11 +298,11 @@ public class RelCategoryPrice {
 	public void setOfferUpdateTime(String offerUpdateTime){
 		this.offerUpdateTime = offerUpdateTime;
 	}
-	public String getCatePri(){
+	public Float getCatePri(){
 		return this.catePri;
 	}
 	
-	public void setCatePri(String catePri){
+	public void setCatePri(Float catePri){
 		this.catePri = catePri;
 	}
 	

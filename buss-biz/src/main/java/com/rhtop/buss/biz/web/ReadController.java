@@ -233,6 +233,7 @@ public class ReadController  extends BaseController {
 	 * @param body
 	 * @return readResult
 	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2011")
 	public ResultInfo startTransactionByCu(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);

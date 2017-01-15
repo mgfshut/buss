@@ -230,7 +230,7 @@ public class CategoryController  extends BaseController {
 				category.setCusLoc(formatCell(hssfRow.getCell(7)));
 				if(hssfRow.getCell(8) == null || "".equals(formatCell(hssfRow.getCell(8)))){
 				}else{
-					category.setOfferPri(new BigDecimal(formatCell(hssfRow.getCell(8)).toString()));
+					category.setOfferPri(Float.valueOf(formatCell(hssfRow.getCell(8)).toString()));
 				}
 				category.setOfferAging(formatCell(hssfRow.getCell(9)));
 				category.setCreateUser(userId);
