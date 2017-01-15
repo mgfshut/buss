@@ -2,7 +2,6 @@ package com.rhtop.buss.ocs.web;
 
 import java.io.File;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
