@@ -84,7 +84,7 @@ public class FileUtil {
 			int random = (int)ran;
 			String perfix = UUID.randomUUID().toString().replace("-", "")+random;
 			//组成在服务器保存的文件名
-			fileName = perfix+suffix;
+			fileName = perfix + "." +suffix;
 			//储存该文件在服务器中保存的相对路径（文件夹/文件名）
 			String filePath = File.pathSeparator + dir.getName() + File.pathSeparator + fileName;
 			//创建空文件
