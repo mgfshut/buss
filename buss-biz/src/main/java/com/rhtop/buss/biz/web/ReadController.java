@@ -200,7 +200,9 @@ public class ReadController  extends BaseController {
 		TransactionInfo transactioninfo = new TransactionInfo();
 		transactioninfo.setCreateUser(category.getCreateUser());
 		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactioninfo);
+		category.setPage(transactioninfo.getPage());
 		readResult.setCode("200");
+		readResult.setPage(category.getPage());
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(tras);
 		return readResult;
@@ -220,9 +222,10 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
 		//查询客户信息
-		List<Customer> customerlist = cusSer.listCustomers(customer);
+		List<Customer> customerlist = cusSer.listPageCustomer(customer);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
+		readResult.setPage(customer.getPage());
 		readResult.setRecords(customerlist);
 		return readResult;
 	}
@@ -230,7 +233,7 @@ public class ReadController  extends BaseController {
 	/**
 	 * 接口id：R2012
 	 * 发起交易(对品类信息的查询)
-	 * 客户经理，分部经理 查询所选客户所属的品类
+	 * 客户经理，分部经理 查询所选客户所属的品类以及品类的报盘价不能为空
 	 * @author lujin
 	 * @date 2017-1-13
 	 * @param body
@@ -241,9 +244,10 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
 		//查询客户所属的品类信息
-		List<Category> categorylist = catSer.listCategoryByCustomer(customer.getCustomerId());
+		List<Category> categorylist = catSer.listPageByCustomerAndPrice(customer.getCustomerId());
 		readResult.setMessage("数据获取成功！");
 		readResult.setCode("200");
+		readResult.setPage(customer.getPage());
 		readResult.setRecords(categorylist);
 		return readResult;
 	}
@@ -284,6 +288,7 @@ public class ReadController  extends BaseController {
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(conts);
+		readResult.setPage(contractInfo.getPage());
 		return readResult;
 	}
 	/**

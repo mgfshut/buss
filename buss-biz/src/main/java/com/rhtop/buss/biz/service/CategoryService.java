@@ -70,5 +70,10 @@ public interface CategoryService{
 	 * @param categorys
 	 */
 	int insertExcelCategory(List<Category> categorys);
-
+	/**
+	 * 根据客户id查询所属的报价不为空的类品
+	 * @param customerId
+	 * @return
+	 */
+	List<Category> listPageByCustomerAndPrice(String customerId);
 }

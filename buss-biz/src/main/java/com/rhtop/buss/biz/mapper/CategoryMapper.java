@@ -82,5 +82,10 @@ public interface CategoryMapper {
 	 */
 	Category selectInfoByPrimaryKey(String categoryId);
 	
-	
+	/**
+	 * 根据客户id查询所属的报价不为空的类品
+	 * @param customerId
+	 * @return
+	 */
+	List<Category> listPageByCustomerAndPrice(String customerId);
 }

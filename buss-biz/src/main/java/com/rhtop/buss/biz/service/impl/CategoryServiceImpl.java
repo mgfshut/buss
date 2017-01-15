@@ -157,4 +157,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return 0;
 	}
 
+	@Override
+	public List<Category> listPageByCustomerAndPrice(String customerId) {
+		return categoryMapper.listPageByCustomerAndPrice(customerId);
+	}
+
 }
