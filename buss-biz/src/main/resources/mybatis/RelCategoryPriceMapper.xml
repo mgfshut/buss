@@ -409,7 +409,7 @@
   <select id="listRelCategoryPrices" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
   	select *
     from buss_rel_category_price_ where 1=1
-    	<!-- <if test="mgrId != null and mgrId != ''" >
+    	<if test="mgrId != null and mgrId != ''" >
 			and mgr_id_ = #{mgrId}
 		</if>
 		<if test="wholesalePri != null and wholesalePri != ''">
@@ -512,8 +512,8 @@
 			#{cusChaVal}
 		</if>
 		<if test="cusChaId != null and cusChaId !='' ">
-			and	cus_cha_Id_ = #{cusChaId},
-		</if> -->
+			and	cus_cha_Id_ = #{cusChaId}
+		</if>
 	</select>
 
 <select id="listPageRelCategoryPrice" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
