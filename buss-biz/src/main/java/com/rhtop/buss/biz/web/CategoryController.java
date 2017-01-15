@@ -1,7 +1,6 @@
 package com.rhtop.buss.biz.web;
 
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,7 +17,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -31,8 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.common.entity.Category;
@@ -44,13 +40,13 @@ import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.common.utils.Constant;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
 @Controller
 @RequestMapping("service/category")
 public class CategoryController  extends BaseController {
-	private @Value("${file.root.path}") String rootPath;
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
@@ -146,6 +142,7 @@ public class CategoryController  extends BaseController {
 	 * @param body
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	@ResponseBody
 	@RequestMapping(value="/listCategorys")
 	public ResultInfo listCategorys(@RequestParam("body") String body) {
@@ -183,7 +180,16 @@ public class CategoryController  extends BaseController {
 	@ResponseBody
 	public HtmlMessage excelImport(@Valid @RequestParam(value = "userId") String userId,
 			@Valid @RequestParam(value = "filePath") String filePath){
-		rootPath = "/filestore/";
+		String rootPath = "/filestore/";
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			//从配置文件中读取上传文件的存放根路径
+			rootPath = propertyUtil.readValue("file.root.path");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			log.error("[CategoryController.excelImport]IO异常", e1);
+		}
+		
 		filePath = rootPath+filePath;
 		POIFSFileSystem fs = null;
 		try {

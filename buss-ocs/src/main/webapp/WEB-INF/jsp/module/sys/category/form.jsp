@@ -3,12 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="ys" %>
 <script>
-function imgUploadifySuccess(file, data, response){
-	var json = jQuery.parseJSON(data);
-	$('#detailImagesHidden').val("C:/work/决策委员会用表.xls");
-	
-}
-
 $(document).ready(function() {
 	$('#file-zmwj').fileinput({
 		language: 'zh',
