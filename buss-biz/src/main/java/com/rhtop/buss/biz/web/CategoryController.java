@@ -249,6 +249,21 @@ public class CategoryController  extends BaseController {
 		Category category = categoryService.selectByPrimaryKey(categoryId);
 		return category;
 	}
+	
+	/**
+	 * 国际人员 pc
+	 * 回盘信息 
+	 * @param categoryId
+	 * @return
+	 */
+	@RequestMapping("/ctofPrice")
+	@ResponseBody
+	public List<Category> getCtofPrice(){
+		System.out.println(1);
+		Category category = new Category();
+		List<Category> categorylist = categoryService.listCategorys(category);
+		return categorylist;
+		}
 	@RequestMapping("/updateCategoryPrice")
 	@ResponseBody
 	public ResultInfo updateCategoryPrice(@Valid @RequestParam(value = "userId") String userId,@Valid RelCategoryPrice CategoryPrice){

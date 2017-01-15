@@ -412,5 +412,18 @@
 	where a.category_id_ = #{0}
   </select>
   
+  <!-- 根据客户信息查询客户所属的品类信息并且品类的报价大于0或者不能为空 -->
+  <select id="listPageByCustomerAndPrice" parameterType="java.lang.String" resultMap="BaseResultMap">
+	select 
+	c.category_id_ , 
+	c.cate_name_,
+	c.manu_num_,
+	c.prod_pla_,
+	c.cate_stan_ ,
+	c.pkg_quan_
+	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
+	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
+	where b.customer_id_ = #{0} and c.offer_pri_ != '' or c.offer_pri_ >0
+  </select>
   
 </mapper>

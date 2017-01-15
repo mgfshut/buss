@@ -51,11 +51,11 @@ public interface CategoryService{
 	List<Category> listCategoryByCustomer(String customerId);
 
 	/**
-	 * 根据用户的id 查询已采集的和未采集的的品类信息
-	 * @param memberId
+	 * 查询已采集的和未采集的的品类信息
+	 * @param category
 	 * @return
 	 */
-	List<Category> listPageCategoeyByPrice(String memberId);
+	List<Category> listPageCategoeyByPrice(Category category);
 	
 	/**
 	 * 品类与价格的详情
@@ -70,5 +70,10 @@ public interface CategoryService{
 	 * @param categorys
 	 */
 	int insertExcelCategory(List<Category> categorys);
-
+	/**
+	 * 根据客户id查询所属的报价不为空的类品
+	 * @param customerId
+	 * @return
+	 */
+	List<Category> listPageByCustomerAndPrice(String customerId);
 }

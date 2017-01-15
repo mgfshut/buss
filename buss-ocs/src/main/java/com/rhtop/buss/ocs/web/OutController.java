@@ -23,6 +23,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -740,6 +741,7 @@ public class OutController extends BaseController {
 	/**
 	 * 接口id:R2005
 	 * 客户经理、部门经理查看信息采集列表
+	 * 部门经理，已报盘/未报盘
 	 * @param request
 	 * @param member
 	 * @author lujin
@@ -848,6 +850,7 @@ public class OutController extends BaseController {
 		}
 		return readResult;
 	}
+	
 	/**
 	 * 接口id:R2011
 	 * 发起交易(客户信息的选择)

@@ -3,10 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import javax.xml.bind.annotation.XmlRootElement;
 
@@ -74,6 +72,8 @@ public class Category {
 	private RelCategoryPrice relCategoryPrice;//价格信息
 	
 	private List<RelCategoryPrice> rcps;//价格列表
+	
+	private String isOffer;//是否报盘；00 ：未报盘，01：已报盘；
 	
 	public String getCusName() {
 		return cusName;
@@ -402,5 +402,13 @@ public class Category {
 
 	public void setRcps(List<RelCategoryPrice> rcps) {
 		this.rcps = rcps;
+	}
+
+	public String getIsOffer() {
+		return isOffer;
+	}
+
+	public void setIsOffer(String isOffer) {
+		this.isOffer = isOffer;
 	}
 }
