@@ -20,6 +20,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -230,8 +231,11 @@ public class CategoryController  extends BaseController {
 		categoryService.insertExcelCategory(categorys);
 		return new HtmlMessage(new Category());
 	}
-	@RequestMapping("{categoryId}")
+	@RequestMapping("/{categoryId}")
+	@ResponseBody
 	public Category getByCategoryId(@PathVariable("categoryId") String categoryId){
-		return categoryService.selectByPrimaryKey(categoryId);
+		System.out.println(1);
+		Category category = categoryService.selectByPrimaryKey(categoryId);
+		return category;
 	}
 }

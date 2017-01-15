@@ -218,23 +218,26 @@ public class OutController extends BaseController {
 			
 		}
 		mvm.add("memberId", memberId);
+		List<File> fileList = new ArrayList<File>();
 		for (int i=0; i<files.length; i++){
 			MultipartFile file = files[i];
 			File localFile = new File(FileUtils.getTempDirectoryPath() + File.separator + RandomStringUtils.randomAlphanumeric(8) + file.getOriginalFilename()) ;
 			try{
 				Files.write(file.getBytes(), localFile);
 				mvm.add("file", new FileSystemResource(localFile));
+				fileList.add(localFile);
 			}catch(Exception e){
 				
-			}
-			
-			if (localFile.exists()) {
-				localFile.delete();
 			}
 		}
 		
 		resultInfo = restTemplate.postForObject(uri, mvm, ResultInfo.class);
-		
+		for (int i=0; i<fileList.size(); i++){
+			File localFile = fileList.get(i);
+			if (localFile.exists()) {
+				localFile.delete();
+			}
+		}
 		return resultInfo;
 	}
 	
