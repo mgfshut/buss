@@ -554,67 +554,11 @@ public class WriteController extends BaseController{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(date);
 		customer.setUpdateTime(now);
+		//客户对象不为空，完善客户对象
+		customer.setUpdateUser(userId);
+		customer.setUpdateTime(now);
 		try {
-			List<ContactsInfo> contacts = customer.getContacts();
-			List<Category> categorys = customer.getCategorys();
-			//客户对象不为空，完善客户对象
-			customer.setUpdateUser(userId);
-			customer.setUpdateTime(now);
-			String customerId = customer.getCustomerId();
-			//数据库更新一条客户数据。
-			try {
-				//添加客户数据
-				cusSer.updateCustomer(customer);
-			} catch (Exception e) {
-				e.printStackTrace();
-				readResult.setMessage("操作失败，更新客户出错。");
-				readResult.setCode("500");
-				return readResult;
-			}
-			//更新联系人
-			if(!contacts.isEmpty()){
-				for(ContactsInfo contact : contacts){
-					//检查该联系人是否有记录ID，有则更新，无则创建。
-					if(contact.getContactsInfoId().trim().equals("")||contact.getContactsInfoId()==null){
-						contact.setCreateUser(userId);
-						contact.setCreateTime(now);
-						contact.setUpdateUser(userId);
-						contact.setUpdateTime(now);
-						contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
-						contact.setCustomerId(customerId);
-						contactsSer.insertContactsInfo(contact);
-					}else{
-						contact.setUpdateUser(userId);
-						contact.setUpdateTime(now);
-						contactsSer.updateContactsInfo(contact);
-					}
-				}
-			}
-			//更新品类
-			if(!categorys.isEmpty()){
-				for(Category cat : categorys){
-					//检查要新增的品类是否已存在于数据库中
-					if(catSer.checkCategoryExist(cat)==null){
-						//新增品类
-						cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
-						cat.setCreateTime(now);
-						cat.setCreateUser(userId);
-						catSer.insertCategory(cat);
-						RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
-						relCustomerCategory.setCreateTime(now);
-						relCustomerCategory.setCreateUser(userId);
-						relCustomerCategory.setCategoryId(cat.getCategoryId());
-						relCustomerCategory.setCateScale(cat.getCateScale());
-						relCustomerCategory.setCooInten(cat.getCooInten());
-						relCustomerCategory.setCooIntenComm(cat.getCooIntenComm());
-						relCustomerCategory.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
-						relCustomerCategory.setCusLoc(customer.getCusLoc());
-						cusCatSer.insertRelCustomerCategory(relCustomerCategory);
-					}else{
-						continue;
-					}
-				}
-			}
+			cusSer.updateCustomerInfo(readResult,customer);
 		} catch (Exception e) {
 			log.error("[WriteController.updateCustomerAndCategory]数据更新异常", e);
 		}	

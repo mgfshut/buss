@@ -151,6 +151,73 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		return readResult;
 	}
+	
+	@Override
+	public ResultInfo updateCustomerInfo(ResultInfo  readResult,Customer customer){
+		List<ContactsInfo> contacts = customer.getContacts();
+		List<Category> categorys = customer.getCategorys();
+		String customerId = customer.getCustomerId();
+		String userId = customer.getUpdateUser();
+		String now = customer.getUpdateTime();
+		//数据库更新一条客户数据。
+		try {
+			//更新客户数据
+			updateCustomer(customer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			readResult.setMessage("操作失败，更新客户出错。");
+			readResult.setCode("500");
+			return readResult;
+		}
+		//更新联系人
+		if(!contacts.isEmpty()){
+			for(ContactsInfo contact : contacts){
+				//检查该联系人是否有记录ID，有则更新，无则创建。
+				if(contact.getContactsInfoId().trim().equals("")||contact.getContactsInfoId()==null){
+					contact.setCustomerId(customerId);
+					contact.setCreateUser(userId);
+					contact.setCreateTime(now);
+					contact.setUpdateUser(userId);
+					contact.setUpdateTime(now);
+					contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
+					contactsSer.insertContactsInfo(contact);
+				}else{
+					contact.setUpdateUser(userId);
+					contact.setUpdateTime(now);
+					contactsSer.updateContactsInfo(contact);
+				}
+			}
+		}
+		//更新品类
+		if(!categorys.isEmpty()){
+			for(Category cat : categorys){
+				//检查要新增的品类是否已存在于数据库中
+				if(catSer.checkCategoryExist(cat)==null){
+					//新增品类
+					cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
+					cat.setCreateTime(now);
+					cat.setCreateUser(userId);
+					catSer.insertCategory(cat);
+					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
+					relCustomerCategory.setCustomerId(customerId);
+					relCustomerCategory.setCreateTime(now);
+					relCustomerCategory.setCreateUser(userId);
+					relCustomerCategory.setCategoryId(cat.getCategoryId());
+					relCustomerCategory.setCateScale(cat.getCateScale());
+					relCustomerCategory.setCooInten(cat.getCooInten());
+					relCustomerCategory.setCooIntenComm(cat.getCooIntenComm());
+					relCustomerCategory.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
+					relCustomerCategory.setCusLoc(customer.getCusLoc());
+					relCustomerCategory.setCusChaId(customer.getCusCha());
+					cusCatSer.insertRelCustomerCategory(relCustomerCategory);
+				}else{
+					continue;
+				}
+			}
+		}
+		return readResult;
+	}
+	
 
 	@Override
 	public int deleteCustomer(String customerId) {

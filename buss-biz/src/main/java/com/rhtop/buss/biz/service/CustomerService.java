@@ -31,6 +31,11 @@ public interface CustomerService{
 	int updateCustomer(Customer customer);
 	
 	/**
+	 * 经理修改客户信息
+	 */
+	ResultInfo updateCustomerInfo(ResultInfo readResult, Customer customer);
+	
+	/**
 	 * 根据Id查找数据
 	 */
 	Customer selectByPrimaryKey(String customerId);
