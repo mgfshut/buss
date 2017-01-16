@@ -87,5 +87,5 @@ public interface CategoryMapper {
 	 * @param customerId
 	 * @return
 	 */
-	List<Category> listPageByCustomerAndPrice(String customerId);
+	List<Category> listPageByCustomerAndPrice(Category category);
 }

@@ -159,7 +159,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> listPageByCustomerAndPrice(String customerId) {
-		return categoryMapper.listPageByCustomerAndPrice(customerId);
+		Category category = new Category ();
+		category.setCreateUser(customerId);
+		return categoryMapper.listPageByCustomerAndPrice(category);
 	}
 
 }
