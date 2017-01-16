@@ -386,6 +386,7 @@
     	<if test="customerId != null and customerId != ''" >
 			and a.customer_id_ = #{customerId}
 		</if>
+		order by a.update_time_ desc
   </select>
   
 </mapper>

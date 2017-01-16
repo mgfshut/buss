@@ -305,6 +305,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user = #{updateUser}
 		</if>
+	order by update_time_ desc
   </select>
   
   <!-- 根据客户信息查询客户所属的品类信息 -->
@@ -337,7 +338,7 @@
   	case  when c.wholesale_pri_ is null then '00' else '01' end as is_Collect 
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_
-	where a.create_user_ = #{createUser} order by  c.wholesale_pri_ DESC , a.update_time_  ASC  
+	where a.create_user_ = #{createUser} order by  c.wholesale_pri_ asc , a.update_time_  DESC  
 	</select>
 	
 	<!--分部经理查询报价信息  -->
@@ -362,7 +363,7 @@
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_ 
 	where  a.create_user_ in
 	( select a.member_id_ from sys_member_ a LEFT JOIN sys_member_ b on a.dept_id_ = b.dept_id_  where b.member_id_ = #{createUser } ) 
-	 order by  c.wholesale_pri_ DESC , a.update_time_  ASC 
+	 order by  c.wholesale_pri_ ASC , a.update_time_  DESC
 	 </select>
 	
 	<!-- 国际采购人员查询未报盘情况 -->
@@ -379,7 +380,7 @@
 	a.unit_,
 	b.offer_pri_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE ISNULL(b.offer_pri_) 
+	WHERE ISNULL(b.offer_pri_)  order by a.update_time_  DESC
 	</select>
 	
 	<!-- 国际采购人员查询已报盘情况 -->
@@ -399,7 +400,7 @@
 	a.offer_aging_,
 	cus_cha_val_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE b.offer_pri_ != '' 
+	WHERE b.offer_pri_ != '' order by a.update_time_  DESC
 	</select>
 	
 	<!-- 品类详情 -->
