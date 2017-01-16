@@ -25,7 +25,11 @@
   	create_time_,
   	contact_name_,
   	customer_id_,
-  	update_time_
+  	update_time_,
+  	contact_phone_,
+  	contact_mail_,
+  	contact_addr_,
+  	comm_
   </sql>
   
   <!-- 根据条件新增对象-->

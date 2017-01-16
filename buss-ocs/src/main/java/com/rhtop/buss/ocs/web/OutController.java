@@ -809,7 +809,7 @@ public class OutController extends BaseController {
 	}
 	/**
 	 * 接口id:R2008
-	 * 客户经理查看交易信息列表
+	 * 客户经理，分部经理，决策委员会查看交易详情
 	 * @param request
 	 * @param member
 	 * @author lujin
