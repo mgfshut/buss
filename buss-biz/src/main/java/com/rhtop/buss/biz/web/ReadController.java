@@ -196,15 +196,12 @@ public class ReadController  extends BaseController {
 	public ResultInfo listTransactions(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		Category category = (Category) JSONObject.toBean(jsonObject,Category.class);
-		TransactionInfo transactioninfo = new TransactionInfo();
-		transactioninfo.setCreateUser(category.getCreateUser());
+		TransactionInfo transactioninfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
+		transactioninfo.setCreateUser(transactioninfo.getCreateUser());
 		List<TransactionInfo> tras = traSer.listPageTransactionInfoBycreateUser(transactioninfo);
-		category.setPage(transactioninfo.getPage());
 		readResult.setCode("200");
-		readResult.setPage(category.getPage());
+		readResult.setPage(transactioninfo.getPage());
 		readResult.setMessage("数据获取成功！");
-		readResult.setPage(category.getPage());
 		readResult.setRecords(tras);
 		return readResult;
 	}

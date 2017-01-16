@@ -44,8 +44,15 @@
 			<th orderField="manuNum" class="${param.orderField eq 'manuNum'?param.orderDirection:''}">厂号</th>
 			<th orderField="prodPla" class="${param.orderField eq 'prodPla'?param.orderDirection:''}">产地</th>
 			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">规格</th>
-			<th orderField="offerPri" class="${param.orderField eq 'offerPri'?param.orderDirection:''}">报盘价</th>
-			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">报盘时效</th>
+			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">包装规格</th>
+			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">客户名称</th>
+			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">区域</th>
+			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">客户渠道</th>
+			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">供应商</th>
+			<th orderField="offerPri" class="${param.orderField eq 'offerPri'?param.orderDirection:''}">需求量</th>
+			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">价格时效</th>
+			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">采购价格</th>
+			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">操作</th>
 		</tr>
 	</thead>
 	<tbody>

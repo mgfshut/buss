@@ -224,41 +224,18 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer selectCustomerInfo(Customer customer) {
 		Customer cus = new Customer();
-		String creater = memberMapper.selectByPrimaryKey( customer.getCreateUser()).getMemberJob();
-		// 判断是否是客户经理或者总经理
-		if ("05".equals(creater) || "01".equals(creater)) {
-			// 查询客户信息
-			cus = customerMapper.selectByPrimaryKey(customer.getCustomerId());
-			customer.setCustomerId(customer.getCustomerId());
-			// 查询联系人
-			ContactsInfo contactsinfo = new ContactsInfo();
-			contactsinfo.setCustomerId(customer.getCustomerId());
-			List<ContactsInfo> conts = contactsInfoMapper.listContactsInfos(contactsinfo);
-			// 查询品类
-			List<Category> cates = categoryMapper.listCategoryByCustomer(customer.getCustomerId());
-			// 添加联系人和品类
-			cus.setCategorys(cates);
-			cus.setContacts(conts);
-		} else if("02".equals(creater)){
-			String createUser = customerMapper.selectByPrimaryKey( customer.getCustomerId()).getCreateUser();
-			// 判断创建是否是用户自己
-			if (createUser.equals(customer.getCreateUser())) {// 是，
-				// 查询客户信息
-				cus = customerMapper.selectByPrimaryKey(customer.getCustomerId());
-				customer.setCustomerId(customer.getCustomerId());
-				// 查询联系人
-				ContactsInfo contactsinfo = new ContactsInfo();
-				contactsinfo.setCustomerId(customer.getCustomerId());
-				List<ContactsInfo> conts = contactsInfoMapper.listContactsInfos(contactsinfo);
-				// 查询品类
-				List<Category> cates = categoryMapper.listCategoryByCustomer(customer.getCustomerId());
-				// 添加联系人和品类
-				cus.setCategorys(cates);
-				cus.setContacts(conts);
-			} else {// 否，部门经理下面的客户经理的客户详情
-				cus = customerMapper.selectByCreater(customer.getCreateUser());
-			}
-		}
+		// 查询客户信息
+		cus = customerMapper.selectByPrimaryKey(customer.getCustomerId());
+		customer.setCustomerId(customer.getCustomerId());
+		// 查询联系人
+		ContactsInfo contactsinfo = new ContactsInfo();
+		contactsinfo.setCustomerId(customer.getCustomerId());
+		List<ContactsInfo> conts = contactsInfoMapper.listContactsInfos(contactsinfo);
+		// 查询品类
+		List<Category> cates = categoryMapper.listCategoryByCustomer(customer.getCustomerId());
+		// 添加联系人和品类
+		cus.setCategorys(cates);
+		cus.setContacts(conts);
 		return cus;
 	}
 }

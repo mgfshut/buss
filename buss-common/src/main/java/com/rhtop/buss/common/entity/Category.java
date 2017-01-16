@@ -73,7 +73,9 @@ public class Category {
 	
 	private List<RelCategoryPrice> rcps;//价格列表
 	
-	private String isOffer;//是否报盘；00 ：未报盘，01：已报盘；
+	private String isOffer;//国际采购人员是否报盘；00 ：未报盘，01：已报盘；
+	
+	private String isCollect;//客户经理，部门经理；00：未采集；01:已采集；
 	
 	public String getCusName() {
 		return cusName;
@@ -410,5 +412,13 @@ public class Category {
 
 	public void setIsOffer(String isOffer) {
 		this.isOffer = isOffer;
+	}
+
+	public String getIsCollect() {
+		return isCollect;
+	}
+
+	public void setIsCollect(String isCollect) {
+		this.isCollect = isCollect;
 	}
 }
