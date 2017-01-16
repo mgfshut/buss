@@ -598,6 +598,7 @@ public class WriteController extends BaseController{
 		tx.setUpdateTime(now);
 		tx.setUpdateUser(userId);
 		tx.setDealTime(date1);
+//		tx.setCtofPri(null);
 		String txId = null;
 		try {
 			txId = txSer.createDeal(tx);

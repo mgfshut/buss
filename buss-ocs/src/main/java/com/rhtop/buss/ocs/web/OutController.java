@@ -33,6 +33,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.io.Files;
+import com.google.gson.Gson;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.ContractInfo;
@@ -124,7 +125,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			customer.setUpdateUser(memberId);
-			JSONObject jsonCustomer = JSONObject.fromObject(customer);
+//			JSONObject jsonCustomer = JSONObject.fromObject(customer);
+			Gson gson = new Gson();
+			String jsonCustomer = gson.toJson(customer);
 			readResult = (ResultInfo) service.invoke("writeData-In0001", "POST", jsonCustomer.toString() , ResultInfo.class);
 		}
 		return readResult;
@@ -276,7 +279,9 @@ public class OutController extends BaseController {
 		if ("200".equals(result.get("code").toString())) {
 			
 			catePris.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(catePris);
+//			JSONObject jsonObject = JSONObject.fromObject(catePris);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(catePris);
 			readResult = (ResultInfo) service.invoke("writeData-In0003", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -292,7 +297,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			cat.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(cat);
+//			JSONObject jsonObject = JSONObject.fromObject(cat);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(cat);
 			readResult = (ResultInfo) service.invoke("writeData-In0004", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -315,7 +322,9 @@ public class OutController extends BaseController {
 				cus.setUpdateUser(memberId);
 				cuss.add(cus);
 			}
-			JSONArray jsonObject = JSONArray.fromObject(cuss);
+//			JSONArray jsonObject = JSONArray.fromObject(cuss);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(cuss);
 			readResult = (ResultInfo) service.invoke("writeData-In0005", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -338,7 +347,9 @@ public class OutController extends BaseController {
 				cus.setUpdateUser(memberId);
 				cuss.add(cus);
 			}
-			JSONArray jsonObject = JSONArray.fromObject(cuss);
+//			JSONArray jsonObject = JSONArray.fromObject(cuss);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(cuss);
 			readResult = (ResultInfo) service.invoke("writeData-In0006", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -353,7 +364,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			catePri.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(catePri);
+//			JSONObject jsonObject = JSONObject.fromObject(catePri);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(catePri);
 			readResult = (ResultInfo) service.invoke("writeData-In0007", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -368,7 +381,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			cat.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(cat);
+//			JSONObject jsonObject = JSONObject.fromObject(cat);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(cat);
 			readResult = (ResultInfo) service.invoke("writeData-In0008", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -383,7 +398,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			customer.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(customer);
+//			JSONObject jsonObject = JSONObject.fromObject(customer);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(customer);
 			readResult = (ResultInfo) service.invoke("writeData-In0009", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -401,8 +418,10 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			tx.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(tx);
-			readResult = (ResultInfo) service.invoke("writeData-Dl0001", "POST", jsonObject.toString(), ResultInfo.class);
+			//JSONObject jsonObject = JSONObject.fromObject(tx);
+			Gson gson = new Gson();
+			String json = gson.toJson(tx);
+			readResult = (ResultInfo) service.invoke("writeData-Dl0001", "POST", json, ResultInfo.class);
 		}
 		return readResult;
 	}
@@ -419,7 +438,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			tx.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(tx);
+//			JSONObject jsonObject = JSONObject.fromObject(tx);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(tx);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0002", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -437,7 +458,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			tx.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(tx);
+//			JSONObject jsonObject = JSONObject.fromObject(tx);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(tx);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0003", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -455,7 +478,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			tx.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(tx);
+//			JSONObject jsonObject = JSONObject.fromObject(tx);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(tx);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0004", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -473,7 +498,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			contract.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(contract);
+//			JSONObject jsonObject = JSONObject.fromObject(contract);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(contract);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0005", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -537,7 +564,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			contract.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(contract);
+//			JSONObject jsonObject = JSONObject.fromObject(contract);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(contract);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0006", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -557,7 +586,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			contract.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(contract);
+//			JSONObject jsonObject = JSONObject.fromObject(contract);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(contract);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0007", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -576,7 +607,9 @@ public class OutController extends BaseController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
-			JSONObject jsonObject = JSONObject.fromObject(contract);
+//			JSONObject jsonObject = JSONObject.fromObject(contract);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(contract);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0008", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -596,7 +629,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			contract.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(contract);
+//			JSONObject jsonObject = JSONObject.fromObject(contract);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(contract);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0009", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -616,7 +651,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			contract.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(contract);
+//			JSONObject jsonObject = JSONObject.fromObject(contract);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(contract);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0010", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -636,7 +673,9 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			tx.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(tx);
+//			JSONObject jsonObject = JSONObject.fromObject(tx);
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(tx);
 			readResult = (ResultInfo) service.invoke("writeData-Dl0011", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;

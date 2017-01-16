@@ -211,7 +211,30 @@ public class CustomerServiceImpl implements CustomerService {
 					relCustomerCategory.setCusChaId(customer.getCusCha());
 					cusCatSer.insertRelCustomerCategory(relCustomerCategory);
 				}else{
-					continue;
+					//如果品类已经存在，检查关系表中客户经理、客户、品类是否已存在。防止客户经理重复提交。
+					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
+					relCustomerCategory.setCreateUser(cat.getCreateUser());
+					relCustomerCategory.setCategoryId(cat.getCategoryId());
+					relCustomerCategory.setCustomerId(customerId);
+					RelCustomerCategory relCustomerCategoryRes  = cusCatSer.selectByPrimaryParam(relCustomerCategory);
+					if(relCustomerCategoryRes != null){
+						continue;
+					}else{
+					//写关联关系
+						relCustomerCategory.setCreateTime(now);
+						relCustomerCategory.setUpdateTime(now);
+						relCustomerCategory.setUpdateUser(userId);
+						relCustomerCategory.setCreateUser(userId);
+						relCustomerCategory.setCategoryId(cat.getCategoryId());
+						relCustomerCategory.setCateScale(cat.getCateScale());
+						relCustomerCategory.setCooInten(cat.getCooInten());
+						relCustomerCategory.setCooIntenComm(cat.getCooIntenComm());
+						relCustomerCategory.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
+						relCustomerCategory.setCusLoc(customer.getCusLoc());
+						relCustomerCategory.setCustomerId(customer.getCustomerId());
+						relCustomerCategory.setCusChaId(customer.getCusCha());
+						cusCatSer.insertRelCustomerCategory(relCustomerCategory);
+					}
 				}
 			}
 		}
