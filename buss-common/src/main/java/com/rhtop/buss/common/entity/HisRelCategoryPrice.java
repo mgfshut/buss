@@ -22,7 +22,7 @@ public class HisRelCategoryPrice {
 	
 	private Float interFutMax;//半期货价最大值
 	
-	private Float flgUpdateTime;//价格修改时间
+	private String flgUpdateTime;//价格修改时间
 	
 	private String currency;//货币币种
 	
@@ -154,11 +154,11 @@ public class HisRelCategoryPrice {
 	public void setInterFutMax(Float interFutMax){
 		this.interFutMax = interFutMax;
 	}
-	public Float getFlgUpdateTime(){
+	public String getFlgUpdateTime(){
 		return this.flgUpdateTime;
 	}
 	
-	public void setFlgUpdateTime(Float flgUpdateTime){
+	public void setFlgUpdateTime(String flgUpdateTime){
 		this.flgUpdateTime = flgUpdateTime;
 	}
 	public String getCurrency(){

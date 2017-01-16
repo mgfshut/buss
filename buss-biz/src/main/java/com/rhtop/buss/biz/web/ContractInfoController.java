@@ -164,4 +164,28 @@ public class ContractInfoController  extends BaseController {
 		htmlMessage.setEntity(contractInfo);
 		return htmlMessage;
 	}
+	/**
+	 * 财务合同审核
+	 */
+	@RequestMapping("/checkPay")
+	@ResponseBody
+	public HtmlMessage checkPay(@Valid @RequestParam(value="userId")String userId, @Valid ContractInfo contractInfo){
+		HtmlMessage htmlMessage = new HtmlMessage();
+		if(contractInfo.getContractInfoId() == null || "".equals(contractInfo.getContractInfoId())){
+			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
+			htmlMessage.setMessage("合同ID不能为空");
+		}else if(contractInfo.getContUlName() == null || "".equals(contractInfo.getContUlName())){
+			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
+			htmlMessage.setMessage("请上传收款确认凭证");
+		}else{
+			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
+//			cif.setContUlName(contractInfo.getContUlName().substring(0, contractInfo.getContUlName().length()-1));
+			cif.setContStatus("40");
+			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			cif.setUpdateUser(userId);
+			contractInfoService.treasurerCheckContract(cif);
+		}
+		htmlMessage.setEntity(contractInfo);
+		return htmlMessage;
+	}
 }
