@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 
@@ -115,20 +116,24 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
-	public int createOrUpdateOfferPriceAndTimeByCategoryId(
+	public ResultInfo createOrUpdateOfferPriceAndTimeByCategoryId(ResultInfo readResult, 
 			RelCategoryPrice relCategoryPrice) {
-		RelCategoryPrice catPri = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
-		if(catPri==null){
-			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
-			relCategoryPrice.setCreateTime(relCategoryPrice.getUpdateTime());
-			relCategoryPrice.setCreateUser(relCategoryPrice.getUpdateUser());
-			int i = relCategoryPriceMapper.insertSelective(relCategoryPrice);
-			System.out.println("成功添加："+i+"条");
-		}else{
-			System.out.println(relCategoryPrice);
-			relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+		try {
+			RelCategoryPrice catPri = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
+			if(catPri==null){
+				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setCreateTime(relCategoryPrice.getUpdateTime());
+				relCategoryPrice.setCreateUser(relCategoryPrice.getUpdateUser());
+				relCategoryPriceMapper.insertSelective(relCategoryPrice);
+			}else{
+				int i = relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
+				readResult.setMessage("成功更新"+i+"条数据");
+			}
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage("数据更新时出现未知异常。");
 		}
-		return 0;
+		return readResult;
 	}
 
 	@Override
@@ -136,5 +141,6 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 		relCategoryPriceMapper.updateSelective(relCategoryPrice);
 		return 0;
 	}
+
 
 }

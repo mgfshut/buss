@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.entity.ResultInfo;
 
 public interface RelCategoryPriceService{
     
@@ -43,7 +44,7 @@ public interface RelCategoryPriceService{
 	/**
 	 * 创建或更新报盘价和报盘时效
 	 */
-	int createOrUpdateOfferPriceAndTimeByCategoryId(RelCategoryPrice relCategoryPrice);
+	ResultInfo createOrUpdateOfferPriceAndTimeByCategoryId(ResultInfo readResult, RelCategoryPrice relCategoryPrice);
 	
 	/**
 	 * 根据条件查询列表

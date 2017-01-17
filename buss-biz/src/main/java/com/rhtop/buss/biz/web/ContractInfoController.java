@@ -180,7 +180,6 @@ public class ContractInfoController  extends BaseController {
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
 //			cif.setContUlName(contractInfo.getContUlName().substring(0, contractInfo.getContUlName().length()-1));
-			cif.setContStatus("40");
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			cif.setUpdateUser(userId);
 			contractInfoService.treasurerCheckContract(cif);
