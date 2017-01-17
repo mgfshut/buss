@@ -402,7 +402,7 @@
 	c.prod_pla_,
 	c.pkg_quan_,
 	c.manu_num_,
-	a.transactionInfo_id_,
+	a.transaction_info_id_,
 	a.pcas_pri_,
 	a.tx_amo_,
 	d.cate_sup_,
