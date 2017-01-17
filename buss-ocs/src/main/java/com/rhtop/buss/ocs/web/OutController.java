@@ -245,26 +245,26 @@ public class OutController extends BaseController {
 		return readResult;
 	}
 	
-	/**
-	 * app版本更新接口
-	 * @author mgf
-	 * @date 2017年1月17日 上午10:13:04 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/versionUpdate")
-	public ResultInfo versionUpdate(HttpServletRequest request) {
-		ResultInfo readResult = new ResultInfo();
-		String token = request.getHeader("token");
-		String memberId = request.getHeader("memberId");
-		Map<String,Object> result = Jwt.validToken(memberId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if("200".equals(result.get("code").toString())){
-			//TODO
-		}
-		return readResult;
-	}
+//	/**
+//	 * app版本更新接口
+//	 * @author mgf
+//	 * @date 2017年1月17日 上午10:13:04 
+//	 * @param request
+//	 * @return
+//	 */
+//	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/versionUpdate")
+//	public ResultInfo versionUpdate(HttpServletRequest request) {
+//		ResultInfo readResult = new ResultInfo();
+//		String token = request.getHeader("token");
+//		String memberId = request.getHeader("memberId");
+//		Map<String,Object> result = Jwt.validToken(memberId,token);
+//		readResult.setCode(result.get("code").toString());
+//		readResult.setMessage(result.get("message").toString());
+//		if("200".equals(result.get("code").toString())){
+//			//TODO
+//		}
+//		return readResult;
+//	}
 	
 	
 	/**

@@ -32,7 +32,7 @@
 <div class="pageContent">
 <div class="panelBar">
 		<div class="btn-group" style="margin:4px 5px;">
-			<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-{contractInfoId}"  
+			<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-print-{contractInfoId}"  
 				 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
 			<!-- <a class="btn btn-primary btn-sm" href="sys/print/contractInfo/{contractInfoId}"  
 				 title="打印合同"  target="_blank" ><i class="icon-check"></i> <span>打印合同</span></a> -->
