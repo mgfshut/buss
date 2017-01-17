@@ -135,24 +135,28 @@ public class ContractInfoController  extends BaseController {
 	public ContractInfo printByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.printByContractInfoId(contractInfoId);
 		contractInfo.setUpperTotPri(NumberToCN.number2CNMontrayUnit(new BigDecimal(String.valueOf(contractInfo.getTotPri()))));
-		String ss = "2017-01-17 15:55:55";
-		try {
-			Date date = DateUtils.getDate(ss, "yyyy-MM-dd HH:mm:ss");
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH)+1;
-			int day = cal.get(Calendar.DAY_OF_MONTH);
-			contractInfo.setGenckYear(String.valueOf(year));
-			contractInfo.setGenckMonth(String.valueOf(month));
-			contractInfo.setGenckDay(String.valueOf(day));
-		} catch (ParseException e) {
-			e.printStackTrace();
-			log.error("[ContractInfoController.printByContractInfoId]日期格式转换异常", e);
+		String ss = contractInfo.getGenckTime();
+		if(ss !=null && !"".equals(ss)){
+			try {
+				Date date = DateUtils.getDate(ss, "yyyy-MM-dd HH:mm:ss");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				int year = cal.get(Calendar.YEAR);
+				int month = cal.get(Calendar.MONTH)+1;
+				int day = cal.get(Calendar.DAY_OF_MONTH);
+				contractInfo.setGenckYear(String.valueOf(year));
+				contractInfo.setGenckMonth(String.valueOf(month));
+				contractInfo.setGenckDay(String.valueOf(day));
+			} catch (ParseException e) {
+				e.printStackTrace();
+				log.error("[ContractInfoController.printByContractInfoId]日期格式转换异常", e);
+			}
 		}
 		Member mem = memberService.selectByPrimaryKey(contractInfo.getCreateUser());
-		contractInfo.setJfzdPersonName(mem.getMemberName());
-		contractInfo.setJfzdPersonPhone(mem.getMemberPhone()+" "+mem.getMemberEmail());
+		if(mem != null){
+			contractInfo.setJfzdPersonName(mem.getMemberName());
+			contractInfo.setJfzdPersonPhone(mem.getMemberPhone()+" "+mem.getMemberEmail());
+		}
 		return contractInfo;
 	}
 	

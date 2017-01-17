@@ -225,10 +225,10 @@ $(document).ready(function() {
 							<p>&nbsp;&nbsp;乙方授权委托书：参见附件</p>
 							<p>&nbsp;&nbsp;3. 如乙方须变更收货人相关信息，应以书面方式告知甲方，并提供变更后的信息。</p>
 							<p>&nbsp;&nbsp;4. 在执行本合同的过程中，按照第一项约定的商品数量进行交易。如需对商品数量进行调整，需经甲乙双方同意并另行签订补充合同。</p>
-							<h3>三、合同有效期（以总经理确认时间为主合同办理时间）</h3>
-							<p>&nbsp;&nbsp;本合同有效期自<span style="text-decoration:underline">${year }</span>年
-								<span style="text-decoration:underline">${month }</span>月
-								<span style="text-decoration:underline">${day }</span>日起至乙方指定收货人对商品进行验收确认为止。</p>
+							<h3>三、合同有效期</h3>
+							<p>&nbsp;&nbsp;本合同有效期自<span style="text-decoration:underline">${genckYear }</span>年
+								<span style="text-decoration:underline">${genckMonth }</span>月
+								<span style="text-decoration:underline">${genckDay }</span>日起至乙方指定收货人对商品进行验收确认为止。</p>
 							<h2>第二部分  通用条款</h2>
 							<h3>一、	主体资格</h3>
 							<p>&nbsp;&nbsp;1. 甲方是从事本合同项下商品销售的具有法人资格的公司，能够向乙方提供符合本合同要求的商品。甲方承诺具有销售本合同项下商品所需的、根据中国法律法规从事食品生产经营所需具备的资格或许可；遵循国家的法律法规进行生产经营和管理。</p>
