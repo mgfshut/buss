@@ -327,7 +327,7 @@
 	<if test="customerId != null and customerId != ''" >
 		and a.customer_id_ = #{customerId}
 	</if>
-	order by a.ck_status_ asc , a.update_time_ desc
+	order by a.ck_status_ asc, a.update_time_ desc
   </select>
   
   <!-- 部门经理所属的客户及所属的客户经理的客户 ,'01'代表：职务是客户经理。 审核状态-->
@@ -358,7 +358,7 @@
 	<if test="customerId != null and customerId != ''" >
 		and a.customer_id_ = #{customerId}
 	</if>
-	order by a.ck_status_ asc , a.update_time_ desc;
+	order by a.ck_status_ asc , a.update_time_ desc
   </select>
   
   <!-- 总经理查询客户信息 -->
