@@ -3,7 +3,6 @@
  */
 package com.rhtop.buss.common.entity;
 
-import java.math.BigDecimal;
 
 //import javax.xml.bind.annotation.XmlRootElement;
 
@@ -90,10 +89,64 @@ public class ContractInfo {
 	private String ztcsgTel;//自提收货人联系方式
 	private String ztcsgAddr;//自提收货人详细地址
 	private String ztcsgId;//自提收货人身份证号
+	private String upperTotPri;//大写金额
+	private String genckYear;//总经理确认时间年 
+	private String genckMonth;//总经理确认时间月 
+	private String genckDay;//总经理确认时间日
+	private String jfzdPersonName;//甲方指定人员姓名
+	private String jfzdPersonPhone;//甲方指定人员联系方式
 	/**打印所用字段end**/
 	
 	public Page getPage() {
 		return page;
+	}
+
+	public String getJfzdPersonName() {
+		return jfzdPersonName;
+	}
+
+	public void setJfzdPersonName(String jfzdPersonName) {
+		this.jfzdPersonName = jfzdPersonName;
+	}
+
+	public String getJfzdPersonPhone() {
+		return jfzdPersonPhone;
+	}
+
+	public void setJfzdPersonPhone(String jfzdPersonPhone) {
+		this.jfzdPersonPhone = jfzdPersonPhone;
+	}
+
+	public String getGenckYear() {
+		return genckYear;
+	}
+
+	public void setGenckYear(String genckYear) {
+		this.genckYear = genckYear;
+	}
+
+	public String getGenckMonth() {
+		return genckMonth;
+	}
+
+	public void setGenckMonth(String genckMonth) {
+		this.genckMonth = genckMonth;
+	}
+
+	public String getGenckDay() {
+		return genckDay;
+	}
+
+	public void setGenckDay(String genckDay) {
+		this.genckDay = genckDay;
+	}
+
+	public String getUpperTotPri() {
+		return upperTotPri;
+	}
+
+	public void setUpperTotPri(String upperTotPri) {
+		this.upperTotPri = upperTotPri;
 	}
 
 	public String getZtcsgName() {

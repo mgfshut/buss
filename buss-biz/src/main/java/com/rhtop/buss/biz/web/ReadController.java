@@ -25,6 +25,7 @@ import com.rhtop.buss.common.entity.CodeMap;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.web.BaseController;
@@ -163,7 +164,7 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id：R2006
-	 * 品类的采集信息详情
+	 * 品类的采集信息详情(已采集)
 	 * 品类id
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2006")
@@ -184,6 +185,26 @@ public class ReadController  extends BaseController {
 		return readResult;
 	}
 	
+	/**
+	 * 接口id：R2014
+	 * 品类的采集信息详情(未采集)
+	 * 品类id
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2014")
+	public ResultInfo categoryPriceInfoNoPri(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		//品类信息
+		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		//获取品类渠道信息（客户与品类的关系表）
+		List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
+		cate.setRcacu(recacu);
+		readResult.setCode("200");
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(cate);
+		return readResult;
+	}
 	
 	/**
 	 * 接口id：R2007
