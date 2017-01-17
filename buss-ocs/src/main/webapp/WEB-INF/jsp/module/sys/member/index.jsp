@@ -49,6 +49,7 @@
 			<th orderField="memberSex" class="${param.orderField eq 'memberSex'?param.orderDirection:''}" >性别</th>
 			<th orderField="memberJob" class="${param.orderField eq 'memberJob'?param.orderDirection:''}" >职务</th>
 			<th orderField="deptName" class="${param.orderField eq 'deptName'?param.orderDirection:''}" >所属机构</th>
+			<th orderField="deptCity" class="${param.orderField eq 'deptCity'?param.orderDirection:''}" >城市</th>
 			<th orderField="memberPhone" class="${param.orderField eq 'memberPhone'?param.orderDirection:''}" >手机号</th>
 			<th orderField="userStatus" class="${param.orderField eq 'userStatus'?param.orderDirection:''}" >用户状态</th>
 			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}" >创建时间</th>
@@ -67,6 +68,7 @@
 				<ys:codemapConvert codemap="job" value="${item.memberJob }"></ys:codemapConvert>
 			</td>
 			<td>${item.deptName }</td>
+			<td>${item.deptCity }</td>
 			<td>${item.memberPhone }</td>
 			<td>
 				<ys:codemapConvert codemap="status" value="${item.userStatus }"></ys:codemapConvert>

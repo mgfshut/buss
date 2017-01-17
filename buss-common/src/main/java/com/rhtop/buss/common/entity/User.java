@@ -42,6 +42,26 @@ public class User {
 	
 	private List<String> permissionList;
 	
+	private String newPassword;//新密码
+	
+	private String newPassword1;//确认新密码
+	
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getNewPassword1() {
+		return newPassword1;
+	}
+
+	public void setNewPassword1(String newPassword1) {
+		this.newPassword1 = newPassword1;
+	}
+
 	public List<String> getPermissionList() {
 		return permissionList;
 	}
