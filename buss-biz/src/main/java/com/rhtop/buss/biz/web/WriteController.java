@@ -191,7 +191,7 @@ public class WriteController extends BaseController{
 		readResult.setCode("200");
 		
 		try {
-			catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(rcps);
+			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps);
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
@@ -246,7 +246,7 @@ public class WriteController extends BaseController{
 			rcp.setUpdateTime(now);
 		}
 		try {
-			catPriSer.createOrUpdateMidPriceByCategoryId(rcps);
+			readResult = catPriSer.createOrUpdateMidPriceByCategoryId(readResult, rcps);
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
