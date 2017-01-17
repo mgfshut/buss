@@ -312,4 +312,17 @@
 	</if>
   </select>
   	
+  	<!-- 得到客户经理自己创建的客户与品类关系的渠道 -->
+  	<select id="selectCuschaByMgr"  parameterType="com.rhtop.buss.common.entity.RelCustomerCategory"  resultMap="BaseResultMap">
+    	select cus_cha_val_, cus_cha_id_ from buss_rel_customer_category_ where create_user_ = #{createUser}
+  	</select>
+  	
+  	<!-- 分部经理得到客户与品类关系的渠道(包括自己创建的和自己的客户经理创建的) -->
+  	<select id="selectCuschaByRegMgr"  parameterType="com.rhtop.buss.common.entity.RelCustomerCategory"  resultMap="BaseResultMap">
+  	select 
+  	cus_cha_val_, cus_cha_id_ 
+  	from buss_rel_customer_category_ 
+  	where create_user_  in
+	   ( select a.member_id_ from sys_member_ a LEFT JOIN sys_member_ b on a.dept_id_ = b.dept_id_  where b.member_id_ = #{createUser} ) 
+  	</select>
 </mapper>

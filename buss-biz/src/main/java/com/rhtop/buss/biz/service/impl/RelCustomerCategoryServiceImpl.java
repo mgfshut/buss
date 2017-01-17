@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
+import com.rhtop.buss.biz.mapper.MemberMapper;
 import com.rhtop.buss.biz.mapper.RelCustomerCategoryMapper;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 
@@ -17,6 +18,8 @@ import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 public class RelCustomerCategoryServiceImpl implements RelCustomerCategoryService {
 	@Autowired
 	private RelCustomerCategoryMapper relCustomerCategoryMapper;
+	@Autowired
+	private MemberMapper memberMapper;
 	
 	@Override
 	public int insertRelCustomerCategory(RelCustomerCategory relCustomerCategory) {
@@ -58,6 +61,21 @@ public class RelCustomerCategoryServiceImpl implements RelCustomerCategoryServic
 	@Override
 	public List<RelCustomerCategory> categoryExportList(Category category) {
 		return relCustomerCategoryMapper.categoryExportList(category);
+	}
+
+	@Override
+	public List<RelCustomerCategory> selectCuscha(Category category) {
+		List<RelCustomerCategory> rels = null;
+		//判断用户
+		String memberJob = memberMapper.selectByPrimaryKey(category.getCreateUser()).getMemberJob();
+		RelCustomerCategory	relCustomerCategory = new RelCustomerCategory();
+		relCustomerCategory.setCreateUser(category.getCreateUser());
+		if("01".equals(memberJob)){
+			rels =	relCustomerCategoryMapper.selectCuschaByMgr(relCustomerCategory);
+		}else{ 
+			rels =	relCustomerCategoryMapper.selectCuschaByRegMgr(relCustomerCategory);
+		}
+		return rels;
 	}
 
 }

@@ -67,14 +67,6 @@
 
 <sdf:dwzPage style="width:300px;"></sdf:dwzPage>
 </div>
+<div id= >
 
-<script>
-    $(function(){
-    	
-        $('#fixOfferPrice').click(function(){
-        	var categoryId  = $('#selectCateName').val();
-        	var manuNum = $('#selectManuNum').val();
-        	//$.download('/sys/excel/offerPrice/export', 'post', cateName, manuNum); // 下载文件
-        })
-    })
-</script>
+</div>

@@ -27,6 +27,7 @@
 	<result column="manu_num_" property="manuNum" jdbcType="VARCHAR" />
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
 	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
+	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
 	
   </resultMap>
   

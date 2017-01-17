@@ -77,6 +77,8 @@ public class Category {
 	
 	private String isCollect;//客户经理，部门经理；00：未采集；01:已采集；
 	
+	private List<RelCustomerCategory> rcacu; //客户与品类关系
+	
 	public String getCusName() {
 		return cusName;
 	}
@@ -420,5 +422,13 @@ public class Category {
 
 	public void setIsCollect(String isCollect) {
 		this.isCollect = isCollect;
+	}
+
+	public List<RelCustomerCategory> getRcacu() {
+		return rcacu;
+	}
+
+	public void setRcacu(List<RelCustomerCategory> rcacu) {
+		this.rcacu = rcacu;
 	}
 }

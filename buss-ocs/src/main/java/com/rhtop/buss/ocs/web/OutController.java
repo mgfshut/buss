@@ -873,11 +873,11 @@ public class OutController extends BaseController {
 	 * 接口id:R2009
 	 * 总经理查看合同信息
 	 * @param request
-	 * @param transactionInfo
+	 * @param contractInfo
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2009")
-	public ResultInfo  listContract(HttpServletRequest request,@RequestBody Member member){
+	public ResultInfo  listContract(HttpServletRequest request,@RequestBody ContractInfo contractinfo){
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
@@ -885,7 +885,8 @@ public class OutController extends BaseController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
-			JSONObject jsonUser = JSONObject.fromObject(member);
+//			contractinfo.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(contractinfo);
 			readResult =(ResultInfo)service.invoke("readData-R2009", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -958,6 +959,27 @@ public class OutController extends BaseController {
 			JSONObject jsonUser = JSONObject.fromObject(contractInfo);
 			contractInfo.setCreateUser(memberId);
 			readResult = (ResultInfo) service.invoke("readData-R2013", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2014
+	 * 品类的采集信息详情(未采集)
+	 * 品类id
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2014")
+	public ResultInfo categoryPriceInfoNoPricategory(HttpServletRequest request,@RequestBody Category category){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			category.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2014", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}

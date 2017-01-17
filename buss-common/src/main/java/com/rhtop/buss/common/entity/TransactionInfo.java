@@ -70,6 +70,8 @@ public class TransactionInfo {
 	
 	private String mgrName;//交易的创建者
 	
+	private String cusLoc; //产地
+	
 	public ContractInfo getContract() {
 		return contract;
 	}
@@ -393,5 +395,13 @@ public class TransactionInfo {
 
 	public void setMgrName(String mgrName) {
 		this.mgrName = mgrName;
+	}
+
+	public String getCusLoc() {
+		return cusLoc;
+	}
+
+	public void setCusLoc(String cusLoc) {
+		this.cusLoc = cusLoc;
 	}
 }
