@@ -200,10 +200,10 @@ public class UserController  extends BaseController {
 		
 		if (user.getNewPassword().equals(user.getNewPassword1())) {
 			User uu = userService.selectByPrimaryKey(user.getUpdateUser());
-			if (user.getUserPassword().equals(Hashing.md5().hashString(uu.getUserPassword(), Charset.forName("utf-8")).toString())) {
-				user.setUserPassword(Hashing.md5().hashString(user.getNewPassword(), Charset.forName("utf-8")).toString());
-				user.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				userService.updateUser(user);
+			if (uu.getUserPassword().equals(Hashing.md5().hashString(user.getUserPassword(), Charset.forName("utf-8")).toString())) {
+				uu.setUserPassword(Hashing.md5().hashString(user.getNewPassword(), Charset.forName("utf-8")).toString());
+				uu.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				userService.updateUser(uu);
 				readResult.setCode("200");
 				readResult.setMessage("修改成功!");
 			} else {
