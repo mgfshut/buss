@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.common.hash.Hashing;
 import com.rhtop.buss.common.entity.Module;
 import com.rhtop.buss.common.entity.Page;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.biz.service.ModuleService;
@@ -186,6 +189,32 @@ public class UserController  extends BaseController {
 		} else {
 			return new HtmlMessage("300", "两次输入密码不相符!");
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/modifyPassword")
+	public ResultInfo modifyPassword(@RequestParam("body") String body) {
+		JSONObject jsonObject=JSONObject.fromObject(body);
+		User user = (User)JSONObject.toBean(jsonObject, User.class);
+		ResultInfo readResult = new ResultInfo();
+		
+		if (user.getNewPassword().equals(user.getNewPassword1())) {
+			User uu = userService.selectByPrimaryKey(user.getUpdateUser());
+			if (user.getUserPassword().equals(Hashing.md5().hashString(uu.getUserPassword(), Charset.forName("utf-8")).toString())) {
+				user.setUserPassword(Hashing.md5().hashString(user.getNewPassword(), Charset.forName("utf-8")).toString());
+				user.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				userService.updateUser(user);
+				readResult.setCode("200");
+				readResult.setMessage("修改成功!");
+			} else {
+				readResult.setCode("300");
+				readResult.setMessage("当前输入密码错误!");
+			}
+		} else {
+			readResult.setCode("300");
+			readResult.setMessage("两次输入密码不相符!");
+		}
+		return readResult;
 	}
 	
 }

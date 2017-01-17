@@ -39,6 +39,7 @@
 			<th orderField="deptName" class="${param.orderField eq 'deptName'?param.orderDirection:''}">机构名称</th>
 			<th orderField="deptType" class="${param.orderField eq 'deptType'?param.orderDirection:''}">机构类型</th>
 			<th orderField="parentDeptName" class="${param.orderField eq 'parentDeptName'?param.orderDirection:''}" >上级机构</th>
+			<th orderField="deptCity" class="${param.orderField eq 'deptCity'?param.orderDirection:''}" >所属城市</th>
 			<th orderField="createTime" class="${param.orderField eq 'createTime'?param.orderDirection:''}" >创建时间</th>
 			<th orderField="updateTime" class="${param.orderField eq 'updateTime'?param.orderDirection:''}" >修改时间</th>
 		
@@ -55,6 +56,7 @@
 					<ys:codemapConvert codemap="deptType" value="${item.deptType }"></ys:codemapConvert>
 				</td>
 				<td>${item.parentDeptName}</td>
+				<td>${item.deptCity}</td>
 				<td>${item.createTime }</td>
 				<td>${item.updateTime }</td>
 			</tr>

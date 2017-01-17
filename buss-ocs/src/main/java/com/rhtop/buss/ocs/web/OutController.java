@@ -221,6 +221,51 @@ public class OutController extends BaseController {
 		}
 		return readResult;
 	}
+	/**
+	 * 修改密码
+	 * @author mgf
+	 * @date 2017年1月17日 上午9:55:25 
+	 * @param request
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/modifyPassword")
+	public ResultInfo modifyPassword(HttpServletRequest request,@RequestBody User user) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			user.setUpdateUser(memberId);
+			JSONObject jsonCodeValue = JSONObject.fromObject(user);
+			readResult = (ResultInfo) service.invoke("user-modifyPassword", "POST", jsonCodeValue.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * app版本更新接口
+	 * @author mgf
+	 * @date 2017年1月17日 上午10:13:04 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/versionUpdate")
+	public ResultInfo versionUpdate(HttpServletRequest request) {
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String,Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if("200".equals(result.get("code").toString())){
+			//TODO
+		}
+		return readResult;
+	}
+	
 	
 	/**
 	 * 单图片上传接口
@@ -832,7 +877,7 @@ public class OutController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2007")
-	public ResultInfo listTransactions(HttpServletRequest request,@RequestBody Category category){
+	public ResultInfo listTransactions(HttpServletRequest request,@RequestBody TransactionInfo transactioninfo){
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
@@ -840,8 +885,8 @@ public class OutController extends BaseController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
-			category.setCreateUser(memberId);
-			JSONObject jsonUser = JSONObject.fromObject(category);
+			transactioninfo.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(transactioninfo);
 			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;

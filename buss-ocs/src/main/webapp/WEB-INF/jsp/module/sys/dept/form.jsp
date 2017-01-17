@@ -30,6 +30,14 @@
 			</div>
 			
 			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">城市：</label>
+				<div class="col-sm-4">
+				<input type="text" name="deptCity" pattern="^([\u4e00-\u9fa5]+|([a-zA]+\s?)+){2,32}$" data-error="请输入2-32位中,英文" placeholder="请输入城市" maxlength="32" class="form-control"   value="${deptCity}"/>
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			
+			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">机构类型：</label>
 				<div class="col-sm-4">
 					<ys:codemapSelect2 codemap="deptType" selectName="deptType" value="${deptType }" 

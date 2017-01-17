@@ -23,6 +23,8 @@
 	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
 	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
 	<result column="mgr_name_" property="mgrName" jdbcType="VARCHAR" />
+	<result column="is_offer" property="isOffer" jdbcType="VARCHAR" />
+	<result column="is_collect" property="isCollect" jdbcType="VARCHAR" />
 	
   </resultMap>
   
@@ -303,6 +305,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user = #{updateUser}
 		</if>
+	order by update_time_ desc
   </select>
   
   <!-- 根据客户信息查询客户所属的品类信息 -->
@@ -313,16 +316,18 @@
 	c.manu_num_,
 	c.prod_pla_,
 	c.cate_stan_ ,
-	c.pkg_quan_
+	c.pkg_quan_,
+	c.offer_pri_
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{0}
   </select>
   
 	
-	<!-- 客户经理查询报价信息  -->
+	<!-- 客户经理查询报价信息 (客户经理所属的客户的品类信息) -->
 	<select id="listPriceByMgr" resultMap="BaseResultMap"  parameterType="java.lang.String">
 	select
+	a.rel_customer_category_id_,
 	b.category_id_ ,
 	b.cate_name_,
 	b.cate_stan_,
@@ -330,15 +335,17 @@
 	b.prod_pla_,
 	b.pkg_quan_,
 	c.wholesale_pri_,
-	c.acpt_pri_
+	c.acpt_pri_,
+  	case  when c.wholesale_pri_ is null then '00' else '01' end as is_Collect 
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_
-	where a.create_user_ = #{createUser } order by  c.wholesale_pri_ DESC , a.update_time_  ASC  
+	where a.create_user_ = #{createUser} order by  c.wholesale_pri_ asc , a.update_time_  DESC  
 	</select>
 	
 	<!--分部经理查询报价信息  -->
 	<select id="listPriceByRegMgr" resultMap="BaseResultMap" parameterType="java.lang.String">
 	select 
+	a.rel_customer_category_id_,
 	b.category_id_ , 
 	b.cate_name_, 
 	b.cate_stan_, 
@@ -357,7 +364,7 @@
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_ 
 	where  a.create_user_ in
 	( select a.member_id_ from sys_member_ a LEFT JOIN sys_member_ b on a.dept_id_ = b.dept_id_  where b.member_id_ = #{createUser } ) 
-	 order by  c.wholesale_pri_ DESC , a.update_time_  ASC 
+	 order by  c.wholesale_pri_ ASC , a.update_time_  DESC
 	 </select>
 	
 	<!-- 国际采购人员查询未报盘情况 -->
@@ -374,7 +381,7 @@
 	a.unit_,
 	b.offer_pri_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE ISNULL(b.offer_pri_) 
+	WHERE ISNULL(b.offer_pri_)  order by a.update_time_  DESC
 	</select>
 	
 	<!-- 国际采购人员查询已报盘情况 -->
@@ -394,7 +401,7 @@
 	a.offer_aging_,
 	cus_cha_val_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE b.offer_pri_ != '' 
+	WHERE b.offer_pri_ != '' order by a.update_time_  DESC
 	</select>
 	
 	<!-- 品类详情 -->
@@ -426,5 +433,15 @@
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{createUser} and c.offer_pri_ != '' or c.offer_pri_ >0
   </select>
+  
+  <update id="updateCategory" parameterType="com.rhtop.buss.common.entity.Category" >
+    update buss_category_
+    <set >
+        	offer_aging_ = #{offerAging},
+        	offer_pri_ = #{offerPri},
+    </set>
+    where 
+	category_id_ = #{categoryId}
+  </update>
   
 </mapper>

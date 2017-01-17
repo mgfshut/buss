@@ -6,7 +6,7 @@
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
 
 <!-- 分页、搜索表单 -->	
-<form id="pagerForm" action="module/sys-offerPrice-index/category-pager" method="post" onsubmit="return navTabSearch(this);">
+<form id="pagerForm" action="module/sys-offerPrice-index/transactionInfo-ctofPrice" method="post" onsubmit="return navTabSearch(this);">
 
 <input type="hidden" name="currentPage" value="${page.currentPage}" />
 <input type="hidden" name="totalResult" value="${page.totalResult}" />
@@ -26,37 +26,40 @@
 </div>
 </form> 
 <div class="pageContent">
-<div class="panelBar">
-		<div class="btn-group" style="margin:4px 5px;">
-			<a class="btn btn-primary btn-sm" href="module/sys-offerPrice-addCategory"  
-				 title="品类导入"  target="navTab" rel="offerPriceSaveDialog"><i class="icon-plus"></i> <span>品类添加</span></a>
-			<!-- <a class="btn btn-success btn-sm" id="fixOfferPrice"><i class="icon-pencil"></i> <span>报盘价录入</span></a>  -->
-			<a class="btn btn-success btn-sm" href="module/sys-offerPrice-fixOfferPrice/category-{categoryId}" 
-				mask="true" height="500" title="报盘价录入"  target="navTab" rel="fixOfferPriceDialog">
-				<i class="icon-pencil"></i> <span>报盘价录入</span>
-			</a>
-		</div>
-</div>
 <table class="table" width="100%" layoutH="140">
 	<thead>
 		<tr>
 			<th orderField="cateName" class="${param.orderField eq 'cateName'?param.orderDirection:''}">品类名称</th>
 			<th orderField="manuNum" class="${param.orderField eq 'manuNum'?param.orderDirection:''}">厂号</th>
 			<th orderField="prodPla" class="${param.orderField eq 'prodPla'?param.orderDirection:''}">产地</th>
-			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">规格</th>
-			<th orderField="offerPri" class="${param.orderField eq 'offerPri'?param.orderDirection:''}">报盘价</th>
-			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">报盘时效</th>
+			<th orderField="cateStan" class="${param.orderField eq 'comm'?param.orderDirection:''}">规格</th>
+			<th orderField="pkgQuan" class="${param.orderField eq 'comm'?param.orderDirection:''}">包装规格</th>
+			<th orderField="cusName" class="${param.orderField eq 'comm'?param.orderDirection:''}">客户名称</th>
+			<th orderField="cusLoc" class="${param.orderField eq 'comm'?param.orderDirection:''}">区域</th>
+			<th orderField="cusCha" class="${param.orderField eq 'comm'?param.orderDirection:''}">客户渠道</th>
+			<th orderField="cateSup" class="${param.orderField eq 'comm'?param.orderDirection:''}">供应商</th>
+			<th orderField="txAmo" class="${param.orderField eq 'offerPri'?param.orderDirection:''}">需求量</th>
+			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">价格时效</th>
+			<th orderField="ctofPri" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">采购价格</th>
+			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">操作</th>
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${resList}" var="item">
-			<tr target="categoryId" rel="${item.categoryId}">
+		<c:forEach items="${resObject}" var="item">
+			<tr target="transactionInfoId" rel="${item.transactionInfoId}">
 				<td>${item.cateName}</td>
 				<td>${item.manuNum}</td>
 				<td>${item.prodPla}</td>
-				<td>${item.comm}</td>
-				<td>${item.offerPri}</td>
+				<td>${item.cateStan}</td>
+				<td>${item.pkgQuan}</td>
+				<td>${item.cusName}</td>
+				<td>${item.cusLoc}</td>
+				<td>${item.cusCha}</td>
+				<td>${item.cateSup}</td>
+				<td>${item.txAmo}</td>
 				<td>${item.offerAging}</td>
+				<td>${item.ctofPri}</td>
+				<td><button>输入二次采购价格</button></td>
 			</tr>
 		</c:forEach>
 	</tbody>
