@@ -1,6 +1,10 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 import java.util.List;
 
@@ -17,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.service.ContractInfoService;
+import com.rhtop.buss.biz.service.MemberService;
+import com.rhtop.buss.biz.utils.NumberToCN;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
@@ -30,6 +37,8 @@ import com.rhtop.buss.common.web.HtmlMessage;
 public class ContractInfoController  extends BaseController {
 	@Autowired
 	private ContractInfoService contractInfoService;
+	@Autowired
+	private MemberService memberService;
 	
     /**
      * 新增
@@ -125,6 +134,29 @@ public class ContractInfoController  extends BaseController {
 	@ResponseBody
 	public ContractInfo printByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.printByContractInfoId(contractInfoId);
+		contractInfo.setUpperTotPri(NumberToCN.number2CNMontrayUnit(new BigDecimal(String.valueOf(contractInfo.getTotPri()))));
+		String ss = contractInfo.getGenckTime();
+		if(ss !=null && !"".equals(ss)){
+			try {
+				Date date = DateUtils.getDate(ss, "yyyy-MM-dd HH:mm:ss");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				int year = cal.get(Calendar.YEAR);
+				int month = cal.get(Calendar.MONTH)+1;
+				int day = cal.get(Calendar.DAY_OF_MONTH);
+				contractInfo.setGenckYear(String.valueOf(year));
+				contractInfo.setGenckMonth(String.valueOf(month));
+				contractInfo.setGenckDay(String.valueOf(day));
+			} catch (ParseException e) {
+				e.printStackTrace();
+				log.error("[ContractInfoController.printByContractInfoId]日期格式转换异常", e);
+			}
+		}
+		Member mem = memberService.selectByPrimaryKey(contractInfo.getCreateUser());
+		if(mem != null){
+			contractInfo.setJfzdPersonName(mem.getMemberName());
+			contractInfo.setJfzdPersonPhone(mem.getMemberPhone()+" "+mem.getMemberEmail());
+		}
 		return contractInfo;
 	}
 	
