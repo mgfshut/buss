@@ -13,6 +13,7 @@
 	<result column="dri_num_" property="driNum" jdbcType="VARCHAR" />
 	<result column="ent_addr_" property="entAddr" jdbcType="VARCHAR" />
 	<result column="cont_status_" property="contStatus" jdbcType="VARCHAR" />
+	<result column="genck_time_" property="genckTime" jdbcType="VARCHAR" />
 	<result column="csg_id_" property="csgId" jdbcType="VARCHAR" />
 	<result column="category_id_" property="categoryId" jdbcType="VARCHAR" />
 	<result column="end_time_" property="endTime" jdbcType="VARCHAR" />
@@ -45,6 +46,7 @@
   	dri_num_,
   	ent_addr_,
   	cont_status_,
+  	genck_time_,
   	csg_id_,
   	category_id_,
   	contract_info_id_,
@@ -98,6 +100,9 @@
 	    </if>
     	<if test="contStatus != null" >
 	    	cont_status_,
+	    </if>
+	    <if test="genckTime != null" >
+	    	genck_time_,
 	    </if>
     	<if test="csgId != null" >
 	    	csg_id_,
@@ -190,6 +195,9 @@
 	    </if>
     	<if test="contStatus != null" >
 	    	#{contStatus},
+	    </if>
+	    <if test="genckTime != null" >
+	    	#{genckTime},
 	    </if>
     	<if test="csgId != null" >
 	    	#{csgId},
@@ -291,6 +299,9 @@
       	</if>
 		<if test="contStatus != null and contStatus != ''" >
         	cont_status_ = #{contStatus},
+      	</if>
+      	<if test="genckTime != null and genckTime != ''" >
+        	genck_time_ = #{genckTime},
       	</if>
 		<if test="csgId != null and csgId != ''" >
         	csg_id_ = #{csgId},
@@ -395,6 +406,9 @@
     	<if test="contStatus != null and contStatus != ''" >
 			and cont_status_ = #{contStatus}
 		</if>
+		<if test="genckTime != null and genckTime != ''" >
+			and genck_time_ = #{genckTime}
+		</if>
     	<if test="csgId != null and csgId != ''" >
 			and csg_id_ = #{csgId}
 		</if>
@@ -490,6 +504,9 @@
 		</if>
     	<if test="contStatus != null and contStatus != ''" >
 			and cont_status_ = #{contStatus}
+		</if>
+		<if test="genckTime != null and genckTime != ''" >
+			and genck_time_ = #{genckTime}
 		</if>
     	<if test="csgId != null and csgId != ''" >
 			and csg_id_ = #{csgId}

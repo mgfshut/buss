@@ -4,6 +4,8 @@
 package com.rhtop.buss.biz.service;
 
 import java.util.List;
+
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 
 public interface TransactionInfoService{
@@ -21,7 +23,7 @@ public interface TransactionInfoService{
 	/**
 	 * 客户回盘
 	 */
-	String cusNegotiate(TransactionInfo tx);
+	ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx);
 	
 	/**
 	 * 国际部回盘

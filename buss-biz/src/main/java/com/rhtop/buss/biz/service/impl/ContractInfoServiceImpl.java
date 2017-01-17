@@ -16,6 +16,7 @@ import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContractInfoMapper;
@@ -104,6 +105,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			//检查审核状态是否是“10”
 			if(contract.getContStatus()=="10"||contract.getContStatus().trim().equals("10")){
 				con.setContStatus("20");
+				con.setGenckTime(DateUtils.getNowTime());
 				contractInfoMapper.updateByPrimaryKeySelective(con);
 			}else{
 				throw new RuntimeException("非法操作，审核顺序错误！");
