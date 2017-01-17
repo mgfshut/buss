@@ -52,4 +52,14 @@ public interface RelCustomerCategoryService{
 	 * @return
 	 */
 	List<RelCustomerCategory> categoryExportList(Category category);
+	
+	/**
+	 * 通过创建者得到渠道
+	 * @author lujin
+	 * @date 2017-1-17
+	 * @param category
+	 * @return
+	 */
+	List<RelCustomerCategory> selectCuscha (Category category);
+	
 }

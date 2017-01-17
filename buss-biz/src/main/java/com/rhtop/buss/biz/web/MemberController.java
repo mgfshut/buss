@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rhtop.buss.common.entity.Dept;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.Page;
@@ -26,6 +27,7 @@ import com.rhtop.buss.common.entity.Role;
 import com.rhtop.buss.common.entity.RsUserRole;
 import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.exception.BusException;
+import com.rhtop.buss.biz.service.DeptService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RoleService;
 import com.rhtop.buss.biz.service.RsUserRoleService;
@@ -46,6 +48,8 @@ public class MemberController  extends BaseController {
 	private RoleService roleService;
 	@Autowired
 	private RsUserRoleService rsUserRoleService;
+	@Autowired
+	private DeptService deptService;
 	
     /**
      * 保存
@@ -60,6 +64,8 @@ public class MemberController  extends BaseController {
 			member.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			member.setUpdateUser(member.getUpdateUser());
 			member.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+			Dept dept = deptService.selectByPrimaryKey(member.getDeptId());
+			member.setDeptCity(dept.getDeptCity());
 			memberService.insertMember(member);
 			User user = new User();
 			user.setUserName(member.getUserName());

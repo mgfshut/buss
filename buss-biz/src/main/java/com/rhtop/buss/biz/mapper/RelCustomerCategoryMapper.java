@@ -46,5 +46,17 @@ public interface RelCustomerCategoryMapper {
 	 * @return
 	 */
 	List<RelCustomerCategory> categoryExportList(Category category);
-    
+    /**
+     * 客户经理查询 品类的渠道
+     * @author lujin
+     * @date 2017-1-17
+     */
+	List<RelCustomerCategory> selectCuschaByMgr(RelCustomerCategory relCustomerCategory);
+	/**
+     * 分部经理查询 品类的渠道
+     * @author lujin
+     * @date 2017-1-17
+     */
+	List<RelCustomerCategory> selectCuschaByRegMgr(RelCustomerCategory relCustomerCategory);
+	
 }

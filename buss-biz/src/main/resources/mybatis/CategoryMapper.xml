@@ -336,7 +336,7 @@
 	b.pkg_quan_,
 	c.wholesale_pri_,
 	c.acpt_pri_,
-  	case  when c.wholesale_pri_ is null then '00' else '01' end as is_Collect 
+  	case  when c.wholesale_pri_ is null then '00' else '02' end as is_Collect 
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_
 	where a.create_user_ = #{createUser} order by  c.wholesale_pri_ asc , a.update_time_  DESC  

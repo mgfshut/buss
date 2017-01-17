@@ -49,12 +49,12 @@
 			<tr target="transactionInfoId" rel="${item.transactionInfoId}">
 				<td>${item.cateName}</td>
 				<td>${item.manuNum}</td>
-				<td>${item.prodPla}</td>
-				<td>${item.cateStan}</td>
+				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
+				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.pkgQuan}</td>
 				<td>${item.cusName}</td>
-				<td>${item.cusLoc}</td>
-				<td>${item.cusCha}</td>
+				<td><ys:codemapConvert codemap="cusLoc" value="${item.cusLoc }"/><</td>
+				<td><ys:codemapConvert codemap="cusCha" value="${item.cusCha }"/></td>
 				<td>${item.cateSup}</td>
 				<td>${item.txAmo}</td>
 				<td>${item.offerAging}</td>
@@ -67,14 +67,6 @@
 
 <sdf:dwzPage style="width:300px;"></sdf:dwzPage>
 </div>
+<div id= >
 
-<script>
-    $(function(){
-    	
-        $('#fixOfferPrice').click(function(){
-        	var categoryId  = $('#selectCateName').val();
-        	var manuNum = $('#selectManuNum').val();
-        	//$.download('/sys/excel/offerPrice/export', 'post', cateName, manuNum); // 下载文件
-        })
-    })
-</script>
+</div>

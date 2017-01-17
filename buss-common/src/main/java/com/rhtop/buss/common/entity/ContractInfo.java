@@ -3,7 +3,6 @@
  */
 package com.rhtop.buss.common.entity;
 
-import java.math.BigDecimal;
 
 //import javax.xml.bind.annotation.XmlRootElement;
 
@@ -31,6 +30,8 @@ public class ContractInfo {
 	private String entAddr;//公司地址
 	
 	private String contStatus;//合同状态
+	
+	private String genckTime;//总经理审核时间
 	
 	private String csgId;//收货人身份证号
 	
@@ -587,5 +588,13 @@ public class ContractInfo {
 
 	public void setCateName(String cateName) {
 		this.cateName = cateName;
+	}
+
+	public String getGenckTime() {
+		return genckTime;
+	}
+
+	public void setGenckTime(String genckTime) {
+		this.genckTime = genckTime;
 	}
 }

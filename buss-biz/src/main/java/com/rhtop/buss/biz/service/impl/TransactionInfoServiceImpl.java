@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContractInfo;
@@ -92,25 +93,37 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 	
 	@Override
-	public String cusNegotiate(TransactionInfo tx){
-		tx.setTxStatus("20");
-		String transactionInfoId = tx.getTransactionInfoId();
-		transactionInfoMapper.updateByPrimaryKeySelective(tx);
-		SlaTransactionInfo slaTx = new SlaTransactionInfo();
-		String slaTransactionInfoId = UUID.randomUUID().toString().replace("-", "");
-		slaTx.setSlaTransactionInfoId(slaTransactionInfoId);
-		String now = tx.getUpdateTime();
-		String userId = tx.getUpdateUser();
-		slaTx.setCreateTime(now);
-		slaTx.setUpdateTime(now);
-		slaTx.setCreateUser(userId);
-		slaTx.setUpdateUser(userId);
-		slaTx.setTransactionInfoId(transactionInfoId);
-		slaTx.setPcasPri(tx.getPcasPri());
-		slaTx.setPcasTime(now);
-		slaTx.setTxAmo(tx.getTxAmo());
-		slaTxMapper.insertSelective(slaTx);
-		return transactionInfoId;
+	public ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx){
+		try {
+			tx.setTxStatus("20");
+			String transactionInfoId = tx.getTransactionInfoId();
+			TransactionInfo tx1 = transactionInfoMapper.selectByPrimaryKey(transactionInfoId);
+			if(tx1==null||tx1.toString().equals(null)){
+				readResult.setCode("500");
+				readResult.setMessage("非法操作，交易ID无效。");
+			}else{
+				transactionInfoMapper.updateByPrimaryKeySelective(tx);
+				SlaTransactionInfo slaTx = new SlaTransactionInfo();
+				String slaTransactionInfoId = UUID.randomUUID().toString().replace("-", "");
+				slaTx.setSlaTransactionInfoId(slaTransactionInfoId);
+				String now = tx.getUpdateTime();
+				String userId = tx.getUpdateUser();
+				slaTx.setCreateTime(now);
+				slaTx.setUpdateTime(now);
+				slaTx.setCreateUser(userId);
+				slaTx.setUpdateUser(userId);
+				slaTx.setTransactionInfoId(transactionInfoId);
+				slaTx.setPcasPri(tx.getPcasPri());
+				slaTx.setPcasTime(now);
+				slaTx.setTxAmo(tx.getTxAmo());
+				slaTxMapper.insertSelective(slaTx);
+				return readResult;
+			}
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage("业务层未知异常。");
+		}
+		return readResult;
 	}
 	
 	@Override
