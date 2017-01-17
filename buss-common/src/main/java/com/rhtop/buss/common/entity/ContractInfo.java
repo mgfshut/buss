@@ -3,7 +3,6 @@
  */
 package com.rhtop.buss.common.entity;
 
-import java.math.BigDecimal;
 
 //import javax.xml.bind.annotation.XmlRootElement;
 
