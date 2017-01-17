@@ -53,7 +53,7 @@
 				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.pkgQuan}</td>
 				<td>${item.cusName}</td>
-				<td><ys:codemapConvert codemap="cusLoc" value="${item.cusLoc }"/><</td>
+				<td><ys:codemapConvert codemap="cusLoc" value="${item.cusLoc }"/></td>
 				<td><ys:codemapConvert codemap="cusCha" value="${item.cusCha }"/></td>
 				<td>${item.cateSup}</td>
 				<td>${item.txAmo}</td>

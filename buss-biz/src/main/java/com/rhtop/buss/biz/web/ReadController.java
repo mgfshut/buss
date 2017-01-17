@@ -199,7 +199,12 @@ public class ReadController  extends BaseController {
 		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
 		//获取品类渠道信息（客户与品类的关系表）
 		List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
-		cate.setRcacu(recacu);
+		try{
+			cate.setRcacu(recacu);
+			
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(cate);

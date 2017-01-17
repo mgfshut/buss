@@ -120,7 +120,6 @@ public class TransactionInfoController  extends BaseController {
 	@RequestMapping("/ctofPrice")
 	@ResponseBody
 	public InfoResult<List<TransactionInfo>> getCtofPrice(Page page,TransactionInfo transactioninfo ){
-		System.out.println(1);
 		InfoResult<List<TransactionInfo>> infoResult = new InfoResult<List<TransactionInfo>>();
 		List<TransactionInfo> Tranlist = transactionInfoService.listPageInfo(transactioninfo);
 		infoResult.setPage(page);
