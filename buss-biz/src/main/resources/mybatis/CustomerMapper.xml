@@ -358,7 +358,7 @@
 	<if test="customerId != null and customerId != ''" >
 		and a.customer_id_ = #{customerId}
 	</if>
-	order by a.ck_status_ asc , a.update_time_ desc;
+	order by a.ck_status_ asc , a.update_time_ desc
   </select>
   
   <!-- 总经理查询客户信息 -->
@@ -388,6 +388,6 @@
 	<if test="customerId != null and customerId != ''" >
 			and a.customer_id_ = #{customerId}
 	</if>
-	order by a.ck_status_ asc , a.update_time_ desc;
+	order by a.ck_status_ asc , a.update_time_ desc
 	</select>
 </mapper>

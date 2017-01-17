@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,13 +32,11 @@ import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeValue;
-import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.CusckLog;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
-import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.utils.FileUtil;
@@ -134,18 +131,18 @@ public class WriteController extends BaseController{
 	 * 要求ContentType为MultipartFile，
 	 * 返回值为文件在服务器中的相对路径。
 	 * 返回值需要被记录到一个名为catePic的字段中，在保存品类信息时提交上来。
-	 * @param picFile
+	 * @param files
 	 * @return 文件相对路径
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0002")
-	public ResultInfo uploadPic(HttpServletRequest request, MultipartFile picFile, @RequestParam("memberId") String memberId){
+	public ResultInfo uploadPic(HttpServletRequest request, MultipartFile files, @RequestParam("memberId") String memberId){
 		String userId = memberId;
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
 		String catePic = null;
 		try {
-			catePic = FileUtil.uploadPic(picFile);
+			catePic = FileUtil.uploadPic(files);
 			readResult.setResObject(catePic);
 		} catch (Exception e) {
 			log.error("[WriteController.uploadPic]图片上传异常", e);
@@ -639,7 +636,7 @@ public class WriteController extends BaseController{
 		tx.setUpdateUser(userId);
 		tx.setTxAmo(null);
 		try {
-			txSer.cusNegotiate(tx);
+			txSer.cusNegotiate(readResult,tx);
 		} catch (Exception e) {
 			log.error("[WriteController.makeNegotiate]数据更新异常", e);
 		}
