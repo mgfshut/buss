@@ -88,4 +88,10 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	List<Category> listPageByCustomerAndPrice(Category category);
+	
+	/**
+	 * 更新价格
+	 * @author lujin
+	 */
+	int updateCategory(Category category);
 }

@@ -22,6 +22,7 @@ import com.rhtop.buss.biz.mapper.MemberMapper;
 import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.TransactionInfoMapper;
+import com.rhtop.buss.biz.mapper.UserMapper;
 import com.rhtop.buss.biz.service.TransactionInfoService;
 
 @Service("transactionInfoService")
@@ -43,6 +44,9 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	private MemberMapper memberMapper;
 	@Autowired
 	private RelCategoryPriceMapper relCPMapper;
+	@Autowired
+	private UserMapper userMapper;
+	
 	
 	@Override
 	public int insertTransactionInfo(TransactionInfo transactionInfo) {
@@ -212,6 +216,8 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		SlaTransactionInfo slaTransactionInfo =	new SlaTransactionInfo();
 		slaTransactionInfo.setTransactionInfoId(tran.getTransactionInfoId());
 		List<SlaTransactionInfo> listSla = slaTxMapper.listSlaTransactionInfos(slaTransactionInfo);
+		//交易的创建者名称
+		String mgrName = userMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getUserName();
 		//用户的判断
 		String memberJob = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberJob();
 		if("04".equals(memberJob)){//决策委员会
@@ -240,7 +246,13 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			tran.setCust(cust);
 			tran.setContract(cont);
 			tran.setSla(listSla);
+			tran.setMgrName(mgrName);
 		}
 		return tran;
+	}
+	@Override
+	public List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo) {
+		List<TransactionInfo> tras = transactionInfoMapper.listPageInfo(transactionInfo);
+		return tras;
 	}
 }

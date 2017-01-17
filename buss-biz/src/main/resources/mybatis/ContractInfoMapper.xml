@@ -554,6 +554,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user_ = #{updateUser}
 		</if>
+		order by  update_time_ desc
   </select>
   
 </mapper>

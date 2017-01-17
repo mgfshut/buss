@@ -65,6 +65,9 @@
   <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.HisRelCategoryPrice" >
     insert into buss_rel_category_price_
     <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test ="hisRelCategoryPriceId != null">
+    	his_rel_category_price_id_,
+    	</if>
     	<if test="mgrId != null" >
 	    	mgr_id_,
 	    </if>
@@ -145,6 +148,9 @@
 	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test ="hisRelCategoryPriceId">
+    		#{hisRelCategoryPriceId},
+    	</if>
     	<if test="mgrId != null" >
 	    	#{mgrId},
 	    </if>

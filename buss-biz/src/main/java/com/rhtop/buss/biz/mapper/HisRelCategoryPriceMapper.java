@@ -1,10 +1,10 @@
 package com.rhtop.buss.biz.mapper;
 
-import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.entity.HisRelCategoryPrice;
 
 public interface HisRelCategoryPriceMapper {
 	/**
 	 * 根据条件新增对象
 	 */
-    int insertSelective(RelCategoryPrice relCategoryPrice);
+    int insertSelective(HisRelCategoryPrice hisRelCategoryPrice);
 }

@@ -877,7 +877,7 @@ public class OutController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST,RequestMethod.GET},value="/readData/R2007")
-	public ResultInfo listTransactions(HttpServletRequest request,@RequestBody Category category){
+	public ResultInfo listTransactions(HttpServletRequest request,@RequestBody TransactionInfo transactioninfo){
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
 		String memberId = request.getHeader("memberId");
@@ -885,8 +885,8 @@ public class OutController extends BaseController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
-			category.setCreateUser(memberId);
-			JSONObject jsonUser = JSONObject.fromObject(category);
+			transactioninfo.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(transactioninfo);
 			readResult =(ResultInfo)service.invoke("readData-R2007", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;

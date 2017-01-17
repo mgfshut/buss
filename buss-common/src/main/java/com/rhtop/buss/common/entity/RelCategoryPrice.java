@@ -64,6 +64,8 @@ public class RelCategoryPrice {
 	
 	private Float catePri;//品类价格
 	
+	private String cusChaId;//渠道id
+	
 	private String cusChaVal;//渠道值
 	
 	private Page page;//分页
@@ -72,7 +74,7 @@ public class RelCategoryPrice {
 	private String mgrName;// 客户经理名
 	private String regMgrName;// 部门经理名
 	private String uniMgrName;// 国际采购人员名
-	private String offerPri;//报盘价
+	private Float offerPri;//报盘价
 	
 	
 	public String getCateName() {
@@ -107,11 +109,11 @@ public class RelCategoryPrice {
 		this.uniMgrName = uniMgrName;
 	}
 
-	public String getOfferPri() {
+	public Float getOfferPri() {
 		return offerPri;
 	}
 
-	public void setOfferPri(String offerPri) {
+	public void setOfferPri(Float offerPri) {
 		this.offerPri = offerPri;
 	}
 
@@ -493,6 +495,14 @@ public class RelCategoryPrice {
 
 	public void setCusChaVal(String cusChaVal) {
 		this.cusChaVal = cusChaVal;
+	}
+
+	public String getCusChaId() {
+		return cusChaId;
+	}
+
+	public void setCusChaId(String cusChaId) {
+		this.cusChaId = cusChaId;
 	}
 
 }

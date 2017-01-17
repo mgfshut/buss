@@ -75,4 +75,13 @@ public interface TransactionInfoService{
 	 * @return
 	 */
 	TransactionInfo selectTransactionInfo(TransactionInfo transactionInfo);
+	
+	/**
+	 * 查看回盘信息
+	 * @author lujin
+	 * @date 2017-1-16
+	 * @param transactionInfo
+	 * @return
+	 */
+	List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo);
 }

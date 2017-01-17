@@ -70,53 +70,6 @@ public class HisRelCategoryPrice {
 	private String cusChaVal;//渠道值
 	
 	private Page page;//分页
-	
-	private String cateName;// 品类名
-	private String mgrName;// 客户经理名
-	private String regMgrName;// 部门经理名
-	private String uniMgrName;// 国际采购人员名
-	private Float offerPri;//报盘价
-	
-	
-	public String getCateName() {
-		return cateName;
-	}
-
-	public void setCateName(String cateName) {
-		this.cateName = cateName;
-	}
-
-	public String getMgrName() {
-		return mgrName;
-	}
-
-	public void setMgrName(String mgrName) {
-		this.mgrName = mgrName;
-	}
-
-	public String getRegMgrName() {
-		return regMgrName;
-	}
-
-	public void setRegMgrName(String regMgrName) {
-		this.regMgrName = regMgrName;
-	}
-
-	public String getUniMgrName() {
-		return uniMgrName;
-	}
-
-	public void setUniMgrName(String uniMgrName) {
-		this.uniMgrName = uniMgrName;
-	}
-
-	public Float getOfferPri() {
-		return offerPri;
-	}
-
-	public void setOfferPri(Float offerPri) {
-		this.offerPri = offerPri;
-	}
 
 	public Page getPage() {
 		return page;
