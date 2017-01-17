@@ -37,5 +37,13 @@ public interface TransactionInfoMapper {
      * 客户经理，部门经理，决策委员会（createUser赋值为空） 查看 交易列表
      */
 	List<TransactionInfo> listPageTransactionInfoBycreateUser(TransactionInfo transactionInfo);
-    
+   
+	/**
+     * 国际采购人员回盘信息
+     * @author lujin
+     * @date 2017-1-16
+     * @param transactionInfo
+     * @return
+     */
+	List<TransactionInfo> listPageInfo (TransactionInfo transactionInfo);
 }

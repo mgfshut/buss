@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
@@ -109,4 +110,23 @@ public class TransactionInfoController  extends BaseController {
 		infoResult.setResObject(transactionInfo);
 		return infoResult;
 	}
+	
+	/**
+	 * 国际人员 pc
+	 * 回盘信息 
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping("/ctofPrice")
+	@ResponseBody
+	public InfoResult<List<TransactionInfo>> getCtofPrice(Page page,TransactionInfo transactioninfo ){
+		System.out.println(1);
+		InfoResult<List<TransactionInfo>> infoResult = new InfoResult<List<TransactionInfo>>();
+		List<TransactionInfo> Tranlist = transactionInfoService.listPageInfo(transactioninfo);
+		infoResult.setPage(page);
+		infoResult.setCode("200");
+		infoResult.setResObject(Tranlist);
+		infoResult.setPage(transactioninfo.getPage());
+		return infoResult;
+		}
 }

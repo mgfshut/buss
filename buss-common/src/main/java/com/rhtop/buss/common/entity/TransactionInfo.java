@@ -68,6 +68,8 @@ public class TransactionInfo {
 	
 	private RelCategoryPrice rel;
 	
+	private String mgrName;//交易的创建者
+	
 	public ContractInfo getContract() {
 		return contract;
 	}
@@ -383,5 +385,13 @@ public class TransactionInfo {
 
 	public void setRel(RelCategoryPrice rel) {
 		this.rel = rel;
+	}
+
+	public String getMgrName() {
+		return mgrName;
+	}
+
+	public void setMgrName(String mgrName) {
+		this.mgrName = mgrName;
 	}
 }
