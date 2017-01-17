@@ -112,9 +112,27 @@
 						<td colspan="8"></td>
 					</tr>
 					<tr>
-						<td colspan="2">其他费用(元)</td>
+						<td colspan="2">合计金额</td>
 						<!--<td></td>-->
-						<td colspan="8"></td>
+						<td colspan="8">
+							<p style="text-align: left;margin-bottom: -10px;"><span style="text-decoration:underline">${totPri }</span>元</p>
+							<p style="text-align: left;margin-bottom: 0px;">大写金额：（${upperTotPri }）</p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">备注</td>
+						<!--<td></td>-->
+						<td colspan="8" style="text-align: left;">
+							<p style="margin-bottom: -10px;">
+							1、	本表所列单价为本合同约定的固定价格，不受国际市场的商品价格波动影响；
+							</p>
+							<p style="margin-bottom: -10px;">
+							2、	附带食品检验检疫证明复印件；
+							</p>
+							<p style="margin-bottom: 0px;">
+							3、	船期由甲方根据商品情况提供。 
+							</p>
+						</td>
 					</tr>
 				</table>
 				<h3>二、交易要求</h3>
@@ -135,9 +153,11 @@
 				<p>&nbsp;&nbsp;乙方授权委托书：参见附件</p>
 				<p>&nbsp;&nbsp;3. 如乙方须变更收货人相关信息，应以书面方式告知甲方，并提供变更后的信息。</p>
 				<p>&nbsp;&nbsp;4. 在执行本合同的过程中，按照第一项约定的商品数量进行交易。如需对商品数量进行调整，需经甲乙双方同意并另行签订补充合同。</p>
-				<h3>二、交易要求</h3>
-				<p>&nbsp;&nbsp;本合同有效期自_________年____月____日起至乙方指定收货人对商品进行验收确认为止。</p>
-				<h2>第一部分  双方约定内容</h2>
+				<h3>三、合同有效期</h3>
+				<p>&nbsp;&nbsp;本合同有效期自<span style="text-decoration:underline">${genckYear }</span>年
+					<span style="text-decoration:underline">${genckMonth }</span>月
+					<span style="text-decoration:underline">${genckDay }</span>日起至乙方指定收货人对商品进行验收确认为止。</p>
+				<h2>第二部分  通用条款</h2>
 				<h3>一、	主体资格</h3>
 				<p>&nbsp;&nbsp;1. 甲方是从事本合同项下商品销售的具有法人资格的公司，能够向乙方提供符合本合同要求的商品。甲方承诺具有销售本合同项下商品所需的、根据中国法律法规从事食品生产经营所需具备的资格或许可；遵循国家的法律法规进行生产经营和管理。</p>
 				<p>&nbsp;&nbsp;2. 乙方是一家具有良好经营状况的公司或良好商业信誉的个人/个体工商户。</p>
@@ -159,8 +179,8 @@
 				<p>&nbsp;&nbsp;（2）	按本合同的规定接收商品或收取货款。</p>
 				<h4>&nbsp;&nbsp;2.双方义务包括：</h4>
 				<p>&nbsp;&nbsp;（1）	指定专门的机构或人员负责本合同项下有关商品销售/采购的具体联络、供求平衡、执行、协调等工作。</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;甲方指定人员：</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;联系方式（包括电话及EMAIL）：</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;甲方指定人员：${jfzdPersonName }</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;联系方式（包括电话及EMAIL）：${jfzdPersonPhone }</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;指定人员文件接收地址：</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;乙方指定人员：${execName }</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;联系方式（包括电话及EMAIL）：${execTel }</p>

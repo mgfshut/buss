@@ -39,6 +39,7 @@ import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.web.BaseController;
 /**
@@ -190,7 +191,7 @@ public class WriteController extends BaseController{
 		readResult.setCode("200");
 		
 		try {
-			catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(rcps);
+			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps);
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
@@ -245,7 +246,7 @@ public class WriteController extends BaseController{
 			rcp.setUpdateTime(now);
 		}
 		try {
-			catPriSer.createOrUpdateMidPriceByCategoryId(rcps);
+			readResult = catPriSer.createOrUpdateMidPriceByCategoryId(readResult, rcps);
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
@@ -420,15 +421,13 @@ public class WriteController extends BaseController{
 		String userId = catePri.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String now = sdf.format(date);
+		String now = DateUtils.getNowTime();
 		try {
 			catePri.setUpdateTime(now);
 			catePri.setUpdateUser(userId);
 			catePri.setUniMgrId(userId);
 			catePri.setOfferUpdateTime(now);
-			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catePri);
+			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult,catePri);
 		} catch (Exception e) {
 			log.error("[WriteController.fixOfferPrice]数据更新异常", e);
 		}
@@ -491,7 +490,7 @@ public class WriteController extends BaseController{
 				catPri.setCatePri(cat.getCatePri());
 				catPri.setCreateUser(userId);
 				catPri.setCreateTime(now);
-				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catPri);
+				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
 			}else{
 				//品类信息存在，更新品类信息
 				cat.setUpdateTime(now);
@@ -507,7 +506,7 @@ public class WriteController extends BaseController{
 				catPri.setUnit(cat.getUnit());
 				catPri.setOfferAging(cat.getOfferAging());
 				catPri.setCatePri(cat.getCatePri());
-				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catPri);
+				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
 			}
 		} catch (Exception e) {
 			log.error("[WriteController.universeAddCategory]数据更新异常", e);
@@ -1031,6 +1030,7 @@ public class WriteController extends BaseController{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(date);
 		String userId = tx.getUpdateUser();
+		tx.setUpdateTime(now);
 		tx.setTxStatus("70");
 		try {
 			txSer.updateTransactionInfo(tx);

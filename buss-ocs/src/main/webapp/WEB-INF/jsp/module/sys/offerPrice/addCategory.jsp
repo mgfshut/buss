@@ -1,7 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="sdf" %>
-
+<script>
+$(document).ready(function() {
+	var filePath = "";
+	$('#file-zmwj').fileinput({
+		language: 'zh',
+	    uploadUrl: '<%=request.getContextPath()%>/interface/uploads',
+	    allowedFileExtensions : ['jpg', 'png','gif','bmp']
+	});
+	
+	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
+		var json = data.response;
+		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+			filePath = filePath+json.rel+",";
+			$('#filePath').val(filePath);
+		}else{
+			alert("文件上传失败");
+		}
+		
+	});
+});
+</script>
 <div id="addCategoryForm" class="pageContent">
 	<form method="post" action="service/category-save" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
 		<input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
@@ -40,6 +60,28 @@
 				<div class="col-sm-8">
 				<input type="text" name="cateStan" data-error="请输入1-10位字符" placeholder="请输入品类规格" maxlength="10" class="form-control textInput" required="required" value="${cateStan}">
 				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">供应商：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cateSup" data-error="请输入1-32位字符" placeholder="请输入品类供应商" maxlength="32" class="form-control textInput" required="required" value="${cateSup}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">报盘价：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cateStan" data-error="请输入1-10位字符" placeholder="请输入品类规格" maxlength="10" class="form-control textInput" required="required" value="${cateStan}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-horizontal" align="center">
+				<div class="form-group" align="center">
+					<div class="col-xs-12" align="center">
+						<input id="file-zmwj" type="file" name="file">
+					</div>
 				</div>
 			</div>
 		</div>
