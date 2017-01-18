@@ -44,12 +44,7 @@ public class ClearPriceJob  extends QuartzJobBean{
 		}
 		//删除主表记录
 		for(RelCategoryPrice rel2:rels){
-			relCategoryPriceService.updateSelective(rel2);
-			Category category = new Category();
-			category.setCategoryId(rel2.getCategoryId());
-			category.setOfferAging("0");//将报价时效赋值为0
-			category.setOfferPri(null);//将报盘价格置为null
-			categoryService.updateCategory(category);
+			relCategoryPriceService.deleteRelCategoryPrice(rel2.getRelCategoryPriceId());
 		}
 	}
 	

@@ -15,7 +15,7 @@
 	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
 	<result column="cus_cha_val_" property="cusChaVal" jdbcType="VARCHAR" />
-	<result column="cus_cha_id" property="cusChaId" jdbcType="VARCHAR"/>
+	<result column="cus_cha_id_" property="cusChaId" jdbcType="VARCHAR"/>
 	<!-- 导出用字段begin -->
 	<result column="cate_name_" property="cateName" jdbcType="VARCHAR"/>
 	<result column="cate_stan_" property="cateStan" jdbcType="VARCHAR"/>
@@ -314,7 +314,7 @@
   	
   	<!-- 得到客户经理自己创建的客户与品类关系的渠道 -->
   	<select id="selectCuschaByMgr"  parameterType="com.rhtop.buss.common.entity.RelCustomerCategory"  resultMap="BaseResultMap">
-    	select cus_cha_val_, cus_cha_id_ from buss_rel_customer_category_ where create_user_ = #{createUser}
+    	select cus_cha_val_, cus_cha_id_ from buss_rel_customer_category_ where create_user_ = #{createUser} and category_id_ = #{categoryId}
   	</select>
   	
   	<!-- 分部经理得到客户与品类关系的渠道(包括自己创建的和自己的客户经理创建的) -->

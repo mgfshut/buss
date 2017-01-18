@@ -186,8 +186,12 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		//合同信息	
 		ContractInfo contractinfo = new ContractInfo();
 		contractinfo.setTransactionInfoId(transactionInfoId);
-		ContractInfo con = conMapper.listContractInfos(contractinfo).get(0);
-		
+		ContractInfo con = null;
+		try{
+			 con = conMapper.listContractInfos(contractinfo).get(0);
+		}catch(Exception e){
+			
+		}
 		tra.setSla(sla);
 		tra.setCate(cate);
 		tra.setCust(cust);

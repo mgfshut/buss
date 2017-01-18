@@ -359,12 +359,14 @@
 	c.fut_min_,
 	c.fut_max_,
 	c.inter_fut_min_,
-	c.inter_fut_max_
+	c.inter_fut_max_,
+	a.regMgrCk,
+	a.create_user_
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_ 
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_ 
 	where  a.create_user_ in
-	( select a.member_id_ from sys_member_ a LEFT JOIN sys_member_ b on a.dept_id_ = b.dept_id_  where b.member_id_ = #{createUser } ) 
-	 order by  c.wholesale_pri_ ASC , a.update_time_  DESC
+	( select a.member_id_ from sys_member_ a LEFT JOIN sys_member_ b on a.dept_id_ = b.dept_id_  where b.member_id_ = #{createUser} ) 
+	 order by  c.update_time_  DESC
 	 </select>
 	
 	<!-- 国际采购人员查询未报盘情况 -->
