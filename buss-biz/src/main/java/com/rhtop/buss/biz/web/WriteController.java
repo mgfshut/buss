@@ -39,6 +39,7 @@ import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.FileUtil;
 import com.rhtop.buss.common.web.BaseController;
 /**
@@ -105,6 +106,8 @@ public class WriteController extends BaseController{
 		try {
 			cusSer.addCustomer(readResult, customer); 
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.addCustomerAndCategory]数据更新异常", e);
 		}
 		try{
@@ -190,11 +193,11 @@ public class WriteController extends BaseController{
 		readResult.setCode("200");
 		
 		try {
-			catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(rcps);
+			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps);
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
-			readResult.setMessage("更新失败！");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.fixWholesaleAndAcptPrice]数据更新失败", e);
 		}
 		//新增一条操作记录
@@ -245,11 +248,11 @@ public class WriteController extends BaseController{
 			rcp.setUpdateTime(now);
 		}
 		try {
-			catPriSer.createOrUpdateMidPriceByCategoryId(rcps);
+			readResult = catPriSer.createOrUpdateMidPriceByCategoryId(readResult, rcps);
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
-			readResult.setMessage("更新失败！");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.fixMidPrice]数据更新失败", e);
 		}
 		//新增一条操作记录
@@ -307,6 +310,8 @@ public class WriteController extends BaseController{
 					readResult.setMessage("审核流程错误！");
 				}
 			} catch (Exception e) {
+				readResult.setCode("500");
+				readResult.setMessage(e.getMessage());
 				log.error("[WriteController.commitNewCustomerLevelOne]数据更新失败", e);
 			}
 		}
@@ -372,6 +377,8 @@ public class WriteController extends BaseController{
 						readResult.setMessage("审核流程错误！");
 					}
 				} catch (Exception e) {
+					readResult.setCode("500");
+					readResult.setMessage(e.getMessage());
 					log.error("[WriteController.commitNewCustomerLevelTwo]数据更新失败", e);
 				}
 			}
@@ -420,16 +427,16 @@ public class WriteController extends BaseController{
 		String userId = catePri.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String now = sdf.format(date);
+		String now = DateUtils.getNowTime();
 		try {
 			catePri.setUpdateTime(now);
 			catePri.setUpdateUser(userId);
 			catePri.setUniMgrId(userId);
 			catePri.setOfferUpdateTime(now);
-			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catePri);
+			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult,catePri);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.fixOfferPrice]数据更新异常", e);
 		}
 		//记录日志
@@ -491,7 +498,7 @@ public class WriteController extends BaseController{
 				catPri.setCatePri(cat.getCatePri());
 				catPri.setCreateUser(userId);
 				catPri.setCreateTime(now);
-				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catPri);
+				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
 			}else{
 				//品类信息存在，更新品类信息
 				cat.setUpdateTime(now);
@@ -507,9 +514,11 @@ public class WriteController extends BaseController{
 				catPri.setUnit(cat.getUnit());
 				catPri.setOfferAging(cat.getOfferAging());
 				catPri.setCatePri(cat.getCatePri());
-				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catPri);
+				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
 			}
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.universeAddCategory]数据更新异常", e);
 		}
 		//记录日志
@@ -557,6 +566,8 @@ public class WriteController extends BaseController{
 		try {
 			cusSer.updateCustomerInfo(readResult,customer);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.updateCustomerAndCategory]数据更新异常", e);
 		}	
 		//添加一条操作记录
@@ -600,6 +611,8 @@ public class WriteController extends BaseController{
 		try {
 			txId = txSer.createDeal(tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.makeADeal]数据新增异常", e);
 		}
 		try {
@@ -638,6 +651,8 @@ public class WriteController extends BaseController{
 		try {
 			txSer.cusNegotiate(readResult,tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.makeNegotiate]数据更新异常", e);
 		}
 		try {
@@ -679,6 +694,8 @@ public class WriteController extends BaseController{
 		try {
 			txSer.universeNegotiate(tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.universeNegotiate]数据更新异常", e);
 		}
 		try {
@@ -691,6 +708,8 @@ public class WriteController extends BaseController{
 			dlog.setOprName("国际部回盘");
 			dlog.setOprContent(body);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.universeNegotiate]日志记录异常", e);
 		}
 		return readResult;
@@ -718,6 +737,8 @@ public class WriteController extends BaseController{
 		try {
 			txSer.domainNegotiate(tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.domainNegotiate]数据更新异常", e);
 		}
 		try {
@@ -745,15 +766,15 @@ public class WriteController extends BaseController{
 		}
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String now = sdf.format(date);
+		String now = DateUtils.getNowTime();
 		String userId = con.getUpdateUser();
 		con.setUpdateTime(now);
 		try {
 			conSer.createContract(con);
 		} catch (Exception e) {
 			log.error("[WriteController.createContract]数据更新异常", e);
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 		}
 		try {
 			DealLog dlog = new DealLog();
@@ -794,6 +815,8 @@ public class WriteController extends BaseController{
 				}
 			}
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.uploadPic]图片上传异常", e);
 		}
 		readResult.setResObject(contUlName);
@@ -838,6 +861,8 @@ public class WriteController extends BaseController{
 		try {
 			conSer.checkContract(con);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.checkContract]数据更新异常", e);
 		}
 		try {
@@ -876,6 +901,8 @@ public class WriteController extends BaseController{
 		try {
 			conSer.contractStamp(con);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.contractStamp]数据更新异常", e);
 		}
 		try {
@@ -915,6 +942,8 @@ public class WriteController extends BaseController{
 			List<String> urlList = conSer.downloadContract(con);
 			readResult.setResObject(urlList);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.downloadContract]数据更新异常", e);
 		}
 		try {
@@ -1031,6 +1060,7 @@ public class WriteController extends BaseController{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(date);
 		String userId = tx.getUpdateUser();
+		tx.setUpdateTime(now);
 		tx.setTxStatus("70");
 		try {
 			txSer.updateTransactionInfo(tx);

@@ -5,8 +5,6 @@ package com.rhtop.buss.common.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 //import javax.xml.bind.annotation.XmlRootElement;
 
 /**
