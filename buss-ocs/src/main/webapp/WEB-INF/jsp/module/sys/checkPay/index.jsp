@@ -33,14 +33,6 @@ function changeZt(val){
 <div class="pageHeader">
 <div class="searchBar container-fluid">
 	<div class="row">
-		<%-- <div class="col-xs-4"><input  name="contractInfoId" placeholder="输入合同编号筛选" type="text" 
-			class="form-control input-sm col-xs-4" size="10" value="${param.contractInfoId}"></div>
-		<div class="col-xs-4"><input  name="totPri" size="10" placeholder="输入总价筛选" type="text" 
-			class="form-control input-sm col-xs-4" value="${param.totPri}"></div>
-		<div class="col-xs-offset-2 col-xs-2" style="text-align: right;">
-			<button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button>
-		</div> --%>
-		
 		<ul class="nav nav-tabs">
          <li<c:if test="${empty(param.contStatus) || param.contStatus == ''}"> class="active"</c:if>><a href="#all" data-toggle="tab" onclick="changeZt('')">全部</a></li>
          <li<c:if test="${!empty(param.contStatus) && param.contStatus == '20'}"> class="active"</c:if>><a href="#htsd" data-toggle="tab" onclick="changeZt('20')">合同审定</a></li>
@@ -48,20 +40,6 @@ function changeZt(val){
          <li<c:if test="${!empty(param.contStatus) && param.contStatus == '40'}"> class="active"</c:if>><a href="#cwqr" data-toggle="tab" onclick="changeZt('40')">财务确认</a></li>
          <li<c:if test="${!empty(param.contStatus) && param.contStatus == '41'}"> class="active"</c:if>><a href="#jyqx" data-toggle="tab" onclick="changeZt('41')">交易取消</a></li>
        </ul>
-       <!-- <div id="myTabContent" class="tab-content">
-         <div class="tab-pane fade active in" id="home">
-           <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-         </div>
-         <div class="tab-pane fade" id="profile">
-           <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
-         </div>
-         <div class="tab-pane fade" id="dropdown1">
-           <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
-         </div>
-         <div class="tab-pane fade" id="dropdown2">
-           <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater.</p>
-         </div>
-       </div> -->
 	</div>
 </div>
 </div>

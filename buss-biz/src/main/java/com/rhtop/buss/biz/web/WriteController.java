@@ -193,7 +193,7 @@ public class WriteController extends BaseController{
 		readResult.setCode("200");
 		
 		try {
-			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps);
+			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps, catePris.getCategoryId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
