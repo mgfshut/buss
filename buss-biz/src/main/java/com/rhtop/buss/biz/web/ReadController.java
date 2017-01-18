@@ -317,9 +317,14 @@ public class ReadController  extends BaseController {
 	public ResultInfo notCtofPrice(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
+		transactionInfo.setTxStatus("21");
+		traSer.listPagePriceByUniMgr(transactionInfo);
+//		if(traSer){}
 		//品类信息
-		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		/*Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		
+		
 		if (cate != null){
 			//获取品类渠道信息（客户与品类的关系表）
 			List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
@@ -335,7 +340,7 @@ public class ReadController  extends BaseController {
 			readResult.setMessage("品类信息不存在！");
 		}
 		
-		readResult.setResObject(cate);
+		readResult.setResObject(cate);*/
 		return readResult;
 	}
 	

@@ -306,4 +306,42 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		List<TransactionInfo> tras = transactionInfoMapper.listPageInfo(transactionInfo);
 		return tras;
 	}
+	
+	@Override
+	public ResultInfo listPagePriceByUniMgr(TransactionInfo transactionInfo) {
+				//1，得到交易表中没有回盘的交易
+				//2，交易表中的品类id,客户id,
+				//3,根据品类id和客户的渠道，得到价格
+		ResultInfo resultInfo = new ResultInfo();
+		TransactionInfo ts = new TransactionInfo ();
+		ts.setTxStatus("21");
+		List<TransactionInfo> trans = transactionInfoMapper.listTransactionInfos(ts);
+		for(TransactionInfo t:trans){
+			Category cate = catMapper.selectByPrimaryKey(t.getCategoryId());
+			Customer cust = cusMapper.selectByPrimaryKey(t.getCustomerId());
+			RelCategoryPrice relCP = new RelCategoryPrice();
+			relCP.setCusChaVal(cust.getCusCha());
+			relCP.setCategoryId(t.getCategoryId());
+			try {
+				relCP = relCPMapper.listRelCategoryPrices(relCP).get(0);
+			} catch (Exception e) {
+				resultInfo.setCode("500");
+				resultInfo.setMessage("信息错误!");
+			}
+			t.setCate(cate);
+			t.setCust(cust);
+			t.setRel(relCP);
+		}
+		if(trans.size()==0){
+			resultInfo.setCode("200");
+			resultInfo.setMessage("无结果");
+		}
+		return resultInfo;
+	}
+
+	@Override
+	public List<TransactionInfo> listPageNotPriceByUniMgr() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

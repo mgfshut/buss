@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service;
 
 import java.util.List;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 
@@ -86,4 +87,22 @@ public interface TransactionInfoService{
 	 * @return
 	 */
 	List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo);
+	
+	/**
+	 * 国际部查询已回盘列表 交易状态为21的交易
+	 * 国际部查询未回盘列表 交易状态为20的交易
+	 * @author lujin
+	 * @date 2017-1-18
+	 * @return
+	 */
+	ResultInfo listPagePriceByUniMgr(TransactionInfo transactionInfo);
+	
+	/**
+	 * 国际部查询未回盘列表
+	 * 交易状态为20的交易
+	 * @author lujin
+	 * @date 2017-1-18
+	 * @return
+	 */
+	List<TransactionInfo> listPageNotPriceByUniMgr();
 }

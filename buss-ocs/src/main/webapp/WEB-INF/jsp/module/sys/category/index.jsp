@@ -54,8 +54,8 @@
 			<tr target="categoryId" rel="${item.categoryId}">
 				<td>${item.cateName}</td>
 				<td>${item.manuNum}</td>
-				<td>${item.prodPla}</td>
-				<td>${item.cateStan}</td>
+				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
+				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.pkgQuan}</td>
 				<td>${item.comm}</td>
 			</tr>

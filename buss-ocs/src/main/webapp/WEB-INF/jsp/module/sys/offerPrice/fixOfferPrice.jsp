@@ -31,21 +31,42 @@
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="${prodPla}">
+				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${item.prodPla }"/>">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="comm" class="form-control textInput" required="required" readOnly="readonly" value="${comm}">
+				<input type="text" name="cateStan" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/>">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
-				<label class="col-sm-2 control-label">品类规格：</label>
+				<label class="col-sm-2 control-label">备注：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateStan" class="form-control textInput" required="required" readOnly="readonly" value="${cateStan}">
+				<input type="text" name="comm_" class="form-control textInput" required="required" readOnly="readonly" value="${comm}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">供应商：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cateSup" class="form-control textInput"  required="required" readOnly="readonly" value="${cateSup}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">货币币种：</label>
+				<div class="col-sm-8">
+				<input type="text" name="currency" class="form-control textInput"  required="required" readOnly="readonly" value="${currency}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">计量单位：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cateSup" class="form-control textInput"  required="required" readOnly="readonly" value="${cateSup}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

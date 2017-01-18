@@ -76,4 +76,5 @@ public interface CategoryService{
 	 * @return
 	 */
 	List<Category> listPageByCustomerAndPrice(String customerId);
+	
 }
