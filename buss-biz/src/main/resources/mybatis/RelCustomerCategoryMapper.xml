@@ -276,6 +276,20 @@
 			and	reg_mgr_ck_ = #{regMgrCk}
 		</if>
   </select>
+  <!-- 根据品类ID、渠道ID、创建人查询记录 -->
+  <select id="selectByChaAndCateAndCreater" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+  	FROM buss_rel_customer_category_ 
+  	WHERE create_user_ = #{0} AND category_id_ = #{1} AND cus_cha_id = #{2} 
+  </select>
+  <!-- 根据品类ID、渠道ID查询记录 -->
+  <select id="selectByChaAndCate" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM buss_rel_customer_category_ 
+  	WHERE cus_cha_id = #{0} AND category_id_ = #{1} 
+  </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageRelCustomerCategory" parameterType="com.rhtop.buss.common.entity.RelCustomerCategory" resultMap="BaseResultMap">
   	select 

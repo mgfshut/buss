@@ -31,6 +31,14 @@ public interface RelCustomerCategoryMapper {
      */
     RelCustomerCategory selectByPrimaryParam(RelCustomerCategory relCustomerCategory);
     /**
+     * 根据创建人、品类、渠道查询关系记录
+     */
+    RelCustomerCategory selectByChaAndCateAndCreater(String creater, String categoryId, String cusChaId);
+    /**
+     * 根据品类、渠道查询关系记录
+     */
+    List<RelCustomerCategory> selectByChaAndCate(String cusChaId, String categoryId);
+    /**
      * 根据条件查询列表
      */
 	List<RelCustomerCategory> listRelCustomerCategorys(RelCustomerCategory relCustomerCategory);

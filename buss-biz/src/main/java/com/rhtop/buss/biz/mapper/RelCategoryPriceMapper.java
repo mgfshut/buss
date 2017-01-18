@@ -35,6 +35,10 @@ public interface RelCategoryPriceMapper {
      */
     RelCategoryPrice selectByCategoryId(String categoryId);
     /**
+     * 根据品类ID和渠道查询关系记录中最后更新的一条（按理说应该只有一条，查最后一条是为了容错）
+     */
+    List<RelCategoryPrice> selectByCategoryIdAndChaId(String categoryId,String chaId);
+    /**
      * 根据条件查询列表
      */
 	List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice);

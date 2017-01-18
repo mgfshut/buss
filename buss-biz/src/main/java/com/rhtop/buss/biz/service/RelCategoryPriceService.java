@@ -39,12 +39,19 @@ public interface RelCategoryPriceService{
 	/**
 	 * 创建或更新品类三个中间价
 	 */
-	ResultInfo createOrUpdateMidPriceByCategoryId(ResultInfo readresult, List<RelCategoryPrice> relCategoryPrices);
+	ResultInfo createOrUpdateMidPriceByCategoryId(ResultInfo readresult, List<RelCategoryPrice> relCategoryPrices)throws Exception;
 	
 	/**
 	 * 创建或更新报盘价和报盘时效
+	 * @throws Exception 
 	 */
-	ResultInfo createOrUpdateOfferPriceAndTimeByCategoryId(ResultInfo readResult, RelCategoryPrice relCategoryPrice);
+	ResultInfo createOrUpdateOfferPriceAndTimeByCategoryId(ResultInfo readResult, RelCategoryPrice relCategoryPrice) throws Exception;
+	
+	/**
+	 * 国际部新建品类、填写供应商、两个单位、报盘价和报盘时效
+	 */
+	ResultInfo universeAddCategoryAndPrice(ResultInfo readResult, Category category) throws Exception;
+	
 	
 	/**
 	 * 根据条件查询列表
