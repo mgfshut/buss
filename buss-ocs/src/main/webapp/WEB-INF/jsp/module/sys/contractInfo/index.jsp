@@ -4,90 +4,209 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
-
+<script>
+$(function(){
+	
+	$("td[contStatusTd]").each(function(){
+		var valTd = $(this).attr("contStatusTd");
+		var valStr = $("select[name='contStatus'] option[value='"+valTd+"']", navTab.getCurrentPanel()).text();
+		$(this).html(valStr);
+	});
+})
+function changeZt(val){
+	$("input[name='contStatus']", navTab.getCurrentPanel()).val(val);
+	$("#pagerForm", navTab.getCurrentPanel()).submit();
+}
+</script>
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="module/sys-contractInfo-index/contractInfo-pager" method="post" onsubmit="return navTabSearch(this);">
-
 <input type="hidden" name="currentPage" value="${page.currentPage}" />
 <input type="hidden" name="totalResult" value="${page.totalResult}" />
 <input type="hidden" name="totalPage" value="${page.totalPage}" />
 <input type="hidden" name="showCount" value="${param.page.showCount eq null?10:param.page.showCount}" /> 
-<input type="hidden" name="orderField" value="${param.page.orderField eq null?'memberId':param.page.orderField}" />
 <input type="hidden" name="orderDirection" value="${param.page.orderDirection eq null?'asc':param.page.orderDirection}" />
-
+<!-- 状态字典缓存 -->
+<ys:codemapSelect codemap="contStatus" name="contStatus" disabled="disabled" style="display:none"></ys:codemapSelect>
+<!-- 后台排序按创建时间先后顺序排，asc  -->
+<!-- 默认是查询所有状态数据，然后这个值根据tab选择来改变 -->
+<input type="hidden" name="contStatus" value="${param}" />
 <div class="pageHeader">
 <div class="searchBar container-fluid">
 	<div class="row">
-		<div class="col-xs-4"><input  name="contractInfoId" placeholder="输入合同编号筛选" type="text" 
-			class="form-control input-sm col-xs-4" size="10" value="${param.contractInfoId}"></div>
-		<div class="col-xs-4"><input  name="totPri" size="10" placeholder="输入总价筛选" type="text" 
-			class="form-control input-sm col-xs-4" value="${param.totPri}"></div>
-		<div class="col-xs-offset-2 col-xs-2" style="text-align: right;">
-			<button class="btn btn-primary btn-sm" type="submit"><i class="icon-search"></i> <span>检索</span></button>
-		</div>
+		<ul class="nav nav-tabs">
+         <li<c:if test="${empty(param.contStatus) || param.contStatus == ''}"> class="active"</c:if>><a href="#conall" data-toggle="tab" onclick="changeZt('')">全部</a></li>
+         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '20'}"> class="active"</c:if>><a href="#conhtsd" data-toggle="tab" onclick="changeZt('20')">合同审定</a></li>
+         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '30'}"> class="active"</c:if>><a href="#conxzgz" data-toggle="tab" onclick="changeZt('30')">行政盖章</a></li>
+         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '41'}"> class="active"</c:if>><a href="#conjyqx" data-toggle="tab" onclick="changeZt('41')">交易取消</a></li>
+       </ul>
 	</div>
 </div>
 </div>
-</form> 
-<div class="pageContent">
-<div class="panelBar">
-		<div class="btn-group" style="margin:4px 5px;">
-			<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-print-{contractInfoId}"  
-				 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
-			<!-- <a class="btn btn-primary btn-sm" href="sys/print/contractInfo/{contractInfoId}"  
-				 title="打印合同"  target="_blank" ><i class="icon-check"></i> <span>打印合同</span></a> -->
+</form>
+
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade<c:if test="${empty(param.contStatus) || param.contStatus == ''}"> active in</c:if>" id="conall">
+  	<div class="pageContent">
+		<div class="panelBar">
+				<div class="btn-group" style="margin:4px 5px;">
+					<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-print-{contractInfoId}"  
+						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
+					<a class="btn btn-info btn-sm" href="module/sys-contractInfo-detail/contractInfo-print-{contractInfoId}"  
+						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
+				</div>
 		</div>
+	    <table class="table" width="100%" layoutH="146">
+			<thead>
+				<tr>
+					<th>客户名称</th>
+					<th>法人代表</th>
+					<th>企业信用代码</th>
+					<th>联系方式</th>
+					<th>客户地址</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${resList}" var="item">
+					<tr target="contractInfoId" rel="${item.contractInfoId}">
+						<td>${item.cusName}</td>
+						<td>${item.legalPer}</td>
+						<td>${item.creditCode}</td>
+						<td>${item.entTel}</td>
+						<td>${item.entAddr}</td>
+						<td <c:if test="${!empty(item.contStatus)}">contStatusTd="${item.contStatus}"</c:if>>&nbsp;</td>
+						<td>
+							<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/${item.contractInfoId}" style="line-height:11px;"
+						 	title="打印合同"  target="_blank" ><span>打印合同</span></a>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<sdf:dwzPage style="width:300px;"></sdf:dwzPage>
+	</div>
+  </div>
+  <div class="tab-pane fade<c:if test="${!empty(param.contStatus) && param.contStatus == '20'}"> active in</c:if>" id="conhtsd">
+  	<div class="pageContent">
+		<div class="panelBar">
+				<div class="btn-group" style="margin:4px 5px;">
+					<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-print-{contractInfoId}"  
+						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
+					<a class="btn btn-info btn-sm" href="module/sys-contractInfo-detail/contractInfo-{contractInfoId}"  
+						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
+				</div>
+		</div>
+	    <table class="table" width="100%" layoutH="146">
+			<thead>
+				<tr>
+					<th>客户名称</th>
+					<th>法人代表</th>
+					<th>企业信用代码</th>
+					<th>联系方式</th>
+					<th>客户地址</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${resList}" var="item">
+					<tr target="contractInfoId" rel="${item.contractInfoId}">
+						<td>${item.cusName}</td>
+						<td>${item.legalPer}</td>
+						<td>${item.creditCode}</td>
+						<td>${item.entTel}</td>
+						<td>${item.entAddr}</td>
+						<td <c:if test="${!empty(item.contStatus)}">contStatusTd="${item.contStatus}"</c:if>>&nbsp;</td>
+						<td>
+							<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/${item.contractInfoId}" style="line-height:11px;"
+						 	title="打印合同"  target="_blank" ><span>打印合同</span></a>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<sdf:dwzPage style="width:300px;"></sdf:dwzPage>
+	</div>
+  </div>
+  <div class="tab-pane fade<c:if test="${!empty(param.contStatus) && param.contStatus == '30'}"> active in</c:if>" id="conxzgz">
+  	<div class="pageContent">
+		<div class="panelBar">
+				<div class="btn-group" style="margin:4px 5px;">
+					<a class="btn btn-info btn-sm" href="module/sys-contractInfo-detail/contractInfo-{contractInfoId}"  
+						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
+				</div>
+		</div>
+	    <table class="table" width="100%" layoutH="146">
+			<thead>
+				<tr>
+					<th>客户名称</th>
+					<th>法人代表</th>
+					<th>企业信用代码</th>
+					<th>联系方式</th>
+					<th>客户地址</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${resList}" var="item">
+					<tr target="contractInfoId" rel="${item.contractInfoId}">
+						<td>${item.cusName}</td>
+						<td>${item.legalPer}</td>
+						<td>${item.creditCode}</td>
+						<td>${item.entTel}</td>
+						<td>${item.entAddr}</td>
+						<td <c:if test="${!empty(item.contStatus)}">contStatusTd="${item.contStatus}"</c:if>>&nbsp;</td>
+						<td>
+							<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/${item.contractInfoId}" style="line-height:11px;"
+						 	title="打印合同"  target="_blank" ><span>打印合同</span></a>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<sdf:dwzPage style="width:300px;"></sdf:dwzPage>
+  </div>
+  <div class="tab-pane fade<c:if test="${!empty(param.contStatus) && param.contStatus == '41'}"> active in</c:if>" id="conjyqx">
+  	<div class="pageContent">
+		<div class="panelBar">
+				<div class="btn-group" style="margin:4px 5px;">
+					<a class="btn btn-info btn-sm" href="module/sys-contractInfo-detail/contractInfo-{contractInfoId}"  
+						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
+				</div>
+		</div>
+	    <table class="table" width="100%" layoutH="146">
+			<thead>
+				<tr>
+					<th>客户名称</th>
+					<th>法人代表</th>
+					<th>企业信用代码</th>
+					<th>联系方式</th>
+					<th>客户地址</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${resList}" var="item">
+					<tr target="contractInfoId" rel="${item.contractInfoId}">
+						<td>${item.cusName}</td>
+						<td>${item.legalPer}</td>
+						<td>${item.creditCode}</td>
+						<td>${item.entTel}</td>
+						<td>${item.entAddr}</td>
+						<td <c:if test="${!empty(item.contStatus)}">contStatusTd="${item.contStatus}"</c:if>>&nbsp;</td>
+						<td>
+							<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/${item.contractInfoId}" style="line-height:11px;"
+						 	title="打印合同"  target="_blank" ><span>打印合同</span></a>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<sdf:dwzPage style="width:300px;"></sdf:dwzPage>
+  </div>
 </div>
-<table class="table" width="100%" layoutH="140">
-	<thead>
-		<tr>
-			<th orderField="contractInfoId" class="${param.orderField eq 'contractInfoId'?param.orderDirection:''}">合同编号</th>
-			<th orderField="totPri" class="${param.orderField eq 'totPri'?param.orderDirection:''}">总价</th>
-			<th orderField="txAmo" class="${param.orderField eq 'txAmo'?param.orderDirection:''}">交易数量</th>
-			<th orderField="ctofPri" class="${param.orderField eq 'ctofPri'?param.orderDirection:''}">回盘价</th>
-			<th>操作</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach items="${resList}" var="item">
-			<tr target="contractInfoId" rel="${item.contractInfoId}">
-				<td>${item.contractInfoId}</td>
-				<td>${item.totPri}</td>
-				<td>${item.txAmo}</td>
-				<td>${item.ctofPri}</td>
-				<td>
-					<a class="btn btn-primary btn-sm" href="sys/print/contractInfo/${item.contractInfoId}" style="line-height:11px;"
-				 	title="打印合同"  target="_blank" ><span>打印合同</span></a>
-				</td>
-			</tr>
-		</c:forEach>
-	</tbody>
-</table>
-
-<sdf:dwzPage style="width:300px;"></sdf:dwzPage>
-</div>
-
-<script>
-    $(function(){
-    	//文件下载
-    	jQuery.download = function(url, method, cateName, manuNum){
-    	    jQuery('<form action="'+url+'" method="'+(method||'post')+'">' +  // action请求路径及推送方法
-    	                '<input type="text" name="cateName" value="'+cateName+'"/>' + // 品类名称
-    	                '<input type="text" name="manuNum" value="'+manuNum+'"/>' + // 厂号
-    	            '</form>')
-    	    .appendTo('body').submit().remove();
-    	};
-    	
-    	
-        $('#check').click(function(){
-        	var cateName = $('#selectCateName').val();
-        	var manuNum = $('#selectManuNum').val();
-        	$.download('/sys/excel/category', 'post', cateName, manuNum); // 下载文件
-        })
-        
-        function printContract(contractInfoId){
-        	alert(contractInfoId);
-        };
-        
-    })
-</script>

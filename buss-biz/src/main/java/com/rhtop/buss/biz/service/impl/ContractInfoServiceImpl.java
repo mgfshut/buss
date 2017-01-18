@@ -195,6 +195,17 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			contract.setZtcsgTel(contract.getCsgTel());
 			contract.setZtcsgAddr(contract.getCsgAddr());
 			contract.setZtcsgId(contract.getCsgId());
+			contract.setCsgName("");
+			contract.setCsgTel("");
+			contract.setCsgAddr("");
+			contract.setCsgId("");
+		}else{
+			contract.setZtcsgName("");
+			contract.setZtcsgTel("");
+			contract.setZtcsgAddr("");
+			contract.setZtcsgId("");
+			contract.setCarNum("");
+			contract.setDriNum("");
 		}
 		return contract;
 	}
