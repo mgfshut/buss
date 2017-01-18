@@ -262,7 +262,7 @@ public class CategoryController  extends BaseController {
 			catePri.setUpdateUser(userId);
 			catePri.setUniMgrId(userId);
 			catePri.setOfferUpdateTime(now);
-			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(catePri);
+			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catePri);
 		} catch (Exception e) {
 			log.error("[CategoryController.updateCategoryPrice]数据更新异常", e);
 		}

@@ -245,26 +245,26 @@ public class OutController extends BaseController {
 		return readResult;
 	}
 	
-	/**
-	 * app版本更新接口
-	 * @author mgf
-	 * @date 2017年1月17日 上午10:13:04 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/versionUpdate")
-	public ResultInfo versionUpdate(HttpServletRequest request) {
-		ResultInfo readResult = new ResultInfo();
-		String token = request.getHeader("token");
-		String memberId = request.getHeader("memberId");
-		Map<String,Object> result = Jwt.validToken(memberId,token);
-		readResult.setCode(result.get("code").toString());
-		readResult.setMessage(result.get("message").toString());
-		if("200".equals(result.get("code").toString())){
-			//TODO
-		}
-		return readResult;
-	}
+//	/**
+//	 * app版本更新接口
+//	 * @author mgf
+//	 * @date 2017年1月17日 上午10:13:04 
+//	 * @param request
+//	 * @return
+//	 */
+//	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/writeData/versionUpdate")
+//	public ResultInfo versionUpdate(HttpServletRequest request) {
+//		ResultInfo readResult = new ResultInfo();
+//		String token = request.getHeader("token");
+//		String memberId = request.getHeader("memberId");
+//		Map<String,Object> result = Jwt.validToken(memberId,token);
+//		readResult.setCode(result.get("code").toString());
+//		readResult.setMessage(result.get("message").toString());
+//		if("200".equals(result.get("code").toString())){
+//			//TODO
+//		}
+//		return readResult;
+//	}
 	
 	
 	/**
@@ -532,7 +532,7 @@ public class OutController extends BaseController {
 	}
 	
 	//用户定盘接口
-	//入参：transactionInfoId交易记录ID，contractInfo合同对象。
+	//入参：transactionInfoId交易记录ID，contractInfo23合同对象。
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0005")
 	public ResultInfo createContract(HttpServletRequest request, @RequestBody ContractInfo contract){
 		ResultInfo readResult = new ResultInfo();
