@@ -34,8 +34,6 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	@Autowired
 	private CustomerMapper cusMapper;
 	@Autowired
-	private SlaTransactionInfoMapper slaMapper;
-	@Autowired
 	private ContractInfoMapper conMapper;
 	@Autowired
 	private TransactionInfoMapper transactionInfoMapper;
@@ -98,7 +96,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			throw e;
 		}
 	}
-//TODO：
+//TODO：国际部未回盘客户可以再次更改客户价
 	@Override
 	public ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx) {
 		try {
@@ -110,22 +108,24 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 				readResult.setCode("500");
 				readResult.setMessage("非法操作，交易ID无效。");
 			} else {
-				transactionInfoMapper.updateByPrimaryKeySelective(tx);
-				SlaTransactionInfo slaTx = new SlaTransactionInfo();
-				String slaTransactionInfoId = UUID.randomUUID().toString()
-						.replace("-", "");
-				slaTx.setSlaTransactionInfoId(slaTransactionInfoId);
-				String now = tx.getUpdateTime();
-				String userId = tx.getUpdateUser();
-				slaTx.setCreateTime(now);
-				slaTx.setUpdateTime(now);
-				slaTx.setCreateUser(userId);
-				slaTx.setUpdateUser(userId);
-				slaTx.setTransactionInfoId(transactionInfoId);
-				slaTx.setPcasPri(tx.getPcasPri());
-				slaTx.setPcasTime(now);
-				slaTx.setTxAmo(tx.getTxAmo());
-				slaTxMapper.insertSelective(slaTx);
+				if(tx1.getTxStatus()=="20"||tx1.getTxStatus().trim().equals("20")){
+					transactionInfoMapper.updateByPrimaryKeySelective(tx);
+					SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(transactionInfoId);
+					String now = tx.getUpdateTime();
+					String userId = tx.getUpdateUser();
+					slaTx.setCreateTime(now);
+					slaTx.setUpdateTime(now);
+					slaTx.setCreateUser(userId);
+					slaTx.setUpdateUser(userId);
+					slaTx.setTransactionInfoId(transactionInfoId);
+					slaTx.setPcasPri(tx.getPcasPri());
+					slaTx.setPcasTime(now);
+					slaTxMapper.updateByPrimaryKeySelective(slaTx);
+					readResult.setMessage("修改报价完成！");
+				} else{
+					readResult.setCode("500");
+					readResult.setMessage("请等待本轮回盘完成！");
+				}
 				return readResult;
 			}
 		} catch (Exception e) {
@@ -137,40 +137,48 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 
 	@Override
 	public String universeNegotiate(TransactionInfo tx) {
-		String transactionInfoId = tx.getTransactionInfoId();
-		transactionInfoMapper.updateByPrimaryKeySelective(tx);
-		SlaTransactionInfo slaTx = slaTxMapper
-				.selectLatestByTransactionInfoId(transactionInfoId);
-		String now = tx.getUpdateTime();
-		String userId = tx.getUpdateUser();
-		slaTx.setUpdateTime(now);
-		slaTx.setUpdateUser(userId);
-		slaTx.setCtofTime(now);
-		slaTx.setCtofAging(tx.getCtofAging());
-		slaTx.setCtofPerId(userId);
-		slaTx.setUniCtofPri(tx.getCtofPri());
-		slaTx.setCtofCkSta("00");
-		slaTxMapper.updateByPrimaryKeySelective(slaTx);
-		return transactionInfoId;
+		try {
+			String transactionInfoId = tx.getTransactionInfoId();
+			transactionInfoMapper.updateByPrimaryKeySelective(tx);
+			SlaTransactionInfo slaTx = slaTxMapper
+					.selectLatestByTransactionInfoId(transactionInfoId);
+			String now = tx.getUpdateTime();
+			String userId = tx.getUpdateUser();
+			slaTx.setUpdateTime(now);
+			slaTx.setUpdateUser(userId);
+			slaTx.setCtofTime(now);
+			slaTx.setCtofAging(tx.getCtofAging());
+			slaTx.setCtofPerId(userId);
+			slaTx.setUniCtofPri(tx.getCtofPri());
+			slaTx.setCtofCkSta("00");
+			slaTxMapper.updateByPrimaryKeySelective(slaTx);
+			return transactionInfoId;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public String domainNegotiate(TransactionInfo tx) {
-		String transactionInfoId = tx.getTransactionInfoId();
-		String userId = tx.getUpdateUser();
-		transactionInfoMapper.updateByPrimaryKeySelective(tx);
-		SlaTransactionInfo slaTx = slaTxMapper
-				.selectLatestByTransactionInfoId(transactionInfoId);
-		String now = tx.getUpdateTime();
-		slaTx.setCtofCkSta("22");
-		slaTx.setCtofCkPer(userId);
-		slaTx.setCtofCkTime(now);
-		slaTx.setDomCtofPri(tx.getCtofPri());
-		slaTx.setCtofAging(tx.getCtofAging());
-		slaTx.setUpdateTime(now);
-		slaTx.setUpdateUser(userId);
-		slaTxMapper.updateByPrimaryKeySelective(slaTx);
-		return transactionInfoId;
+		try {
+			String transactionInfoId = tx.getTransactionInfoId();
+			String userId = tx.getUpdateUser();
+			transactionInfoMapper.updateByPrimaryKeySelective(tx);
+			SlaTransactionInfo slaTx = slaTxMapper
+					.selectLatestByTransactionInfoId(transactionInfoId);
+			String now = tx.getUpdateTime();
+			slaTx.setCtofCkSta("22");
+			slaTx.setCtofCkPer(userId);
+			slaTx.setCtofCkTime(now);
+			slaTx.setDomCtofPri(tx.getCtofPri());
+			slaTx.setCtofAging(tx.getCtofAging());
+			slaTx.setUpdateTime(now);
+			slaTx.setUpdateUser(userId);
+			slaTxMapper.updateByPrimaryKeySelective(slaTx);
+			return transactionInfoId;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
@@ -195,7 +203,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		// 回盘信息
 		SlaTransactionInfo slatransaction = new SlaTransactionInfo();
 		slatransaction.setTransactionInfoId(transactionInfoId);
-		List<SlaTransactionInfo> sla = slaMapper
+		List<SlaTransactionInfo> sla = slaTxMapper
 				.listSlaTransactionInfos(slatransaction);
 		// 合同信息
 		ContractInfo contractinfo = new ContractInfo();
