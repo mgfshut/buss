@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service;
 
 import java.util.List;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 
