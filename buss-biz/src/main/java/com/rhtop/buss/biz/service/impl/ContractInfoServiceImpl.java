@@ -75,23 +75,27 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 
 	@Override
 	public String createContract(ContractInfo con) {
-		TransactionInfo tx = new TransactionInfo();
-		tx.setTransactionInfoId(con.getTransactionInfoId());
-		tx.setUpdateTime(con.getUpdateTime());
-		tx.setUpdateUser(con.getUpdateUser());
-		tx.setTxStatus("30");
-		txMapper.updateByPrimaryKeySelective(tx);
-		SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(tx.getTransactionInfoId());
-		slaTx.setUpdateUser(tx.getUpdateUser());
-		slaTx.setUpdateTime(tx.getUpdateTime());
-		slaTx.setCusAplSta("01");
-		slaTxMapper.updateByPrimaryKeySelective(slaTx);
-		String conId = UUID.randomUUID().toString().replace("-", "");
-		con.setContractInfoId(conId);
-		con.setEndTime(tx.getEndTime());
-		con.setContStatus("10");
-		contractInfoMapper.insertSelective(con);
-		return conId;
+		try {
+			TransactionInfo tx = new TransactionInfo();
+			tx.setTransactionInfoId(con.getTransactionInfoId());
+			tx.setUpdateTime(con.getUpdateTime());
+			tx.setUpdateUser(con.getUpdateUser());
+			tx.setTxStatus("30");
+			txMapper.updateByPrimaryKeySelective(tx);
+			SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(tx.getTransactionInfoId());
+			slaTx.setUpdateUser(tx.getUpdateUser());
+			slaTx.setUpdateTime(tx.getUpdateTime());
+			slaTx.setCusAplSta("01");
+			slaTxMapper.updateByPrimaryKeySelective(slaTx);
+			String conId = UUID.randomUUID().toString().replace("-", "");
+			con.setContractInfoId(conId);
+			con.setEndTime(tx.getEndTime());
+			con.setContStatus("10");
+			contractInfoMapper.insertSelective(con);
+			return conId;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
