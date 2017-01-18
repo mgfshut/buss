@@ -240,10 +240,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			rel.setCusChaVal(cust.getCusCha());
 			RelCategoryPrice relInfo = relCPMapper.listPageRelCategoryPrice(rel).get(0);
 			
-			tran.setCate(cate);
-			tran.setCust(cust);
 			tran.setRel(relInfo);
-			tran.setSla(listSla);
 		}else{
 			//合同信息
 			ContractInfo cont = new ContractInfo();

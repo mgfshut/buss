@@ -9,14 +9,18 @@ import org.springframework.stereotype.Controller;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
@@ -27,6 +31,10 @@ import com.rhtop.buss.common.web.HtmlMessage;
 public class TransactionInfoController  extends BaseController {
 	@Autowired
 	private TransactionInfoService transactionInfoService;
+	@Autowired
+	private CategoryService cateSer;
+	@Autowired
+	private CustomerService custSer;
 	
     /**
      * 新增
@@ -114,6 +122,8 @@ public class TransactionInfoController  extends BaseController {
 	/**
 	 * 国际人员 pc
 	 * 回盘信息 
+	 * @author lujin
+	 * @date 2017-1-16
 	 * @param 
 	 * @return
 	 */
@@ -128,4 +138,28 @@ public class TransactionInfoController  extends BaseController {
 		infoResult.setPage(transactioninfo.getPage());
 		return infoResult;
 		}
+	/**
+	 * 回盘记录详情
+	 * @author lujin
+	 * @date 2017-1-17
+	 * @param transactioninfoId
+	 * @return
+	 */
+	@RequestMapping("/getTranInfo/{transactioninfoId}")
+	@ResponseBody
+	public InfoResult<TransactionInfo>  getTranInfo(@PathVariable("transactioninfoId")  String transactioninfoId){
+		InfoResult<TransactionInfo>  infoResult = new InfoResult<TransactionInfo>();
+		if("".equals(transactioninfoId)){
+			infoResult.setCode("500");
+			infoResult.setMsg("请选择信息");
+		}
+		TransactionInfo tran = transactionInfoService.selectByPrimaryKey(transactioninfoId);
+		Category cate = cateSer.selectByPrimaryKey(tran.getCategoryId());
+		Customer  cust = custSer.selectByPrimaryKey(tran.getCustomerId());
+		tran.setCate(cate);
+		tran.setCust(cust);
+		infoResult.setResObject(tran);
+		return infoResult;
+	}
+	
 }

@@ -201,7 +201,6 @@ public class ReadController  extends BaseController {
 		List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
 		try{
 			cate.setRcacu(recacu);
-			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
