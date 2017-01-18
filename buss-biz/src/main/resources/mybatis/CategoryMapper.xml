@@ -202,7 +202,7 @@
   	<include refid="Base_Column_List"/>
   	FROM buss_category_ 
   	WHERE cate_name_ = #{cateName} 
-  	  AND comm_ = #{comm} 
+  	  AND cate_stan_ = #{cateStan} 
   	  AND manu_num_ = #{manuNum} 
   	  AND prod_pla_ = #{prodPla} 
   </select>

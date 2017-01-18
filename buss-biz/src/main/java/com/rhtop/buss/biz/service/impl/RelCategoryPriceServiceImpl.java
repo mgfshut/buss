@@ -77,13 +77,17 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 					relCategoryPrice.setCreateUser(relCategoryPrice.getMgrId());
 					relCategoryPrice.setCreateTime(now);
+					relCategoryPrice.setUpdateUser(relCategoryPrice.getMgrId());
+					relCategoryPrice.setUpdateTime(now);
+//					relCategoryPrice.setMgrCk("02");
 					relCategoryPriceMapper.insertSelective(relCategoryPrice);
 				}else{
-					rel.setMidUpdateTime(now);
+					rel.setFlgUpdateTime(now);
 					rel.setWholesalePri(relCategoryPrice.getWholesalePri());
 					rel.setAcptPri(relCategoryPrice.getAcptPri());
 					rel.setUpdateUser(relCategoryPrice.getMgrId());
 					rel.setUpdateTime(now);
+//					rel.setMgrCk("02");
 					relCategoryPriceMapper.updateByCategoryId(rel);
 				}
 			}
@@ -98,6 +102,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	public ResultInfo createOrUpdateMidPriceByCategoryId(ResultInfo readResult, List<RelCategoryPrice> relCategoryPrices) {
 		try {
 			for(RelCategoryPrice relCategoryPrice : relCategoryPrices){
+				RelCategoryPrice rel = relCategoryPriceMapper.checkRegMgrCategory(relCategoryPrice);
 				if(relCategoryPrice.getWholesalePri()==null||
 						relCategoryPrice.getAcptPri()==null){
 					readResult.setCode("500");
