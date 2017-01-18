@@ -10,6 +10,7 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -188,7 +189,7 @@ public class ContractInfoController  extends BaseController {
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
 			cif.setContUlName(contractInfo.getContUlName().substring(0, contractInfo.getContUlName().length()-1));
-			cif.setContStatus("02");
+			cif.setContStatus("30");
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			cif.setUpdateUser(userId);
 			contractInfoService.updateContractInfo(cif);
@@ -201,17 +202,21 @@ public class ContractInfoController  extends BaseController {
 	 */
 	@RequestMapping("/checkPay")
 	@ResponseBody
-	public HtmlMessage checkPay(@Valid @RequestParam(value="userId")String userId, @Valid ContractInfo contractInfo){
+	public HtmlMessage checkPay(@Valid @RequestParam(value="userId")String userId, @Valid ContractInfo contractInfo, String newFile){
 		HtmlMessage htmlMessage = new HtmlMessage();
 		if(contractInfo.getContractInfoId() == null || "".equals(contractInfo.getContractInfoId())){
 			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
 			htmlMessage.setMessage("合同ID不能为空");
-		}else if(contractInfo.getContUlName() == null || "".equals(contractInfo.getContUlName())){
+		}else if(StringUtils.isEmpty(newFile)){
 			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
 			htmlMessage.setMessage("请上传收款确认凭证");
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
-//			cif.setContUlName(contractInfo.getContUlName().substring(0, contractInfo.getContUlName().length()-1));
+			if (StringUtils.isEmpty(contractInfo.getContUlName())){
+				cif.setContUlName(newFile.substring(0, newFile.length() -1));
+			}else{
+				cif.setContUlName(contractInfo.getContUlName() + "," + newFile.substring(0, newFile.length() -1));
+			}
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			cif.setUpdateUser(userId);
 			contractInfoService.treasurerCheckContract(cif);

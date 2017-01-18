@@ -12,6 +12,16 @@ $(document).ready(function() {
 		navTab.closeCurrentTab();
 		return;
 	}
+	if (state == "41"){
+		alertMsg.error("交易已关闭不能继续操作！");
+		navTab.closeCurrentTab();
+		return;
+	}
+	if (state != "30"){
+		alertMsg.error("行政人员确认完成后才能进行财务确认！");
+		navTab.closeCurrentTab();
+		return;
+	}
 	
 	
 	var filePath = "";
@@ -24,7 +34,7 @@ $(document).ready(function() {
 	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
 		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-			filePath = filePath+json.rel+",";
+			filePath += (json.rel+",");
 			$('#filePath').val(filePath);
 		}else{
 			alert("文件上传失败");
@@ -32,10 +42,21 @@ $(document).ready(function() {
 	});
 });
 var csgId = '${csgId}';
+function consnavTabAjaxDone(json){
+	if(json[DWZ.keys.statusCode] == DWZ.statusCode.error) {
+		if(json[DWZ.keys.message] && alertMsg) alertMsg.error(json[DWZ.keys.message]);
+	} else if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+		alertMsg.correct(json[DWZ.keys.message]);
+		setTimeout(function(){navTab.closeCurrentTab(json.navTabId);}, 100);
+	}
+}
 </script>
 <div id="pagerForm" class="pageContent">
-	<form method="post" data-delay="100" action="service/contractInfo-checkPay" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
-		<input type="hidden" name="contUlName" id="filePath">
+	<form method="post" data-delay="100" action="service/contractInfo-checkPay" class="pageForm required-validate" onsubmit="return validateCallback(this, consnavTabAjaxDone)">
+		<%-- 保存新的上传文件 --%>
+		<input type="hidden" name="newFile" id="filePath">
+		<%-- 保存已有的上传文件 --%>
+		<input type="hidden" name="contUlName" value="${contUlName }">
 		<input type="hidden" name="contractInfoId" value="${contractInfoId }">
 		<div id="selectedModulesHiddenFileds" ></div>
 		<div class="pageFormContent  container-fluid" layoutH="68">

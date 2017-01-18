@@ -5,7 +5,6 @@ package com.rhtop.buss.biz.service;
 
 import java.util.List;
 
-import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 
@@ -34,7 +33,7 @@ public interface RelCategoryPriceService{
 	/**
 	 * 创建或更新品类批发价和接盘价
 	 */
-	ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult, List<RelCategoryPrice> relCategoryPrices);
+	ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult, List<RelCategoryPrice> relCategoryPrices, String categoryId);
 	
 	/**
 	 * 创建或更新品类三个中间价

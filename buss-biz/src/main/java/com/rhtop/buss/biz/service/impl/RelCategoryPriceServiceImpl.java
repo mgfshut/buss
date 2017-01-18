@@ -55,11 +55,11 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
-	public ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult,List<RelCategoryPrice> relCategoryPrices) {
+	public ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult,List<RelCategoryPrice> relCategoryPrices, String categoryId) {
 		try {
 			for(RelCategoryPrice relCategoryPrice : relCategoryPrices){
-				if(relCategoryPrice.getWholesalePri()==null||
-						relCategoryPrice.getAcptPri()==null){
+				if(relCategoryPrice.getWholesalePri()==null||relCategoryPrice.getWholesalePri().floatValue() == 0||
+						relCategoryPrice.getAcptPri()==null||relCategoryPrice.getAcptPri().floatValue() == 0){
 					readResult.setCode("500");
 					readResult.setMessage("请完整填写价格，任一渠道的价格都不可为空。");
 					return readResult;
@@ -67,6 +67,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			}
 			for(RelCategoryPrice relCategoryPrice : relCategoryPrices){
 				relCategoryPrice.setMgrId(relCategoryPrice.getUpdateUser());
+				relCategoryPrice.setCategoryId(categoryId);
 				//先通过品类ID检查这条关系记录是否已经存在
 				RelCategoryPrice rel = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
 				Date date = new Date();
@@ -76,13 +77,17 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 					relCategoryPrice.setCreateUser(relCategoryPrice.getMgrId());
 					relCategoryPrice.setCreateTime(now);
+					relCategoryPrice.setUpdateUser(relCategoryPrice.getMgrId());
+					relCategoryPrice.setUpdateTime(now);
+//					relCategoryPrice.setMgrCk("02");
 					relCategoryPriceMapper.insertSelective(relCategoryPrice);
 				}else{
-					rel.setMidUpdateTime(now);
+					rel.setFlgUpdateTime(now);
 					rel.setWholesalePri(relCategoryPrice.getWholesalePri());
 					rel.setAcptPri(relCategoryPrice.getAcptPri());
 					rel.setUpdateUser(relCategoryPrice.getMgrId());
 					rel.setUpdateTime(now);
+//					rel.setMgrCk("02");
 					relCategoryPriceMapper.updateByCategoryId(rel);
 				}
 			}
@@ -97,6 +102,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	public ResultInfo createOrUpdateMidPriceByCategoryId(ResultInfo readResult, List<RelCategoryPrice> relCategoryPrices) {
 		try {
 			for(RelCategoryPrice relCategoryPrice : relCategoryPrices){
+				RelCategoryPrice rel = relCategoryPriceMapper.checkRegMgrCategory(relCategoryPrice);
 				if(relCategoryPrice.getWholesalePri()==null||
 						relCategoryPrice.getAcptPri()==null){
 					readResult.setCode("500");

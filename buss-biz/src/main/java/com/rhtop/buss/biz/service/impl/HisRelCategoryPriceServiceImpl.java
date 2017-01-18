@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.text.log.SysoCounter;
 import com.rhtop.buss.biz.mapper.HisRelCategoryPriceMapper;
 import com.rhtop.buss.biz.service.HisRelCategoryPriceService;
 import com.rhtop.buss.common.entity.HisRelCategoryPrice;
@@ -46,13 +45,7 @@ public class HisRelCategoryPriceServiceImpl implements HisRelCategoryPriceServic
 		his.setSpotMin(relCategoryPrice.getSpotMax());
 		his.setRelCategoryPriceId(relCategoryPrice.getRelCategoryPriceId());
 		his.setRegMgrId(relCategoryPrice.getRegMgrId());
-		
-		try{
-			hisRelCategoryPriceMapper.insertSelective(his);
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		return 0;
+		return hisRelCategoryPriceMapper.insertSelective(his);
 	}
 
-}
+	}

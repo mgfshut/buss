@@ -38,6 +38,10 @@ public class RelCustomerCategory {
 	
 	private String cusChaVal;//渠道值
 	
+	private String mgrCk;//客户经理对价格信息的完善状态 00未完善 02已完善
+	
+	private String regMgrCk;//分部经理对价格的完善状态  00未完善  02已完善
+	
 	private Page page;//分页
 	
 	/**导出用字段 begin**/
@@ -414,5 +418,21 @@ public class RelCustomerCategory {
 
 	public void setCusChaId(String cusChaId) {
 		this.cusChaId = cusChaId;
+	}
+
+	public String getMgrCk() {
+		return mgrCk;
+	}
+
+	public void setMgrCk(String mgrCk) {
+		this.mgrCk = mgrCk;
+	}
+
+	public String getRegMgrCk() {
+		return regMgrCk;
+	}
+
+	public void setRegMgrCk(String regMgrCk) {
+		this.regMgrCk = regMgrCk;
 	}
 }

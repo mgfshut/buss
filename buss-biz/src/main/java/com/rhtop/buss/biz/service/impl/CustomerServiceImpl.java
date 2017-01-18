@@ -87,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
 					contact.setCreateUser(userId);
 					contact.setUpdateUser(userId);
 					contact.setCreateTime(now);
-					contact.setCreateUser(userId);
+					contact.setUpdateTime(now);
 					contact.setContactsInfoId(UUID.randomUUID().toString().replace("-", ""));
 					contact.setCustomerId(customerId);
 					contactsSer.insertContactsInfo(contact);
@@ -104,6 +104,8 @@ public class CustomerServiceImpl implements CustomerService {
 					cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
 					cat.setCreateTime(now);
 					cat.setCreateUser(userId);
+					cat.setUpdateTime(now);
+					cat.setUpdateUser(userId);
 					catSer.insertCategory(cat);
 					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
 					relCustomerCategory.setCreateTime(now);

@@ -656,5 +656,5 @@
     where 
 	rel_category_price_id_ = #{relCategoryPriceId}
   </update>
-
+  
 </mapper>

@@ -504,5 +504,5 @@ public class RelCategoryPrice {
 	public void setCusChaId(String cusChaId) {
 		this.cusChaId = cusChaId;
 	}
-
+ 
 }

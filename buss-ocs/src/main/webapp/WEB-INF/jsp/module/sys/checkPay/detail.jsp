@@ -137,7 +137,7 @@ var csgId = '${csgId}';
 			<div class="form-horizontal" align="center">
 				<div class="form-group" align="center">
 					<div class="col-sm-12" align="center">
-						图片循环列表
+						${contUlName}
 					</div>
 				</div>
 			</div>

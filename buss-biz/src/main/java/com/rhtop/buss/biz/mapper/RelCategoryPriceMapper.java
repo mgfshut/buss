@@ -49,5 +49,11 @@ public interface RelCategoryPriceMapper {
 	 * @return
 	 */
 	int updateSelective(RelCategoryPrice relCategoryPrice);
+	/**
+	 * 分部经理按照创建人ID，品类ID，渠道ID
+	 * @param relCategoryPrice
+	 * @return
+	 */
+	RelCategoryPrice checkRegMgrCategory(RelCategoryPrice relCategoryPrice);
     
 }

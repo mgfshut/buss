@@ -106,6 +106,8 @@ public class WriteController extends BaseController{
 		try {
 			cusSer.addCustomer(readResult, customer); 
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.addCustomerAndCategory]数据更新异常", e);
 		}
 		try{
@@ -191,11 +193,11 @@ public class WriteController extends BaseController{
 		readResult.setCode("200");
 		
 		try {
-			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps);
+			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps, catePris.getCategoryId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
-			readResult.setMessage("更新失败！");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.fixWholesaleAndAcptPrice]数据更新失败", e);
 		}
 		//新增一条操作记录
@@ -250,7 +252,7 @@ public class WriteController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
-			readResult.setMessage("更新失败！");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.fixMidPrice]数据更新失败", e);
 		}
 		//新增一条操作记录
@@ -308,6 +310,8 @@ public class WriteController extends BaseController{
 					readResult.setMessage("审核流程错误！");
 				}
 			} catch (Exception e) {
+				readResult.setCode("500");
+				readResult.setMessage(e.getMessage());
 				log.error("[WriteController.commitNewCustomerLevelOne]数据更新失败", e);
 			}
 		}
@@ -373,6 +377,8 @@ public class WriteController extends BaseController{
 						readResult.setMessage("审核流程错误！");
 					}
 				} catch (Exception e) {
+					readResult.setCode("500");
+					readResult.setMessage(e.getMessage());
 					log.error("[WriteController.commitNewCustomerLevelTwo]数据更新失败", e);
 				}
 			}
@@ -429,6 +435,8 @@ public class WriteController extends BaseController{
 			catePri.setOfferUpdateTime(now);
 			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult,catePri);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.fixOfferPrice]数据更新异常", e);
 		}
 		//记录日志
@@ -509,6 +517,8 @@ public class WriteController extends BaseController{
 				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
 			}
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.universeAddCategory]数据更新异常", e);
 		}
 		//记录日志
@@ -556,6 +566,8 @@ public class WriteController extends BaseController{
 		try {
 			cusSer.updateCustomerInfo(readResult,customer);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.updateCustomerAndCategory]数据更新异常", e);
 		}	
 		//添加一条操作记录
@@ -599,6 +611,8 @@ public class WriteController extends BaseController{
 		try {
 			txId = txSer.createDeal(tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.makeADeal]数据新增异常", e);
 		}
 		try {
@@ -637,6 +651,8 @@ public class WriteController extends BaseController{
 		try {
 			txSer.cusNegotiate(readResult,tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.makeNegotiate]数据更新异常", e);
 		}
 		try {
@@ -678,6 +694,8 @@ public class WriteController extends BaseController{
 		try {
 			txSer.universeNegotiate(tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.universeNegotiate]数据更新异常", e);
 		}
 		try {
@@ -690,6 +708,8 @@ public class WriteController extends BaseController{
 			dlog.setOprName("国际部回盘");
 			dlog.setOprContent(body);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.universeNegotiate]日志记录异常", e);
 		}
 		return readResult;
@@ -717,6 +737,8 @@ public class WriteController extends BaseController{
 		try {
 			txSer.domainNegotiate(tx);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.domainNegotiate]数据更新异常", e);
 		}
 		try {
@@ -744,15 +766,15 @@ public class WriteController extends BaseController{
 		}
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String now = sdf.format(date);
+		String now = DateUtils.getNowTime();
 		String userId = con.getUpdateUser();
 		con.setUpdateTime(now);
 		try {
 			conSer.createContract(con);
 		} catch (Exception e) {
 			log.error("[WriteController.createContract]数据更新异常", e);
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 		}
 		try {
 			DealLog dlog = new DealLog();
@@ -793,6 +815,8 @@ public class WriteController extends BaseController{
 				}
 			}
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.uploadPic]图片上传异常", e);
 		}
 		readResult.setResObject(contUlName);
@@ -837,6 +861,8 @@ public class WriteController extends BaseController{
 		try {
 			conSer.checkContract(con);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.checkContract]数据更新异常", e);
 		}
 		try {
@@ -875,6 +901,8 @@ public class WriteController extends BaseController{
 		try {
 			conSer.contractStamp(con);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.contractStamp]数据更新异常", e);
 		}
 		try {
@@ -914,6 +942,8 @@ public class WriteController extends BaseController{
 			List<String> urlList = conSer.downloadContract(con);
 			readResult.setResObject(urlList);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.downloadContract]数据更新异常", e);
 		}
 		try {

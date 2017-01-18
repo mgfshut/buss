@@ -353,13 +353,13 @@
 			 order by   update_time_  DESC
   </select>
   <!-- 根据主表记录的ID查询最新的该交易的从表信息 -->
-  <select id="selectLatestByTransactionInfoId" parameterType="java.lang.String" resultType="com.rhtop.buss.common.entity.SlaTransactionInfo">
+  <select id="selectLatestByTransactionInfoId" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
     from buss_sla_transaction_info_ as a where 1=1 
-    AND a.transaction_info_id_ = #{0} 
+    AND a.transaction_info_id_ = #{transactionInfoId} 
     AND a.update_time_ = (SELECT MAX(b.update_time_) FROM buss_sla_transaction_info_ as b 
-    						WHERE b.transaction_info_id_ = #{0}
+    						WHERE b.transaction_info_id_ = #{transactionInfoId}
     					)
   </select>
   
