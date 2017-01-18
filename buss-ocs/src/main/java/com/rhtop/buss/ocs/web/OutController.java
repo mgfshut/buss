@@ -532,7 +532,7 @@ public class OutController extends BaseController {
 	}
 	
 	//用户定盘接口
-	//入参：transactionInfoId交易记录ID，contractInfo23合同对象。
+	//入参：transactionInfoId交易记录ID，contractInfo合同对象。
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/Dl0005")
 	public ResultInfo createContract(HttpServletRequest request, @RequestBody ContractInfo contract){
 		ResultInfo readResult = new ResultInfo();
