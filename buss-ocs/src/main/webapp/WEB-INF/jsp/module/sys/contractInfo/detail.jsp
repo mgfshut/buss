@@ -2,47 +2,6 @@
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="ys" %>
-<%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/print.css"/> --%>
-<script>
-$(document).ready(function() {
-	
-	var state = "${contStatus}";
-	if (state == "40"){
-		alertMsg.error("合同已签约成功！");
-		navTab.closeCurrentTab();
-		return;
-	}
-	if (state == "41"){
-		alertMsg.error("交易已关闭不能继续操作！");
-		navTab.closeCurrentTab();
-		return;
-	}
-	if (state != "20"){
-		alertMsg.error("行政人员确认已完成确认！");
-		navTab.closeCurrentTab();
-		return;
-	}
-	
-	
-	var filePath = "";
-	$('#file-zmwj').fileinput({
-		language: 'zh',
-	    uploadUrl: '<%=request.getContextPath()%>/report/upload',
-	    allowedFileExtensions : ['jpg', 'png','gif','bmp']
-	});
-	
-	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
-		var json = data.response;
-		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-			filePath = filePath+json.rel+",";
-			$('#filePath').val(filePath);
-		}else{
-			alert("文件上传失败");
-		}
-		
-	});
-});
-</script>
 <style type="text/css">
 	.body{
 		width: 590px;
@@ -92,15 +51,9 @@ $(document).ready(function() {
 	}
 </style>
 <div id="pagerForm" class="pageContent">
-	<form method="post" data-delay="100" action="service/contractInfo-check" class="pageForm required-validate" 
+	<form method="post" data-delay="100" action="" class="pageForm required-validate" 
 		onsubmit="return validateCallback(this, navTabAjaxDone)">
-		<input type="hidden" name="contUlName" id="filePath">
-		<input type="hidden" name="contractInfoId" value="${contractInfoId }">
-		<div id="selectedModulesHiddenFileds" ></div>
-		<table style="width: 100%;">
-			<tr>
-				<td style="width: 50%;">
-					<div class="container-fluid" layoutH="68">
+		<div class="container-fluid" layoutH="68">
 						<div class="body">
 						<div id="prtarea">
 							<p class="firstp">合同编号：${contractInfoId }</p>
@@ -379,21 +332,8 @@ $(document).ready(function() {
 							</div>
 						</div>
 					</div>
-				</td>
-				<td style="width: 50%;vertical-align: top; ">
-					<div class="form-horizontal" align="center">
-						<div class="form-group" align="center">
-							<div class="col-xs-12" align="center">
-								<input id="file-zmwj" type="file" name="file">
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-		</table>
 		<div class="formBar">
 			<ul>
-				<li><button class="btn btn-sm btn-primary" type="submit">提交</button></li>
 				<li><button class="btn btn-sm btn-warning" data-dismiss="modal" type="button">取消</button></li>
 			</ul>
 		</div>
