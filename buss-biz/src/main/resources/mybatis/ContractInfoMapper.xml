@@ -472,6 +472,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user_ = #{updateUser}
 		</if>
+		order by update_time_ desc
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageContractInfo" parameterType="com.rhtop.buss.common.entity.ContractInfo" resultMap="BaseResultMap">

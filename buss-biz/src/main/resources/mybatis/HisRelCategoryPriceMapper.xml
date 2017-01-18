@@ -32,7 +32,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-  his_rel_category_price_id_,
+  	his_rel_category_price_id_,
   	mgr_id_,
   	wholesale_pri_,
   	unit_,
@@ -63,7 +63,7 @@
   
   <!-- 根据条件新增对象-->
   <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.HisRelCategoryPrice" >
-    insert into buss_rel_category_price_
+    insert into buss_his_rel_category_price_
     <trim prefix="(" suffix=")" suffixOverrides="," >
     	<if test ="hisRelCategoryPriceId != null">
     	his_rel_category_price_id_,
@@ -148,7 +148,7 @@
 	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-    	<if test ="hisRelCategoryPriceId">
+    	<if test ="hisRelCategoryPriceId != null">
     		#{hisRelCategoryPriceId},
     	</if>
     	<if test="mgrId != null" >

@@ -25,7 +25,12 @@
 </div>
 </div>
 </form> 
-<div class="pageContent">
+<div class="pageContent" >
+<div class="panelBar">
+	<div class="btn-group" style="margin:4px 5px;">
+			<a class="btn btn-primary btn-sm" href="module/sys-ctoPrice-form1/transactionInfo-getTranInfo-{transactionInfoId}" mask="true" target="navTab" rel="usereditmanager" data-parent="usereditmanager" title="输入二次采购价格"><i class="icon-plus"></i> <span>输入二次采购价格</span></a>
+	</div>	
+</div>
 <table class="table" width="100%" layoutH="140">
 	<thead>
 		<tr>
@@ -41,7 +46,6 @@
 			<th orderField="txAmo" class="${param.orderField eq 'offerPri'?param.orderDirection:''}">需求量</th>
 			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">价格时效</th>
 			<th orderField="ctofPri" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">采购价格</th>
-			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">操作</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -53,20 +57,16 @@
 				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.pkgQuan}</td>
 				<td>${item.cusName}</td>
-				<td><ys:codemapConvert codemap="cusLoc" value="${item.cusLoc }"/><</td>
+				<td><ys:codemapConvert codemap="cusLoc" value="${item.cusLoc }"/></td>
 				<td><ys:codemapConvert codemap="cusCha" value="${item.cusCha }"/></td>
 				<td>${item.cateSup}</td>
 				<td>${item.txAmo}</td>
 				<td>${item.offerAging}</td>
 				<td>${item.ctofPri}</td>
-				<td><button>输入二次采购价格</button></td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
 
 <sdf:dwzPage style="width:300px;"></sdf:dwzPage>
-</div>
-<div id= >
-
 </div>

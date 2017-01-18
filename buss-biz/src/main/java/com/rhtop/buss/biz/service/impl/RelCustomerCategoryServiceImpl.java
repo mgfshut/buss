@@ -70,6 +70,7 @@ public class RelCustomerCategoryServiceImpl implements RelCustomerCategoryServic
 		String memberJob = memberMapper.selectByPrimaryKey(category.getCreateUser()).getMemberJob();
 		RelCustomerCategory	relCustomerCategory = new RelCustomerCategory();
 		relCustomerCategory.setCreateUser(category.getCreateUser());
+		relCustomerCategory.setCategoryId(category.getCategoryId());
 		if("01".equals(memberJob)){
 			rels =	relCustomerCategoryMapper.selectCuschaByMgr(relCustomerCategory);
 		}else{ 

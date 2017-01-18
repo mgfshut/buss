@@ -415,12 +415,12 @@
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
   LEFT JOIN buss_rel_category_price_ d on  d.category_id_ = a.customer_id_ = b.customer_id_  and d.category_id_ = a.category_id_ = c.category_id_
 	where 1=1
-	<if test="cusName != null and cusName != ''" >
-			and b.cus_name_ like "%"#{cusName}"%"
+	<if test="cateName != null and cateName != ''" >
+			and c.cate_name_ like "%"#{cateName}"%"
 	</if>
-    <if test="cusLoc != null and cusLoc != ''" >
-			and b.cus_loc_ like "%"#{cusLoc}"%"
+    <if test="manuNum != null and manuNum != ''" >
+			and b.manu_num_ like "%"#{manuNum}"%"
 	</if>
-	 ORDER BY a.update_time_
+	 ORDER BY a.update_time_ DESC
   </select>
 </mapper>

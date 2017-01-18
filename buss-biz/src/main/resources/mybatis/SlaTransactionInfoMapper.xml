@@ -350,6 +350,7 @@
     	<if test="uniCtofPri != null and uniCtofPri != ''" >
 			and uni_ctof_pri_ = #{uniCtofPri}
 		</if>
+			 order by   update_time_  DESC
   </select>
   <!-- 根据主表记录的ID查询最新的该交易的从表信息 -->
   <select id="selectLatestByTransactionInfoId" parameterType="java.lang.String" resultMap="BaseResultMap">

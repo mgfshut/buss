@@ -7,6 +7,7 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import com.itextpdf.text.log.SysoCounter;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.HisRelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -39,15 +40,11 @@ public class ClearPriceJob  extends QuartzJobBean{
 		for(RelCategoryPrice rel:rels){
 			//复制记录
 			hisRelcategoryPriceService.insertRelCategoryPrice(rel);
+			System.out.println(rel.getCategoryId());
 		}
 		//删除主表记录
-		for(RelCategoryPrice rel:rels){
-			relCategoryPriceService.updateSelective(rel);
-			Category category = new Category();
-			category.setCategoryId(rel.getCategoryId());
-			category.setOfferAging("0");//将报价时效赋值为0
-			category.setOfferPri(null);//将报盘价格置为null
-			categoryService.updateCategory(category);
+		for(RelCategoryPrice rel2:rels){
+			relCategoryPriceService.deleteRelCategoryPrice(rel2.getRelCategoryPriceId());
 		}
 	}
 	

@@ -14,6 +14,7 @@ import java.util.List;
  */
 //@XmlRootElement(name = "TransactionInfo")
 public class TransactionInfo {
+	
 	private Float ctofPri;//回盘价
 	
 	private String txStatus;//交易状态
@@ -86,6 +87,9 @@ public class TransactionInfo {
 
 	public void setSla(List<SlaTransactionInfo> sla ) {
 		this.sla  = sla ;
+	}
+	public List<SlaTransactionInfo> getSla() {
+		return sla;
 	}
 
 	public Category getCate() {

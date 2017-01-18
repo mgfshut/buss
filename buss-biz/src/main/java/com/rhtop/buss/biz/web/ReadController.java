@@ -189,6 +189,7 @@ public class ReadController  extends BaseController {
 	 * 接口id：R2014
 	 * 品类的采集信息详情(未采集)
 	 * 品类id
+	 * @date 2017-1-18
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2014")
 	public ResultInfo categoryPriceInfoNoPri(@RequestParam("body") String body){
@@ -197,14 +198,26 @@ public class ReadController  extends BaseController {
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
 		//品类信息
 		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
-		//获取品类渠道信息（客户与品类的关系表）
-		List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
-		cate.setRcacu(recacu);
-		readResult.setCode("200");
-		readResult.setMessage("数据获取成功！");
+		if (cate != null){
+			//获取品类渠道信息（客户与品类的关系表）
+			List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
+			try{
+				cate.setRcacu(recacu);
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			readResult.setCode("200");
+			readResult.setMessage("数据获取成功！");
+		}else{
+			readResult.setCode("400");
+			readResult.setMessage("品类信息不存在！");
+		}
+		
 		readResult.setResObject(cate);
 		return readResult;
 	}
+	
+	
 	
 	/**
 	 * 接口id：R2007
@@ -295,6 +308,67 @@ public class ReadController  extends BaseController {
 		return readResult;
 	}
 	
+	/**
+	 * 接口id：R2015
+	 * 品类id
+	 * 国际采购人员 回盘列表(未回盘)
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2015")
+	public ResultInfo notCtofPrice(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		//品类信息
+		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		if (cate != null){
+			//获取品类渠道信息（客户与品类的关系表）
+			List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
+			try{
+				cate.setRcacu(recacu);
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			readResult.setCode("200");
+			readResult.setMessage("数据获取成功！");
+		}else{
+			readResult.setCode("400");
+			readResult.setMessage("品类信息不存在！");
+		}
+		
+		readResult.setResObject(cate);
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2016
+	 * 品类id
+	 * 国际采购人员 回盘列表(已回盘)
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2016")
+	public ResultInfo ctofPrice(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		//品类信息
+		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
+		if (cate != null){
+			//获取品类渠道信息（客户与品类的关系表）
+			List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
+			try{
+				cate.setRcacu(recacu);
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			readResult.setCode("200");
+			readResult.setMessage("数据获取成功！");
+		}else{
+			readResult.setCode("400");
+			readResult.setMessage("品类信息不存在！");
+		}
+		
+		readResult.setResObject(cate);
+		return readResult;
+	}
 	/**
 	 * 接口id：R2009
 	 * 总经理查看合同列表

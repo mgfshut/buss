@@ -208,8 +208,12 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		// 合同信息
 		ContractInfo contractinfo = new ContractInfo();
 		contractinfo.setTransactionInfoId(transactionInfoId);
-		ContractInfo con = conMapper.listContractInfos(contractinfo).get(0);
-
+		ContractInfo con = null;
+		try{
+			 con = conMapper.listContractInfos(contractinfo).get(0);
+		}catch(Exception e){
+			
+		}
 		tra.setSla(sla);
 		tra.setCate(cate);
 		tra.setCust(cust);
@@ -249,8 +253,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 
 	public TransactionInfo selectTransactionInfo(TransactionInfo transactionInfo) {
 		// 交易信息
-		TransactionInfo tran = transactionInfoMapper
-				.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
+		TransactionInfo tran = transactionInfoMapper.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
 		// 客户信息
 		Customer cust = cusMapper.selectByPrimaryKey(tran.getCustomerId());
 		// 品类信息
@@ -258,28 +261,28 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		// 回盘记录信息
 		SlaTransactionInfo slaTransactionInfo = new SlaTransactionInfo();
 		slaTransactionInfo.setTransactionInfoId(tran.getTransactionInfoId());
-		List<SlaTransactionInfo> listSla = slaTxMapper
-				.listSlaTransactionInfos(slaTransactionInfo);
+		List<SlaTransactionInfo> listSla = slaTxMapper.listSlaTransactionInfos(slaTransactionInfo);
 		// 交易的创建者名称
-		String mgrName = userMapper.selectByPrimaryKey(
-				transactionInfo.getCreateUser()).getUserName();
+		String mgrName = userMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getUserName();
 		// 用户的判断
-		String memberJob = memberMapper.selectByPrimaryKey(
-				transactionInfo.getCreateUser()).getMemberJob();
+		String memberJob = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberJob();
 		if ("04".equals(memberJob)) {// 决策委员会
 			// 价格信息
 			RelCategoryPrice rel = new RelCategoryPrice();
 			rel.setCategoryId(tran.getCategoryId());
 			rel.setCusChaVal(cust.getCusCha());
-			RelCategoryPrice relInfo = relCPMapper
-					.listPageRelCategoryPrice(rel).get(0);
-
+			RelCategoryPrice relInfo =  null;
+			try{
+				relInfo = relCPMapper.listPageRelCategoryPrice(rel).get(0);
+			}catch(Exception e){
+				
+			}
 			tran.setCate(cate);
 			tran.setCust(cust);
 			tran.setRel(relInfo);
+		}else{
+			//合同信息
 			tran.setSla(listSla);
-		} else {
-			// 合同信息
 			ContractInfo cont = new ContractInfo();
 			cont.setCategoryId(tran.getCategoryId());
 			cont.setCustomerId(tran.getCustomerId());
@@ -300,8 +303,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 
 	@Override
 	public List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo) {
-		List<TransactionInfo> tras = transactionInfoMapper
-				.listPageInfo(transactionInfo);
+		List<TransactionInfo> tras = transactionInfoMapper.listPageInfo(transactionInfo);
 		return tras;
 	}
 }

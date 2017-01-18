@@ -58,8 +58,8 @@
 			<ref bean="getClearPriceJobDetail" />
 		</property>
 		<property name="cronExpression">
-			<!-- <value>0 0 0 ? * L </value> --> <!--每周星期天凌晨0点实行一次 -->
-			<value>0 */1 * * * ?</value><!--  每分钟执行一次 -->
+			<value>0 0 0 ? * L </value> <!--每周星期天凌晨0点实行一次 -->
+			<!-- <value>0 */1 * * * ?</value> --><!--  每分钟执行一次 -->
 		</property>
 	</bean>
 
