@@ -61,6 +61,8 @@ public class ContractInfo {
 	
 	private String contUlName;//合同文件名
 	
+	private String payPic;//财务收款截图相对路径
+	
 	private String csgTel;//收货人联系方式
 	
 	private String expressId;//快递单号
@@ -650,5 +652,13 @@ public class ContractInfo {
 
 	public void setGenckTime(String genckTime) {
 		this.genckTime = genckTime;
+	}
+
+	public String getPayPic() {
+		return payPic;
+	}
+
+	public void setPayPic(String payPic) {
+		this.payPic = payPic;
 	}
 }

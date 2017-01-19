@@ -20,6 +20,7 @@
 	<result column="exec_tel_" property="execTel" jdbcType="VARCHAR" />
 	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
 	<result column="elec_cont_url_" property="elecContUrl" jdbcType="VARCHAR" />
+	<result column="pay_pic_" property="payPic" jdbcType="VARCHAR" />
 	<result column="exec_addr_" property="execAddr" jdbcType="VARCHAR" />
 	<result column="csg_addr_" property="csgAddr" jdbcType="VARCHAR" />
 	<result column="ent_tel_" property="entTel" jdbcType="VARCHAR" />
@@ -61,6 +62,7 @@
   	csg_name_,
   	exec_name_,
   	cont_ul_name_,
+  	pay_pic_,
   	csg_tel_,
   	express_id_,
   	create_time_,
@@ -145,6 +147,9 @@
 	    </if>
     	<if test="contUlName != null" >
 	    	cont_ul_name_,
+	    </if>
+	    <if test="payPic != null" >
+	    	pay_pic_,
 	    </if>
     	<if test="csgTel != null" >
 	    	csg_tel_,
@@ -240,6 +245,9 @@
 	    </if>
     	<if test="contUlName != null" >
 	    	#{contUlName},
+	    </if>
+	    <if test="payPic != null" >
+	    	#{payPic},
 	    </if>
     	<if test="csgTel != null" >
 	    	#{csgTel},
@@ -341,6 +349,9 @@
       	</if>
 		<if test="contUlName != null and contUlName != ''" >
         	cont_ul_name_ = #{contUlName},
+      	</if>
+      	<if test="payPic != null and payPic != ''" >
+        	pay_pic_ = #{payPic},
       	</if>
 		<if test="csgTel != null and csgTel != ''" >
         	csg_tel_ = #{csgTel},
@@ -451,6 +462,9 @@
     	<if test="contUlName != null and contUlName != ''" >
 			and cont_ul_name_ = #{contUlName}
 		</if>
+		<if test="payPic != null and payPic != ''" >
+			and pay_pic_ = #{payPic}
+		</if>
     	<if test="csgTel != null and csgTel != ''" >
 			and csg_tel_ = #{csgTel}
 		</if>
@@ -550,6 +564,9 @@
 		</if>
     	<if test="contUlName != null and contUlName != ''" >
 			and cont_ul_name_ = #{contUlName}
+		</if>
+		<if test="payPic != null and payPic != ''" >
+			and pay_pic_ = #{payPic}
 		</if>
     	<if test="csgTel != null and csgTel != ''" >
 			and csg_tel_ = #{csgTel}
