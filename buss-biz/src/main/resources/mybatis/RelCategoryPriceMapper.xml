@@ -141,12 +141,6 @@
     	<if test="catePri != null" >
 	    	cate_pri_,
 	    </if>
-	    <if test="cusChaId != null" >
-	    	cus_cha_id_,
-	    </if>
-	    <if test="cusChaVal != null" >
-	    	cus_cha_val_,
-	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="mgrId != null" >
@@ -226,12 +220,6 @@
 	    </if>
     	<if test="catePri != null" >
 	    	#{catePri},
-	    </if>
-	    <if test="cusChaId != null" >
-	    	#{cusChaId},
-	    </if>
-	    <if test="cusChaVal != null" >
-	    	#{cusChaVal},
 	    </if>
     </trim>
   </insert>
