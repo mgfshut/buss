@@ -81,7 +81,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
-	public String createContract(ContractInfo con) throws ParseException {
+	public String createContract(ContractInfo con) throws Exception {
 		try {
 			TransactionInfo tx = new TransactionInfo();
 			tx.setTransactionInfoId(con.getTransactionInfoId());

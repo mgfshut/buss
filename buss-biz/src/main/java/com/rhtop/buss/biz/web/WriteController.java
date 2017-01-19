@@ -244,6 +244,7 @@ public class WriteController extends BaseController{
 		for(RelCategoryPrice rcp : rcps){
 			rcp.setUpdateUser(userId);
 			rcp.setUpdateTime(now);
+			rcp.setCategoryId(catePri.getCategoryId());
 		}
 		try {
 			readResult = catPriSer.createOrUpdateMidPriceByCategoryId(readResult, rcps);
@@ -252,6 +253,7 @@ public class WriteController extends BaseController{
 			readResult.setCode("500");
 			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.fixMidPrice]数据更新失败", e);
+			return readResult;
 		}
 		//新增一条操作记录
 		try {
