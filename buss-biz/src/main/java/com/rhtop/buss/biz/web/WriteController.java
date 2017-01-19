@@ -51,8 +51,6 @@ import com.rhtop.buss.common.web.BaseController;
  */
 @RestController
 @RequestMapping(value="service/writeData")
-//配置跨域支持
-@CrossOrigin
 public class WriteController extends BaseController{
 	@Autowired
 	private CategoryService catSer;

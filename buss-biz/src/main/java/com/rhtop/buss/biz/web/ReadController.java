@@ -307,7 +307,6 @@ public class ReadController  extends BaseController {
 		readResult.setPage(transactionInfo.getPage());
 		return readResult;
 	}
-	
 	/**
 	 * 接口id：R2015
 	 * 品类id
@@ -317,27 +316,19 @@ public class ReadController  extends BaseController {
 	public ResultInfo notCtofPrice(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
-		//品类信息
-		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
-		if (cate != null){
-			//获取品类渠道信息（客户与品类的关系表）
-			List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
-			try{
-				cate.setRcacu(recacu);
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-			}
+		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
+		//已回盘列表:交易状态为21 未回盘列表:交易状态为20 
+		transactionInfo.setTxStatus("20");
+		List<TransactionInfo> trans = traSer.listPageInfo(transactionInfo);
+		if (trans.size()!=0 ){
 			readResult.setCode("200");
 			readResult.setMessage("数据获取成功！");
 		}else{
 			readResult.setCode("400");
-			readResult.setMessage("品类信息不存在！");
+			readResult.setMessage("不存在未回盘的信息！");
 		}
-		
-		readResult.setResObject(cate);
 		return readResult;
-	}
+	    }
 	
 	/**
 	 * 接口id：R2016
@@ -348,27 +339,19 @@ public class ReadController  extends BaseController {
 	public ResultInfo ctofPrice(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
-		//品类信息
-		Category cate = catSer.selectByPrimaryKey(category.getCategoryId());
-		if (cate != null){
-			//获取品类渠道信息（客户与品类的关系表）
-			List<RelCustomerCategory> recacu = cusCatSer.selectCuscha(category);
-			try{
-				cate.setRcacu(recacu);
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-			}
+		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
+		//已回盘列表:交易状态为21 未回盘列表:交易状态为20 
+		transactionInfo.setTxStatus("21");
+		List<TransactionInfo> trans = traSer.listPageInfo(transactionInfo);
+		if (trans.size()!=0){
 			readResult.setCode("200");
 			readResult.setMessage("数据获取成功！");
 		}else{
 			readResult.setCode("400");
-			readResult.setMessage("品类信息不存在！");
+			readResult.setMessage("不存在已回盘的信息！");
 		}
-		
-		readResult.setResObject(cate);
 		return readResult;
-	}
+	    }
 	/**
 	 * 接口id：R2009
 	 * 总经理查看合同列表
@@ -384,7 +367,7 @@ public class ReadController  extends BaseController {
 		List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
-		readResult.setResObject(conts);
+		readResult.setRecords(conts);
 		readResult.setPage(contractInfo.getPage());
 		return readResult;
 	}

@@ -1033,4 +1033,44 @@ public class OutController extends BaseController {
 		}
 		return readResult;
 	}
+	/**
+	 * 接口id：R2015
+	 * 国际部回盘列表(未回盘)
+	 * 品类id
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2015")
+	public ResultInfo notCtofPrice(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			transactionInfo.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2015", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 接口id：R2016
+	 * 国际部回盘列表(已回盘)
+	 * 品类id
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2016")
+	public ResultInfo ctofPrice(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			transactionInfo.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2016", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
 }
