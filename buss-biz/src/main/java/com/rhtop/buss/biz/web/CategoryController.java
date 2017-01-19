@@ -73,6 +73,7 @@ public class CategoryController  extends BaseController {
 					categoryService.insertCategory(category);
 					//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
 					RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 					relCategoryPrice.setCategoryId(categoryId);
 					relCategoryPrice.setCateSup(category.getCateSup());
 					relCategoryPrice.setCurrency(category.getCurrency());
