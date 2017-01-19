@@ -186,12 +186,12 @@ public class WriteController extends BaseController{
 			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
 		}
 		List<RelCategoryPrice> rcps = catePris.getRcps();
-		String userId = rcps.get(0).getUpdateUser();
+		String userId = catePris.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
 		
 		try {
-			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps, catePris.getCategoryId());
+			readResult = catPriSer.createOrUpdateWholesaleAndAcptPriceByCategoryId(readResult,rcps, catePris.getCategoryId(), userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
@@ -472,48 +472,10 @@ public class WriteController extends BaseController{
 		String userId = cat.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String now = sdf.format(date);
+		String now = DateUtils.getNowTime();
+		cat.setUpdateTime(now);
 		try {
-			//检查要新增的品类是否已存在于数据库中
-			if(catSer.checkCategoryExist(cat)==null){
-				//新增品类
-				cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
-				cat.setCreateTime(now);
-				cat.setCreateUser(userId);
-				catSer.insertCategory(cat);
-				//新增品类价格关系数据
-				RelCategoryPrice catPri = new RelCategoryPrice();
-				catPri.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
-				catPri.setUniMgrId(userId);
-				catPri.setUpdateTime(now);
-				catPri.setUpdateUser(userId);
-				catPri.setCateSup(cat.getCateSup());
-				catPri.setCurrency(cat.getCurrency());
-				catPri.setUnit(cat.getUnit());
-				catPri.setOfferAging(cat.getOfferAging());
-				catPri.setCatePri(cat.getCatePri());
-				catPri.setCreateUser(userId);
-				catPri.setCreateTime(now);
-				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
-			}else{
-				//品类信息存在，更新品类信息
-				cat.setUpdateTime(now);
-				cat.setUpdateUser(userId);
-				catSer.updateCategory(cat);
-				//更新品类价格信息
-				RelCategoryPrice catPri = new RelCategoryPrice();
-				catPri.setUniMgrId(userId);
-				catPri.setUpdateTime(now);
-				catPri.setUpdateUser(userId);
-				catPri.setCateSup(cat.getCateSup());
-				catPri.setCurrency(cat.getCurrency());
-				catPri.setUnit(cat.getUnit());
-				catPri.setOfferAging(cat.getOfferAging());
-				catPri.setCatePri(cat.getCatePri());
-				catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
-			}
+			readResult = catPriSer.universeAddCategoryAndPrice(readResult, cat);
 		} catch (Exception e) {
 			readResult.setCode("500");
 			readResult.setMessage(e.getMessage());

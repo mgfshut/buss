@@ -405,6 +405,14 @@
   	FROM buss_rel_category_price_ 
   	WHERE category_id_ = #{0}
   </select>
+  <!-- 根据品类ID和渠道ID查询最近一条数据(查询一个List然后拿最后一条) -->
+  <select id="selectByCategoryIdAndChaId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+  	FROM buss_rel_category_price_ 
+  	WHERE category_id_ = #{0} AND cus_cha_id_ = #{1} 
+  	ORDER BY update_time_ DESC 
+  </select>
   <!-- 根据条件查询列表 -->
   <select id="listRelCategoryPrices" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
   	select *
