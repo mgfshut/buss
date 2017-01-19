@@ -121,6 +121,8 @@ public class CustomerServiceImpl implements CustomerService {
 					relCustomerCategory.setCustomerId(customer.getCustomerId());
 					relCustomerCategory.setCusChaId(customer.getCusCha());
 					//渠道名称
+					relCustomerCategory.setMgrCk("00");
+					relCustomerCategory.setRegMgrCk("00");
 					cusCatSer.insertRelCustomerCategory(relCustomerCategory);
 				}else{
 					//如果品类已经存在，检查关系表中客户经理、客户、品类是否已存在。防止客户经理重复提交。
@@ -145,6 +147,8 @@ public class CustomerServiceImpl implements CustomerService {
 						relCustomerCategory.setCusLoc(customer.getCusLoc());
 						relCustomerCategory.setCustomerId(customer.getCustomerId());
 						relCustomerCategory.setCusChaId(customer.getCusCha());
+						relCustomerCategory.setMgrCk("00");
+						relCustomerCategory.setRegMgrCk("00");
 						cusCatSer.insertRelCustomerCategory(relCustomerCategory);
 					}
 					
@@ -211,6 +215,8 @@ public class CustomerServiceImpl implements CustomerService {
 					relCustomerCategory.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
 					relCustomerCategory.setCusLoc(customer.getCusLoc());
 					relCustomerCategory.setCusChaId(customer.getCusCha());
+					relCustomerCategory.setMgrCk("00");
+					relCustomerCategory.setRegMgrCk("00");
 					cusCatSer.insertRelCustomerCategory(relCustomerCategory);
 				}else{
 					//如果品类已经存在，检查关系表中客户经理、客户、品类是否已存在。防止客户经理重复提交。
@@ -235,6 +241,8 @@ public class CustomerServiceImpl implements CustomerService {
 						relCustomerCategory.setCusLoc(customer.getCusLoc());
 						relCustomerCategory.setCustomerId(customer.getCustomerId());
 						relCustomerCategory.setCusChaId(customer.getCusCha());
+						relCustomerCategory.setMgrCk("00");
+						relCustomerCategory.setRegMgrCk("00");
 						cusCatSer.insertRelCustomerCategory(relCustomerCategory);
 					}
 				}
