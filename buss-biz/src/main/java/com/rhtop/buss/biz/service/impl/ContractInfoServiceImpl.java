@@ -92,6 +92,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			tx = txMapper.selectByPrimaryKey(con.getTransactionInfoId());
 			con.setTxAmo(Float.parseFloat(tx.getTxAmo()));
 			con.setCtofPri(tx.getCtofPri());
+			con.setTotPri(Float.parseFloat(tx.getTxAmo())*tx.getCtofPri());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date d = new Date();
 			String endTime = sdf.format(new Date(d.getTime()+Long.parseLong(tx.getCtofAging())*60*60*1000));
@@ -145,7 +146,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		if(null != latestConCode){
 			
 			//从latestConCode中截取日期
-			String conCreateDateStr = latestConCode.substring(CON_CODE_PREFIX.length()+1, 8);
+			String conCreateDateStr = latestConCode.substring(CON_CODE_PREFIX.length()+1, CON_CODE_PREFIX.length()+1+8);
 			
 			//对比两个日期是否一致 
 			if(nowDateStr.equals(conCreateDateStr)){
