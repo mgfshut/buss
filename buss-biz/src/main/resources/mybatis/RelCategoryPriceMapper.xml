@@ -28,6 +28,8 @@
 	<result column="uni_mgr_id_" property="uniMgrId" jdbcType="VARCHAR" />
 	<result column="offer_update_time_" property="offerUpdateTime" jdbcType="VARCHAR" />
 	<result column="cate_pri_" property="catePri" jdbcType="VARCHAR" />
+	<result column="cus_cha_id_" property="cusChaId" jdbcType="VARCHAR" />
+	<result column="cus_cha_val_" property="cusChaVal" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
