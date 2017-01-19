@@ -387,7 +387,7 @@
     	<if test="customerId != null and customerId != ''" >
 			and a.customer_id_ = #{customerId}
 		</if>
-		order by a.update_time_ desc
+		order by a.update_time_ DESC
   </select>
   
   <select id="listPageInfo" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
