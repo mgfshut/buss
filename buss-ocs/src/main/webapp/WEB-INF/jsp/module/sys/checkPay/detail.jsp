@@ -138,12 +138,6 @@ var csgId = '${csgId}';
 				<div class="form-group" align="center">
 					<div class="col-sm-12" align="center">
 						<div id="myCarousel" class="carousel slide">
-						    <!-- 轮播（Carousel）指标 -->
-						    <ol class="carousel-indicators">
-						        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-						        <li data-target="#myCarousel" data-slide-to="1"></li>
-						        <li data-target="#myCarousel" data-slide-to="2"></li>
-						    </ol>   
 						    <!-- 轮播（Carousel）项目 -->
 						    <div class="carousel-inner">
 						    	<c:forEach items="${fn:split(contUlName, ',')}" var="img" varStatus="ind">
