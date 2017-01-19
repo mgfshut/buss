@@ -4,6 +4,7 @@
 
   <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.ContractInfo" >
 	<id column="contract_info_id_" property="contractInfoId" jdbcType="CHAR" />
+	<result column="con_code_" property="conCode" jdbcType="VARCHAR" />
 	<result column="transaction_info_id_" property="transactionInfoId" jdbcType="VARCHAR" />
 	<result column="car_num_" property="carNum" jdbcType="VARCHAR" />
 	<result column="tot_pri_" property="totPri" jdbcType="VARCHAR" />

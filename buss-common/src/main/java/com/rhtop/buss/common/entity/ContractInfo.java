@@ -15,9 +15,10 @@ package com.rhtop.buss.common.entity;
 public class ContractInfo {
 	private String transactionInfoId;//交易ID
 	
-	
 	private String carNum;//提货车牌号码
-	
+	//真正生成的合同编号
+	private String conCode;
+
 	private Float totPri;//总价
 	
 	private Float txAmo;//交易数量
@@ -100,6 +101,13 @@ public class ContractInfo {
 	private String jfzdPersonPhone;//甲方指定人员联系方式
 	/**打印所用字段end**/
 	
+	public String getConCode() {
+		return conCode;
+	}
+
+	public void setConCode(String conCode) {
+		this.conCode = conCode;
+	}
 	public Page getPage() {
 		return page;
 	}

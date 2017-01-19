@@ -55,8 +55,6 @@ function consnavTabAjaxDone(json){
 	<form method="post" data-delay="100" action="service/contractInfo-checkPay" class="pageForm required-validate" onsubmit="return validateCallback(this, consnavTabAjaxDone)">
 		<%-- 保存新的上传文件 --%>
 		<input type="hidden" name="newFile" id="filePath">
-		<%-- 保存已有的上传文件 --%>
-		<input type="hidden" name="contUlName" value="${contUlName }">
 		<input type="hidden" name="contractInfoId" value="${contractInfoId }">
 		<div id="selectedModulesHiddenFileds" ></div>
 		<div class="pageFormContent  container-fluid" layoutH="68">
