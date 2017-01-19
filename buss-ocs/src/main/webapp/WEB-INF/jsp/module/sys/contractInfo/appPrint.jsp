@@ -5,14 +5,87 @@
 <script src="<%=request.getContextPath()%>/js/printThis/printThis.js"></script>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/print.css"/>
 		<meta charset="UTF-8" />
 		<title></title>
+		<style type="text/css">
+		.body{
+			width: 100%;
+			margin: 0 auto;
+		}
+		p{
+			line-height: 30px;
+		}
+		.firstp{
+			text-align: right;
+			margin-right: 80px;	
+		}
+		h1{
+			text-align: center;
+		}
+		.body p:nth-child(3){
+			line-height: 30px;
+		}
+		.body p:nth-child(5){
+			line-height:25px;
+		}
+		h2{
+			text-align: center;
+		}
+		.body table:nth-child(8){
+			width: 100%;
+		}
+		.body table:nth-child(8) tr{
+			height: 40px;
+			text-align: center;
+		}
+		.time{
+			text-align: right;
+		}
+		.tab1{
+			width: 100%;
+		}
+		.tab2{
+			width: 100%;
+		}
+		.tab2 tr{
+			height: 40px;
+			text-align: center;
+		}
+		.tab2 tr td{
+			width: 14.2%;
+		}
+		.floatRight{
+			float: right;
+		}
+		.printButton{
+			color: #fff;
+		    background-color: #428bca;
+		    border-color: #357ebd;
+		    font-size: 12px;
+		    line-height: 100%;
+		    font-family: Arial, sans-serif;
+		    margin:4px 5px;
+		    padding: 0;
+		    position: relative;
+					 	float: left;
+				 	padding: 5px 10px;
+		    font-size: 12px;
+		    line-height: 1.5;
+		    border-radius: 3px;
+		    display: inline-block;
+		    margin-bottom: 0;
+		    font-weight: 400;
+		    text-align: center;
+		    white-space: nowrap;
+		    vertical-align: middle;
+		    cursor: pointer;
+		}
+		</style>
 	</head>
 	<body>
 		<div class="body">
 			<div id="prtarea">
-				<p class="firstp">合同编号：${contractInfoId }</p>
+				<p class="firstp">合同编号：${conCode }</p>
 				<h1>商品销售合同</h1>
 				<p>
 					甲方（卖家）：<br />
