@@ -192,7 +192,11 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 						throw new Exception("请填写所有数据内容！");
 					}else{
 						//查关系表数据
-						RelCategoryPrice rel = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId()).get(0);
+						List<RelCategoryPrice> data = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
+						RelCategoryPrice rel = null;
+						if (data != null && data.size() > 0){
+							rel = data.get(0);
+						}
 						//如果没有数据，新建一条关系表记录。
 						if(rel==null){
 							relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));

@@ -40,6 +40,7 @@
   
   <sql id="Base_Column_List" >
   	transaction_info_id_,
+  	con_code_,
   	car_num_,
   	tot_pri_,
   	tx_amo_,
@@ -79,6 +80,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
     	<if test="transactionInfoId != null" >
 	    	transaction_info_id_,
+	    </if>
+	    <if test="conCode != null" >
+	    	con_code_,
 	    </if>
     	<if test="carNum != null" >
 	    	car_num_,
@@ -177,6 +181,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="transactionInfoId != null" >
 	    	#{transactionInfoId},
+	    </if>
+	    <if test="conCode != null" >
+	    	#{conCode},
 	    </if>
     	<if test="carNum != null" >
 	    	#{carNum},
@@ -284,6 +291,9 @@
     <set >
 		<if test="transactionInfoId != null and transactionInfoId != ''" >
         	transaction_info_id_ = #{transactionInfoId},
+      	</if>
+      	<if test="conCode != null and conCode != ''" >
+        	con_code_ = #{conCode},
       	</if>
 		<if test="carNum != null and carNum != ''" >
         	car_num_ = #{carNum},
@@ -394,6 +404,9 @@
     	<if test="transactionInfoId != null and transactionInfoId != ''" >
 			and transaction_info_id_ = #{transactionInfoId}
 		</if>
+		<if test="conCode != null and conCode != ''" >
+			and tcon_code_ = #{conCode}
+		</if>
     	<if test="carNum != null and carNum != ''" >
 			and car_num_ = #{carNum}
 		</if>
@@ -496,6 +509,9 @@
     from buss_contract_info_ where 1=1
     	<if test="transactionInfoId != null and transactionInfoId != ''" >
 			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+		<if test="conCode != null and conCode != ''" >
+			and con_code_ = #{conCode}
 		</if>
     	<if test="carNum != null and carNum != ''" >
 			and car_num_ = #{carNum}
