@@ -18,7 +18,7 @@
 	<result column="cate_pic_" property="catePic" jdbcType="VARCHAR" />
 	<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
 	<!-- 外表字段 -->
-	<result column="cus_cha" property="cusCha" jdbcType="VARCHAR" />
+	<result column="cus_cha_" property="cusCha" jdbcType="VARCHAR" />
 	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
 	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
 	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
