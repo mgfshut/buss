@@ -25,8 +25,8 @@ $(document).ready(function() {
 </script>
 <div id="addCategoryForm" class="pageContent">
 	<form method="post" action="service/category-save" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
-		<input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
-		<input type="hidden" name="codeValueId" value="${codeValueId}" />
+		<%-- <input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
+		<input type="hidden" name="codeValueId" value="${codeValueId}" /> --%>
 		<div class="pageFormContent container-fluid" layoutH="68">
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类名称：</label>
@@ -45,14 +45,14 @@ $(document).ready(function() {
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				<input type="text" name="prodPla" maxlength="10" class="form-control textInput" required="required" value="<ys:codemapConvert codemap="prodPla" value="${prodPla }"/>">
+				<ys:codemapConvert codemap="prodPla" value="${prodPla}"></ys:codemapConvert>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<ys:codemapConvert codemap="cateStan" value="${cateStan }"/>
+				<ys:codemapConvert codemap="cateStan" value="${cateStan}"></ys:codemapConvert>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -73,14 +73,14 @@ $(document).ready(function() {
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">货币币种：</label>
 				<div class="col-sm-8">
-				<ys:codemapConvert codemap="currency" value="${unit }"/>
+				<ys:codemapConvert codemap="currency" value="${currency}"></ys:codemapConvert>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">计量单位：</label>
 				<div class="col-sm-8">
-				<ys:codemapConvert codemap="weight" value="${unit }"/>
+				<ys:codemapConvert codemap="weight" value="${unit}"></ys:codemapConvert>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

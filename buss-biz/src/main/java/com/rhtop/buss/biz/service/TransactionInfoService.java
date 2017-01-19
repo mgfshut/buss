@@ -80,29 +80,14 @@ public interface TransactionInfoService{
 	TransactionInfo selectTransactionInfo(TransactionInfo transactionInfo);
 	
 	/**
-	 * 查看回盘信息
+	 * 国际部查询 查看回盘信息
+	 * 已回盘列表:交易状态为21 
+	 * 未回盘列表:交易状态为20 
 	 * @author lujin
-	 * @date 2017-1-16
+	 * @date 2017-1-19
 	 * @param transactionInfo
 	 * @return
 	 */
 	List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo);
 	
-	/**
-	 * 国际部查询已回盘列表 交易状态为21的交易
-	 * 国际部查询未回盘列表 交易状态为20的交易
-	 * @author lujin
-	 * @date 2017-1-18
-	 * @return
-	 */
-	ResultInfo listPagePriceByUniMgr(TransactionInfo transactionInfo);
-	
-	/**
-	 * 国际部查询未回盘列表
-	 * 交易状态为20的交易
-	 * @author lujin
-	 * @date 2017-1-18
-	 * @return
-	 */
-	List<TransactionInfo> listPageNotPriceByUniMgr();
 }
