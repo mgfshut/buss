@@ -69,7 +69,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
-	public ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult,List<RelCategoryPrice> relCategoryPrices, String categoryId) {
+	public ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult,List<RelCategoryPrice> relCategoryPrices, String categoryId, String userId) {
 		try {
 			
 			for(RelCategoryPrice relCategoryPrice : relCategoryPrices){
@@ -79,12 +79,14 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 					readResult.setMessage("请完整填写价格，任一渠道的价格都不可为空。");
 					return readResult;
 				}
-			}
-			for(RelCategoryPrice relCategoryPrice : relCategoryPrices){
-				relCategoryPrice.setMgrId(relCategoryPrice.getUpdateUser());
+				relCategoryPrice.setMgrId(userId);
 				relCategoryPrice.setCategoryId(categoryId);
 				//先通过品类ID检查这条关系记录是否已经存在
-				RelCategoryPrice rel = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId()).get(0);
+				List<RelCategoryPrice> data = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
+				RelCategoryPrice rel = null;
+				if (data != null && data.size() > 0){
+					rel = data.get(0);
+				}
 				Date date = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String now = sdf.format(date);
@@ -140,7 +142,11 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 						throw new Exception("请填写所有数据内容！");
 					}else{
 						//查关系表数据
-						RelCategoryPrice rel = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId()).get(0);
+						List<RelCategoryPrice> data = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
+						RelCategoryPrice rel = null;
+						if (data != null && data.size() > 0){
+							rel = data.get(0);
+						}
 						//如果没有数据，关系表新增记录
 						if(rel==null){
 							relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
