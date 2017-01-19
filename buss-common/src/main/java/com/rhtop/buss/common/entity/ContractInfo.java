@@ -15,6 +15,7 @@ package com.rhtop.buss.common.entity;
 public class ContractInfo {
 	private String transactionInfoId;//交易ID
 	
+	
 	private String carNum;//提货车牌号码
 	
 	private Float totPri;//总价

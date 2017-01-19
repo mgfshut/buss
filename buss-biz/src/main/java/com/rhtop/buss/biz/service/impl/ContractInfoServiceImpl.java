@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,11 +96,48 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			con.setContractInfoId(conId);
 			con.setEndTime(tx.getEndTime());
 			con.setContStatus("10");
+			
+			//查询最新的ContractInfo
+			ContractInfo contractInfo= contractInfoMapper.selectLatestContract();
+			String conCode;
+			if(null == contractInfo) {
+				conCode = generateConCode(null, 0);
+			} else {
+				
+			}
+			con.setCo
+			
 			contractInfoMapper.insertSelective(con);
 			return conId;
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	private static final String CON_CODE_PREFIX = "RH-XS";
+	private static final String MID_SEP = "-";
+	/**
+	 * 生成合同编码
+	 * 生码规则：RH-XS-20161214(合同处理日期）-A（A为销售合同，B为预售合同）-0001（流水号）
+	 * @param contractType 
+	 * @param latestId
+	 * @return
+	 */
+	private String generateConCode(String contractType, int latestId) {
+		
+		contractType = "A"; //目前只有销售合同，以后可能需要修改
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String dateStr = sdf.format(System.currentTimeMillis());
+		
+		String flowCode = String.format("%04d", ++latestId);
+		
+		StringBuffer conCode = new StringBuffer(CON_CODE_PREFIX);
+		conCode.append(MID_SEP).append(dateStr)
+		.append(MID_SEP).append(contractType)
+		.append(MID_SEP).append(flowCode);
+		
+		return conCode.toString();
 	}
 
 	@Override

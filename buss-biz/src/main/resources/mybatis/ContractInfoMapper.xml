@@ -591,5 +591,12 @@
 		</if>
 		order by  update_time_ desc
   </select>
-  
+  <!-- 查询最新的一条合同记录 -->
+  <select id="selectLatestContract" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from buss_contract_info_ where 1=1
+    ORDER BY create_time_ DESC, con_code_ DESC
+	LIMIT 1;
+  </select>
 </mapper>
