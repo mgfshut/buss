@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -202,7 +203,11 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		contract.setManuNum(category.getManuNum());
 		contract.setComm(category.getComm());
 		contract.setCateStan(category.getCateStan());
-		contract.setOfferPri(category.getOfferPri());
+		//contract.setOfferPri(category.getOfferPri());
+		contract.setCateName(category.getCateName());
+		//最终成交价格除以数量换算出单价
+		DecimalFormat dec = new DecimalFormat("0.00");
+		contract.setOfferPri(new Float(dec.format((contract.getTotPri().floatValue() / contract.getTxAmo()))));
 		if("02".equals(contract.getDelvOpt())){
 			contract.setZtcsgName(contract.getCsgName());
 			contract.setZtcsgTel(contract.getCsgTel());
