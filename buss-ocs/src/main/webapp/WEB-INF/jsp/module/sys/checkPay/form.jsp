@@ -27,14 +27,14 @@ $(document).ready(function() {
 	var filePath = "";
 	$('#file-zmwj').fileinput({
 		language: 'zh',
-	    uploadUrl: '<%=request.getContextPath()%>/report/upload',
+	    uploadUrl: '<%=request.getContextPath()%>/interface/uploads',
 	    allowedFileExtensions : ['jpg', 'png','gif','bmp']
 	});
 	
 	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
 		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-			filePath += (json.rel+",");
+			filePath += (json.resObject.payPic+",");
 			$('#filePath').val(filePath);
 		}else{
 			alert("文件上传失败");

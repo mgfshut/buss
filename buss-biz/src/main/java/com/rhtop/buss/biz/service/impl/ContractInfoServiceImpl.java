@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -78,7 +81,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
-	public String createContract(ContractInfo con) {
+	public String createContract(ContractInfo con) throws ParseException {
 		try {
 			TransactionInfo tx = new TransactionInfo();
 			tx.setTransactionInfoId(con.getTransactionInfoId());
@@ -86,6 +89,17 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			tx.setUpdateUser(con.getUpdateUser());
 			tx.setTxStatus("30");
 			txMapper.updateByPrimaryKeySelective(tx);
+			tx = txMapper.selectByPrimaryKey(con.getTransactionInfoId());
+			con.setTxAmo(Float.parseFloat(tx.getTxAmo()));
+			con.setCtofPri(tx.getCtofPri());
+			con.setTotPri(Float.parseFloat(tx.getTxAmo())*tx.getCtofPri());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date d = new Date();
+			String endTime = sdf.format(new Date(d.getTime()+Long.parseLong(tx.getCtofAging())*60*60*1000));
+			con.setCategoryId(tx.getCategoryId());
+			con.setEndTime(endTime);
+			con.setCreateTime(con.getUpdateTime());
+			con.setCreateUser(con.getUpdateUser());
 			SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(tx.getTransactionInfoId());
 			slaTx.setUpdateUser(tx.getUpdateUser());
 			slaTx.setUpdateTime(tx.getUpdateTime());
@@ -93,13 +107,64 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			slaTxMapper.updateByPrimaryKeySelective(slaTx);
 			String conId = UUID.randomUUID().toString().replace("-", "");
 			con.setContractInfoId(conId);
-			con.setEndTime(tx.getEndTime());
 			con.setContStatus("10");
+			
+			//查询最新的ContractInfo
+			ContractInfo contractInfo= contractInfoMapper.selectLatestContract();
+			String conCode = null;
+			if(null == contractInfo) {
+				conCode = generateConCode(null, null);
+			} else {
+				conCode = generateConCode(null, contractInfo.getConCode());
+			}
+			con.setConCode(conCode);
+			
 			contractInfoMapper.insertSelective(con);
 			return conId;
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	private static final String CON_CODE_PREFIX = "RH-XS";
+	private static final String MID_SEP = "-";
+	/**
+	 * 生成合同编码
+	 * 生码规则：RH-XS-20161214(合同处理日期）-A（A为销售合同，B为预售合同）-0001（流水号）
+	 * @param contractType 
+	 * @param lastConCode  最新的合同编号
+	 * @return
+	 * @throws ParseException 
+	 */
+	private String generateConCode(String contractType, String latestConCode) throws ParseException {
+		
+		contractType = "A"; //目前只有销售合同，以后可能需要修改
+		int latestId = 0;
+		
+		String nowDateStr = DateUtils.getNowTime("yyyyMMdd");
+		
+		if(null != latestConCode){
+			
+			//从latestConCode中截取日期
+			String conCreateDateStr = latestConCode.substring(CON_CODE_PREFIX.length()+1, CON_CODE_PREFIX.length()+1+8);
+			
+			//对比两个日期是否一致 
+			if(nowDateStr.equals(conCreateDateStr)){
+				//从latestConCode中截取latestId
+				String latestIdStr = latestConCode.substring(latestConCode.length() - 4);
+				//转化为int类型
+				latestId = Integer.valueOf(latestIdStr);
+			}
+		}
+		
+		String flowCode = String.format("%04d", ++latestId);
+		
+		StringBuffer conCode = new StringBuffer(CON_CODE_PREFIX);
+		conCode.append(MID_SEP).append(nowDateStr)
+		.append(MID_SEP).append(contractType)
+		.append(MID_SEP).append(flowCode);
+		
+		return conCode.toString();
 	}
 
 	@Override

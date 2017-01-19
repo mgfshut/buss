@@ -32,5 +32,11 @@ public interface ContractInfoMapper {
      * 根据条件分页查询列表
      */
 	List<ContractInfo> listPageContractInfo(ContractInfo contractInfo);
+	
+	/**
+	 * 查找最新的一条合同记录
+	 * @return
+	 */
+	ContractInfo selectLatestContract();
     
 }
