@@ -50,6 +50,7 @@
 	        	/interface/*/* = anon
 	        	/app/login = anon
 	        	/Kaptcha.jpg* = anon
+	        	/sys/print/** = anon
 	        	/css/** = anon
 	        	/js/** = anon
 	        	/font/** = anon

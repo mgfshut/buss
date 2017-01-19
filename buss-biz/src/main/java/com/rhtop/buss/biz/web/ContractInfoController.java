@@ -135,7 +135,7 @@ public class ContractInfoController  extends BaseController {
 	@ResponseBody
 	public ContractInfo printByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.printByContractInfoId(contractInfoId);
-		contractInfo.setUpperTotPri(NumberToCN.number2CNMontrayUnit(new BigDecimal(String.valueOf(contractInfo.getTotPri()))));
+		contractInfo.setUpperTotPri(NumberToCN.number2CNMontrayUnit(new BigDecimal(contractInfo.getTotPri().doubleValue())));
 		String ss = contractInfo.getGenckTime();
 		if(ss !=null && !"".equals(ss)){
 			try {
@@ -156,7 +156,7 @@ public class ContractInfoController  extends BaseController {
 		Member mem = memberService.selectByPrimaryKey(contractInfo.getCreateUser());
 		if(mem != null){
 			contractInfo.setJfzdPersonName(mem.getMemberName());
-			contractInfo.setJfzdPersonPhone(mem.getMemberPhone()+" "+mem.getMemberEmail());
+			contractInfo.setJfzdPersonPhone((mem.getMemberPhone() == null ? "" : mem.getMemberPhone())+" "+(mem.getMemberEmail() == null ? "" : mem.getMemberEmail()));
 		}
 		return contractInfo;
 	}
