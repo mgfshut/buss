@@ -306,4 +306,5 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		List<TransactionInfo> tras = transactionInfoMapper.listPageInfo(transactionInfo);
 		return tras;
 	}
+	
 }

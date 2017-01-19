@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.biz.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	private CustomerMapper customerMapper;
 	@Autowired
 	private CategoryMapper categoryMapper;
+	protected Logger  log = LoggerFactory.getLogger("error");
 	
 	@Override
 	public int insertContractInfo(ContractInfo contractInfo) {
@@ -140,21 +143,31 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		}
 		return conId;
 	}
-
+	
 	@Override
 	public List<String> downloadContract(ContractInfo con) {
 		List<String> urlList = new ArrayList<String>();
-		String[] urls = contractInfoMapper.selectByPrimaryKey(con.getContractInfoId()).getContUlName().split("|");
+		ContractInfo info = contractInfoMapper.selectByPrimaryKey(con.getContractInfoId());
+		
 		try {
-			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
-			String contractUrlPerfix = propertyUtil.readValue("contractUrlPerfix");
-			String temp = null;
-			for(String url : urls){
-				temp = contractUrlPerfix+url;
-				urlList.add(temp);
+			if (info == null){
+				String[] urls = info.getContUlName().split("|");
+				/*PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+				String contractUrlPerfix = propertyUtil.readValue("contractUrlPerfix");
+				String temp = null;
+				for(String url : urls){
+					temp = contractUrlPerfix+url;
+					urlList.add(temp);
+				}*/
+			}else{
+				//throw new Exception("合同信息不存在！");
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			for(int i=0; i<5; i++){
+				urlList.add("http://192.168.10.63:9090/img/index-backgroud.jpg");
+			}
+		} catch (Exception e) {
+			log.error("电子合同下载请求异常", e);
+			//throw new Exception("合同信息不存在！");
 		}
 		return urlList;
 	}

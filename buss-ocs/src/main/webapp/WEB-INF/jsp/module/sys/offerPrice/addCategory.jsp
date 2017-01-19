@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="sdf" %>
+<%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
 <script>
 $(document).ready(function() {
 	var filePath = "";
@@ -24,8 +25,8 @@ $(document).ready(function() {
 </script>
 <div id="addCategoryForm" class="pageContent">
 	<form method="post" action="service/category-save" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
-		<input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
-		<input type="hidden" name="codeValueId" value="${codeValueId}" />
+		<%-- <input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
+		<input type="hidden" name="codeValueId" value="${codeValueId}" /> --%>
 		<div class="pageFormContent container-fluid" layoutH="68">
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类名称：</label>
@@ -44,21 +45,21 @@ $(document).ready(function() {
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				<input type="text" name="prodPla" data-error="请输入1-10位字符" placeholder="请输入产地" maxlength="10" class="form-control textInput" required="required" value="${prodPla}">
+				<ys:codemapSelect2 codemap="prodPla" required="required" selectName="prodPla" value="${prodPla}" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="comm" data-error="请输入1-256位字符" placeholder="请输入规格" maxlength="256" class="form-control textInput" required="required" value="${comm}">
+				<ys:codemapSelect2 codemap="cateStan" required="required" selectName="cateStan" value="${cateStan}" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
-				<label class="col-sm-2 control-label">品类规格：</label>
+				<label class="col-sm-2 control-label">备注：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateStan" data-error="请输入1-10位字符" placeholder="请输入品类规格" maxlength="10" class="form-control textInput" required="required" value="${cateStan}">
+				<input type="text" name="comm" data-error="请输入1-256位字符" placeholder="请输入备注" maxlength="256" class="form-control textInput" required="required" value="${comm}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -69,11 +70,31 @@ $(document).ready(function() {
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
-			
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">货币币种：</label>
+				<div class="col-sm-8">
+				<ys:codemapSelect2 codemap="currency" required="required" selectName="currency" value="${currency}" classes="form-control"></ys:codemapSelect2>
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">计量单位：</label>
+				<div class="col-sm-8">
+				<ys:codemapSelect2 codemap="weight" required="required" selectName="unit" value="${unit}" classes="form-control"></ys:codemapSelect2>
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">报盘价：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateStan" data-error="请输入1-10位字符" placeholder="请输入品类规格" maxlength="10" class="form-control textInput" required="required" value="${cateStan}">
+				<input type="text" name="offerPri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput" required="required" value="${offerPri}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">报盘时效：</label>
+				<div class="col-sm-8">
+				<input type="text" name="offerAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput" required="required" value="${offerAging}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

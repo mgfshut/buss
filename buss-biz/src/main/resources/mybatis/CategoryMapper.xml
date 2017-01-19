@@ -360,7 +360,7 @@
 	c.fut_max_,
 	c.inter_fut_min_,
 	c.inter_fut_max_,
-	a.regMgrCk,
+	a.reg_mgr_ck,
 	a.create_user_
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_ 
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_ 

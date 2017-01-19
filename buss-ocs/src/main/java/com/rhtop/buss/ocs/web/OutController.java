@@ -16,6 +16,8 @@ import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +66,8 @@ public class OutController extends BaseController {
 	@Autowired(required=false)
 	@Qualifier("restService")
 	private RestService service;
+	
+	protected Logger  log = LoggerFactory.getLogger("interface");
 	
 	private @Value("${biz.server.url}") String coreUrl;
 	
@@ -745,6 +749,7 @@ public class OutController extends BaseController {
 		if ("200".equals(result.get("code").toString())) {
 			customer.setCreateUser(memberId);//将用户的id作为创建者给保存起来
 			JSONObject jsonUser = JSONObject.fromObject(customer);
+			log.info("客户信息查询："+jsonUser.toString());
 			readResult = (ResultInfo) service.invoke("readData-R2001", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
@@ -1025,6 +1030,46 @@ public class OutController extends BaseController {
 			category.setCreateUser(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2014", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 接口id：R2015
+	 * 国际部回盘列表(未回盘)
+	 * 品类id
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2015")
+	public ResultInfo notCtofPrice(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			transactionInfo.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2015", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 接口id：R2016
+	 * 国际部回盘列表(已回盘)
+	 * 品类id
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2016")
+	public ResultInfo ctofPrice(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			transactionInfo.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2016", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}

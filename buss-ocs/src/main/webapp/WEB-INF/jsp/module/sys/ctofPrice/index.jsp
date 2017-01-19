@@ -52,12 +52,12 @@
 		<c:forEach items="${resObject}" var="item">
 			<tr target="transactionInfoId" rel="${item.transactionInfoId}">
 				<td>${item.cateName}</td>
-				<td>${item.manuNum}</td>
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
+				<td>${item.manuNum}</td>
 				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.pkgQuan}</td>
 				<td>${item.cusName}</td>
-				<td><ys:codemapConvert codemap="cusLoc" value="${item.cusLoc }"/></td>
+				<td>${item.cusLoc}</td>
 				<td><ys:codemapConvert codemap="cusCha" value="${item.cusCha }"/></td>
 				<td>${item.cateSup}</td>
 				<td>${item.txAmo}</td>
