@@ -73,12 +73,32 @@ public class Category {
 	
 	private List<RelCategoryPrice> rcps;//价格列表
 	
-	private String isOffer;//国际采购人员是否报盘；00 ：未报盘，01：已报盘；
+	private String isOffer;//国际采购人员是否报盘；00 ：未报盘，02：已报盘；
 	
-	private String isCollect;//客户经理，部门经理；00：未采集；01:已采集；
+	private String isCollect;//客户经理，部门经理；00：未采集；02:已采集；
 	
 	private List<RelCustomerCategory> rcacu; //客户与品类关系
 	
+	private String mgrCk;//客户经理对品类的审核状态
+	
+	private String regMgrCk;//分部经理对品类的审核状态
+	
+	public String getMgrCk() {
+		return mgrCk;
+	}
+
+	public void setMgrCk(String mgrCk) {
+		this.mgrCk = mgrCk;
+	}
+
+	public String getRegMgrCk() {
+		return regMgrCk;
+	}
+
+	public void setRegMgrCk(String regMgrCk) {
+		this.regMgrCk = regMgrCk;
+	}
+
 	public String getCusName() {
 		return cusName;
 	}

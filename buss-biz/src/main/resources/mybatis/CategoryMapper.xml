@@ -23,8 +23,10 @@
 	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
 	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
 	<result column="mgr_name_" property="mgrName" jdbcType="VARCHAR" />
-	<result column="is_offer" property="isOffer" jdbcType="VARCHAR" />
-	<result column="is_collect" property="isCollect" jdbcType="VARCHAR" />
+	<result column="is_offer_" property="isOffer" jdbcType="VARCHAR" />
+	<result column="is_collect_" property="isCollect" jdbcType="VARCHAR" />
+	<result column="mgr_ck_" property="mgrCk" jdbcType="VARCHAR" />
+	<result column="reg_mgr_ck_" property="regMgrCk" jdbcType="VARCHAR" />
 	
   </resultMap>
   
@@ -336,10 +338,10 @@
 	b.pkg_quan_,
 	c.wholesale_pri_,
 	c.acpt_pri_,
-  	case  when c.wholesale_pri_ is null then '00' else '02' end as is_Collect 
+	a.mgr_ck_
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_
 	left join buss_rel_category_price_ c on b.category_id_ = c.category_id_
-	where a.create_user_ = #{createUser} order by  c.wholesale_pri_ asc , a.update_time_  DESC  
+	where a.create_user_ = #{createUser} order by  a.mgr_ck_ ASC , a.update_time_  DESC  
 	</select>
 	
 	<!--分部经理查询报价信息  -->

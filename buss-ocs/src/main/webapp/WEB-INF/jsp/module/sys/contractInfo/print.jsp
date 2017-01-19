@@ -12,7 +12,7 @@
 	<body>
 		<div class="body">
 			<div id="prtarea">
-				<p class="firstp">合同编号：${contractInfoId }</p>
+				<p class="firstp">合同编号：${conCode }</p>
 				<h1>商品销售合同</h1>
 				<p>
 					甲方（卖家）：<br />

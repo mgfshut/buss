@@ -212,11 +212,8 @@ public class ContractInfoController  extends BaseController {
 			htmlMessage.setMessage("请上传收款确认凭证");
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
-			if (StringUtils.isEmpty(contractInfo.getContUlName())){
-				cif.setContUlName(newFile.substring(0, newFile.length() -1));
-			}else{
-				cif.setContUlName(contractInfo.getContUlName() + "," + newFile.substring(0, newFile.length() -1));
-			}
+			//新的凭证字段
+			cif.setContUlName(newFile.substring(0, newFile.length() -1));
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			cif.setUpdateUser(userId);
 			contractInfoService.treasurerCheckContract(cif);
