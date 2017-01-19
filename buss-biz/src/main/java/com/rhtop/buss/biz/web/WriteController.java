@@ -188,7 +188,7 @@ public class WriteController extends BaseController{
 			log.error("[WriteController.addCustomerAndCategory]数据解析异常", e);
 		}
 		List<RelCategoryPrice> rcps = catePris.getRcps();
-		String userId = rcps.get(0).getUpdateUser();
+		String userId = catePris.getUpdateUser();
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
 		
