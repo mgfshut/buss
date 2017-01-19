@@ -58,20 +58,41 @@ public class CategoryController  extends BaseController {
 	@ResponseBody
 	@RequestMapping("/save")
 	public HtmlMessage saveCategory(@Valid @RequestParam(value = "userId") String userId,@Valid Category category){
+		HtmlMessage htmlMessage = new HtmlMessage(category);
 		if(category.getCategoryId() == null || "".equals(category.getCategoryId())){
-			String categoryId = UUID.randomUUID().toString().replace("-", "");
-			category.setCategoryId(categoryId);
-			category.setCreateUser(userId);
-			category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			category.setUpdateUser(userId);
-			category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			categoryService.insertCategory(category);
+			//对品类进行唯一性判断
+			 Category cate = categoryService.checkCategoryExist(category);
+			 if(cate==null){//不存在
+				//加入品类表中
+					String categoryId = UUID.randomUUID().toString().replace("-", "");
+					category.setCategoryId(categoryId);
+					category.setCreateUser(userId);
+					category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+					category.setUpdateUser(userId);
+					category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+					categoryService.insertCategory(category);
+					//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
+					RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+					relCategoryPrice.setCategoryId(categoryId);
+					relCategoryPrice.setCateSup(category.getCateSup());
+					relCategoryPrice.setCurrency(category.getCurrency());
+					relCategoryPrice.setOfferPri(category.getOfferPri());
+					relCategoryPrice.setOfferAging(category.getOfferAging());
+					relCategoryPrice.setUnit(category.getUnit());
+					relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+					catPriSer.insertRelCategoryPrice(relCategoryPrice);	 
+					htmlMessage.setMessage("添加成功！");
+					htmlMessage.setNavTabId("sys:offerPrice");
+			 }else{//存在
+				 htmlMessage.setMessage("该品类存在！");
+				 htmlMessage.setNavTabId("offerPriceSaveDialog");
+			 }
 		}else{
 			category.setUpdateUser(userId);
 			category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			categoryService.updateCategory(category);
 		}
-		return new HtmlMessage(category);
+		return htmlMessage;
 	}
 	/**
      * 删除

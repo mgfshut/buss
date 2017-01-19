@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="sdf" %>
+<%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
 
 <div id="fixOfferPriceForm" class="pageContent">
 	<form method="post" action="service/category-updateCategoryPrice" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
@@ -31,14 +32,14 @@
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${item.prodPla }"/>">
+				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="prodPla" value="${prodPla }"/>">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateStan" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/>">
+				<input type="text" name="cateStan" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${cateStan }"/>">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

@@ -221,7 +221,7 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id：R2007
-	 * 客户经理,部门经理 ,决策委员会 查看交易列表
+	 * 客户经理,部门经理 ,决策委员会（交易状态大于等于21） 查看交易列表
 	 * @author lujin
 	 * @param body
 	 * @return

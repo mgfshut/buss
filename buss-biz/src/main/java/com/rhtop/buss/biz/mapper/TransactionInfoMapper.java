@@ -46,4 +46,16 @@ public interface TransactionInfoMapper {
      * @return
      */
 	List<TransactionInfo> listPageInfo (TransactionInfo transactionInfo);
+	
+	/**
+     * 根据条件查询列表
+     * 根据状态查询 
+     * @author lujin
+     * @date 2017-1-19
+     * @param transactionInfo
+     * transactionInfo.setTxStatus("21")
+     * @return
+     */
+	List<TransactionInfo> listPageInfoByTxStatus(TransactionInfo transactionInfo);
+	
 }

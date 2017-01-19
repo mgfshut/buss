@@ -54,7 +54,7 @@
 				<td>${item.cateName}</td>
 				<td>${item.manuNum}</td>
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
-				<td><ys:codemapConvert codemap="cateStan" value="${item.prodPla }"/></td>
+				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.offerPri}</td>
 				<td>${item.offerAging}</td>
 			</tr>

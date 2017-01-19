@@ -279,55 +279,55 @@
     <include refid="Base_Column_List" />
     from buss_transaction_info_ where 1=1
     	<if test="ctofPri != null and ctofPri != ''" >
-			and a.ctof_pri_ = #{ctofPri}
+			and ctof_pri_ = #{ctofPri}
 		</if>
     	<if test="txStatus != null and txStatus != ''" >
-			and a.tx_status_ = #{txStatus}
+			and tx_status_ = #{txStatus}
 		</if>
 		<if test="clRea != null and clRea != ''" >
-			and a.cl_rea_ = #{clRea}
+			and cl_rea_ = #{clRea}
 		</if>
     	<if test="txAmo != null and txAmo != ''" >
-			and a.tx_amo_ = #{txAmo}
+			and tx_amo_ = #{txAmo}
 		</if>
     	<if test="updateTime != null and updateTime != ''" >
-			and a.update_time_ = #{updateTime}
+			and update_time_ = #{updateTime}
 		</if>
     	<if test="createTime != null and createTime != ''" >
-			and a.create_time_ = #{createTime}
+			and create_time_ = #{createTime}
 		</if>
     	<if test="pcasPri != null and pcasPri != ''" >
-			and a.pcas_pri_ = #{pcasPri}
+			and pcas_pri_ = #{pcasPri}
 		</if>
     	<if test="categoryId != null and categoryId != ''" >
-			and a.category_id_ = #{categoryId}
+			and category_id_ = #{categoryId}
 		</if>
     	<if test="updateUser != null and updateUser != ''" >
-			and a.update_user = #{updateUser}
+			and update_user = #{updateUser}
 		</if>
     	<if test="ctofAging != null and ctofAging != ''" >
-			and a.ctof_aging_ = #{ctofAging}
+			and ctof_aging_ = #{ctofAging}
 		</if>
     	<if test="transactionInfoId != null and transactionInfoId != ''" >
-			and a.transaction_info_id_ = #{transactionInfoId}
+			and transaction_info_id_ = #{transactionInfoId}
 		</if>
     	<if test="timingSta != null and timingSta != ''" >
-			and a.timing_sta_ = #{timingSta}
+			and timing_sta_ = #{timingSta}
 		</if>
     	<if test="pcasTime != null and pcasTime != ''" >
-			and a.pcas_time_ = #{pcasTime}
+			and pcas_time_ = #{pcasTime}
 		</if>
     	<if test="dealTime != null and dealTime != ''" >
-			and a.deal_time_ = #{dealTime}
+			and deal_time_ = #{dealTime}
 		</if>
     	<if test="customerId != null and customerId != ''" >
-			and a.customer_id_ = #{customerId}
+			and customer_id_ = #{customerId}
 		</if>
     	<if test="createUser != null and createUser != ''" >
-			and a.create_user_ = #{createUser}
+			and create_user_ = #{createUser}
 		</if>
   </select>
-  <!-- 客户经理，部门经理，决策委员会（createUser赋值为空） 查看 交易列表 -->
+  <!-- 客户经理，部门经理  查看 交易列表 -->
   <select id="listPageTransactionInfoBycreateUser" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
 	select 
 	a.transaction_info_id_,
@@ -420,5 +420,23 @@
 			and a.tx_status = #{txStatus}
 	</if>
     ORDER BY a.update_time_ DESC
+  </select>
+  
+  <!-- 改：根据条件分页查询列表   根据状态查询 -->
+  <select id="listPageInfoByTxStatus" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
+   select 
+	a.transaction_info_id_,
+	a.tx_status_,
+	b.cus_name_,
+	b.cus_cha_,
+	c.cate_name_,
+	c.manu_num_ 
+	from buss_transaction_info_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_ 
+								  LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
+	where 1=1
+    	<if test="txStatus != null and txStatus != ''" >
+			and a.tx_status_  >= #{txStatus}
+		</if>
+	ORDER BY a.tx_status_ ASC, a.update_time_ DESC
   </select>
 </mapper>

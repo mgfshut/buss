@@ -240,14 +240,18 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	@Override
 	public List<TransactionInfo> listPageTransactionInfoBycreateUser(
 			TransactionInfo transactionInfo) {
+		List<TransactionInfo> transactionInfos = null;
 		// 判断用户的类型
 		String memberJob = memberMapper.selectByPrimaryKey(
 				transactionInfo.getCreateUser()).getMemberJob();
-		if ("04".equals(memberJob)) {// 决策委员会,查询所有的交易详情
+		if ("04".equals(memberJob)) {// 决策委员会,查询所有的交易详情(状态大于等于21)
 			transactionInfo.setCreateUser("");
+			transactionInfo.setTxStatus("21");
+			transactionInfos = transactionInfoMapper.listPageInfoByTxStatus(transactionInfo);
+		}else{
+			transactionInfos = transactionInfoMapper.listPageTransactionInfoBycreateUser(transactionInfo);
+			
 		}
-		List<TransactionInfo> transactionInfos = transactionInfoMapper
-				.listPageTransactionInfoBycreateUser(transactionInfo);
 		return transactionInfos;
 	}
 
@@ -263,7 +267,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		slaTransactionInfo.setTransactionInfoId(tran.getTransactionInfoId());
 		List<SlaTransactionInfo> listSla = slaTxMapper.listSlaTransactionInfos(slaTransactionInfo);
 		// 交易的创建者名称
-		String mgrName = userMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getUserName();
+		String mgrName = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberName();
 		// 用户的判断
 		String memberJob = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberJob();
 		if ("04".equals(memberJob)) {// 决策委员会
