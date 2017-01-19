@@ -19,7 +19,7 @@ public interface ContractInfoService{
 	 * 创建合同、修改交易记录的状态
 	 * @throws ParseException 
 	 */
-	String createContract(ContractInfo con) throws ParseException;
+	String createContract(ContractInfo con) throws Exception;
 	
 	/**
 	 * 总经理审核合同（修改状态 从10修改为20）

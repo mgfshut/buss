@@ -291,7 +291,7 @@ public class OutController extends BaseController {
 		try{
 			uri = new URI(coreUrl + "/service/writeData/In0002");
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		mvm.add("memberId", memberId);
 		List<File> fileList = new ArrayList<File>();

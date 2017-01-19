@@ -13,8 +13,9 @@ $(document).ready(function() {
 	
 	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
-		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-			filePath = filePath+json.rel+",";
+		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){ 
+		/* if(1==1){ */
+			filePath = filePath+json.resObject.catePic+",";
 			$('#filePath').val(filePath);
 		}else{
 			alert("文件上传失败");
@@ -24,7 +25,7 @@ $(document).ready(function() {
 });
 </script>
 <div id="addCategoryForm" class="pageContent">
-	<form method="post" action="service/category-save" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
+	<form method="post" action="interface/writeData/In0008" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
 		<%-- <input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
 		<input type="hidden" name="codeValueId" value="${codeValueId}" /> --%>
 		<div class="pageFormContent container-fluid" layoutH="68">
@@ -101,7 +102,7 @@ $(document).ready(function() {
 			<div class="form-horizontal" align="center">
 				<div class="form-group" align="center">
 					<div class="col-xs-12" align="center">
-						<input id="file-zmwj" type="file" name="file">
+						<input id="file-zmwj" type="file" name="filePath">
 					</div>
 				</div>
 			</div>
