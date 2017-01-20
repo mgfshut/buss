@@ -121,7 +121,7 @@ public class TransactionInfoController  extends BaseController {
 	
 	/**
 	 * 国际人员 pc
-	 * 回盘信息 
+	 * 回盘信息 (交易状态为20的交易信息)
 	 * @author lujin
 	 * @date 2017-1-16
 	 * @param 
@@ -131,6 +131,7 @@ public class TransactionInfoController  extends BaseController {
 	@ResponseBody
 	public InfoResult<List<TransactionInfo>> getCtofPrice(Page page,TransactionInfo transactioninfo ){
 		InfoResult<List<TransactionInfo>> infoResult = new InfoResult<List<TransactionInfo>>();
+		transactioninfo.setTxStatus("20");
 		List<TransactionInfo> Tranlist = transactionInfoService.listPageInfo(transactioninfo);
 		infoResult.setPage(page);
 		infoResult.setCode("200");
