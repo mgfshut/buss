@@ -258,6 +258,13 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			//从字典表中拿汇率数据
 			String rate = null;
 			List<CodeValue> rates = codeValueService.listCodeValuesByCode("rate");
+			if (rates == null || rates.size() == 0){
+				readResult.setCode("500");
+				readResult.setMessage("暂无汇率字典信息，无法进行美元转换！");
+				
+				return readResult;
+			}
+			
 			for(CodeValue val : rates){
 				if(val.getCodeValue().trim().equals("us")){
 					rate = val.getCodeValueDescribe();
