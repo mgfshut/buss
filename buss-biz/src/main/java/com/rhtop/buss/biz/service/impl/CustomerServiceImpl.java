@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
-	public ResultInfo addCustomer(ResultInfo readResult, Customer customer) {
+	public ResultInfo addCustomer(ResultInfo readResult, Customer customer) throws Exception{
 		String userId = customer.getUpdateUser();
 		String now = customer.getUpdateTime();
 		//检查传进来的客户对象是否为空，为空则返回错误信息码并结束操作。
@@ -72,9 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 			insertCustomer(customer);
 		} catch (Exception e) {
 			e.printStackTrace();
-			readResult.setMessage("操作失败，新增客户出错。");
-			readResult.setCode("500");
-			return readResult;
+			throw e;
 		}
 		//新增联系人
 		//检查是否有新增需求
@@ -159,7 +157,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
-	public ResultInfo updateCustomerInfo(ResultInfo  readResult,Customer customer){
+	public ResultInfo updateCustomerInfo(ResultInfo  readResult,Customer customer) throws Exception{
 		List<ContactsInfo> contacts = customer.getContacts();
 		List<Category> categorys = customer.getCategorys();
 		String customerId = customer.getCustomerId();
