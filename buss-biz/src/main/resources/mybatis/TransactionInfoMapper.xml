@@ -417,7 +417,7 @@
   	LEFT JOIN buss_rel_category_price_ d on  d.cus_cha_val_= b.cus_cha_ and  a.customer_id_ = b.customer_id_  and d.category_id_ = a.category_id_ = c.category_id_
 	where 1=1 
 	<if test="txStatus != null and txStatus != ''" >
-			and a.tx_status = #{txStatus}
+			and a.tx_status_ = #{txStatus}
 	</if>
     ORDER BY a.update_time_ DESC
   </select>
