@@ -27,14 +27,15 @@ $(document).ready(function() {
 	var filePath = "";
 	$('#file-zmwj').fileinput({
 		language: 'zh',
-	    uploadUrl: '<%=request.getContextPath()%>/report/upload',
+	    uploadUrl: '<%=request.getContextPath()%>/interface/uploads',
 	    allowedFileExtensions : ['jpg', 'png','gif','bmp']
 	});
 	
 	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
+		alert(json.resObject);
 		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-			filePath = filePath+json.rel+",";
+			filePath = filePath+json.resObject+",";
 			$('#filePath').val(filePath);
 		}else{
 			alert("文件上传失败");
@@ -103,7 +104,7 @@ $(document).ready(function() {
 					<div class="container-fluid" layoutH="68">
 						<div class="body">
 						<div id="prtarea">
-							<p class="firstp">合同编号：${contractInfoId }</p>
+							<p class="firstp">合同编号：${conCode }</p>
 							<h1>商品销售合同</h1>
 							<p>
 								甲方（卖家）：<br />
@@ -384,7 +385,7 @@ $(document).ready(function() {
 					<div class="form-horizontal" align="center">
 						<div class="form-group" align="center">
 							<div class="col-xs-12" align="center">
-								<input id="file-zmwj" type="file" name="file">
+								<input id="file-zmwj" type="file" name="files">
 							</div>
 						</div>
 					</div>

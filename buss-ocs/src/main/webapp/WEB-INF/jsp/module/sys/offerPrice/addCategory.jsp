@@ -25,7 +25,7 @@ $(document).ready(function() {
 });
 </script>
 <div id="addCategoryForm" class="pageContent">
-	<form method="post" action="interface/writeData/In0008" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
+	<form method="post" action="service/category-save" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
 		<%-- <input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
 		<input type="hidden" name="codeValueId" value="${codeValueId}" /> --%>
 		<div class="pageFormContent container-fluid" layoutH="68">
@@ -46,14 +46,14 @@ $(document).ready(function() {
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				<ys:codemapSelect2 codemap="prodPla" required="required" selectName="prodPla" value="${prodPla}" classes="form-control"></ys:codemapSelect2>
+				<ys:codemapSelect2 codemap="prodPla" required="required" selectName="prodPla" value="${prodPla}" defaultText="请选择" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<ys:codemapSelect2 codemap="cateStan" required="required" selectName="cateStan" value="${cateStan}" classes="form-control"></ys:codemapSelect2>
+				<ys:codemapSelect2 codemap="cateStan" required="required" selectName="cateStan" value="${cateStan}" defaultText="请选择" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -95,14 +95,14 @@ $(document).ready(function() {
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">报盘时效：</label>
 				<div class="col-sm-8">
-				<input type="text" name="offerAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput" required="required" value="${offerAging}">
+				<input type="text" name="offerAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效，如若大于24小时则必须是24的整数倍。" maxlength="10" class="form-control textInput" required="required" value="${offerAging}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-horizontal" align="center">
 				<div class="form-group" align="center">
 					<div class="col-xs-12" align="center">
-						<input id="file-zmwj" type="file" name="filePath">
+						<input id="file-zmwj" type="file" name="catePic">
 					</div>
 				</div>
 			</div>

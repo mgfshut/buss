@@ -49,6 +49,8 @@ public class Constant {
 	 */
 	public final static int MAXINTERFACERESULT = 10;
 	
+	public final static String HTTPURL = "http://selller.rhtop.cn/";
+	
 	/**
 	 * 获取网站根路径
 	 * @param request

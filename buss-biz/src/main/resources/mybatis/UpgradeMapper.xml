@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rhtop.buss.biz.mapper.UpgradeMapper" >
+
+  <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Upgrade" >
+	<id column="dev_type" property="devType" jdbcType="VARCHAR" />
+	<result column="version_code" property="versionCode" jdbcType="FLOAT" />
+	<result column="download_files" property="downloadFiles" jdbcType="VARCHAR" />
+	<result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	version_code,
+  	dev_type,
+  	download_files,
+  	content
+  </sql>
+  
+  <!-- 根据条件新增对象-->
+  <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.Upgrade" >
+    insert into sys_upgrade_
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="versionCode != null" >
+	    	version_code,
+	    </if>
+    	<if test="devType != null" >
+	    	dev_type,
+	    </if>
+    	<if test="downloadFiles != null" >
+	    	download_files,
+	    </if>
+    	<if test="content != null" >
+	    	content,
+	    </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="versionCode != null" >
+	    	#{versionCode},
+	    </if>
+    	<if test="devType != null" >
+	    	#{devType},
+	    </if>
+    	<if test="downloadFiles != null" >
+	    	#{downloadFiles},
+	    </if>
+    	<if test="content != null" >
+	    	#{content},
+	    </if>
+    </trim>
+  </insert>
+  <!-- 根据主键删除对象 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_upgrade_ where dev_type = #{0}
+  </delete>
+  <!-- 根据条件修改对象-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.rhtop.buss.common.entity.Upgrade" >
+    update sys_upgrade_
+    <set >
+		<if test="downloadFiles != null and downloadFiles != ''" >
+        	download_files = #{downloadFiles},
+      	</if>
+		<if test="content != null and content != ''" >
+        	content = #{content},
+      	</if>
+		<if test="versionCode != null and versionCode != ''" >
+        	version_code = #{versionCode},
+      	</if>
+    </set>
+    where 
+	dev_type = #{devType}
+  </update>
+  <!-- 根据主键查询对象-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select a.* FROM sys_upgrade_ a where a.dev_type = #{0}
+  </select>
+  <!-- 查询指定类型最大版本信息-->
+  <select id="selectDownload" resultMap="BaseResultMap"  parameterType="com.rhtop.buss.common.entity.Upgrade" >
+	select a.* FROM sys_upgrade_ a where a.dev_type = #{devType} and a.version_code>#{versionCode}
+  </select>
+</mapper>
