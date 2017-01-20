@@ -33,13 +33,15 @@
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
 				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="prodPla" value="${prodPla }"/>">
+				<%-- <ys:codemapSelect2 codemap="prodPla" required="required" selectName="prodPla"  value="${prodPla}" classes="form-control"></ys:codemapSelect2> --%>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateStan" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${cateStan }"/>">
+				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${cateStan }"/>">
+				<%-- <ys:codemapSelect2 codemap="cateStan" required="required" selectName="cateStan" value="${cateStan}" classes="form-control"></ys:codemapSelect2> --%>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -53,35 +55,35 @@
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">供应商：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateSup" class="form-control textInput"  required="required" readOnly="readonly" value="${cateSup}">
+				<input type="text" name="cateSup" class="form-control textInput"  required="required" value="${cateSup}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">货币币种：</label>
 				<div class="col-sm-8">
-				<input type="text" name="currency" class="form-control textInput"  required="required" readOnly="readonly" value="${currency}">
+				<ys:codemapSelect2 codemap="currency" required="required" selectName="currency" value="${currency}" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">计量单位：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateSup" class="form-control textInput"  required="required" readOnly="readonly" value="${cateSup}">
+				<ys:codemapSelect2 codemap="weight" required="required" selectName="unit" value="${unit}" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
-				<label class="col-sm-2 control-label">报盘价格：</label>
+				<label class="col-sm-2 control-label">报盘价：</label>
 				<div class="col-sm-8">
-				<input type="text" name="offerPri" data-error="请输入1-10位字符" placeholder="请输入报盘价格" maxlength="10" class="form-control textInput" required="required">
+				<input type="text" name="offerPri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput" required="required" value="${offerPri}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">报盘时效：</label>
 				<div class="col-sm-8">
-				<input type="text" name="offerAging" data-error="请输入1-10位字符" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput" required="required" >
+				<input type="text" name="offerAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput" required="required" value="${offerAging}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
