@@ -297,7 +297,7 @@ public class OutController extends BaseController {
 			File localFile = new File(FileUtils.getTempDirectoryPath() + File.separator + RandomStringUtils.randomAlphanumeric(8) + file.getOriginalFilename()) ;
 			try{
 				Files.write(file.getBytes(), localFile);
-				mvm.add("file", new FileSystemResource(localFile));
+				mvm.add("files", new FileSystemResource(localFile));
 				fileList.add(localFile);
 			}catch(Exception e){
 				
@@ -820,6 +820,7 @@ public class OutController extends BaseController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
+			category.setCreateUser(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2006", "POST", jsonUser.toString(), ResultInfo.class);
 		}

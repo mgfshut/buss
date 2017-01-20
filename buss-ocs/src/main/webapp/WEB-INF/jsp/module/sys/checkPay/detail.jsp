@@ -142,7 +142,7 @@ var csgId = '${csgId}';
 						    <div class="carousel-inner">
 						    	<c:forEach items="${fn:split(contUlName, ',')}" var="img" varStatus="ind">
 						        <div class="item ${ind.index == 0 ? ' active' : '' }">
-						            <img src="${img}" alt="First slide ${ind.index}" style="height: 380px">
+						            <img src="${httpUrl}${img}" alt="First slide ${ind.index}" style="height: 380px">
 						        </div>
 						        </c:forEach>
 						    </div>

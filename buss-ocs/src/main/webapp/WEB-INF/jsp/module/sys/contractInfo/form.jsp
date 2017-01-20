@@ -33,8 +33,7 @@ $(document).ready(function() {
 	
 	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
-		alert(json.resObject);
-		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+		if (json.code == DWZ.statusCode.ok){
 			filePath = filePath+json.resObject+",";
 			$('#filePath').val(filePath);
 		}else{
@@ -43,6 +42,14 @@ $(document).ready(function() {
 		
 	});
 });
+function consnavTabAjaxDone(json){
+	if(json[DWZ.keys.statusCode] == DWZ.statusCode.error) {
+		if(json[DWZ.keys.message] && alertMsg) alertMsg.error(json[DWZ.keys.message]);
+	} else if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+		alertMsg.correct(json[DWZ.keys.message]);
+		setTimeout(function(){navTab.closeCurrentTab(json.navTabId);}, 100);
+	}
+}
 </script>
 <style type="text/css">
 	.body{
@@ -94,7 +101,7 @@ $(document).ready(function() {
 </style>
 <div id="pagerForm" class="pageContent">
 	<form method="post" data-delay="100" action="service/contractInfo-check" class="pageForm required-validate" 
-		onsubmit="return validateCallback(this, navTabAjaxDone)">
+		onsubmit="return validateCallback(this, consnavTabAjaxDone)">
 		<input type="hidden" name="contUlName" id="filePath">
 		<input type="hidden" name="contractInfoId" value="${contractInfoId }">
 		<div id="selectedModulesHiddenFileds" ></div>

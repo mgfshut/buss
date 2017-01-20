@@ -18,7 +18,7 @@ public interface CustomerService{
 	/**
 	 * 新增客户信息、品类信息、联系人信息
 	 */
-	ResultInfo addCustomer(ResultInfo readResult, Customer customer);
+	ResultInfo addCustomer (ResultInfo readResult, Customer customer) throws Exception;
     
 	/**
 	 * 根据ID删除数据
@@ -33,7 +33,7 @@ public interface CustomerService{
 	/**
 	 * 经理修改客户信息
 	 */
-	ResultInfo updateCustomerInfo(ResultInfo readResult, Customer customer);
+	ResultInfo updateCustomerInfo(ResultInfo readResult, Customer customer)  throws Exception;
 	
 	/**
 	 * 根据Id查找数据

@@ -82,6 +82,8 @@ public class ContractInfo {
 	private Page page;//分页
 	
 	private String cateName;//品类名称
+	//Http url
+	private String httpUrl;
 	
 	/**打印所用字段begin**/
 	private String buyName;//买方
@@ -103,6 +105,14 @@ public class ContractInfo {
 	
 	public String getConCode() {
 		return conCode;
+	}
+
+	public String getHttpUrl() {
+		return httpUrl;
+	}
+
+	public void setHttpUrl(String httpUrl) {
+		this.httpUrl = httpUrl;
 	}
 
 	public void setConCode(String conCode) {

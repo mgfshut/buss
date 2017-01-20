@@ -279,7 +279,9 @@
 					<div class="tabsMore">more</div>
 				</div>
 				<ul class="tabsMoreList">
-					<li><a href="javascript:;">首页</a></li>
+					<li>
+					<a href="javascript:;">首页</a>
+					</li>
 				</ul>
 				<div class="navTab-panel tabsPageContent layoutBox">
 					<div class="page unitBox">

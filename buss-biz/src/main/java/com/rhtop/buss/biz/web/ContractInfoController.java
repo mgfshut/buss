@@ -1,35 +1,36 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
+
+import javax.validation.Valid;
 
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
-import javax.validation.Valid;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rhtop.buss.common.entity.ContractInfo;
-import com.rhtop.buss.common.entity.Member;
-import com.rhtop.buss.common.entity.Page;
-import com.rhtop.buss.common.entity.InfoResult;
-import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.utils.NumberToCN;
+import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Member;
+import com.rhtop.buss.common.entity.Page;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
@@ -128,6 +129,14 @@ public class ContractInfoController  extends BaseController {
 	@ResponseBody
 	public ContractInfo getByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
+		try {
+			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+			//从配置文件中读取上传文件的存放根路径
+			contractInfo.setHttpUrl(propertyUtil.readValue("picUrlPerfix"));
+		} catch (IOException e1) {
+			
+		}
+		
 		return contractInfo;
 	}
 	
@@ -213,7 +222,7 @@ public class ContractInfoController  extends BaseController {
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
 			//新的凭证字段
-			cif.setContUlName(newFile.substring(0, newFile.length() -1));
+			cif.setPayPic(newFile.substring(0, newFile.length() -1));
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			cif.setUpdateUser(userId);
 			contractInfoService.treasurerCheckContract(cif);

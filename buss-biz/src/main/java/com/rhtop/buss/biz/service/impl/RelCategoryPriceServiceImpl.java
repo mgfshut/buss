@@ -57,8 +57,17 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
-	public List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice) {
+	public List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice, String memberId) {
 		List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.listRelCategoryPrices(relCategoryPrice);
+		//根据价格里面的品类ID和渠道ID查询客户和品类关联表内容，主要是确定当前用户是否有这个渠道的品类 信息
+		for (int i=0; i<relCategoryPriceList.size(); i++){
+			RelCategoryPrice catePrice = relCategoryPriceList.get(i);
+			RelCustomerCategory rBean = relCusCatMapper.selectByChaAndCateAndCreater(memberId, catePrice.getCategoryId(), catePrice.getCusChaId());
+			if (rBean == null){
+				//当前用户没有这个品类渠道信息
+				catePrice.setCreateUser(null);
+			}
+		}
 		return relCategoryPriceList;
 	}
 	
