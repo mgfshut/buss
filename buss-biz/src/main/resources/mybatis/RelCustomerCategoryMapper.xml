@@ -223,7 +223,7 @@
   	SELECT 
   	<include refid="Base_Column_List" />
   	FROM buss_rel_customer_category_ 
-  	WHERE customer_id_={customerId} AND category_id_ = {categoryId} AND	create_user_ = {createUser}
+  	WHERE customer_id_= #{customerId} AND category_id_ = #{categoryId} AND	create_user_ = #{createUser}
   </select>
   <!-- 根据条件查询列表 -->
   <select id="listRelCustomerCategorys" parameterType="com.rhtop.buss.common.entity.RelCustomerCategory" resultMap="BaseResultMap">

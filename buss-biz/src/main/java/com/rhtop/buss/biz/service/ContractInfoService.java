@@ -39,7 +39,7 @@ public interface ContractInfoService{
 	/**
 	 * 财务审核合同（修改状态 从30修改为40）
 	 */
-	String treasurerCheckContract(ContractInfo con);
+	String treasurerCheckContract(ContractInfo con) throws Exception;
 	
 	/**
 	 * 根据ID删除数据

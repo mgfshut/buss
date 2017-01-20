@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.omg.IOP.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
+import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.biz.utils.NumberToCN;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
@@ -31,6 +33,7 @@ import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.common.web.BaseController;
@@ -45,6 +48,8 @@ public class ContractInfoController  extends BaseController {
 	private MemberService memberService;
 	@Autowired
 	private CustomerService cusSer;
+	@Autowired
+	private TransactionInfoService txSer;
 	
     /**
      * 新增
@@ -227,11 +232,18 @@ public class ContractInfoController  extends BaseController {
 			htmlMessage.setMessage("请上传收款确认凭证");
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
+			TransactionInfo tx = txSer.selectByPrimaryKey(contractInfo.getTransactionInfoId());
+			tx.setTxStatus("50");
+			txSer.updateTransactionInfo(tx);
 			//新的凭证字段
 			cif.setPayPic(newFile.substring(0, newFile.length() -1));
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			cif.setUpdateUser(userId);
-			contractInfoService.treasurerCheckContract(cif);
+			try {
+				contractInfoService.treasurerCheckContract(cif);
+			} catch (Exception e) {
+				htmlMessage.setMessage(e.getMessage());
+			}
 		}
 		htmlMessage.setEntity(contractInfo);
 		return htmlMessage;

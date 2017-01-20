@@ -243,7 +243,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
-	public String treasurerCheckContract(ContractInfo con) {
+	public String treasurerCheckContract(ContractInfo con) throws Exception{
 		String conId = con.getContractInfoId();
 		try {
 			ContractInfo contract = contractInfoMapper.selectByPrimaryKey(conId);
@@ -255,7 +255,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 				con.setContStatus("40");
 				contractInfoMapper.updateByPrimaryKeySelective(con);
 			}else{
-				throw new RuntimeException("非法操作，审核顺序错误！");
+				throw new Exception("非法操作，审核顺序错误！");
 			}
 		} catch (Exception e) {
 			throw e;

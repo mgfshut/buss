@@ -11,16 +11,24 @@ $(document).ready(function() {
 	    allowedFileExtensions : ['jpg', 'png','gif','bmp']
 	});
 	
-	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
+	/* $('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
 		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){ 
-		/* if(1==1){ */
 			filePath = filePath+json.resObject.catePic+",";
 			$('#filePath').val(filePath);
 		}else{
 			alert("文件上传失败");
 		}
 		
+	}); */
+	$('#file-zmwj', navTab.getCurrentPanel()).on("fileuploaded", function(event, data, previewId, index) {
+		var json = data.response;
+		if (json.code == DWZ.statusCode.ok){
+			filePath += (json.resObject+",");
+			$('#filePath', navTab.getCurrentPanel()).val(filePath);
+		}else{
+			alert("文件上传失败");
+		}
 	});
 });
 
@@ -111,7 +119,7 @@ function categoryItemSaveDone(json){
 			<div class="form-horizontal" align="center">
 				<div class="form-group" align="center">
 					<div class="col-xs-12" align="center">
-						<input id="file-zmwj" type="file" name="catePic">
+						<input id="file-zmwj" type="file" name="files">
 					</div>
 				</div>
 			</div>
