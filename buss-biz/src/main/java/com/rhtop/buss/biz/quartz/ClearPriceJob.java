@@ -36,7 +36,7 @@ public class ClearPriceJob  extends QuartzJobBean{
 	
 	public void clearPrice(){
 		//得到记录
-		List<RelCategoryPrice>  rels = relCategoryPriceService.listRelCategoryPrices(new RelCategoryPrice());
+		List<RelCategoryPrice>  rels = relCategoryPriceService.listRelCategoryPrices(new RelCategoryPrice(), null);
 		for(RelCategoryPrice rel:rels){
 			//复制记录
 			hisRelcategoryPriceService.insertRelCategoryPrice(rel);
