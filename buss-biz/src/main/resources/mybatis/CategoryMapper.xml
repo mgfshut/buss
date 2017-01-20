@@ -442,7 +442,9 @@
     update buss_category_
     <set >
         	offer_aging_ = #{offerAging},
-        	offer_pri_ = #{offerPri}
+        	offer_pri_ = #{offerPri},
+        	update_time_ = #{updateTime},
+        	update_user = #{updateUser}
     </set>
     where 
 	category_id_ = #{categoryId}
