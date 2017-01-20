@@ -21,8 +21,10 @@ public class UnitUtils {
 		}
 		
 		if("01".equals(weight)){
+			//千克
 			b_unitConver = monery.multiply(BigDecimal.valueOf(1000));
 		}else{
+			//磅
 			b_unitConver = monery.multiply(BigDecimal.valueOf(2204.6226)).
 					setScale(2, BigDecimal.ROUND_HALF_UP);
 		}

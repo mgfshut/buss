@@ -121,7 +121,7 @@ public class TransactionInfoController  extends BaseController {
 	
 	/**
 	 * 国际人员 pc
-	 * 回盘信息 
+	 * 回盘信息 (交易状态为20的交易信息)
 	 * @author lujin
 	 * @date 2017-1-16
 	 * @param 
@@ -131,6 +131,7 @@ public class TransactionInfoController  extends BaseController {
 	@ResponseBody
 	public InfoResult<List<TransactionInfo>> getCtofPrice(Page page,TransactionInfo transactioninfo ){
 		InfoResult<List<TransactionInfo>> infoResult = new InfoResult<List<TransactionInfo>>();
+		transactioninfo.setTxStatus("20");
 		List<TransactionInfo> Tranlist = transactionInfoService.listPageInfo(transactioninfo);
 		infoResult.setPage(page);
 		infoResult.setCode("200");
@@ -145,19 +146,21 @@ public class TransactionInfoController  extends BaseController {
 	 * @param transactioninfoId
 	 * @return
 	 */
-	@RequestMapping("/getTranInfo/{transactioninfoId}")
+	@RequestMapping("/getTranInfo")
 	@ResponseBody
 	public InfoResult<TransactionInfo>  getTranInfo(@PathVariable("transactioninfoId")  String transactioninfoId){
-		InfoResult<TransactionInfo>  infoResult = new InfoResult<TransactionInfo>();
+		InfoResult<TransactionInfo> infoResult = new InfoResult<TransactionInfo>();
 		if("".equals(transactioninfoId)){
 			infoResult.setCode("500");
 			infoResult.setMsg("请选择信息");
+			return infoResult;
 		}
 		TransactionInfo tran = transactionInfoService.selectByPrimaryKey(transactioninfoId);
 		Category cate = cateSer.selectByPrimaryKey(tran.getCategoryId());
 		Customer  cust = custSer.selectByPrimaryKey(tran.getCustomerId());
 		tran.setCate(cate);
 		tran.setCust(cust);
+		infoResult.setCode("200");
 		infoResult.setResObject(tran);
 		return infoResult;
 	}

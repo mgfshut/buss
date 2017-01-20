@@ -259,6 +259,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user = #{updateUser}
 		</if>
+		order by update_time_ DESC
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageCategory" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
@@ -307,7 +308,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user = #{updateUser}
 		</if>
-	order by update_time_ desc
+	order by update_time_ DESC
   </select>
   
   <!-- 根据客户信息查询客户所属的品类信息 -->
@@ -323,6 +324,7 @@
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{0}
+	order by a.update_time_ DESC
   </select>
   
 	
@@ -435,7 +437,7 @@
 	c.offer_pri_ 
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
-	where b.customer_id_ = #{createUser} and c.offer_pri_ != '' or c.offer_pri_ >0
+	where b.customer_id_ = #{createUser} and c.offer_pri_ != '' or c.offer_pri_ >0 order by a.update_time_ DESC
   </select>
   
   <update id="updateCategory" parameterType="com.rhtop.buss.common.entity.Category" >

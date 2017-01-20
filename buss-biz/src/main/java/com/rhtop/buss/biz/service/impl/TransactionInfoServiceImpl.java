@@ -264,6 +264,9 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	public TransactionInfo selectTransactionInfo(TransactionInfo transactionInfo) {
 		// 交易信息
 		TransactionInfo tran = transactionInfoMapper.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
+		if(tran == null){
+			return tran;
+		}
 		// 客户信息
 		Customer cust = cusMapper.selectByPrimaryKey(tran.getCustomerId());
 		// 品类信息
@@ -280,7 +283,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			// 价格信息
 			RelCategoryPrice rel = new RelCategoryPrice();
 			rel.setCategoryId(tran.getCategoryId());
-			rel.setCusChaVal(cust.getCusCha());
+			rel.setCusChaId(cust.getCusCha());
 			RelCategoryPrice relInfo =  null;
 			try{
 				relInfo = relCPMapper.listPageRelCategoryPrice(rel).get(0);
