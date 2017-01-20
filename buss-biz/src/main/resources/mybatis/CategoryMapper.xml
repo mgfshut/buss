@@ -199,7 +199,7 @@
 	where category_id_ = #{0}
   </select>
   <!-- 根据四个判别品类唯一性的条件查询品类 -->
-  <select id="selectByPrimaryParam" parameterType="com.rhtop.buss.common.entity.Category" resultType="com.rhtop.buss.common.entity.Category">
+  <select id="selectByPrimaryParam" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
   	SELECT 
   	<include refid="Base_Column_List"/>
   	FROM buss_category_ 
@@ -445,6 +445,8 @@
     <set >
         	offer_aging_ = #{offerAging},
         	offer_pri_ = #{offerPri},
+        	update_time_ = #{updateTime},
+        	update_user = #{updateUser}
     </set>
     where 
 	category_id_ = #{categoryId}

@@ -2,38 +2,47 @@
     pageEncoding="utf-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="sdf" %>
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
+<script>
 
+function categoryItemSaveDone(json){
+	if (json.code == DWZ.statusCode.ok){
+		alertMsg.correct(json[DWZ.keys.message]);
+		setTimeout(function(){navTab.closeCurrentTab(json.navTabId);}, 100);
+	}else{
+		alertMsg.error(json[DWZ.keys.message]);
+	}
+}
+</script>
 <div id="fixOfferPriceForm" class="pageContent">
-	<form method="post" action="service/category-updateCategoryPrice" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
+	<form method="post" action="service/category-updateCategoryPrice" class="form-horizontal pageForm " onsubmit="return validateCallback(this, categoryItemSaveDone)">
 		<input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
 		<input type="hidden" name="codeValueId" value="${codeValueId}" />
 		<div class="pageFormContent container-fluid" layoutH="68">
 			<div class="form-group form-group-sm" style="display:none">
 				<label class="col-sm-2 control-label">品类ID：</label>
 				<div class="col-sm-8">
-				<input type="text" name="categoryId" class="form-control textInput" required="required" readOnly="readonly" value="${categoryId}">
+				<input type="text" name="categoryId" class="form-control textInput" readOnly="readonly" value="${categoryId}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类名称：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateName" class="form-control textInput" required="required" readOnly="readonly" value="${cateName}">
+				<input type="text" name="cateName" class="form-control textInput" readOnly="readonly" value="${cateName}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">厂号：</label>
 				<div class="col-sm-8">
-				<input type="text" name="manuNum" class="form-control textInput" required="required" readOnly="readonly" value="${manuNum}">
+				<input type="text" name="manuNum" class="form-control textInput" readOnly="readonly" value="${manuNum}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
-				
-				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="prodPla" value="${prodPla }"/>">
+				<input type="text" name="prodPla" class="form-control textInput" readOnly="readonly" value="<ys:codemapConvert codemap="prodPla" value="${prodPla }"/>">
 				<%-- <ys:codemapSelect2 codemap="prodPla" required="required" selectName="prodPla"  value="${prodPla}" classes="form-control"></ys:codemapSelect2> --%>
 				<div class="help-block with-errors"></div>
 				</div>
@@ -41,7 +50,7 @@
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">规格：</label>
 				<div class="col-sm-8">
-				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${cateStan }"/>">
+				<input type="text" name="prodPla" class="form-control textInput" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${cateStan }"/>">
 				<%-- <ys:codemapSelect2 codemap="cateStan" required="required" selectName="cateStan" value="${cateStan}" classes="form-control"></ys:codemapSelect2> --%>
 				<div class="help-block with-errors"></div>
 				</div>
@@ -49,7 +58,7 @@
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">备注：</label>
 				<div class="col-sm-8">
-				<input type="text" name="comm_" class="form-control textInput" required="required" readOnly="readonly" value="${comm}">
+				<input type="text" name="comm_" class="form-control textInput" readOnly="readonly" value="${comm}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

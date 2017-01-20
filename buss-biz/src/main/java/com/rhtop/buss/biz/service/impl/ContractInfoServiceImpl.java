@@ -109,15 +109,6 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			con.setContractInfoId(conId);
 			con.setContStatus("10");
 			
-			//查询最新的ContractInfo
-			ContractInfo contractInfo= contractInfoMapper.selectLatestContract();
-			String conCode = null;
-			if(null == contractInfo) {
-				conCode = generateConCode(null, null);
-			} else {
-				conCode = generateConCode(null, contractInfo.getConCode());
-			}
-			con.setConCode(conCode);
 			
 			contractInfoMapper.insertSelective(con);
 			return conId;
@@ -168,7 +159,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
-	public String checkContract(ContractInfo con) {
+	public String checkContract(ContractInfo con) throws Exception {
 		String conId = con.getContractInfoId();
 		try {
 			ContractInfo contract = contractInfoMapper.selectByPrimaryKey(conId);
@@ -179,6 +170,16 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			if(contract.getContStatus()=="10"||contract.getContStatus().trim().equals("10")){
 				con.setContStatus("20");
 				con.setGenckTime(DateUtils.getNowTime());
+
+				//查询最新的ContractInfo
+				ContractInfo contractInfo= contractInfoMapper.selectLatestContract();
+				String conCode = null;
+				if(null == contractInfo) {
+					conCode = generateConCode(null, null);
+				} else {
+					conCode = generateConCode(null, contractInfo.getConCode());
+				}
+				con.setConCode(conCode);
 				contractInfoMapper.updateByPrimaryKeySelective(con);
 			}else{
 				throw new RuntimeException("非法操作，审核顺序错误！");

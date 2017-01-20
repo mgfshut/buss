@@ -64,29 +64,44 @@ public class CategoryController  extends BaseController {
 			 Category cate = categoryService.checkCategoryExist(category);
 			 if(cate==null){//不存在
 				//加入品类表中
-					String categoryId = UUID.randomUUID().toString().replace("-", "");
-					category.setCategoryId(categoryId);
-					category.setCreateUser(userId);
-					category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-					category.setUpdateUser(userId);
-					category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-					categoryService.insertCategory(category);
-					//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
-					RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
-					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
-					relCategoryPrice.setCategoryId(categoryId);
-					relCategoryPrice.setCateSup(category.getCateSup());
-					relCategoryPrice.setCurrency(category.getCurrency());
-					relCategoryPrice.setOfferPri(category.getOfferPri());
-					relCategoryPrice.setOfferAging(category.getOfferAging());
-					relCategoryPrice.setUnit(category.getUnit());
-					relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-					catPriSer.insertRelCategoryPrice(relCategoryPrice);	 
-					htmlMessage.setMessage("添加成功！");
-					htmlMessage.setNavTabId("sys:offerPrice");
+				String categoryId = UUID.randomUUID().toString().replace("-", "");
+				category.setCategoryId(categoryId);
+				category.setCreateUser(userId);
+				category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				category.setUpdateUser(userId);
+				category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				categoryService.insertCategory(category);
+				//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
+				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setCategoryId(categoryId);
+				relCategoryPrice.setCateSup(category.getCateSup());
+				relCategoryPrice.setCurrency(category.getCurrency());
+				relCategoryPrice.setOfferPri(category.getOfferPri());
+				relCategoryPrice.setOfferAging(category.getOfferAging());
+				relCategoryPrice.setUnit(category.getUnit());
+				relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				catPriSer.insertRelCategoryPrice(relCategoryPrice);	 
+				htmlMessage.setMessage("添加成功！");
 			 }else{//存在
-				 htmlMessage.setMessage("该品类存在！");
-				 htmlMessage.setNavTabId("offerPriceSaveDialog");
+				//如果存在
+				cate.setOfferPri(category.getOfferPri());
+				cate.setOfferAging(category.getOfferAging());
+				cate.setUpdateUser(userId);
+				cate.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				categoryService.updateCategory(cate);
+				//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
+				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setCategoryId(cate.getCategoryId());
+				relCategoryPrice.setCateSup(category.getCateSup());
+				relCategoryPrice.setCurrency(category.getCurrency());
+				relCategoryPrice.setOfferPri(category.getOfferPri());
+				relCategoryPrice.setOfferAging(category.getOfferAging());
+				relCategoryPrice.setUnit(category.getUnit());
+				relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				catPriSer.insertRelCategoryPrice(relCategoryPrice);	 
+				htmlMessage.setMessage("添加成功！");
 			 }
 		}else{
 			category.setUpdateUser(userId);
@@ -285,11 +300,14 @@ public class CategoryController  extends BaseController {
 			catePri.setUniMgrId(userId);
 			catePri.setOfferUpdateTime(now);
 			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catePri);
+			readResult.setCode("200");
+			readResult.setMessage("更新成功！");
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
 			log.error("[CategoryController.updateCategoryPrice]数据更新异常", e);
 		}
-		readResult.setCode("200");
-		readResult.setMessage("更新成功！");
+		
 		return readResult;
 	}
 }

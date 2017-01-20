@@ -23,9 +23,18 @@ $(document).ready(function() {
 		
 	});
 });
+
+function categoryItemSaveDone(json){
+	if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+		alertMsg.correct(json[DWZ.keys.message]);
+		setTimeout(function(){navTab.closeCurrentTab(json.navTabId);}, 100);
+	}else{
+		alertMsg.error(json[DWZ.keys.message]);
+	}
+}
 </script>
 <div id="addCategoryForm" class="pageContent">
-	<form method="post" action="service/category-save" class="form-horizontal pageForm required-validate" onsubmit="return validateCallback(this, categoryItemSaveDone)">
+	<form method="post" action="service/category-save" class="form-horizontal pageForm " onsubmit="return validateCallback(this, categoryItemSaveDone)">
 		<%-- <input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
 		<input type="hidden" name="codeValueId" value="${codeValueId}" /> --%>
 		<div class="pageFormContent container-fluid" layoutH="68">

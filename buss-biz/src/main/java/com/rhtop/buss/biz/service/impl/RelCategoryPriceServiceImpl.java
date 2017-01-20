@@ -247,16 +247,31 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	public ResultInfo createOrUpdateOfferPriceAndTimeByCategoryId(ResultInfo readResult, 
 			RelCategoryPrice relCategoryPrice) throws Exception{
 		try {
-			//TODO:这个汇率怎么拿？字典中还没有添加，我不知道这么拿对不对。参看了RateJob和UnitUtils和CodeValue
+			//检测报盘时效offerAging如果大于24，是不是24的倍数，不是则抛出异常
+			String offerAgingStr = relCategoryPrice.getOfferAging();
+			Float offerAging = Float.parseFloat(offerAgingStr);
+			if(1<offerAging/24){
+				if(0!=offerAging%24){
+					throw new Exception("回盘时效若大于24小时则必须是24的整数倍。");
+				}
+			}
+			//从字典表中拿汇率数据
 			String rate = null;
 			List<CodeValue> rates = codeValueService.listCodeValuesByCode("rate");
+			if (rates == null || rates.size() == 0){
+				readResult.setCode("500");
+				readResult.setMessage("暂无汇率字典信息，无法进行美元转换！");
+				
+				return readResult;
+			}
+			
 			for(CodeValue val : rates){
 				if(val.getCodeValue().trim().equals("us")){
 					rate = val.getCodeValueDescribe();
 				}
 			}
 			//换算价格
-			BigDecimal offerPri = UnitUtils.unitConver(relCategoryPrice.getCurrency(), new BigDecimal(relCategoryPrice.getCatePri()), relCategoryPrice.getUnit(), rate);
+			BigDecimal offerPri = UnitUtils.unitConver(relCategoryPrice.getCurrency(), new BigDecimal(relCategoryPrice.getOfferPri()), relCategoryPrice.getUnit(), rate);
 			//换算好的报盘价添加到品类表中
 			Category cat = catSer.selectByPrimaryKey(relCategoryPrice.getCategoryId());
 			cat.setOfferPri(offerPri.floatValue());
