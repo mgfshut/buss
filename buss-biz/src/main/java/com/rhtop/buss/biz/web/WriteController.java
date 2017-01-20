@@ -137,8 +137,7 @@ public class WriteController extends BaseController{
 	 * @author MakeItHappen
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0002")
-	public ResultInfo uploadPic(HttpServletRequest request, MultipartFile files, @RequestParam("memberId") String memberId){
-		String userId = memberId;
+	public ResultInfo uploadPic(HttpServletRequest request, MultipartFile files){
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
 		String catePic = null;
@@ -147,22 +146,6 @@ public class WriteController extends BaseController{
 			readResult.setResObject(catePic);
 		} catch (Exception e) {
 			log.error("[WriteController.uploadPic]图片上传异常", e);
-		}
-		//添加一条操作记录
-		try {
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String now = sdf.format(date);
-			BusinessDiary bd = new BusinessDiary();
-			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
-			bd.setOprTime(now);
-			bd.setOprUser(userId);
-			bd.setOprType("51");
-			bd.setOprName("图片上传");
-			bd.setOprContent(catePic);
-			busDiaSer.insertBusinessDiary(bd);
-		} catch (Exception e) {
-			log.error("[WriteController.uploadPic]操作日志记录异常", e);
 		}
 		return readResult;
 	}

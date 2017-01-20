@@ -297,7 +297,7 @@ public class OutController extends BaseController {
 			File localFile = new File(FileUtils.getTempDirectoryPath() + File.separator + RandomStringUtils.randomAlphanumeric(8) + file.getOriginalFilename()) ;
 			try{
 				Files.write(file.getBytes(), localFile);
-				mvm.add("file", new FileSystemResource(localFile));
+				mvm.add("files", new FileSystemResource(localFile));
 				fileList.add(localFile);
 			}catch(Exception e){
 				

@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
 import javax.validation.Valid;
@@ -40,6 +41,8 @@ public class ContractInfoController  extends BaseController {
 	private ContractInfoService contractInfoService;
 	@Autowired
 	private MemberService memberService;
+	
+	private @Value("${picUrlPerfix}") String httpUrl;
 	
     /**
      * 新增
@@ -128,6 +131,7 @@ public class ContractInfoController  extends BaseController {
 	@ResponseBody
 	public ContractInfo getByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
+		contractInfo.setHttpUrl(httpUrl);
 		return contractInfo;
 	}
 	
@@ -213,7 +217,7 @@ public class ContractInfoController  extends BaseController {
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
 			//新的凭证字段
-			cif.setContUlName(newFile.substring(0, newFile.length() -1));
+			cif.setPayPic(newFile.substring(0, newFile.length() -1));
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			cif.setUpdateUser(userId);
 			contractInfoService.treasurerCheckContract(cif);

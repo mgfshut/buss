@@ -33,8 +33,8 @@ $(document).ready(function() {
 	
 	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
-		if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-			filePath += (json.resObject.payPic+",");
+		if (json.code == DWZ.statusCode.ok){
+			filePath += (json.resObject+",");
 			$('#filePath').val(filePath);
 		}else{
 			alert("文件上传失败");

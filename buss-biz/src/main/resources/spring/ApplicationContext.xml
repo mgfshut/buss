@@ -9,7 +9,7 @@
 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
-	<context:property-placeholder location="classpath:properties/config-*.properties"/>
+	<context:property-placeholder location="classpath:properties/*.properties"/>
 	
 	<!-- 导入quartz的定时任务 -->
 	<import resource="ApplicationContext-quartz.xml"/>
