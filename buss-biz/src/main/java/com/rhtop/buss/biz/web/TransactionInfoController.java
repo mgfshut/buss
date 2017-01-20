@@ -146,19 +146,21 @@ public class TransactionInfoController  extends BaseController {
 	 * @param transactioninfoId
 	 * @return
 	 */
-	@RequestMapping("/getTranInfo/{transactioninfoId}")
+	@RequestMapping("/getTranInfo")
 	@ResponseBody
 	public InfoResult<TransactionInfo>  getTranInfo(@PathVariable("transactioninfoId")  String transactioninfoId){
-		InfoResult<TransactionInfo>  infoResult = new InfoResult<TransactionInfo>();
+		InfoResult<TransactionInfo> infoResult = new InfoResult<TransactionInfo>();
 		if("".equals(transactioninfoId)){
 			infoResult.setCode("500");
 			infoResult.setMsg("请选择信息");
+			return infoResult;
 		}
 		TransactionInfo tran = transactionInfoService.selectByPrimaryKey(transactioninfoId);
 		Category cate = cateSer.selectByPrimaryKey(tran.getCategoryId());
 		Customer  cust = custSer.selectByPrimaryKey(tran.getCustomerId());
 		tran.setCate(cate);
 		tran.setCust(cust);
+		infoResult.setCode("200");
 		infoResult.setResObject(tran);
 		return infoResult;
 	}
