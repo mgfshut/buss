@@ -56,7 +56,7 @@ public interface RelCategoryPriceService{
 	/**
 	 * 根据条件查询列表
 	 */
-	List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice);
+	List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice, String memberId);
 	
     /**
 	 * 根据条件分页查询列表

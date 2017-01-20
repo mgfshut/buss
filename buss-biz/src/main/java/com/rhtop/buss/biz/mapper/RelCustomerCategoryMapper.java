@@ -66,5 +66,4 @@ public interface RelCustomerCategoryMapper {
      * @date 2017-1-17
      */
 	List<RelCustomerCategory> selectCuschaByRegMgr(RelCustomerCategory relCustomerCategory);
-	
 }
