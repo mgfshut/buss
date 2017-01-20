@@ -290,6 +290,7 @@
     	<if test="uniCtofPri != null and uniCtofPri != ''" >
 			and uni_ctof_pri_ = #{uniCtofPri}
 		</if>
+		order by   update_time_  DESC
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageSlaTransactionInfo" parameterType="com.rhtop.buss.common.entity.SlaTransactionInfo" resultMap="BaseResultMap">

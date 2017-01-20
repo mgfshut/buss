@@ -73,6 +73,8 @@ public class TransactionInfo {
 	
 	private String cusLoc; //产地
 	
+	private SlaTransactionInfo slaInfo;//一条交易记录
+	
 	public ContractInfo getContract() {
 		return contract;
 	}
@@ -407,5 +409,13 @@ public class TransactionInfo {
 
 	public void setCusLoc(String cusLoc) {
 		this.cusLoc = cusLoc;
+	}
+
+	public SlaTransactionInfo getSlaInfo() {
+		return slaInfo;
+	}
+
+	public void setSlaInfo(SlaTransactionInfo slaInfo) {
+		this.slaInfo = slaInfo;
 	}
 }

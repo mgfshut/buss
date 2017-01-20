@@ -1,62 +1,114 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib tagdir="/WEB-INF/tags/" prefix="sdf" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib tagdir="/WEB-INF/tags/" prefix="ys" %>
-<script type="text/javascript">
-var deptname="${dept.deptname}";
-var type="${type}";
-$(function(){
-    // 当目前为修改操作时候  选择跳转的相应页面 
-	if(type!=""&&type=="0"){
-			$("#chooseLink").attr("href","module/sys-dept-select/dept-select-id:deptname");
-			$("#chooseLink").attr("width",600);
-		    $("#chooseLink").attr("height",450);
-	}if(type!=""&&type=="1"){ 
-			$("#chooseLink").attr("href","module/sys-user-productIndex/merchant-pager-1");
-		    $("#chooseLink").attr("width",600);
-		    $("#chooseLink").attr("height",450);
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
+<script>
+
+function categoryItemSaveDone(json){
+	if (json.code == DWZ.statusCode.ok){
+		alertMsg.correct(json[DWZ.keys.message]);
+		setTimeout(function(){navTab.closeCurrentTab(json.navTabId);}, 100);
+	}else{
+		alertMsg.error(json[DWZ.keys.message]);
 	}
-	
-
-	//提交按钮执行的方法 
-	$("#userSubmitButton").click(function(){
-		    var deptPid = $("#deptPid").val();
-			if(deptPid != ""){
-				$("#userEditForm").submit();
-			}else{
-				alertMsg.error("请选择机构!");
-			}
-	});
-
-	
-});
+}
 </script>
-<div id="userMapForm" class="pageContent">
-	<form id="userEditForm" method="post" action="service/member-save" class="pageForm required-validate" 
-		onsubmit="return validateCallback(this,navTabAjaxDone)">
-		<input type="hidden" name="memberId" value="${memberId}" />
-		<div id="selectedModulesHiddenFileds" ></div>
-		<div class="pageFormContent  container-fluid" layoutH="58">
-		<div class="form-horizontal">
-			<div class="form-group form-group-sm">
-				<label class="col-sm-2 control-label">品	名：</label>
-				<div class="col-sm-4">
-					<input type="text" name="userName" pattern="^[A-Za-z0-9]{6,32}$" 
-						data-error="请输入6-32位英文、数字" maxlength="32" placeholder="请输入用户名" 
-						class="form-control" required="required" value="${userName}" readonly="readonly" />
+<div id="fixOfferPriceForm" class="pageContent">
+${cate }
+${cust }
+${ctofPri }
+${sla}
+	<form method="post" action="service/transactionInfo-updateCategoryPricee" class="form-horizontal pageForm " onsubmit="return validateCallback(this, categoryItemSaveDone)">
+		<input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
+		<input type="hidden" name="codeValueId" value="${codeValueId}" />
+		<input type="hidden" name="transactionInfoId" value="${transactionInfoId}" />
+		<input type="hidden" name="slaTransactionInfoId" value="${sla.slaTransactionInfoId}" />
+		<div class="pageFormContent container-fluid" layoutH="68">
+			<div class="form-group form-group-sm" >
+				<label class="col-sm-2 control-label">客户名称：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cusName" class="form-control textInput" readOnly="readonly" value="${cust.cusName}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
-
-				
-		</div>	
+			<div class="form-group form-group-sm" >
+				<label class="col-sm-2 control-label">客户渠道：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cusCha" class="form-control textInput" readOnly="readonly" value="<ys:codemapConvert codemap="cusCha" value="${cust.cusCha}"/> "/> 
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm" >
+				<label class="col-sm-2 control-label">客户地区：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cusLoc" class="form-control textInput" readOnly="readonly" value="${cust.cusLoc}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">品类名称：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cateName" class="form-control textInput" readOnly="readonly" value="${cate.cateName}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">厂号：</label>
+				<div class="col-sm-8">
+				<input type="text" name="manuNum" class="form-control textInput" readOnly="readonly" value="${cate.manuNum}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">产地：</label>
+				<div class="col-sm-8">
+			 	<input type="text" name="prodPla" class="form-control textInput" readOnly="readonly" value="<ys:codemapConvert codemap="prodPla" value="${cate.prodPla }"/> "/> 
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">规格：</label>
+				<div class="col-sm-8">
+ 				 <input type="text" name="cateStan" class="form-control textInput" readOnly="readonly" value="<ys:codemapConvert codemap="cateStan" value="${cate.cateStan }"/> "/> 
+  				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">客户价：</label>
+				<div class="col-sm-8">
+				<input type="text" name="ctofPri" class="form-control textInput" readOnly="readonly" value="${sla.ctofPri}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">交易数量：</label>
+				<div class="col-sm-8">
+				<input type="text" name="txAmo" class="form-control textInput" readOnly="readonly"  value="${txAmo}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">回盘价：</label>
+				<div class="col-sm-8">
+				<input type="text" name="ctofPri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput"  value="${uniCtofPri}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">回盘时效：</label>
+				<div class="col-sm-8">
+				<input type="text" name="ctofAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput"  value="${ctofAging}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
 		</div>
-			<div class="formBar">
+		<div class="formBar">
 			<ul>
-				<li><button class="btn btn-sm btn-primary" type="button" id="userSubmitButton">提交</button></li>
+				<li><button class="btn btn-sm btn-primary disabled" type="submit" style="pointer-events: all; cursor: pointer;">提交</button></li>
 				<li><button class="btn btn-sm btn-warning" data-dismiss="modal" type="button">取消</button></li>
 			</ul>
 		</div>
 	</form>
-
 </div>

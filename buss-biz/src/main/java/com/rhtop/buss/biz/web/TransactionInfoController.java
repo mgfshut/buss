@@ -1,27 +1,29 @@
 package com.rhtop.buss.biz.web;
 
 
-import java.util.UUID;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rhtop.buss.common.entity.Category;
-import com.rhtop.buss.common.entity.Customer;
-import com.rhtop.buss.common.entity.TransactionInfo;
-import com.rhtop.buss.common.entity.Page;
-import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.TransactionInfoService;
+import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Page;
+import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.common.entity.SlaTransactionInfo;
+import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
@@ -35,6 +37,8 @@ public class TransactionInfoController  extends BaseController {
 	private CategoryService cateSer;
 	@Autowired
 	private CustomerService custSer;
+	@Autowired
+	private SlaTransactionInfoMapper slaTransactionInfoMapper;
 	
     /**
      * 新增
@@ -146,23 +150,52 @@ public class TransactionInfoController  extends BaseController {
 	 * @param transactioninfoId
 	 * @return
 	 */
-	@RequestMapping("/getTranInfo")
+	@RequestMapping("/{transactioninfoId}")
 	@ResponseBody
-	public InfoResult<TransactionInfo>  getTranInfo(@PathVariable("transactioninfoId")  String transactioninfoId){
-		InfoResult<TransactionInfo> infoResult = new InfoResult<TransactionInfo>();
-		if("".equals(transactioninfoId)){
-			infoResult.setCode("500");
-			infoResult.setMsg("请选择信息");
-			return infoResult;
-		}
+	public TransactionInfo getTranInfo(@PathVariable("transactioninfoId") String transactioninfoId) {
 		TransactionInfo tran = transactionInfoService.selectByPrimaryKey(transactioninfoId);
 		Category cate = cateSer.selectByPrimaryKey(tran.getCategoryId());
-		Customer  cust = custSer.selectByPrimaryKey(tran.getCustomerId());
+		Customer cust = custSer.selectByPrimaryKey(tran.getCustomerId());
+		//以及最后一条交易记录
+		SlaTransactionInfo sla = new  SlaTransactionInfo();
+		sla.setTransactionInfoId(transactioninfoId);
+		sla.setTxAmo(tran.getTxAmo());
+		try{
+			sla = slaTransactionInfoMapper.listSlaTransactionInfos(sla).get(0);//因为根据更新时间降序排序的
+		}catch(Exception e){
+			
+		}
 		tran.setCate(cate);
 		tran.setCust(cust);
-		infoResult.setCode("200");
-		infoResult.setResObject(tran);
-		return infoResult;
+		tran.setSlaInfo(sla);
+		return tran;
 	}
 	
+	/**
+	 * 国际委员更新回盘价
+	 * @param userId
+	 * @param 
+	 * @date 2017-1-20
+	 * @return
+	 */
+	@RequestMapping("/updateCategoryPrice")
+	@ResponseBody
+	public ResultInfo updateUniCtofPrice(@Valid @RequestParam(value = "userId") String userId,@Valid SlaTransactionInfo slaTransactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		try {
+			//国际部回盘价，以及回盘时效
+//			slaTransactionInfo.getUniCtofPri();//回盘价
+//			slaTransactionInfo.getCtofAging();//回盘时效
+			slaTransactionInfo.setCtofPerId(userId);//回盘人
+			slaTransactionInfo.setCtofTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));//回盘时间
+			slaTransactionInfoMapper.updateByPrimaryKeySelective(slaTransactionInfo);
+			readResult.setCode("200");
+			readResult.setMessage("更新成功！");
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+			log.error("[CategoryController.updateCategoryPrice]数据更新异常", e);
+		}
+		return readResult;
+	}
 }
