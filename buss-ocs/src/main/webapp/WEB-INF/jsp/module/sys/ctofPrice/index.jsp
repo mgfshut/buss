@@ -28,8 +28,9 @@
 <div class="pageContent" >
 <div class="panelBar">
 	<div class="btn-group" style="margin:4px 5px;">
-			<a class="btn btn-primary btn-sm" href="module/sys-ctoPrice-form1/transactionInfo-getTranInfo-{transactionInfoId}" mask="true" target="navTab" rel="usereditmanager" data-parent="usereditmanager" title="输入二次采购价格"><i class="icon-plus"></i> <span>输入二次采购价格</span></a>
-	</div>	
+	<a class="btn btn-primary btn-sm" href="module/sys-offerPrice-fixOfferPrice/category-{categoryId}" mask="true" target="navTab" rel="usereditmanager" data-parent="usereditmanager" title="输入二次采购价格"><i class="icon-plus"></i> <span>输入二次采购价格</span></a>
+<!-- 	<a class="btn btn-primary btn-sm" href="module/sys-ctofPrice-form1/transactionInfo-getTranInfo-{transactionInfoId}" mask="true" target="navTab" rel="usereditmanager" data-parent="usereditmanager" title="输入二次采购价格"><i class="icon-plus"></i> <span>输入二次采购价格</span></a>
+ -->	</div>	
 </div>
 <table class="table" width="100%" layoutH="140">
 	<thead>
@@ -50,7 +51,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${resObject}" var="item">
-			<tr target="transactionInfoId" rel="${item.transactionInfoId}">
+			<tr target="categoryId" rel="${item.categoryId}">
 				<td>${item.cateName}</td>
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
 				<td>${item.manuNum}</td>

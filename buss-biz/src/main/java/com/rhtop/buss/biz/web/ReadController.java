@@ -370,11 +370,24 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
-		List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
-		readResult.setCode("200");
-		readResult.setMessage("数据获取成功！");
-		readResult.setRecords(conts);
-		readResult.setPage(contractInfo.getPage());
+		try {
+			List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
+			for (int i=0; i<conts.size(); i++){
+				String cusName = cusSer.selectByPrimaryKey(conts.get(i).getCustomerId()).getCusName();
+				String cateName = catSer.selectByPrimaryKey(conts.get(i).getCategoryId()).getCateName();
+				conts.get(i).setBuyName(cusName);
+				conts.get(i).setCateName(cateName);
+			}
+			readResult.setRecords(conts);	
+			readResult.setCode("200");
+			readResult.setMessage("数据获取成功！");
+			readResult.setPage(contractInfo.getPage());
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+			return readResult;
+		}
+		
 		return readResult;
 	}
 	/**

@@ -32,15 +32,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.biz.service.CategoryService;
+import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.common.utils.Constant;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.PropertyUtil;
+import com.rhtop.buss.common.utils.UnitUtils;
 import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
 
@@ -51,6 +54,8 @@ public class CategoryController  extends BaseController {
 	private CategoryService categoryService;
 	@Autowired
 	private RelCategoryPriceService catPriSer;
+	@Autowired
+	private CodeValueService codeValueService;
 	
     /**
      * 新增
@@ -70,6 +75,25 @@ public class CategoryController  extends BaseController {
 				category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				category.setUpdateUser(userId);
 				category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				//从字典表中拿汇率数据
+				String rate = null;
+				List<CodeValue> rates = codeValueService.listCodeValuesByCode("rate");
+				if (rates == null || rates.size() == 0){
+					htmlMessage.setMessage("暂无汇率字典信息，无法进行美元转换！");
+					
+					return htmlMessage;
+				}
+				
+				for(CodeValue val : rates){
+					if(val.getCodeValue().trim().equals("us")){
+						rate = val.getCodeValueDescribe();
+					}
+				}
+				//换算价格
+				BigDecimal offerPri = UnitUtils.unitConver(category.getCurrency(), new BigDecimal(category.getOfferPri()), category.getUnit(), rate);
+				//换算好的报盘价添加到品类表中
+				category.setOfferPri(offerPri.floatValue());
+				category.setOfferAging(category.getOfferAging());
 				categoryService.insertCategory(category);
 				//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
 				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();

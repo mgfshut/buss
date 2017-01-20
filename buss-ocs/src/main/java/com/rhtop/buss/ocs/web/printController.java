@@ -64,6 +64,17 @@ public class printController extends BaseController {
 		model.addAllAttributes(ConvertObjToMap(contractInfo));
 		return "module/sys/contractInfo/print";
 	}
+	
+	/**
+	 * app合同查看
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping("contractInfoView/{contractInfoId}")
+	public String contractInfoView(HttpServletRequest request, Model model, @PathVariable("contractInfoId") String contractInfoId){
+		ContractInfo contractInfo = (ContractInfo) rs.invoke("contractInfo-print-" + contractInfoId, "GET", new HashMap(), ContractInfo.class);
+		model.addAllAttributes(ConvertObjToMap(contractInfo));
+		return "module/sys/contractInfo/detail";
+	}
 	/**
 	 * app合同打印
 	 * @author mgf

@@ -21,9 +21,9 @@ public class UnitUtils {
 		}
 		
 		if("01".equals(weight)){
-			b_unitConver = monery.divide(BigDecimal.valueOf(1000));
+			b_unitConver = monery.multiply(BigDecimal.valueOf(1000));
 		}else{
-			b_unitConver = monery.divide(BigDecimal.valueOf(2204.6226)).
+			b_unitConver = monery.multiply(BigDecimal.valueOf(2204.6226)).
 					setScale(2, BigDecimal.ROUND_HALF_UP);
 		}
 		return b_unitConver;
