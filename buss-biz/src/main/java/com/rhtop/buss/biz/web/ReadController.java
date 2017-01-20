@@ -183,7 +183,7 @@ public class ReadController  extends BaseController {
 		//获取品类价格信息
 		RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
 		relCategoryPrice.setCategoryId(category.getCategoryId());
-		List<RelCategoryPrice> rcps = catPriSer.listRelCategoryPrices(relCategoryPrice);
+		List<RelCategoryPrice> rcps = catPriSer.listRelCategoryPrices(relCategoryPrice, category.getCreateUser());
 		cate.setRcps(rcps);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");

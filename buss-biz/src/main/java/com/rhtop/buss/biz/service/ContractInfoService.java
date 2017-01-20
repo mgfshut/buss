@@ -24,7 +24,7 @@ public interface ContractInfoService{
 	/**
 	 * 总经理审核合同（修改状态 从10修改为20）
 	 */
-	String checkContract(ContractInfo con);
+	String checkContract(ContractInfo con) throws Exception;
 	
 	/**
 	 * 行政人员审核合同（修改状态 从20修改为30）

@@ -136,7 +136,8 @@ var csgId = '${csgId}';
 				</div>
 			<div class="form-horizontal" align="center">
 				<div class="form-group" align="center">
-					<div class="col-sm-12" align="center">
+					<div class="col-sm-6" align="center">
+						电子合同扫描件
 						<div id="myCarousel" class="carousel slide">
 						    <!-- 轮播（Carousel）项目 -->
 						    <div class="carousel-inner">
@@ -151,6 +152,26 @@ var csgId = '${csgId}';
 						        data-slide="prev">&lsaquo;
 						    </a>
 						    <a class="carousel-control right" href="#myCarousel" 
+						        data-slide="next">&rsaquo;
+						    </a>
+						</div>	
+					</div>
+					<div class="col-sm-6" align="center">
+						银行支付凭证
+						<div id="yinhang" class="carousel slide">
+						    <!-- 轮播（Carousel）项目 -->
+						    <div class="carousel-inner">
+						    	<c:forEach items="${fn:split(payPic, ',')}" var="img" varStatus="ind">
+						        <div class="item ${ind.index == 0 ? ' active' : '' }">
+						            <img src="${httpUrl}${img}" alt="First slide ${ind.index}" style="height: 380px">
+						        </div>
+						        </c:forEach>
+						    </div>
+						    <!-- 轮播（Carousel）导航 -->
+						    <a class="carousel-control left" href="#yinhang" 
+						        data-slide="prev">&lsaquo;
+						    </a>
+						    <a class="carousel-control right" href="#yinhang" 
 						        data-slide="next">&rsaquo;
 						    </a>
 						</div>	

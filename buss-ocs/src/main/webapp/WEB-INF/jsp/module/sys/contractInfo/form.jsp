@@ -25,17 +25,17 @@ $(document).ready(function() {
 	
 	
 	var filePath = "";
-	$('#file-zmwj').fileinput({
+	$('#file-zmwj', navTab.getCurrentPanel()).fileinput({
 		language: 'zh',
 	    uploadUrl: '<%=request.getContextPath()%>/interface/uploads',
 	    allowedFileExtensions : ['jpg', 'png','gif','bmp']
 	});
 	
-	$('#file-zmwj').on("fileuploaded", function(event, data, previewId, index) {
+	$('#file-zmwj', navTab.getCurrentPanel()).on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
 		if (json.code == DWZ.statusCode.ok){
 			filePath = filePath+json.resObject+",";
-			$('#filePath').val(filePath);
+			$('#filePath', navTab.getCurrentPanel()).val(filePath);
 		}else{
 			alert("文件上传失败");
 		}

@@ -6,6 +6,8 @@ package com.rhtop.buss.biz.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -163,10 +165,14 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		try {
 			String transactionInfoId = tx.getTransactionInfoId();
 			String userId = tx.getUpdateUser();
+			String now = tx.getUpdateTime();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date d = new Date();
+			String endTime = sdf.format(new Date(d.getTime()+Long.parseLong(tx.getCtofAging())*60*60*1000));
+			tx.setEndTime(endTime);
 			transactionInfoMapper.updateByPrimaryKeySelective(tx);
 			SlaTransactionInfo slaTx = slaTxMapper
 					.selectLatestByTransactionInfoId(transactionInfoId);
-			String now = tx.getUpdateTime();
 			slaTx.setCtofCkSta("22");
 			slaTx.setCtofCkPer(userId);
 			slaTx.setCtofCkTime(now);
