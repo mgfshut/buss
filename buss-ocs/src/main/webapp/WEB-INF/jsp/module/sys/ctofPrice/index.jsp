@@ -50,7 +50,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${resObject}" var="item">
-			<tr target="categoryId" rel="${item.categoryId}">
+			<tr target="transactionInfoId" rel="${item.transactionInfoId}">
 				<td>${item.cateName}</td>
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
 				<td>${item.manuNum}</td>

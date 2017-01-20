@@ -181,8 +181,11 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 				}
 				con.setConCode(conCode);
 				contractInfoMapper.updateByPrimaryKeySelective(con);
+				TransactionInfo tx = txMapper.selectByPrimaryKey(contract.getTransactionInfoId());
+				tx.setTxStatus("40");
+				txMapper.updateByPrimaryKeySelective(tx);
 			}else{
-				throw new RuntimeException("非法操作，审核顺序错误！");
+				throw new Exception("非法操作，审核顺序错误！");
 			}
 		} catch (Exception e) {
 			throw e;

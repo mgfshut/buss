@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rhtop.buss.biz.service.ContractInfoService;
+import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.utils.NumberToCN;
 import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.Page;
@@ -41,6 +43,8 @@ public class ContractInfoController  extends BaseController {
 	private ContractInfoService contractInfoService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private CustomerService cusSer;
 	
     /**
      * 新增
@@ -129,6 +133,8 @@ public class ContractInfoController  extends BaseController {
 	@ResponseBody
 	public ContractInfo getByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
+		Customer cus = cusSer.selectByPrimaryKey(contractInfo.getCustomerId());
+		contractInfo.setCusName(cus.getCusName());
 		try {
 			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
 			//从配置文件中读取上传文件的存放根路径

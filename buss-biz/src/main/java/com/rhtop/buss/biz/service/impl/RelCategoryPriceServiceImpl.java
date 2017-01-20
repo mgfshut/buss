@@ -225,6 +225,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 							rel.setFutMax(relCategoryPrice.getFutMax());
 							rel.setUpdateUser(relCategoryPrice.getRegMgrId());
 							rel.setUpdateTime(now);
+							rel.setRegMgrId(userId);
 							relCategoryPriceMapper.updateByCategoryId(rel);
 						}
 						//价格表数据更新完成后，对品类客户表的经理审核状态进行修改。

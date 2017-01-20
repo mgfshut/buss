@@ -3,21 +3,14 @@
  */
 package com.rhtop.buss.biz.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.rhtop.buss.common.entity.RelCategoryPrice;
-import com.rhtop.buss.common.entity.ResultInfo;
-import com.rhtop.buss.common.entity.SlaTransactionInfo;
-import com.rhtop.buss.common.entity.Category;
-import com.rhtop.buss.common.entity.ContractInfo;
-import com.rhtop.buss.common.entity.Customer;
-import com.rhtop.buss.common.entity.TransactionInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContractInfoMapper;
 import com.rhtop.buss.biz.mapper.CustomerMapper;
@@ -27,6 +20,13 @@ import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.TransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.UserMapper;
 import com.rhtop.buss.biz.service.TransactionInfoService;
+import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.RelCategoryPrice;
+import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.common.entity.SlaTransactionInfo;
+import com.rhtop.buss.common.entity.TransactionInfo;
 
 @Service("transactionInfoService")
 public class TransactionInfoServiceImpl implements TransactionInfoService {
@@ -106,24 +106,43 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			String transactionInfoId = tx.getTransactionInfoId();
 			TransactionInfo tx1 = transactionInfoMapper
 					.selectByPrimaryKey(transactionInfoId);
+			String txAmo = tx1.getTxAmo();
 			if (tx1 == null || tx1.toString().equals(null)) {
 				readResult.setCode("500");
 				readResult.setMessage("非法操作，交易ID无效。");
 			} else {
-				if(tx1.getTxStatus()=="20"||tx1.getTxStatus().trim().equals("20")){
+				if(tx1.getTxStatus()=="20"||tx1.getTxStatus().trim().equals("20")||
+						tx1.getTxStatus()=="22"||tx1.getTxStatus().trim().equals("22")){
 					transactionInfoMapper.updateByPrimaryKeySelective(tx);
-					SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(transactionInfoId);
-					String now = tx.getUpdateTime();
-					String userId = tx.getUpdateUser();
-					slaTx.setCreateTime(now);
-					slaTx.setUpdateTime(now);
-					slaTx.setCreateUser(userId);
-					slaTx.setUpdateUser(userId);
-					slaTx.setTransactionInfoId(transactionInfoId);
-					slaTx.setPcasPri(tx.getPcasPri());
-					slaTx.setPcasTime(now);
-					slaTxMapper.updateByPrimaryKeySelective(slaTx);
-					readResult.setMessage("修改报价完成！");
+					if(tx1.getTxStatus()=="22"||tx1.getTxStatus().trim().equals("22")){
+						SlaTransactionInfo slaTx = new SlaTransactionInfo();
+						slaTx.setSlaTransactionInfoId(UUID.randomUUID().toString().replace("-", ""));
+						String now = tx.getUpdateTime();
+						String userId = tx.getUpdateUser();
+						slaTx.setTxAmo(txAmo);
+						slaTx.setCreateTime(now);
+						slaTx.setUpdateTime(now);
+						slaTx.setCreateUser(userId);
+						slaTx.setUpdateUser(userId);
+						slaTx.setTransactionInfoId(transactionInfoId);
+						slaTx.setPcasPri(tx.getPcasPri());
+						slaTx.setPcasTime(now);
+						slaTxMapper.insertSelective(slaTx);
+						readResult.setMessage("修改报价完成！");
+					}else{
+						SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(transactionInfoId);
+						String now = tx.getUpdateTime();
+						String userId = tx.getUpdateUser();
+						slaTx.setCreateTime(now);
+						slaTx.setUpdateTime(now);
+						slaTx.setCreateUser(userId);
+						slaTx.setUpdateUser(userId);
+						slaTx.setTransactionInfoId(transactionInfoId);
+						slaTx.setPcasPri(tx.getPcasPri());
+						slaTx.setPcasTime(now);
+						slaTxMapper.updateByPrimaryKeySelective(slaTx);
+						readResult.setMessage("修改报价完成！");
+					}
 				} else{
 					readResult.setCode("500");
 					readResult.setMessage("请等待本轮回盘完成！");
@@ -168,11 +187,11 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			String now = tx.getUpdateTime();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date d = new Date();
-			String endTime = sdf.format(new Date(d.getTime()+Long.parseLong(tx.getCtofAging())*60*60*1000));
-			tx.setEndTime(endTime);
 			transactionInfoMapper.updateByPrimaryKeySelective(tx);
 			SlaTransactionInfo slaTx = slaTxMapper
 					.selectLatestByTransactionInfoId(transactionInfoId);
+			String endTime = sdf.format(new Date(d.getTime()+Long.parseLong(slaTx.getCtofAging())*60*60*1000));
+			tx.setEndTime(endTime);
 			slaTx.setCtofCkSta("22");
 			slaTx.setCtofCkPer(userId);
 			slaTx.setCtofCkTime(now);
@@ -276,27 +295,25 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		slaTransactionInfo.setTransactionInfoId(tran.getTransactionInfoId());
 		List<SlaTransactionInfo> listSla = slaTxMapper.listSlaTransactionInfos(slaTransactionInfo);
 		// 交易的创建者名称
-		String mgrName = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberName();
+		String mgrName = memberMapper.selectByPrimaryKey(tran.getCreateUser()).getMemberName();
 		// 用户的判断
 		String memberJob = memberMapper.selectByPrimaryKey(transactionInfo.getCreateUser()).getMemberJob();
 		if ("04".equals(memberJob)) {// 决策委员会
 			// 价格信息
 			RelCategoryPrice rel = new RelCategoryPrice();
-			rel.setCategoryId(tran.getCategoryId());
-			rel.setCusChaId(cust.getCusCha());
-			RelCategoryPrice relInfo =  null;
+			String catId = tran.getCategoryId();
+			String chaId = cust.getCusCha();
 			try{
-				relInfo = relCPMapper.listPageRelCategoryPrice(rel).get(0);
+				rel = relCPMapper.selectByCategoryIdAndChaId(catId, chaId).get(0);
 			}catch(Exception e){
-				
+				e.printStackTrace();
+				throw e;
 			}
-			tran.setCate(cate);
-			tran.setCust(cust);
-			tran.setRel(relInfo);
+			tran.setRel(rel);//价格信息
 		}else{
 			//合同信息
-			tran.setSla(listSla);
 			ContractInfo cont = new ContractInfo();
+			tran.setSla(listSla);
 			cont.setCategoryId(tran.getCategoryId());
 			cont.setCustomerId(tran.getCustomerId());
 			cont.setTransactionInfoId(tran.getTransactionInfoId());
@@ -305,14 +322,15 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			if (i > 0) {
 				cont = conts.get(0);
 			}
-			tran.setCate(cate);
-			tran.setCust(cust);
-			tran.setContract(cont);
-			tran.setSla(listSla);
-			tran.setMgrName(mgrName);
+			tran.setContract(cont);//合同信息
 		}
+		tran.setCate(cate);//品类信息
+		tran.setCust(cust);//客户信息
+		tran.setSla(listSla);//回盘列表信息
+		tran.setMgrName(mgrName);//交易的创建者
 		return tran;
 	}
+
 
 	@Override
 	public List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo) {

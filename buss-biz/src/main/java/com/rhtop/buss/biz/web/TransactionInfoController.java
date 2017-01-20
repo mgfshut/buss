@@ -189,6 +189,11 @@ public class TransactionInfoController  extends BaseController {
 			slaTransactionInfo.setCtofPerId(userId);//回盘人
 			slaTransactionInfo.setCtofTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));//回盘时间
 			slaTransactionInfoMapper.updateByPrimaryKeySelective(slaTransactionInfo);
+			//更新交易状态
+			TransactionInfo transactionInfo = new TransactionInfo();
+			transactionInfo.setTransactionInfoId(slaTransactionInfo.getTransactionInfoId());
+			transactionInfo.setTxStatus("21");
+			transactionInfoService.updateTransactionInfo(transactionInfo);
 			readResult.setCode("200");
 			readResult.setMessage("更新成功！");
 		} catch (Exception e) {

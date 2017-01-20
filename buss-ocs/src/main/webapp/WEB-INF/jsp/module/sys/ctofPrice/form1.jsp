@@ -16,15 +16,15 @@ function categoryItemSaveDone(json){
 }
 </script>
 <div id="fixOfferPriceForm" class="pageContent">
-${cate }
+<%-- ${cate }
 ${cust }
-${ctofPri }
-${sla}
-	<form method="post" action="service/transactionInfo-updateCategoryPricee" class="form-horizontal pageForm " onsubmit="return validateCallback(this, categoryItemSaveDone)">
+${ctofPri } 
+${slaInfo}--%>
+	<form method="post" action="service/transactionInfo-updateCategoryPrice" class="form-horizontal pageForm " onsubmit="return validateCallback(this, categoryItemSaveDone)">
 		<input type="hidden" name="code" value="${param.code ne null? param.code:code}" />
 		<input type="hidden" name="codeValueId" value="${codeValueId}" />
 		<input type="hidden" name="transactionInfoId" value="${transactionInfoId}" />
-		<input type="hidden" name="slaTransactionInfoId" value="${sla.slaTransactionInfoId}" />
+		<input type="hidden" name="slaTransactionInfoId" value="${slaInfo.slaTransactionInfoId}" />
 		<div class="pageFormContent container-fluid" layoutH="68">
 			<div class="form-group form-group-sm" >
 				<label class="col-sm-2 control-label">客户名称：</label>
@@ -78,7 +78,7 @@ ${sla}
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">客户价：</label>
 				<div class="col-sm-8">
-				<input type="text" name="ctofPri" class="form-control textInput" readOnly="readonly" value="${sla.ctofPri}">
+				<input type="text" name="pcasPri" class="form-control textInput" readOnly="readonly" value="${slaInfo.pcasPri}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -92,14 +92,14 @@ ${sla}
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">回盘价：</label>
 				<div class="col-sm-8">
-				<input type="text" name="ctofPri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput"  value="${uniCtofPri}">
+				<input type="text" name="uniCtofPri" data-error="请输入1-10位字符" placeholder="请输入回盘价" maxlength="10" class="form-control textInput"  value="${uniCtofPri}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">回盘时效：</label>
 				<div class="col-sm-8">
-				<input type="text" name="ctofAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput"  value="${ctofAging}">
+				<input type="text" name="ctofAging" data-error="请输入24的倍数位" placeholder="请输入回盘时效" maxlength="10" class="form-control textInput"  value="${ctofAging}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

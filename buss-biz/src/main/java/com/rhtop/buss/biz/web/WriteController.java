@@ -677,8 +677,8 @@ public class WriteController extends BaseController{
 		String userId = tx.getUpdateUser();
 		tx.setUpdateTime(now);
 		tx.setTxStatus("22");
-		String endTime = sdf.format(new Date(date.getTime()+Integer.parseInt(tx.getCtofAging())*60*60*1000));
-		tx.setEndTime(endTime);
+//		String endTime = sdf.format(new Date(date.getTime()+Integer.parseInt(tx.getCtofAging())*60*60*1000));
+//		tx.setEndTime(endTime);
 		try {
 			txSer.domainNegotiate(tx);
 		} catch (Exception e) {
