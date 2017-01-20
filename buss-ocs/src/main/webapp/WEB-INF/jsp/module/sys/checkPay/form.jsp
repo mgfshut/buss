@@ -180,7 +180,7 @@ function consnavTabAjaxDone(json){
 			<div class="form-horizontal" align="center">
 				<div class="form-group" align="center">
 					<div class="col-sm-12" align="center">
-						<input id="file-zmwj" type="file" name="file">
+						<input id="file-zmwj" type="file" name="files">
 					</div>
 				</div>
 			</div>

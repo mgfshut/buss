@@ -46,6 +46,8 @@
 		<typeAlias alias="SlaTransactionInfo" type="com.rhtop.buss.common.entity.SlaTransactionInfo"/>
 		<!-- 品类与价格关系历史表 -->
 		<typeAlias alias="HisRelCategoryPrice" type="com.rhtop.buss.common.entity.HisRelCategoryPrice"/>
+		<!-- 程序更新表 -->
+		<typeAlias alias="Upgrade" type="com.rhtop.buss.common.entity.Upgrade"/>
     </typeAliases>
     <!-- 实体接口映射资源 -->  
     
@@ -103,6 +105,7 @@
 		 <mapper resource="mybatis/SlaTransactionInfoMapper.xml"/>
 		<!-- 品类与价格关系历史表 -->
 		 <mapper resource="mybatis/HisRelCategoryPriceMapper.xml"/>
-		 
+		 <!-- 程序更新表 -->
+		 <mapper resource="mybatis/UpgradeMapper.xml"/>
     </mappers>
     </configuration>

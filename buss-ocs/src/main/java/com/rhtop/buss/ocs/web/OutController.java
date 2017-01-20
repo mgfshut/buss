@@ -44,6 +44,7 @@ import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.entity.Upgrade;
 import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.security.UserLoginToken;
 import com.rhtop.buss.common.service.RestService;
@@ -281,9 +282,6 @@ public class OutController extends BaseController {
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/uploads")
 	public ResultInfo uploadPic(HttpServletRequest request, MultipartFile[] files){
 		ResultInfo resultInfo = new ResultInfo();
-		String token = request.getHeader("token");
-		String memberId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(memberId,token);
 		
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>();
@@ -293,7 +291,6 @@ public class OutController extends BaseController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		mvm.add("memberId", memberId);
 		List<File> fileList = new ArrayList<File>();
 		for (int i=0; i<files.length; i++){
 			MultipartFile file = files[i];
@@ -555,50 +552,6 @@ public class OutController extends BaseController {
 		return readResult;
 	}
 	
-	//行政人员上传盖章后合同的接口
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/uploadContracts")
-	public ResultInfo uploadContract(HttpServletRequest request, MultipartFile[] files){
-		ResultInfo resultInfo = new ResultInfo();
-		String token = request.getHeader("token");
-		String memberId = request.getHeader("memberId");
-		Map<String, Object> result = Jwt.validToken(memberId,token);
-		
-		RestTemplate restTemplate = new RestTemplate();
-		MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>();
-		URI uri = null;
-		try{
-			uri = new URI(coreUrl + "/service/writeData/uploadContracts");
-		}catch(Exception e){
-			
-		}
-		mvm.add("memberId", memberId);
-		for (int i=0; i<files.length; i++){
-			MultipartFile file = files[i];
-			File localFile = new File(FileUtils.getTempDirectoryPath() + File.separator + RandomStringUtils.randomAlphanumeric(8) + file.getOriginalFilename()) ;
-			try{
-				Files.write(file.getBytes(), localFile);
-				mvm.add("file", new FileSystemResource(localFile));
-			}catch(Exception e){
-				
-			}
-			
-			if (localFile.exists()) {
-				localFile.delete();
-			}
-		}
-		
-		resultInfo = restTemplate.postForObject(uri, mvm, ResultInfo.class);
-		
-		return resultInfo;
-	}
-	
-	/**
-	 * TODO:app版本更新接口
-	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/appUpdate")
-	public ResultInfo appUpdate(){
-		return null;
-	}
 	/**
 	 * 总经理进行合同审定接口
 	 * 入参：合同ID
@@ -1071,6 +1024,20 @@ public class OutController extends BaseController {
 			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
 			readResult =(ResultInfo)service.invoke("readData-R2016", "POST", jsonUser.toString(), ResultInfo.class);
 		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：upgrade
+	 * 版本更新
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/upgrade")
+	public ResultInfo ctofPrice(HttpServletRequest request, @RequestBody Upgrade upgrade){
+		ResultInfo readResult = new ResultInfo();
+		
+		JSONObject jsonUser = JSONObject.fromObject(upgrade);
+		readResult =(ResultInfo)service.invoke("readData-upgrade", "POST", jsonUser.toString(), ResultInfo.class);
+		
 		return readResult;
 	}
 }

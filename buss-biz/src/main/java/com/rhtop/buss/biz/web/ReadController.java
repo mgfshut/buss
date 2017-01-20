@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 import com.rhtop.buss.biz.service.TransactionInfoService;
+import com.rhtop.buss.biz.service.UpgradeService;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeMap;
 import com.rhtop.buss.common.entity.ContractInfo;
@@ -28,6 +30,8 @@ import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.entity.Upgrade;
+import com.rhtop.buss.common.utils.Constant;
 import com.rhtop.buss.common.web.BaseController;
 
 @RestController
@@ -53,6 +57,8 @@ public class ReadController  extends BaseController {
 	private TransactionInfoService traSer;  
 	@Autowired
 	private ContractInfoService contractSer;
+	@Autowired
+	private UpgradeService upgradeService;
 	
 	
 	/**
@@ -388,6 +394,34 @@ public class ReadController  extends BaseController {
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setResObject(conts);
+		return readResult;
+	}
+	
+	/**
+	 * 接口id:upgrade
+	 * 查看程序最新版本号
+	 * @author 李彬彬
+	 * @date 2017年1月20日
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/upgrade")
+	public ResultInfo upgrade(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Upgrade upgrade = (Upgrade) JSONObject.toBean(jsonObject, Upgrade.class);
+		Upgrade appUpgrade = null;
+		try{
+			appUpgrade = upgradeService.selectDownload(upgrade);
+			if (appUpgrade != null && StringUtils.isNotEmpty(appUpgrade.getDownloadFiles())){
+				appUpgrade.setDownloadFiles(Constant.HTTPURL + appUpgrade.getDownloadFiles());
+			}
+		}catch(Exception e){
+			log.error("版本更新查询失败["+body+"]", e);
+		}
+		readResult.setCode("200");
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(appUpgrade);
 		return readResult;
 	}
 }
