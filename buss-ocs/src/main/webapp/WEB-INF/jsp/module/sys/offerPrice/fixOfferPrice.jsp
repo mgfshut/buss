@@ -32,6 +32,7 @@
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">产地：</label>
 				<div class="col-sm-8">
+				
 				<input type="text" name="prodPla" class="form-control textInput" required="required" readOnly="readonly" value="<ys:codemapConvert codemap="prodPla" value="${prodPla }"/>">
 				<div class="help-block with-errors"></div>
 				</div>
