@@ -151,11 +151,23 @@ public class CategoryServiceImpl implements CategoryService {
 					isExist = true;
 				}
 				
+				if (category.getRelCategoryPrice() == null){
+					category.setRelCategoryPrice(new RelCategoryPrice());
+				}
+				relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
+				relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+				relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+				relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+				relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+				relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+				relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+				relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
+				relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
+				relCategoryPrice.setCusLoc(category.getCusLoc());
 				relCategoryPrice.setCategoryId(cate.getCategoryId());
 				relCategoryPrice.setCatePri(category.getOfferPri());
 				relCategoryPrice.setOfferAging(category.getOfferAging());
-				//品类导入的时候渠道要自动导入，这里有问题，暂时没做。2017年1月22日
-				//relCategoryPrice.setCusChaVal(category.getCusCha());
+				relCategoryPrice.setCusChaId(category.getCusCha());
 				relCategoryPrice.setCreateUser(category.getUpdateUser());
 				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCategoryPrice.setUpdateUser(category.getUpdateUser());
@@ -197,10 +209,23 @@ public class CategoryServiceImpl implements CategoryService {
 					isExist = true;
 				}
 				
+				if (category.getRelCategoryPrice() == null){
+					category.setRelCategoryPrice(new RelCategoryPrice());
+				}
+				relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
+				relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+				relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+				relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+				relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+				relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+				relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+				relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
+				relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
+				relCategoryPrice.setCusLoc(category.getCusLoc());
 				relCategoryPrice.setCategoryId(category.getCategoryId());
 				relCategoryPrice.setCatePri(category.getOfferPri());
 				relCategoryPrice.setOfferAging(category.getOfferAging());
-				//relCategoryPrice.setCusChaVal(category.getCusCha());
+				relCategoryPrice.setCusChaId(category.getCusCha());
 				relCategoryPrice.setCreateUser(category.getUpdateUser());
 				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCategoryPrice.setUpdateUser(category.getUpdateUser());

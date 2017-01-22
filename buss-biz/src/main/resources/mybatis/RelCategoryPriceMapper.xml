@@ -30,6 +30,7 @@
 	<result column="cate_pri_" property="catePri" jdbcType="VARCHAR" />
 	<result column="cus_cha_id_" property="cusChaId" jdbcType="VARCHAR" />
 	<result column="cus_cha_val_" property="cusChaVal" jdbcType="VARCHAR" />
+	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -58,7 +59,8 @@
   	cate_sup_,
   	uni_mgr_id_,
   	offer_update_time_,
-  	cate_pri_
+  	cate_pri_,
+  	cus_loc_
   </sql>
   
   <!-- 根据条件新增对象-->
@@ -149,6 +151,9 @@
 	    <if test="cusChaVal != null" >
 	    	cus_cha_val_,
 	    </if>
+	    <if test="cusLoc != null" >
+	    	cus_loc_,
+	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="mgrId != null" >
@@ -234,6 +239,9 @@
 	    </if>
 	    <if test="cusChaVal != null" >
 	    	#{cusChaVal},
+	    </if>
+	    <if test="cusLoc != null" >
+	    	#{cusLoc},
 	    </if>
     </trim>
   </insert>
@@ -321,6 +329,9 @@
 		<if test="catePri != null and catePri != ''" >
         	cate_pri_ = #{catePri},
       	</if>
+      	<if test="cusLoc != null and cusLoc != ''" >
+        	cus_loc_ = #{cusLoc},
+      	</if>
     </set>
     where 
 	rel_category_price_id_ = #{relCategoryPriceId}
@@ -400,6 +411,9 @@
       	</if>
 		<if test="catePri != null and catePri != ''" >
         	category_id_ = #{catePri},
+      	</if>
+      	<if test="cusLoc != null and cusLoc != ''" >
+        	cus_loc_ = #{cusLoc},
       	</if>
     </set>
     where 
