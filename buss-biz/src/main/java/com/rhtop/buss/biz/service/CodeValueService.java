@@ -30,6 +30,15 @@ public interface CodeValueService{
 	CodeValue selectByPrimaryKey(String codeValueId);
 	
 	/**
+	 * 根据字段类别和字段说明查询指定字典数据
+	 * @param codeMap
+	 * @param codeValueId
+	 * @param codeName
+	 * @return
+	 */
+	CodeValue queryCodeValueAndCodeName(String codeMap, String codeName);
+	
+	/**
 	 * 根据条件查询列表
 	 */
 	List<CodeValue> listCodeValues(CodeValue codeValue);

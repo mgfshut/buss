@@ -48,5 +48,14 @@ public interface CodeValueMapper {
 	 */
 	int updateTheCodeValue(String code, String codeValue,
 			String codeValueDescribe,String updateTime);
+	
+	/**
+	 * 根据字段类别、字段值和字段说明查询指定字典数据
+	 * @param codeMap
+	 * @param codeValueId
+	 * @param codeName
+	 * @return
+	 */
+	CodeValue queryCodeValueAndCodeName(String codeMap, String codeName);
     
 }

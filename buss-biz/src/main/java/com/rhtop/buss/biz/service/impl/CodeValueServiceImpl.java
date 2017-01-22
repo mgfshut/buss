@@ -83,4 +83,9 @@ public class CodeValueServiceImpl implements CodeValueService {
 		return codeValueMapper.insertSelective(codeValue);
 	}
 
+	@Override
+	public CodeValue queryCodeValueAndCodeName(String codeMap, String codeName) {
+		return codeValueMapper.queryCodeValueAndCodeName(codeMap, codeName);
+	}
+
 }

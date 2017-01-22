@@ -1,6 +1,7 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -29,8 +32,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.Files;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.Page;
@@ -274,37 +279,329 @@ public class CategoryController  extends BaseController {
 		HSSFSheet hssfSheet=wb.getSheetAt(0);
 		List<Category> categorys = new ArrayList<Category>();
 		if(hssfSheet!=null){
+			int[] cellIndex = {-1,-1,-1,-1,-1,-1,-1,-1,-1};
+			//遍历excel表头,从第二行开始 即 rowNum=1,逐个获取单元格的内容,然后进行格式处理,最后插入数据库
+			HSSFRow hssfNameRow = hssfSheet.getRow(1);
+			if(hssfNameRow==null || hssfNameRow.getCell(0) == null || "".equals(formatCell(hssfNameRow.getCell(0)))){
+				HtmlMessage html = new HtmlMessage(new Category());
+				html.setStatusCode("400");
+				html.setMessage("第二列未发现表头信息");
+				return html;
+			}
+			
+			for(int cellNum=0; cellNum<=hssfNameRow.getLastCellNum(); cellNum++){
+				HSSFCell cell = hssfNameRow.getCell(cellNum);
+				try{
+					if (cell != null && StringUtils.isNotEmpty(cell.getStringCellValue())){
+						String cellName = cell.getStringCellValue().replaceAll(" ", "");
+						if ("品类名称".equals(cellName)){
+							cellIndex[0] = cellNum;
+						}else if ("规格".equals(cellName)){
+							cellIndex[1] = cellNum;
+						}else if ("包装".equals(cellName)){
+							cellIndex[2] = cellNum;
+						}else if ("厂号".equals(cellName)){
+							cellIndex[3] = cellNum;
+						}else if ("产地".equals(cellName)){
+							cellIndex[4] = cellNum;
+						}else if (cellName.indexOf("备注") != -1){
+							cellIndex[5] = cellNum;
+						}else if ("地区".equals(cellName)){
+							cellIndex[6] = cellNum;
+						}else if ("报盘价".equals(cellName)){
+							cellIndex[7] = cellNum;
+						}else if ("价格时效".equals(cellName)){
+							cellIndex[8] = cellNum;
+						}
+					}
+				}catch(Exception e){
+					
+				}
+			}
+			
+			for(int cellNum=0; cellNum<cellIndex.length; cellNum++){
+				if (cellIndex[cellNum] == -1){
+					String name = "";
+					if (cellNum == 0){
+						name = "品类名称";
+					}else if (cellNum == 1){
+						name = "规格";
+					}else if (cellNum == 2){
+						name = "包装";
+					}else if (cellNum == 3){
+						name = "厂号";
+					}else if (cellNum == 4){
+						name = "产地";
+					}else if (cellNum == 5){
+						name = "备注";
+					}else if (cellNum == 6){
+						name = "地区";
+					}else if (cellNum == 7){
+						name = "报盘价";
+					}else if (cellNum == 8){
+						name = "价格时效";
+					}
+					
+					HtmlMessage html = new HtmlMessage(new Category());
+					html.setStatusCode("400");
+					html.setMessage("未发现["+name+"]列头信息，请确认表头名称是否正确！");
+					return html;
+				}
+			}
 			//遍历excel,从第三行开始 即 rowNum=2,逐个获取单元格的内容,然后进行格式处理,最后插入数据库
 			for(int rowNum=2;rowNum<=hssfSheet.getLastRowNum();rowNum++){
-				HSSFRow hssfRow=hssfSheet.getRow(rowNum);
-				if(hssfRow==null||hssfRow.getCell(0) == null||"".equals(formatCell(hssfRow.getCell(0)))){
-					continue;
+				try{
+					HSSFRow hssfRow=hssfSheet.getRow(rowNum);
+					if(hssfRow==null||hssfRow.getCell(0) == null||"".equals(formatCell(hssfRow.getCell(0)))){
+						continue;
+					}
+					Category category = new Category();
+					category.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
+					String cateName = formatCell(hssfRow.getCell(cellIndex[0]));
+					if (StringUtils.isNotEmpty(cateName)){
+						category.setCateName(cateName);
+						//规格需要从字段表提取
+						String cateStan = formatCell(hssfRow.getCell(cellIndex[1]));
+						CodeValue code = codeValueService.queryCodeValueAndCodeName("cateStan", cateStan);
+						if (code == null || StringUtils.isEmpty(code.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[规格]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							cateStan = code.getCodeValueId();
+						}
+						category.setCateStan(cateStan);
+						category.setPkgQuan(formatCell(hssfRow.getCell(cellIndex[2])));
+						category.setManuNum(formatCell(hssfRow.getCell(cellIndex[3])));
+						//产地需要从字段表提取
+						String prodPla = formatCell(hssfRow.getCell(cellIndex[4]));
+						CodeValue codeProd = codeValueService.queryCodeValueAndCodeName("prodPla", prodPla);
+						if (codeProd == null || StringUtils.isEmpty(codeProd.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[产地]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							prodPla = codeProd.getCodeValueId();
+						}
+						category.setProdPla(prodPla);
+						category.setComm(formatCell(hssfRow.getCell(cellIndex[5])));
+						//category.setCusCha(formatCell(hssfRow.getCell(cellIndex[6])));
+						category.setCusLoc(formatCell(hssfRow.getCell(cellIndex[6])));
+						if(hssfRow.getCell(cellIndex[7]) == null || "".equals(formatCell(hssfRow.getCell(cellIndex[7])))){
+						}else{
+							category.setOfferPri(Float.valueOf(formatCell(hssfRow.getCell(cellIndex[7])).toString()));
+						}
+						category.setOfferAging(formatCell(hssfRow.getCell(cellIndex[8])));
+						category.setCreateUser(userId);
+						category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						category.setUpdateUser(userId);
+						category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						categorys.add(category);
+						ObjectMapper json = new ObjectMapper();
+						System.out.println(json.writeValueAsString(category));
+					}
+				}catch(Exception e){
+					HtmlMessage html = new HtmlMessage(new Category());
+					html.setStatusCode("400");
+					html.setMessage("第"+(rowNum+1)+"行数据有误，请检查！");
+					
+					return html;
 				}
-				Category category = new Category();
-				category.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
-				category.setCateName(formatCell(hssfRow.getCell(0)));
-				category.setCateStan(formatCell(hssfRow.getCell(1)));
-				category.setPkgQuan(formatCell(hssfRow.getCell(2)));
-				category.setManuNum(formatCell(hssfRow.getCell(3)));
-				category.setProdPla(formatCell(hssfRow.getCell(4)));
-				category.setComm(formatCell(hssfRow.getCell(5)));
-				category.setCusCha(formatCell(hssfRow.getCell(6)));
-				category.setCusLoc(formatCell(hssfRow.getCell(7)));
-				if(hssfRow.getCell(8) == null || "".equals(formatCell(hssfRow.getCell(8)))){
-				}else{
-					category.setOfferPri(Float.valueOf(formatCell(hssfRow.getCell(8)).toString()));
-				}
-				category.setOfferAging(formatCell(hssfRow.getCell(9)));
-				category.setCreateUser(userId);
-				category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				category.setUpdateUser(userId);
-				category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				categorys.add(category);
 			}
 		}
+		
+		//categoryService.insertExcelCategory(categorys);
+		return new HtmlMessage(new Category());
+	}
+	
+	@RequestMapping("/excelImportFile")
+	@ResponseBody
+	public HtmlMessage excelImportFile(@Valid @RequestParam(value = "userId") String userId, @RequestParam(value = "file") MultipartFile file){
+		File localFile = null;
+		try {
+			localFile = new File(FileUtils.getTempDirectory() + "/" + file.getOriginalFilename());
+			Files.write(file.getBytes(), localFile);
+			
+			if (localFile == null || !localFile.exists()){
+				HtmlMessage html = new HtmlMessage(new Category());
+				html.setStatusCode("400");
+				html.setMessage("文件上传失败");
+				return html;
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			log.error("[CategoryController.excelImport]IO异常", e1);
+		}
+		
+		
+		POIFSFileSystem fs = null;
+		try {
+			fs = new POIFSFileSystem(new FileInputStream(localFile.getAbsolutePath()));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			log.error("[CategoryController.excelImport]文件未找到异常", e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error("[CategoryController.excelImport]IO异常", e);
+		}
+		
+		HSSFWorkbook wb = null;
+		try {
+			wb = new HSSFWorkbook(fs);
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error("[CategoryController.excelImport]IO异常", e);
+			HtmlMessage html = new HtmlMessage(new Category());
+			html.setStatusCode("400");
+			html.setMessage("Excel读取失败，请确认文件是否可用！");
+			return html;
+		}
+		HSSFSheet hssfSheet=wb.getSheetAt(0);
+		List<Category> categorys = new ArrayList<Category>();
+		if(hssfSheet!=null){
+			int[] cellIndex = {-1,-1,-1,-1,-1,-1,-1,-1,-1};
+			//遍历excel表头,从第二行开始 即 rowNum=1,逐个获取单元格的内容,然后进行格式处理,最后插入数据库
+			HSSFRow hssfNameRow = hssfSheet.getRow(1);
+			if(hssfNameRow==null || hssfNameRow.getCell(0) == null || "".equals(formatCell(hssfNameRow.getCell(0)))){
+				HtmlMessage html = new HtmlMessage(new Category());
+				html.setStatusCode("400");
+				html.setMessage("第二列未发现表头信息");
+				return html;
+			}
+			
+			for(int cellNum=0; cellNum<=hssfNameRow.getLastCellNum(); cellNum++){
+				HSSFCell cell = hssfNameRow.getCell(cellNum);
+				try{
+					if (cell != null && StringUtils.isNotEmpty(cell.getStringCellValue())){
+						String cellName = cell.getStringCellValue().replaceAll(" ", "");
+						if ("品类名称".equals(cellName)){
+							cellIndex[0] = cellNum;
+						}else if ("规格".equals(cellName)){
+							cellIndex[1] = cellNum;
+						}else if ("包装".equals(cellName)){
+							cellIndex[2] = cellNum;
+						}else if ("厂号".equals(cellName)){
+							cellIndex[3] = cellNum;
+						}else if ("产地".equals(cellName)){
+							cellIndex[4] = cellNum;
+						}else if (cellName.indexOf("备注") != -1){
+							cellIndex[5] = cellNum;
+						}else if ("地区".equals(cellName)){
+							cellIndex[6] = cellNum;
+						}else if ("报盘价".equals(cellName)){
+							cellIndex[7] = cellNum;
+						}else if ("价格时效".equals(cellName)){
+							cellIndex[8] = cellNum;
+						}
+					}
+				}catch(Exception e){
+					
+				}
+			}
+			
+			for(int cellNum=0; cellNum<cellIndex.length; cellNum++){
+				if (cellIndex[cellNum] == -1){
+					String name = "";
+					if (cellNum == 0){
+						name = "品类名称";
+					}else if (cellNum == 1){
+						name = "规格";
+					}else if (cellNum == 2){
+						name = "包装";
+					}else if (cellNum == 3){
+						name = "厂号";
+					}else if (cellNum == 4){
+						name = "产地";
+					}else if (cellNum == 5){
+						name = "备注";
+					}else if (cellNum == 6){
+						name = "地区";
+					}else if (cellNum == 7){
+						name = "报盘价";
+					}else if (cellNum == 8){
+						name = "价格时效";
+					}
+					
+					HtmlMessage html = new HtmlMessage(new Category());
+					html.setStatusCode("400");
+					html.setMessage("未发现["+name+"]列头信息，请确认表头名称是否正确！");
+					return html;
+				}
+			}
+			//遍历excel,从第三行开始 即 rowNum=2,逐个获取单元格的内容,然后进行格式处理,最后插入数据库
+			for(int rowNum=2;rowNum<=hssfSheet.getLastRowNum();rowNum++){
+				try{
+					HSSFRow hssfRow=hssfSheet.getRow(rowNum);
+					if(hssfRow==null||hssfRow.getCell(0) == null||"".equals(formatCell(hssfRow.getCell(0)))){
+						continue;
+					}
+					Category category = new Category();
+					category.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
+					String cateName = formatCell(hssfRow.getCell(cellIndex[0]));
+					if (StringUtils.isNotEmpty(cateName)){
+						category.setCateName(cateName);
+						//规格需要从字段表提取
+						String cateStan = formatCell(hssfRow.getCell(cellIndex[1]));
+						CodeValue code = codeValueService.queryCodeValueAndCodeName("cateStan", cateStan);
+						if (code == null || StringUtils.isEmpty(code.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[规格]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							cateStan = code.getCodeValue();
+						}
+						category.setCateStan(cateStan);
+						category.setPkgQuan(formatCell(hssfRow.getCell(cellIndex[2])));
+						category.setManuNum(formatCell(hssfRow.getCell(cellIndex[3])));
+						//产地需要从字段表提取
+						String prodPla = formatCell(hssfRow.getCell(cellIndex[4]));
+						CodeValue codeProd = codeValueService.queryCodeValueAndCodeName("prodPla", prodPla);
+						if (codeProd == null || StringUtils.isEmpty(codeProd.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[产地]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							prodPla = codeProd.getCodeValue();
+						}
+						category.setProdPla(prodPla);
+						category.setComm(formatCell(hssfRow.getCell(cellIndex[5])));
+						//category.setCusCha(formatCell(hssfRow.getCell(cellIndex[6])));
+						category.setCusLoc(formatCell(hssfRow.getCell(cellIndex[6])));
+						if(hssfRow.getCell(cellIndex[7]) == null || "".equals(formatCell(hssfRow.getCell(cellIndex[7])))){
+						}else{
+							category.setOfferPri(Float.valueOf(formatCell(hssfRow.getCell(cellIndex[7])).toString()));
+						}
+						category.setOfferAging(formatCell(hssfRow.getCell(cellIndex[8])));
+						category.setCreateUser(userId);
+						category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						category.setUpdateUser(userId);
+						category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						categorys.add(category);
+						ObjectMapper json = new ObjectMapper();
+						System.out.println(json.writeValueAsString(category));
+					}
+				}catch(Exception e){
+					HtmlMessage html = new HtmlMessage(new Category());
+					html.setStatusCode("400");
+					html.setMessage("第"+(rowNum+1)+"行数据有误，请检查！");
+					
+					return html;
+				}
+			}
+		}
+		
 		categoryService.insertExcelCategory(categorys);
 		return new HtmlMessage(new Category());
 	}
+	
 	@RequestMapping("/{categoryId}")
 	@ResponseBody
 	public Category getByCategoryId(@PathVariable("categoryId") String categoryId){

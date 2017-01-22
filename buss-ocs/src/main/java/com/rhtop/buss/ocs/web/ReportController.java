@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import com.rhtop.buss.common.entity.User;
 import com.rhtop.buss.common.service.RestService;
 import com.rhtop.buss.common.utils.AjaxObject;
 import com.rhtop.buss.common.web.BaseController;
@@ -57,9 +60,10 @@ public class ReportController extends BaseController {
 	public AjaxObject upload(@RequestParam(value = "file") MultipartFile[] files, 
 					   HttpServletRequest request, 
 					   HttpServletResponse res)throws Exception {
-		URI uri = new URI(coreUrl + "/service/file/upload");
+		URI uri = new URI(coreUrl + "/service/category/excelImportFile");
 		MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>();
 		List<File> localFiles = new ArrayList<File>();
+		mvm.add("userId", ((User)SecurityUtils.getSubject().getPrincipal()).getUserId().toString());
 		for (int i=0; i<files.length; i++){
 			MultipartFile file = files[i];
 			File localFile = new File("/" + file.getOriginalFilename());
