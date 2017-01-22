@@ -15,9 +15,7 @@ import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.mapper.RelCustomerCategoryMapper;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.common.entity.Category;
-import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
-import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.FileUtil;
 
@@ -84,6 +82,12 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> categorys = categoryMapper.listPageCategory(category);
 		return categorys;
 	}
+	
+	@Override
+	public List<Category> listPageCategoryByIntf(Category category) {
+		List<Category> categorys = categoryMapper.listPageCategoryByIntf(category);
+		return categorys;
+	}
 
 	@Override
 	public Category checkCategoryExist(Category category) {
@@ -122,6 +126,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public int insertExcelCategory(List<Category> categorys) {
 		for(Category category:categorys){
+			//数据是决策委员会导入标记
+			category.setIsImport("10");
 			Category existCate = checkCategoryExist(category);
 			Category cate = new Category();
 			if (existCate != null){
@@ -131,20 +137,35 @@ public class CategoryServiceImpl implements CategoryService {
 				cate.setOfferAging(category.getOfferAging());
 				cate.setUpdateUser(category.getUpdateUser());
 				cate.setUpdateTime(category.getUpdateTime());
+				cate.setIsImport(category.getIsImport());
 				
 				categoryMapper.updateCategory(cate);
-				//新增品类价格信息
-				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
-				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				
+				//价格信息
+				RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
+				boolean isExist = false;
+				if (relCategoryPrice == null){
+					relCategoryPrice = new RelCategoryPrice();
+					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				}else{
+					isExist = true;
+				}
+				
 				relCategoryPrice.setCategoryId(cate.getCategoryId());
 				relCategoryPrice.setCatePri(category.getOfferPri());
+				relCategoryPrice.setOfferAging(category.getOfferAging());
 				//品类导入的时候渠道要自动导入，这里有问题，暂时没做。2017年1月22日
 				//relCategoryPrice.setCusChaVal(category.getCusCha());
 				relCategoryPrice.setCreateUser(category.getUpdateUser());
 				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCategoryPrice.setUpdateUser(category.getUpdateUser());
 				relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				relCategoryPriceMapper.insertSelective(relCategoryPrice);
+				if (!isExist){
+					relCategoryPriceMapper.insertSelective(relCategoryPrice);
+				}else{
+					relCategoryPriceMapper.updateByPrimaryKeySelective(relCategoryPrice);
+				}
+				
 			}else{
 				cate.setCateName(category.getCateName());
 				cate.setCateStan(category.getCateStan());
@@ -167,16 +188,28 @@ public class CategoryServiceImpl implements CategoryService {
 				relcc.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCustomerCategoryMapper.insertSelective(relcc);*/
 				
-				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
-				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
+				boolean isExist = false;
+				if (relCategoryPrice == null){
+					relCategoryPrice = new RelCategoryPrice();
+					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				}else{
+					isExist = true;
+				}
+				
 				relCategoryPrice.setCategoryId(category.getCategoryId());
 				relCategoryPrice.setCatePri(category.getOfferPri());
+				relCategoryPrice.setOfferAging(category.getOfferAging());
 				//relCategoryPrice.setCusChaVal(category.getCusCha());
-				relCategoryPrice.setCreateUser(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setCreateUser(category.getUpdateUser());
 				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				relCategoryPrice.setUpdateUser(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setUpdateUser(category.getUpdateUser());
 				relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				relCategoryPriceMapper.insertSelective(relCategoryPrice);
+				if (!isExist){
+					relCategoryPriceMapper.insertSelective(relCategoryPrice);
+				}else{
+					relCategoryPriceMapper.updateByPrimaryKeySelective(relCategoryPrice);
+				}
 			}
 		}
 		return 0;
