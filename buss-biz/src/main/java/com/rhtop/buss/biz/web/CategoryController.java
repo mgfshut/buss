@@ -492,7 +492,7 @@ public class CategoryController  extends BaseController {
 							cellIndex[5] = cellNum;
 						}else if ("地区".equals(cellName)){
 							cellIndex[6] = cellNum;
-						}else if ("报盘价".equals(cellName)){
+						}else if (cellName.indexOf("报盘价") != -1){
 							cellIndex[7] = cellNum;
 						}else if ("价格时效".equals(cellName)){
 							cellIndex[8] = cellNum;
@@ -541,11 +541,18 @@ public class CategoryController  extends BaseController {
 					}
 					Category category = new Category();
 					category.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
-					String cateName = formatCell(hssfRow.getCell(cellIndex[0]));
+					//用固定列来读取数据
+					String cateName = formatCell(hssfRow.getCell(0));
 					if (StringUtils.isNotEmpty(cateName)){
 						category.setCateName(cateName);
 						//规格需要从字段表提取
-						String cateStan = formatCell(hssfRow.getCell(cellIndex[1]));
+						String cateStan = formatCell(hssfRow.getCell(1));
+						if (StringUtils.isEmpty(cateStan)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[规格]数据不能为空，数据导入终止！");
+							return html;
+						}
 						CodeValue code = codeValueService.queryCodeValueAndCodeName("cateStan", cateStan);
 						if (code == null || StringUtils.isEmpty(code.getCodeValueId())){
 							HtmlMessage html = new HtmlMessage(new Category());
@@ -557,10 +564,186 @@ public class CategoryController  extends BaseController {
 							cateStan = code.getCodeValue();
 						}
 						category.setCateStan(cateStan);
-						category.setPkgQuan(formatCell(hssfRow.getCell(cellIndex[2])));
-						category.setManuNum(formatCell(hssfRow.getCell(cellIndex[3])));
+						//包装数量
+						String pkgQuan = formatCell(hssfRow.getCell(2));
+						if (StringUtils.isEmpty(pkgQuan)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[包装]数据不能为空，数据导入终止！");
+							return html;
+						}
+						category.setPkgQuan(pkgQuan);
+						//厂号
+						String manuNum = formatCell(hssfRow.getCell(3));
+						if (StringUtils.isEmpty(manuNum)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[厂号]数据不能为空，数据导入终止！");
+							return html;
+						}
+						category.setManuNum(manuNum);
+						//产地需要从字段表提取
+						String prodPla = formatCell(hssfRow.getCell(4));
+						if (StringUtils.isEmpty(prodPla)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[产地]数据不能为空，数据导入终止！");
+							return html;
+						}
+						CodeValue codeProd = codeValueService.queryCodeValueAndCodeName("prodPla", prodPla);
+						if (codeProd == null || StringUtils.isEmpty(codeProd.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[产地]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							prodPla = codeProd.getCodeValue();
+						}
+						category.setProdPla(prodPla);
+						category.setComm(formatCell(hssfRow.getCell(5)));
+						category.setCusLoc(formatCell(hssfRow.getCell(cellIndex[6])));
+						String cusCha = formatCell(hssfRow.getCell(7));
+						if (StringUtils.isEmpty(cusCha)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[渠道]数据不能为空，数据导入终止！");
+							return html;
+						}
+						CodeValue codeCusCha = codeValueService.queryCodeValueAndCodeName("cusCha", cusCha);
+						if (codeProd == null || StringUtils.isEmpty(codeCusCha.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[渠道]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							cusCha = codeCusCha.getCodeValue();
+						}
+						category.setCusCha(cusCha);
+						
+						String offerPri = formatCell(hssfRow.getCell(8));
+						if(StringUtils.isEmpty(offerPri)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[报盘价]数据不能为空，数据导入终止！");
+							
+							return html;
+						}else{
+							category.setOfferPri(Float.valueOf(offerPri));
+						}
+						category.setOfferAging(formatCell(hssfRow.getCell(9)));
+						category.setCreateUser(userId);
+						category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						category.setUpdateUser(userId);
+						category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						//提取价格相关信息
+						RelCategoryPrice price = new RelCategoryPrice();
+						category.setRelCategoryPrice(price);
+						//供应商
+						String gys = formatCell(hssfRow.getCell(10));
+						if (StringUtils.isNotEmpty(gys)){
+							price.setCateSup(gys);
+						}
+						//批发价
+						String pifj = formatCell(hssfRow.getCell(11));
+						if (StringUtils.isNotEmpty(pifj) && StringUtils.isNumeric(pifj)){
+							price.setWholesalePri(Float.parseFloat(pifj));
+						}
+						//接盘价
+						String jpj = formatCell(hssfRow.getCell(12));
+						if (StringUtils.isNotEmpty(jpj) && StringUtils.isNumeric(jpj)){
+							price.setAcptPri(Float.parseFloat(jpj));
+						}
+						//现货价
+						String xhj = formatCell(hssfRow.getCell(13));
+						if (StringUtils.isNotEmpty(xhj) && StringUtils.isNumeric(xhj)){
+							price.setSpotMin(Float.parseFloat(xhj));
+							price.setSpotMax(Float.parseFloat(xhj));
+						}else if (StringUtils.isNotEmpty(jpj)){
+							String[] xhjArray = xhj.split("-");
+							if (xhjArray.length == 2){
+								price.setSpotMin(Float.parseFloat(xhjArray[0]));
+								price.setSpotMax(Float.parseFloat(xhjArray[1]));
+							}
+						}
+						//半期货价
+						String bqhj = formatCell(hssfRow.getCell(14));
+						if (StringUtils.isNotEmpty(bqhj) && StringUtils.isNumeric(bqhj)){
+							price.setInterFutMin(Float.parseFloat(bqhj));
+							price.setInterFutMax(Float.parseFloat(bqhj));
+						}else if (StringUtils.isNotEmpty(bqhj)){
+							String[] xhjArray = bqhj.split("-");
+							if (xhjArray.length == 2){
+								price.setInterFutMin(Float.parseFloat(xhjArray[0]));
+								price.setInterFutMax(Float.parseFloat(xhjArray[1]));
+							}
+						}
+						//期货价
+						String qhj = formatCell(hssfRow.getCell(15));
+						if (StringUtils.isNotEmpty(qhj) && StringUtils.isNumeric(qhj)){
+							price.setFutMin(Float.parseFloat(qhj));
+							price.setFutMax(Float.parseFloat(qhj));
+						}else if (StringUtils.isNotEmpty(qhj)){
+							String[] xhjArray = qhj.split("-");
+							if (xhjArray.length == 2){
+								price.setFutMin(Float.parseFloat(xhjArray[0]));
+								price.setFutMax(Float.parseFloat(xhjArray[1]));
+							}
+						}
+						
+						categorys.add(category);
+						
+					/*
+					 * 2017年1月22日。备份代码，从表头读取数据数据列所在位置
+					 * String cateName = formatCell(hssfRow.getCell(cellIndex[0]));
+					if (StringUtils.isNotEmpty(cateName)){
+						category.setCateName(cateName);
+						//规格需要从字段表提取
+						String cateStan = formatCell(hssfRow.getCell(cellIndex[1]));
+						if (StringUtils.isEmpty(cateStan)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[规格]数据不能为空，数据导入终止！");
+							return html;
+						}
+						CodeValue code = codeValueService.queryCodeValueAndCodeName("cateStan", cateStan);
+						if (code == null || StringUtils.isEmpty(code.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[规格]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							cateStan = code.getCodeValue();
+						}
+						category.setCateStan(cateStan);
+						//包装数量
+						String pkgQuan = formatCell(hssfRow.getCell(cellIndex[2]));
+						if (StringUtils.isEmpty(pkgQuan)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[包装]数据不能为空，数据导入终止！");
+							return html;
+						}
+						category.setPkgQuan(pkgQuan);
+						//厂号
+						String manuNum = formatCell(hssfRow.getCell(cellIndex[3]));
+						if (StringUtils.isEmpty(manuNum)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[厂号]数据不能为空，数据导入终止！");
+							return html;
+						}
+						category.setManuNum(manuNum);
 						//产地需要从字段表提取
 						String prodPla = formatCell(hssfRow.getCell(cellIndex[4]));
+						if (StringUtils.isEmpty(prodPla)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[产地]数据不能为空，数据导入终止！");
+							return html;
+						}
 						CodeValue codeProd = codeValueService.queryCodeValueAndCodeName("prodPla", prodPla);
 						if (codeProd == null || StringUtils.isEmpty(codeProd.getCodeValueId())){
 							HtmlMessage html = new HtmlMessage(new Category());
@@ -573,7 +756,7 @@ public class CategoryController  extends BaseController {
 						}
 						category.setProdPla(prodPla);
 						category.setComm(formatCell(hssfRow.getCell(cellIndex[5])));
-						//category.setCusCha(formatCell(hssfRow.getCell(cellIndex[6])));
+						category.setCusCha(formatCell(hssfRow.getCell(cellIndex[6])));
 						category.setCusLoc(formatCell(hssfRow.getCell(cellIndex[6])));
 						if(hssfRow.getCell(cellIndex[7]) == null || "".equals(formatCell(hssfRow.getCell(cellIndex[7])))){
 						}else{
@@ -584,9 +767,13 @@ public class CategoryController  extends BaseController {
 						category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 						category.setUpdateUser(userId);
 						category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-						categorys.add(category);
-						ObjectMapper json = new ObjectMapper();
-						System.out.println(json.writeValueAsString(category));
+						categorys.add(category);*/
+					}else{
+						HtmlMessage html = new HtmlMessage(new Category());
+						html.setStatusCode("400");
+						html.setMessage("第"+(rowNum+1)+"行[品类名称]不能为空，数据导入终止！");
+						
+						return html;
 					}
 				}catch(Exception e){
 					HtmlMessage html = new HtmlMessage(new Category());
