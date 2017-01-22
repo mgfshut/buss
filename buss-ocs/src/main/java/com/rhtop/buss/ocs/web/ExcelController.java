@@ -31,6 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.service.RestService;
+import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
 
 @Controller
@@ -125,7 +126,7 @@ public class ExcelController extends BaseController {
             	row.createCell(16).setCellValue(lhMap.get("offerAging").toString()); 
         }
         try {
-			response.setHeader("Content-Disposition", "attachment;filename="+new String("品类信息表.xls".getBytes("utf-8"),"iso8859-1"));
+			response.setHeader("Content-Disposition", "attachment;filename="+new String(("品类信息表_"+DateUtils.getToday()+".xls").getBytes("utf-8"),"iso8859-1"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			log.error("[ExcelController.excelCategoryExport]编码异常", e);

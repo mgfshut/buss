@@ -68,6 +68,8 @@ public class RelCategoryPrice {
 	
 	private String cusChaVal;//渠道值
 	
+	private String cusLoc;//地区
+	
 	private Page page;//分页
 	
 	private String cateName;// 品类名
@@ -77,6 +79,14 @@ public class RelCategoryPrice {
 	private Float offerPri;//报盘价
 	
 	
+	public String getCusLoc() {
+		return cusLoc;
+	}
+
+	public void setCusLoc(String cusLoc) {
+		this.cusLoc = cusLoc;
+	}
+
 	public String getCateName() {
 		return cateName;
 	}

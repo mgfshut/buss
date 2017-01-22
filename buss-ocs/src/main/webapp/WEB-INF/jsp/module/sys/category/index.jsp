@@ -46,7 +46,9 @@
 			<th orderField="prodPla" class="${param.orderField eq 'prodPla'?param.orderDirection:''}">产地</th>
 			<th orderField="cateStan" class="${param.orderField eq 'cateStan'?param.orderDirection:''}">规格（kg/件）</th>
 			<th orderField="pkgQuan" class="${param.orderField eq 'pkgQuan'?param.orderDirection:''}">包装</th>
-			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">备注</th>
+			<th>报盘价</th>
+			<th>有效期</th>
+			<th>备注</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -57,6 +59,8 @@
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
 				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.pkgQuan}</td>
+				<td>${item.offerPri}</td>
+				<td>${item.offerAging}</td>
 				<td>${item.comm}</td>
 			</tr>
 		</c:forEach>

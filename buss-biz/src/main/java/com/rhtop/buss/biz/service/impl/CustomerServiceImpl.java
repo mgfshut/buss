@@ -122,6 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
 					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
 					relCustomerCategory.setCreateTime(now);
 					relCustomerCategory.setUpdateTime(now);
+					relCustomerCategory.setCusLoc(cat.getCusLoc());
 					relCustomerCategory.setUpdateUser(userId);
 					relCustomerCategory.setCreateUser(userId);
 					relCustomerCategory.setCategoryId(cat.getCategoryId());
