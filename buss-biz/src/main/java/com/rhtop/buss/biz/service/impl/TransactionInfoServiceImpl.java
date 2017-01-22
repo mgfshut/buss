@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,8 @@ import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
+
+import freemarker.template.utility.StringUtil;
 
 @Service("transactionInfoService")
 public class TransactionInfoServiceImpl implements TransactionInfoService {
@@ -234,10 +237,19 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 				for(SlaTransactionInfo sl : sla){
 					try {
 						//采取的字符的截取
-						sl.setCtofTime(sl.getCtofTime().substring(5, 16));
-						sl.setPcasTime(sl.getPcasTime().substring(5, 16));
+						if(StringUtils.isEmpty(sl.getCtofTime())){
+							sl.setCtofTime(sl.getCtofTime());
+						}else{
+							sl.setCtofTime(sl.getCtofTime().substring(5, 16));
+							
+						}
+						if(StringUtils.isEmpty(sl.getPcasTime())){
+							sl.setPcasTime(sl.getPcasTime());
+						}else{
+							sl.setPcasTime(sl.getPcasTime().substring(5, 16));
+						}	
 					} catch (Exception e) {
-						e.printStackTrace();
+						throw e;
 					}
 					}
 		// 合同信息
@@ -308,8 +320,17 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		for(SlaTransactionInfo sl : listSla){
 			try {
 				//采取的字符的截取
-				sl.setCtofTime(sl.getCtofTime().substring(5, 16));
-				sl.setPcasTime(sl.getPcasTime().substring(5, 16));
+				if(StringUtils.isEmpty(sl.getCtofTime())){
+					sl.setCtofTime(sl.getCtofTime());
+				}else{
+					sl.setCtofTime(sl.getCtofTime().substring(5, 16));
+					
+				}
+				if(StringUtils.isEmpty(sl.getPcasTime())){
+					sl.setPcasTime(sl.getPcasTime());
+				}else{
+					sl.setPcasTime(sl.getPcasTime().substring(5, 16));
+				}	
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -327,7 +348,6 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 				rel = relCPMapper.selectByCategoryIdAndChaId(catId, chaId).get(0);
 			}catch(Exception e){
 				e.printStackTrace();
-				throw e;
 			}
 			tran.setRel(rel);//价格信息
 		}else{

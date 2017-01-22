@@ -54,6 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
 		//品类信息
 		Category cate = categoryMapper.selectByPrimaryKey(categoryId);
 		//价格信息
+	/*	List<RelCategoryPrice> relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);*/
 		RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
 		//防止cate为空，报空指针异常
 		if(null==cate){

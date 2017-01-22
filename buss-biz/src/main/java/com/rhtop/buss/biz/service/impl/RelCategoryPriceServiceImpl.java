@@ -290,7 +290,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				//有则更新记录。
 				int i = relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
 				readResult.setMessage("成功更新"+i+"条数据");
-			}
+				}
 		} catch (Exception e) {
 			readResult.setCode("500");
 			readResult.setMessage("数据更新时出现异常。"+e.getMessage());
