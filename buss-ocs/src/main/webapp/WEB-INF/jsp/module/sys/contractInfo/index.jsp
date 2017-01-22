@@ -29,7 +29,7 @@ function changeZt(val){
 <ys:codemapSelect codemap="contStatus" name="contStatus" disabled="disabled" style="display:none"></ys:codemapSelect>
 <!-- 后台排序按创建时间先后顺序排，asc  -->
 <!-- 默认是查询所有状态数据，然后这个值根据tab选择来改变 -->
-<input type="hidden" name="contStatus" value="${param}" />
+<input type="hidden" name="contStatus" value="${param.contStatus}" />
 <div class="pageHeader">
 <div class="searchBar container-fluid">
 	<div class="row">
