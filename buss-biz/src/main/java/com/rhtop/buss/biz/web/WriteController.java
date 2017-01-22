@@ -1136,7 +1136,7 @@ public class WriteController extends BaseController{
 			maxCode = "01";
 		}else{
 			int maxIntCode = Integer.parseInt(maxCode) + 1;
-			maxCode = String.format("02%d", maxIntCode);
+			maxCode = String.format("%02d", maxIntCode);
 		}
 		
 		codeValue.setCodeValue(maxCode);
