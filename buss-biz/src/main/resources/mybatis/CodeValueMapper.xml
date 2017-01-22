@@ -198,4 +198,11 @@
     SET a.code_value_describe_ = #{2} ,a.update_time_ = #{3} 
 	WHERE a.code_value_ = #{1}  AND b.code_ = #{0}  
   </update>
+  
+  <!-- 根据代码集编码获取代码值列表-->
+  <select id="queryCodeValueAndCodeName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select a.* from sys_code_value_ a 
+    LEFT JOIN sys_code_map_ b ON a.code_map_id_ = b.code_map_id_ 
+	where b.code_ = #{0} AND a.code_value_describe_ = #{1}
+  </select>
 </mapper>

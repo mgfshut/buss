@@ -121,38 +121,62 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public int insertExcelCategory(List<Category> categorys) {
 		for(Category category:categorys){
+			Category existCate = checkCategoryExist(category);
 			Category cate = new Category();
-			cate.setCateName(category.getCateName());
-			cate.setCateStan(category.getCateStan());
-			cate.setManuNum(category.getManuNum());
-			cate.setProdPla(category.getProdPla());
-			List<Category> categoryList = categoryMapper.listCategorys(cate);
-			if(categoryList.size()>0){
-				category = categoryList.get(0);
+			if (existCate != null){
+				cate = existCate;
+				//更新已存在品类的报盘价和时效性
+				cate.setOfferPri(category.getOfferPri());
+				cate.setOfferAging(category.getOfferAging());
+				cate.setUpdateUser(category.getUpdateUser());
+				cate.setUpdateTime(category.getUpdateTime());
+				
+				categoryMapper.updateCategory(cate);
+				//新增品类价格信息
+				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setCategoryId(cate.getCategoryId());
+				relCategoryPrice.setCatePri(category.getOfferPri());
+				//品类导入的时候渠道要自动导入，这里有问题，暂时没做。2017年1月22日
+				//relCategoryPrice.setCusChaVal(category.getCusCha());
+				relCategoryPrice.setCreateUser(category.getUpdateUser());
+				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				relCategoryPrice.setUpdateUser(category.getUpdateUser());
+				relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				relCategoryPriceMapper.insertSelective(relCategoryPrice);
 			}else{
-				categoryMapper.insertSelective(category);
+				cate.setCateName(category.getCateName());
+				cate.setCateStan(category.getCateStan());
+				cate.setManuNum(category.getManuNum());
+				cate.setProdPla(category.getProdPla());
+				List<Category> categoryList = categoryMapper.listCategorys(cate);
+				if(categoryList.size()>0){
+					category = categoryList.get(0);
+				}else{
+					categoryMapper.insertSelective(category);
+				}
+				/*RelCustomerCategory relcc = new RelCustomerCategory();
+				relcc.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
+				relcc.setCategoryId(category.getCategoryId());
+//				relcc.setCusChaId(cusChaId);
+				relcc.setCusChaVal(category.getCusCha());
+				relcc.setCreateUser(category.getUpdateUser());
+				relcc.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				relcc.setUpdateUser(category.getUpdateUser());
+				relcc.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				relCustomerCategoryMapper.insertSelective(relcc);*/
+				
+				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setCategoryId(category.getCategoryId());
+				relCategoryPrice.setCatePri(category.getOfferPri());
+				//relCategoryPrice.setCusChaVal(category.getCusCha());
+				relCategoryPrice.setCreateUser(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				relCategoryPrice.setUpdateUser(UUID.randomUUID().toString().replace("-", ""));
+				relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+				relCategoryPriceMapper.insertSelective(relCategoryPrice);
 			}
-			RelCustomerCategory relcc = new RelCustomerCategory();
-			relcc.setRelCustomerCategoryId(UUID.randomUUID().toString().replace("-", ""));
-			relcc.setCategoryId(category.getCategoryId());
-//			relcc.setCusChaId(cusChaId);
-			relcc.setCusChaVal(category.getCusCha());
-			relcc.setCreateUser(category.getUpdateUser());
-			relcc.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			relcc.setUpdateUser(category.getUpdateUser());
-			relcc.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			relCustomerCategoryMapper.insertSelective(relcc);
-			
-			RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
-			relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
-			relCategoryPrice.setCategoryId(category.getCategoryId());
-			relCategoryPrice.setCatePri(category.getOfferPri());
-			relCategoryPrice.setCusChaVal(category.getCusCha());
-			relCategoryPrice.setCreateUser(UUID.randomUUID().toString().replace("-", ""));
-			relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			relCategoryPrice.setUpdateUser(UUID.randomUUID().toString().replace("-", ""));
-			relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			relCategoryPriceMapper.insertSelective(relCategoryPrice);
 		}
 		return 0;
 	}

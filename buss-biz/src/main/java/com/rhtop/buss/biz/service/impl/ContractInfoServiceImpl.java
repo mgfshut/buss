@@ -276,6 +276,8 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		contract.setCateName(category.getCateName());
 		//最终成交价格除以数量换算出单价
 		DecimalFormat dec = new DecimalFormat("0.00");
+		//将吨转换为千克
+		contract.setTxAmo(contract.getTxAmo().floatValue() * 1000);
 		contract.setOfferPri(new Float(dec.format((contract.getTotPri().floatValue() / contract.getTxAmo()))));
 		if("02".equals(contract.getDelvOpt())){
 			contract.setZtcsgName(contract.getCsgName());
