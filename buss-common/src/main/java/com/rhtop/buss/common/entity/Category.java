@@ -83,6 +83,16 @@ public class Category {
 	
 	private String regMgrCk;//分部经理对品类的审核状态
 	
+	private String isImport;//是否excel导入数据.00或为空不是；10是
+	
+	public String getIsImport() {
+		return isImport;
+	}
+
+	public void setIsImport(String isImport) {
+		this.isImport = isImport;
+	}
+
 	public String getMgrCk() {
 		return mgrCk;
 	}

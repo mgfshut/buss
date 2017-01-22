@@ -126,7 +126,7 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
 		category.setCusLoc(category.getCusLoc());
-		List<Category> listCategorys = catSer.listPageCategory(category);
+		List<Category> listCategorys = catSer.listPageCategoryByIntf(category);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setRecords(listCategorys);

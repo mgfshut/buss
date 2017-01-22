@@ -43,6 +43,9 @@ public interface CategoryService{
 	 */
 	List<Category> listPageCategory(Category category);
 	
+	
+	List<Category> listPageCategoryByIntf(Category category);
+	
 	/**
 	 * 根据客户id查询所属的类品
 	 * @param customerId

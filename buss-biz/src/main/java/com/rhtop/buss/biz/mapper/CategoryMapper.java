@@ -37,6 +37,8 @@ public interface CategoryMapper {
      * 根据条件分页查询列表
      */
 	List<Category> listPageCategory(Category category);
+	
+	List<Category> listPageCategoryByIntf(Category category);
     
 	/**
 	 * 根据客户id查询所属的类品
