@@ -71,4 +71,6 @@ public interface CodeValueService{
 	 * @return
 	 */
 	int addCodeValue(CodeValue codeValue);
+	
+	public String maxCode(String code);
 }

@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.service;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.ContactsInfo;
 
 public interface ContactsInfoService{
@@ -11,7 +12,7 @@ public interface ContactsInfoService{
 	/**
 	 * 新增
 	 */
-	int insertContactsInfo(ContactsInfo contactsInfo);
+	int insertContactsInfo(ContactsInfo contactsInfo) throws Exception;
     
 	/**
 	 * 根据ID删除数据
@@ -21,7 +22,7 @@ public interface ContactsInfoService{
 	/**
 	 * 修改
 	 */
-	int updateContactsInfo(ContactsInfo contactsInfo);
+	int updateContactsInfo(ContactsInfo contactsInfo) throws Exception;
 	
 	/**
 	 * 根据Id查找数据

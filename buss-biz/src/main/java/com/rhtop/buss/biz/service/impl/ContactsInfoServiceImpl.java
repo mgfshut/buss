@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.ContactsInfo;
+import com.rhtop.buss.common.utils.Tools;
 import com.rhtop.buss.biz.mapper.ContactsInfoMapper;
 import com.rhtop.buss.biz.service.ContactsInfoService;
 
@@ -17,8 +19,25 @@ public class ContactsInfoServiceImpl implements ContactsInfoService {
 	private ContactsInfoMapper contactsInfoMapper;
 	
 	@Override
-	public int insertContactsInfo(ContactsInfo contactsInfo) {
-		return contactsInfoMapper.insertSelective(contactsInfo);
+	public int insertContactsInfo(ContactsInfo contactsInfo) throws Exception{
+		int status = 0;
+		try {
+			if(Tools.isEmpty(contactsInfo.getContactsInfoId())||
+					Tools.isEmpty(contactsInfo.getContactName())||
+					Tools.isEmpty(contactsInfo.getContactPhone())){
+				throw new Exception("联系人信息不完整！");
+			}
+			if(!Tools.isMobileNO(contactsInfo.getContactPhone())){
+				throw new Exception("手机号格式不合法！");
+			}
+			if(!Tools.checkEmail(contactsInfo.getContactMail())){
+				throw new Exception("邮箱格式不合法！");
+			}
+			status = contactsInfoMapper.insertSelective(contactsInfo);
+		} catch (Exception e) {
+			throw e;
+		}
+		return status;
 	}
 
 	@Override
@@ -27,8 +46,25 @@ public class ContactsInfoServiceImpl implements ContactsInfoService {
 	}
 
 	@Override
-	public int updateContactsInfo(ContactsInfo contactsInfo) {
-		return contactsInfoMapper.updateByPrimaryKeySelective(contactsInfo);
+	public int updateContactsInfo(ContactsInfo contactsInfo) throws Exception{
+		int status = 0;
+		try {
+			if(Tools.isEmpty(contactsInfo.getContactsInfoId())||
+					Tools.isEmpty(contactsInfo.getContactName())||
+					Tools.isEmpty(contactsInfo.getContactPhone())){
+				throw new Exception("联系人基本信息不完整！");
+			}
+			if(!Tools.isMobileNO(contactsInfo.getContactPhone())){
+				throw new Exception("手机号格式不合法！");
+			}
+			if(!Tools.checkEmail(contactsInfo.getContactMail())){
+				throw new Exception("邮箱格式不合法！");
+			}
+			status = contactsInfoMapper.updateByPrimaryKeySelective(contactsInfo);
+		} catch (Exception e) {
+			throw e;
+		}
+		return status;
 	}
 	
 	@Override

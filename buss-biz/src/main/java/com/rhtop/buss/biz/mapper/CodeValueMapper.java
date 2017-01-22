@@ -57,5 +57,7 @@ public interface CodeValueMapper {
 	 * @return
 	 */
 	CodeValue queryCodeValueAndCodeName(String codeMap, String codeName);
-    
+	
+	
+	public String maxCode(String code);
 }

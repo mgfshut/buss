@@ -192,6 +192,13 @@
 	where b.code_ = #{0}
   </select>
   
+  <!-- 根据代码集编码获取代码值列表-->
+  <select id="maxCode" resultType="java.lang.String" parameterType="java.lang.String" >
+    select max(a.code_value_) from sys_code_value_ a 
+    LEFT JOIN sys_code_map_ b ON a.code_map_id_ = b.code_map_id_ 
+	where b.code_ = #{0}
+  </select>
+  
   <!-- 根据代码集编码、代码值、代码值描述修改-->
   <update id="updateTheCodeValue" parameterType="java.lang.String"  >
     UPDATE sys_code_value_ a LEFT JOIN sys_code_map_ b ON a.code_map_id_ = b.code_map_id_ 
