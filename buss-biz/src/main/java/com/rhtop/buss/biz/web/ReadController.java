@@ -325,14 +325,15 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
-		//已回盘列表:交易状态为21 未回盘列表:交易状态为20 
+		//已回盘列表:交易状态为21 ；未回盘列表:交易状态为20 
 		transactionInfo.setTxStatus("20");
 		List<TransactionInfo> trans = traSer.listPageInfo(transactionInfo);
 		if (trans.size()!=0 ){
 			readResult.setCode("200");
 			readResult.setMessage("数据获取成功！");
 		}else{
-			readResult.setCode("400");
+			readResult.setCode("200");
+			readResult.setRecords(trans);
 			readResult.setMessage("不存在未回盘的信息！");
 		}
 		return readResult;

@@ -53,14 +53,14 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category selectInfoByPrimaryKey(String categoryId){
 		//品类信息
 		Category cate = categoryMapper.selectByPrimaryKey(categoryId);
-		//价格信息
-	/*	List<RelCategoryPrice> relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);*/
+	/*	//价格信息
+		List<RelCategoryPrice> relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
 		RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
+		cate.setRelCategoryPrice(relCategoryPrice);
 		//防止cate为空，报空指针异常
 		if(null==cate){
 			return cate;
-		}
-		cate.setRelCategoryPrice(relCategoryPrice);
+		}*/
 		String newUrl = null;
 		try {
 			newUrl = FileUtil.getPicUrl(cate.getCatePic());
