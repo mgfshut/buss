@@ -4,7 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
-
+<script>
+function modifyInfo(){
+    //$("#kcipUpdBtn", navTab.getCurrentPanel()).click();
+    $("#inputOfferPriBtn", navTab.getCurrentPanel()).click();
+}
+</script>
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="module/sys-offerPrice-index/transactionInfo-ctofPrice" method="post" onsubmit="return navTabSearch(this);">
 
@@ -28,7 +33,7 @@
 <div class="pageContent" >
 <div class="panelBar">
 	<div class="btn-group" style="margin:4px 5px;">
-			<a class="btn btn-primary btn-sm" href="module/sys-ctofPrice-form1/transactionInfo-{transactionInfoId}" mask="true" target="navTab" rel="usereditmanager" data-parent="usereditmanager" title="输入二次采购价格"><i class="icon-plus"></i> <span>输入二次采购价格</span></a>
+			<a class="btn btn-primary btn-sm" href="module/sys-ctofPrice-form1/transactionInfo-{transactionInfoId}" mask="true" target="navTab" rel="usereditmanager" data-parent="usereditmanager" title="输入二次采购价格" id="inputOfferPriBtn"><i class="icon-plus"></i> <span>输入二次采购价格</span></a>
 	</div>	
 </div>
 <table class="table" width="100%" layoutH="140">
@@ -50,7 +55,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${resObject}" var="item">
-			<tr target="transactionInfoId" rel="${item.transactionInfoId}">
+			<tr target="transactionInfoId" rel="${item.transactionInfoId}" ondblclick="modifyInfo()"  >
 				<td>${item.cateName}</td>
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
 				<td>${item.manuNum}</td>

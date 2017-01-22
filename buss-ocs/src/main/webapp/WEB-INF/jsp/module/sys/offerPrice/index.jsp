@@ -4,7 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
-
+<script>
+function modifyInfo(){
+    //$("#kcipUpdBtn", navTab.getCurrentPanel()).click();
+    $("#fixOfferPriceDialog", navTab.getCurrentPanel()).click();
+}
+</script>
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="module/sys-offerPrice-index/category-pager" method="post" onsubmit="return navTabSearch(this);">
 
@@ -32,7 +37,7 @@
 				 title="品类导入"  target="navTab" rel="offerPriceSaveDialog"><i class="icon-plus"></i> <span>品类添加</span></a>
 			<!-- <a class="btn btn-success btn-sm" id="fixOfferPrice"><i class="icon-pencil"></i> <span>报盘价录入</span></a>  -->
 			<a class="btn btn-success btn-sm" href="module/sys-offerPrice-fixOfferPrice/category-{categoryId}" 
-				mask="true" height="500" title="报盘价录入"  target="navTab" rel="fixOfferPriceDialog">
+				mask="true" height="500" title="报盘价录入"  target="navTab" rel="fixOfferPriceDialog" id="fixOfferPriceDialog">
 				<i class="icon-pencil"></i> <span>报盘价录入</span>
 			</a>
 		</div>
@@ -50,7 +55,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${resList}" var="item">
-			<tr target="categoryId" rel="${item.categoryId}">
+			<tr target="categoryId" rel="${item.categoryId}" ondblclick="modifyInfo()">
 				<td>${item.cateName}</td>
 				<td>${item.manuNum}</td>
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
