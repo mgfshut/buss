@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -135,7 +136,10 @@ public class TransactionInfoController  extends BaseController {
 	@ResponseBody
 	public InfoResult<List<TransactionInfo>> getCtofPrice(Page page,TransactionInfo transactioninfo ){
 		InfoResult<List<TransactionInfo>> infoResult = new InfoResult<List<TransactionInfo>>();
-		transactioninfo.setTxStatus("20");
+		//查询20和21状态的数据
+		if (StringUtils.isEmpty(transactioninfo.getTxStatus())){
+			transactioninfo.setqType("1");
+		}
 		List<TransactionInfo> Tranlist = transactionInfoService.listPageInfo(transactioninfo);
 		infoResult.setPage(page);
 		infoResult.setCode("200");

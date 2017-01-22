@@ -75,6 +75,44 @@ public class TransactionInfo {
 	
 	private SlaTransactionInfo slaInfo;//一条交易记录
 	
+	private String qType; //国际部人员查询状态为：20和21的状态数据。临时加一个判断字段，只要有只查询条件自动加20和21的查询\
+	
+	private String prodPla;//产地
+	private String cateStan;//规格
+	private String pkgQuan;//规格
+	
+	public String getPkgQuan() {
+		return pkgQuan;
+	}
+
+	public void setPkgQuan(String pkgQuan) {
+		this.pkgQuan = pkgQuan;
+	}
+
+	public String getProdPla() {
+		return prodPla;
+	}
+
+	public void setProdPla(String prodPla) {
+		this.prodPla = prodPla;
+	}
+
+	public String getCateStan() {
+		return cateStan;
+	}
+
+	public void setCateStan(String cateStan) {
+		this.cateStan = cateStan;
+	}
+
+	public String getqType() {
+		return qType;
+	}
+
+	public void setqType(String qType) {
+		this.qType = qType;
+	}
+
 	public ContractInfo getContract() {
 		return contract;
 	}
