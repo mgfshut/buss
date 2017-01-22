@@ -33,7 +33,7 @@ public interface RelCategoryPriceMapper {
     /**
      * 根据品类ID查询关系记录
      */
-    RelCategoryPrice selectByCategoryId(String categoryId);
+    RelCategoryPrice  selectByCategoryId(String categoryId);
     /**
      * 根据品类ID和渠道查询关系记录中最后更新的一条（按理说应该只有一条，查最后一条是为了容错）
      */

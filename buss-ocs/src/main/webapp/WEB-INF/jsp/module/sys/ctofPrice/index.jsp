@@ -57,8 +57,9 @@ function modifyInfo(){
 		<c:forEach items="${resObject}" var="item">
 			<tr target="transactionInfoId" rel="${item.transactionInfoId}" ondblclick="modifyInfo()"  >
 				<td>${item.cateName}</td>
-				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
 				<td>${item.manuNum}</td>
+				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
+				<%-- <td>${item.manuNum}</td> --%>
 				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
 				<td>${item.pkgQuan}</td>
 				<td>${item.cusName}</td>

@@ -220,21 +220,21 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		ContractInfo info = contractInfoMapper.selectByPrimaryKey(con.getContractInfoId());
 		
 		try {
-			if (info == null){
-				String[] urls = info.getContUlName().split("|");
-				/*PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
-				String contractUrlPerfix = propertyUtil.readValue("contractUrlPerfix");
+			if (info != null){
+				String[] urls = info.getContUlName().split(",");
+				PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
+				String contractUrlPerfix = propertyUtil.readValue("picUrlPerfix");
 				String temp = null;
 				for(String url : urls){
 					temp = contractUrlPerfix+url;
 					urlList.add(temp);
-				}*/
+				}
 			}else{
 				//throw new Exception("合同信息不存在！");
 			}
-			for(int i=0; i<5; i++){
+			/*for(int i=0; i<5; i++){
 				urlList.add("http://192.168.10.63:9090/img/index-backgroud.jpg");
-			}
+			}*/
 		} catch (Exception e) {
 			log.error("电子合同下载请求异常", e);
 			//throw new Exception("合同信息不存在！");
