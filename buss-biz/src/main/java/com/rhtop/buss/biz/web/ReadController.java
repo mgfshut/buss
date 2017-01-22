@@ -260,6 +260,8 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
+		//查询客户信息(通过审核了的)
+		customer.setCkStatus("02");
 		//查询客户信息
 		List<Customer> customerlist = cusSer.listPageCustomer(customer);
 		readResult.setCode("200");

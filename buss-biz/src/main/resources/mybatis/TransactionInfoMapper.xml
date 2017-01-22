@@ -47,7 +47,8 @@
   	pcas_time_,
   	deal_time_,
   	customer_id_,
-  	create_user_
+  	create_user_,
+  	end_time_
   </sql>
   
   <!-- 根据条件新增对象-->
@@ -102,6 +103,9 @@
     	<if test="createUser != null" >
 	    	create_user_,
 	    </if>
+	    <if test="endTime != null" >
+	    	end_time_,
+	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="ctofPri != null" >
@@ -151,6 +155,9 @@
 	    </if>
     	<if test="createUser != null" >
 	    	#{createUser},
+	    </if>
+	    <if test="endTime != null" >
+	    	#{endTime},
 	    </if>
     </trim>
   </insert>
@@ -207,6 +214,9 @@
       	</if>
 		<if test="createUser != null and createUser != ''" >
         	create_user_ = #{createUser},
+      	</if>
+      	<if test="endTime != null and endTime != ''" >
+        	end_time_ = #{endTime},
       	</if>
     </set>
     where 
@@ -272,6 +282,9 @@
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}
 		</if>
+		<if test="endTime != null and endTime != ''" >
+			and end_time_ = #{endTime}
+		</if>
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageTransactionInfo" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
@@ -325,6 +338,9 @@
 		</if>
     	<if test="createUser != null and createUser != ''" >
 			and create_user_ = #{createUser}
+		</if>
+		<if test="endTime != null and endTime != ''" >
+			and end_time_ = #{endTime}
 		</if>
   </select>
   <!-- 客户经理，部门经理  查看 交易列表 -->
@@ -386,6 +402,9 @@
 		</if>
     	<if test="customerId != null and customerId != ''" >
 			and a.customer_id_ = #{customerId}
+		</if>
+		<if test="endTime != null and endTime != ''" >
+			and a.end_time_ = #{endTime}
 		</if>
 		order by a.update_time_ DESC
   </select>

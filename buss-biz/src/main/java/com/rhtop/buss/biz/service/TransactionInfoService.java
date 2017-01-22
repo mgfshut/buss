@@ -24,17 +24,17 @@ public interface TransactionInfoService{
 	/**
 	 * 客户回盘
 	 */
-	ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx);
+	ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx) throws Exception;
 	
 	/**
 	 * 国际部回盘
 	 */
-	String universeNegotiate(TransactionInfo tx);
+	String universeNegotiate(TransactionInfo tx) throws Exception;
 	
 	/**
 	 * 决委会回盘确认
 	 */
-	String domainNegotiate(TransactionInfo tx);
+	String domainNegotiate(TransactionInfo tx) throws Exception;
 	
 	/**
 	 * 根据ID删除数据

@@ -72,6 +72,7 @@ public class CategoryController  extends BaseController {
 				String categoryId = UUID.randomUUID().toString().replace("-", "");
 				category.setCategoryId(categoryId);
 				category.setCreateUser(userId);
+				
 				category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				category.setUpdateUser(userId);
 				category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));

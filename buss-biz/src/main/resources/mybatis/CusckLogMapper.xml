@@ -3,7 +3,7 @@
 <mapper namespace="com.rhtop.buss.biz.mapper.CusckLogMapper" >
 
   <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.CusckLog" >
-  	<result column="cusck_log_id_" property="cusckLogId" jdbcType="VARCHAR" />
+  	<id column="cusck_log_id_" property="cusckLogId" jdbcType="VARCHAR" />
   	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
   	<result column="opr_time_" property="oprTime" jdbcType="VARCHAR" />
   	<result column="opr_user_" property="oprUser" jdbcType="VARCHAR" />
@@ -22,6 +22,9 @@
   <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.CusckLog" >
   	INSERT INTO buss_cusck_log_ 
   	<trim prefix="(" suffix=")" suffixOverrides="," >
+  		<if test="cusck_log_id_ != null" >
+  			cusck_log_id_,
+  		</if>
   		<if test="customer_id_ != null" >
   			customer_id_,
   		</if>

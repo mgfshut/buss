@@ -100,7 +100,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 //TODO：国际部未回盘客户可以再次更改客户价
 	@Override
-	public ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx) {
+	public ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx) throws Exception{
 		try {
 			tx.setTxStatus("20");
 			String transactionInfoId = tx.getTransactionInfoId();
@@ -157,7 +157,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
-	public String universeNegotiate(TransactionInfo tx) {
+	public String universeNegotiate(TransactionInfo tx) throws Exception{
 		try {
 			String transactionInfoId = tx.getTransactionInfoId();
 			transactionInfoMapper.updateByPrimaryKeySelective(tx);
@@ -180,18 +180,18 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
-	public String domainNegotiate(TransactionInfo tx) {
+	public String domainNegotiate(TransactionInfo tx) throws Exception{
 		try {
 			String transactionInfoId = tx.getTransactionInfoId();
 			String userId = tx.getUpdateUser();
 			String now = tx.getUpdateTime();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SlaTransactionInfo slaTx = slaTxMapper.selectLatestByTransactionInfoId(transactionInfoId);
 			Date d = new Date();
-			transactionInfoMapper.updateByPrimaryKeySelective(tx);
-			SlaTransactionInfo slaTx = slaTxMapper
-					.selectLatestByTransactionInfoId(transactionInfoId);
 			String endTime = sdf.format(new Date(d.getTime()+Long.parseLong(slaTx.getCtofAging())*60*60*1000));
 			tx.setEndTime(endTime);
+			tx.setCtofAging(slaTx.getCtofAging());
+			transactionInfoMapper.updateByPrimaryKeySelective(tx);
 			slaTx.setCtofCkSta("22");
 			slaTx.setCtofCkPer(userId);
 			slaTx.setCtofCkTime(now);
@@ -230,6 +230,16 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		slatransaction.setTransactionInfoId(transactionInfoId);
 		List<SlaTransactionInfo> sla = slaTxMapper
 				.listSlaTransactionInfos(slatransaction);
+		//格式化回盘记录的时间格式（MM-dd HH:mm ）
+				for(SlaTransactionInfo sl : sla){
+					try {
+						//采取的字符的截取
+						sl.setCtofTime(sl.getCtofTime().substring(5, 16));
+						sl.setPcasTime(sl.getPcasTime().substring(5, 16));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					}
 		// 合同信息
 		ContractInfo contractinfo = new ContractInfo();
 		contractinfo.setTransactionInfoId(transactionInfoId);
@@ -294,6 +304,16 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		SlaTransactionInfo slaTransactionInfo = new SlaTransactionInfo();
 		slaTransactionInfo.setTransactionInfoId(tran.getTransactionInfoId());
 		List<SlaTransactionInfo> listSla = slaTxMapper.listSlaTransactionInfos(slaTransactionInfo);
+		//格式化回盘记录的时间格式（MM-dd HH:mm ）
+		for(SlaTransactionInfo sl : listSla){
+			try {
+				//采取的字符的截取
+				sl.setCtofTime(sl.getCtofTime().substring(5, 16));
+				sl.setPcasTime(sl.getPcasTime().substring(5, 16));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			}
 		// 交易的创建者名称
 		String mgrName = memberMapper.selectByPrimaryKey(tran.getCreateUser()).getMemberName();
 		// 用户的判断

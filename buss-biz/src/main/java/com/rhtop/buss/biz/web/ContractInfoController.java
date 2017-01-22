@@ -232,7 +232,7 @@ public class ContractInfoController  extends BaseController {
 			htmlMessage.setMessage("请上传收款确认凭证");
 		}else{
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
-			TransactionInfo tx = txSer.selectByPrimaryKey(contractInfo.getTransactionInfoId());
+			TransactionInfo tx = txSer.selectByPrimaryKey(cif.getTransactionInfoId());
 			tx.setTxStatus("50");
 			txSer.updateTransactionInfo(tx);
 			//新的凭证字段

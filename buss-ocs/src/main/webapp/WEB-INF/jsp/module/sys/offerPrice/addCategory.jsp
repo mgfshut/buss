@@ -24,7 +24,7 @@ $(document).ready(function() {
 	$('#file-zmwj', navTab.getCurrentPanel()).on("fileuploaded", function(event, data, previewId, index) {
 		var json = data.response;
 		if (json.code == DWZ.statusCode.ok){
-			filePath += (json.resObject+",");
+			filePath = json.resObject;
 			$('#filePath', navTab.getCurrentPanel()).val(filePath);
 		}else{
 			alert("文件上传失败");
@@ -116,6 +116,7 @@ function categoryItemSaveDone(json){
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
+			<input  type="hidden" id="filePath" name="catePic"/>
 			<div class="form-horizontal" align="center">
 				<div class="form-group" align="center">
 					<div class="col-xs-12" align="center">

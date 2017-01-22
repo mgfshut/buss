@@ -11,15 +11,18 @@ import java.util.UUID;
 
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
+import com.rhtop.buss.common.entity.CusckLog;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContactsInfoMapper;
 import com.rhtop.buss.biz.mapper.CustomerMapper;
 import com.rhtop.buss.biz.mapper.MemberMapper;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
+import com.rhtop.buss.biz.service.CusckLogService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 
@@ -39,6 +42,8 @@ public class CustomerServiceImpl implements CustomerService {
 	private RelCustomerCategoryService cusCatSer;
 	@Autowired
 	private CategoryService catSer;
+	@Autowired
+	private CusckLogService cusckSer;
 	
 	@Override
 	public int insertCustomer(Customer customer) {
@@ -70,6 +75,14 @@ public class CustomerServiceImpl implements CustomerService {
 		try {
 			//添加客户数据
 			insertCustomer(customer);
+//			//向客户审核日志表中添加记录
+//			CusckLog ckLog = new CusckLog();
+//			ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+//			ckLog.setCustomerId(customerId);
+//			ckLog.setOprName("客户信息采集");
+//			ckLog.setOprUser(userId);
+//			ckLog.setOprTime(DateUtils.getNowTime());
+//			cusckSer.insertCusckLog(ckLog);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -97,7 +110,8 @@ public class CustomerServiceImpl implements CustomerService {
 		if(!categorys.isEmpty()){
 			for(Category cat : categorys){
 				//检查要新增的品类是否已存在于数据库中
-				if(catSer.checkCategoryExist(cat)==null){
+				Category check = catSer.checkCategoryExist(cat);
+				if(check==null){
 					//新增品类
 					cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
 					cat.setCreateTime(now);
@@ -126,7 +140,7 @@ public class CustomerServiceImpl implements CustomerService {
 					//如果品类已经存在，检查关系表中客户经理、客户、品类是否已存在。防止客户经理重复提交。
 					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
 					relCustomerCategory.setCreateUser(cat.getCreateUser());
-					relCustomerCategory.setCategoryId(cat.getCategoryId());
+					relCustomerCategory.setCategoryId(check.getCategoryId());
 					relCustomerCategory.setCustomerId(customerId);
 					RelCustomerCategory relCustomerCategoryRes  = cusCatSer.selectByPrimaryParam(relCustomerCategory);
 					if(relCustomerCategoryRes != null){
@@ -137,7 +151,7 @@ public class CustomerServiceImpl implements CustomerService {
 						relCustomerCategory.setUpdateTime(now);
 						relCustomerCategory.setUpdateUser(userId);
 						relCustomerCategory.setCreateUser(userId);
-						relCustomerCategory.setCategoryId(cat.getCategoryId());
+						relCustomerCategory.setCategoryId(check.getCategoryId());
 						relCustomerCategory.setCateScale(cat.getCateScale());
 						relCustomerCategory.setCooInten(cat.getCooInten());
 						relCustomerCategory.setCooIntenComm(cat.getCooIntenComm());
@@ -196,7 +210,8 @@ public class CustomerServiceImpl implements CustomerService {
 		if(!categorys.isEmpty()){
 			for(Category cat : categorys){
 				//检查要新增的品类是否已存在于数据库中
-				if(catSer.checkCategoryExist(cat)==null){
+				Category check = catSer.checkCategoryExist(cat);
+				if(check==null){
 					//新增品类
 					cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
 					cat.setCreateTime(now);
@@ -220,7 +235,7 @@ public class CustomerServiceImpl implements CustomerService {
 					//如果品类已经存在，检查关系表中客户经理、客户、品类是否已存在。防止客户经理重复提交。
 					RelCustomerCategory relCustomerCategory = new RelCustomerCategory();
 					relCustomerCategory.setCreateUser(cat.getCreateUser());
-					relCustomerCategory.setCategoryId(cat.getCategoryId());
+					relCustomerCategory.setCategoryId(check.getCategoryId());
 					relCustomerCategory.setCustomerId(customerId);
 					RelCustomerCategory relCustomerCategoryRes  = cusCatSer.selectByPrimaryParam(relCustomerCategory);
 					if(relCustomerCategoryRes != null){
@@ -231,7 +246,7 @@ public class CustomerServiceImpl implements CustomerService {
 						relCustomerCategory.setUpdateTime(now);
 						relCustomerCategory.setUpdateUser(userId);
 						relCustomerCategory.setCreateUser(userId);
-						relCustomerCategory.setCategoryId(cat.getCategoryId());
+						relCustomerCategory.setCategoryId(check.getCategoryId());
 						relCustomerCategory.setCateScale(cat.getCateScale());
 						relCustomerCategory.setCooInten(cat.getCooInten());
 						relCustomerCategory.setCooIntenComm(cat.getCooIntenComm());
@@ -297,6 +312,13 @@ public class CustomerServiceImpl implements CustomerService {
 				if(ckStatus=="00"||ckStatus.equals("00")||Integer.parseInt(ckStatus)==00){
 					cus.setCkStatus("01");
 					customerMapper.updateByPrimaryKeySelective(cus);
+//					CusckLog ckLog = new CusckLog();
+//					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+//					ckLog.setCustomerId(cus.getCustomerId());
+//					ckLog.setOprName("分部经理审核客户信息");
+//					ckLog.setOprUser(userId);
+//					ckLog.setOprTime(DateUtils.getNowTime());
+//					cusckSer.insertCusckLog(ckLog);
 					return 0;
 				}else{
 					return 2;
@@ -306,6 +328,13 @@ public class CustomerServiceImpl implements CustomerService {
 				if(ckStatus=="01"||ckStatus.equals("01")||Integer.parseInt(ckStatus)==01){
 					cus.setCkStatus("02");
 					customerMapper.updateByPrimaryKeySelective(cus);
+//					CusckLog ckLog = new CusckLog();
+//					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+//					ckLog.setCustomerId(cus.getCustomerId());
+//					ckLog.setOprName("总经理审核客户信息");
+//					ckLog.setOprUser(userId);
+//					ckLog.setOprTime(DateUtils.getNowTime());
+//					cusckSer.insertCusckLog(ckLog);
 					return 0;
 				}else{
 					return 2;

@@ -76,6 +76,8 @@ public class WriteController extends BaseController{
 	private CusckLogService clSer;
 	@Autowired
 	private CodeValueService codeValueService;
+	@Autowired
+	private CusckLogService cusckSer;
 	
 	/**
 	 * 客户经理第一次录入客户信息、联系人信息、品类信息的接口
@@ -692,7 +694,8 @@ public class WriteController extends BaseController{
 			dlog.setOprTime(now);
 			dlog.setTransactionInfoId(tx.getTransactionInfoId());
 			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
-			dlog.setOprType("32");
+			dlog.setOprType("32")
+			;
 			dlog.setOprName("决委会审核回盘");
 			dlog.setOprContent(body);
 		} catch (Exception e) {
