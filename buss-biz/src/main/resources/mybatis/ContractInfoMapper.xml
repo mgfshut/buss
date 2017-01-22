@@ -5,6 +5,7 @@
   <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.ContractInfo" >
 	<id column="contract_info_id_" property="contractInfoId" jdbcType="CHAR" />
 	<result column="con_code_" property="conCode" jdbcType="VARCHAR" />
+	<result column="cus_name_" property="cusName" jdbcType="VARCHAR" />
 	<result column="transaction_info_id_" property="transactionInfoId" jdbcType="VARCHAR" />
 	<result column="car_num_" property="carNum" jdbcType="VARCHAR" />
 	<result column="tot_pri_" property="totPri" jdbcType="VARCHAR" />
@@ -41,6 +42,7 @@
   <sql id="Base_Column_List" >
   	transaction_info_id_,
   	con_code_,
+  	cus_name_,
   	car_num_,
   	tot_pri_,
   	tx_amo_,
@@ -83,6 +85,9 @@
 	    </if>
 	    <if test="conCode != null" >
 	    	con_code_,
+	    </if>
+	    <if test="cusName != null" >
+	    	cus_name_,
 	    </if>
     	<if test="carNum != null" >
 	    	car_num_,
@@ -184,6 +189,9 @@
 	    </if>
 	    <if test="conCode != null" >
 	    	#{conCode},
+	    </if>
+	    <if test="cusName != null" >
+	    	#{cusName},
 	    </if>
     	<if test="carNum != null" >
 	    	#{carNum},
@@ -295,6 +303,9 @@
       	<if test="conCode != null and conCode != ''" >
         	con_code_ = #{conCode},
       	</if>
+      	<if test="cusName != null and cusName != ''" >
+        	cus_name_ = #{cusName},
+      	</if>
 		<if test="carNum != null and carNum != ''" >
         	car_num_ = #{carNum},
       	</if>
@@ -405,7 +416,10 @@
 			and transaction_info_id_ = #{transactionInfoId}
 		</if>
 		<if test="conCode != null and conCode != ''" >
-			and tcon_code_ = #{conCode}
+			and con_code_ = #{conCode}
+		</if>
+		<if test="cusName != null and cusName != ''" >
+			and cus_name_ = #{cusName}
 		</if>
     	<if test="carNum != null and carNum != ''" >
 			and car_num_ = #{carNum}
@@ -512,6 +526,9 @@
 		</if>
 		<if test="conCode != null and conCode != ''" >
 			and con_code_ = #{conCode}
+		</if>
+		<if test="cusName != null and cusName != ''" >
+			and cus_name_ = #{cusName}
 		</if>
     	<if test="carNum != null and carNum != ''" >
 			and car_num_ = #{carNum}

@@ -18,7 +18,7 @@ public class ContractInfo {
 	private String carNum;//提货车牌号码
 	//真正生成的合同编号
 	private String conCode;
-	//客户姓名（本应该填合同的时候就默认是创建合同那个用户的，结果页面又填了一个，后台还是存的签合同的CustomnerId，所以这里把它查出来在返回给前台，就是说签合同时候填的那个填了也没了。）
+	//客户姓名
 	private String cusName;
 	
 	private Float totPri;//总价

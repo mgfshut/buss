@@ -139,7 +139,7 @@ public class ContractInfoController  extends BaseController {
 	public ContractInfo getByContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
 		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
 		Customer cus = cusSer.selectByPrimaryKey(contractInfo.getCustomerId());
-		contractInfo.setCusName(cus.getCusName());
+//		contractInfo.setCusName(cus.getCusName());
 		try {
 			PropertyUtil propertyUtil = new PropertyUtil("properties/common.properties");
 			//从配置文件中读取上传文件的存放根路径
