@@ -6,6 +6,8 @@ package com.rhtop.buss.biz.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -140,7 +142,6 @@ public class CategoryServiceImpl implements CategoryService {
 				cate.setIsImport(category.getIsImport());
 				
 				categoryMapper.updateCategory(cate);
-				
 				//价格信息
 				RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
 				boolean isExist = false;

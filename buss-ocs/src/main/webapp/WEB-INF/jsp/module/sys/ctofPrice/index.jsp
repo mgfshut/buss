@@ -71,8 +71,7 @@ function changeZt(val){
 					<th orderField="cusLoc" class="${param.orderField eq 'cusLoc'?param.orderDirection:''}">区域</th>
 					<th orderField="cateSup" class="${param.orderField eq 'cateSup'?param.orderDirection:''}">供应商</th>
 					<th orderField="txAmo" class="${param.orderField eq 'txAmo'?param.orderDirection:''}">需求量</th>
-					<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">价格时效</th>
-					<th orderField="ctofPri" class="${param.orderField eq 'ctofPri'?param.orderDirection:''}">采购价格</th>
+					<th>客户价</th>
 					<th orderField="txStatus" class="${param.orderField eq 'txStatus'?param.orderDirection:''}">状态</th>
 				</tr>
 			</thead>
@@ -89,8 +88,7 @@ function changeZt(val){
 						<td>${item.cusLoc}</td>
 						<td>${item.cateSup}</td>
 						<td>${item.txAmo}</td>
-						<td>${item.offerAging}</td>
-						<td>${item.ctofPri}</td>
+						<td>${item.pcasPri}</td>
 						<td> 
 							<c:choose>
 								<c:when test="${item.txStatus == '20'}">待回盘</c:when>
@@ -127,8 +125,7 @@ function changeZt(val){
 					<th orderField="cusLoc" class="${param.orderField eq 'cusLoc'?param.orderDirection:''}">区域</th>
 					<th orderField="cateSup" class="${param.orderField eq 'cateSup'?param.orderDirection:''}">供应商</th>
 					<th orderField="txAmo" class="${param.orderField eq 'txAmo'?param.orderDirection:''}">需求量</th>
-					<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">价格时效</th>
-					<th orderField="ctofPri" class="${param.orderField eq 'ctofPri'?param.orderDirection:''}">采购价格</th>
+					<th>客户价</th>
 					<th orderField="txStatus" class="${param.orderField eq 'txStatus'?param.orderDirection:''}">状态</th>
 				</tr>
 			</thead>
@@ -145,8 +142,7 @@ function changeZt(val){
 						<td>${item.cusLoc}</td>
 						<td>${item.cateSup}</td>
 						<td>${item.txAmo}</td>
-						<td>${item.offerAging}</td>
-						<td>${item.ctofPri}</td>
+						<td>${item.pcasPri}</td>
 						<td>待回盘</td>
 					</tr>
 				</c:forEach>
@@ -173,17 +169,15 @@ function changeZt(val){
 				<th orderField="pkgQuan" class="${param.orderField eq 'pkgQuan'?param.orderDirection:''}">包装数量</th>
 				<th orderField="cusCha" class="${param.orderField eq 'cusCha'?param.orderDirection:''}">渠道</th>
 				<th orderField="cusName" class="${param.orderField eq 'cusName'?param.orderDirection:''}">客户名称</th>
-				<th orderField="cusLoc" class="${param.orderField eq 'cusLoc'?param.orderDirection:''}">区域</th>
 				<th orderField="cateSup" class="${param.orderField eq 'cateSup'?param.orderDirection:''}">供应商</th>
 				<th orderField="txAmo" class="${param.orderField eq 'txAmo'?param.orderDirection:''}">需求量</th>
-				<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">价格时效</th>
-				<th orderField="ctofPri" class="${param.orderField eq 'ctofPri'?param.orderDirection:''}">采购价格</th>
+				<th>客户价</th>
 				<th orderField="txStatus" class="${param.orderField eq 'txStatus'?param.orderDirection:''}">状态</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${resObject}" var="item">
-			   	<tr target="transactionInfoId" rel="${item.transactionInfoId}" ondblclick="modifyInfo()"  >
+			   	<tr target="transactionInfoId" rel="${item.transactionInfoId}" ondblclick="modifyInfo('21')"  >
 					<td>${item.cateName}</td>
 					<td>${item.manuNum}</td>
 					<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
@@ -191,11 +185,9 @@ function changeZt(val){
 					<td>${item.pkgQuan}</td>
 					<td><ys:codemapConvert codemap="cusCha" value="${item.cusCha }"/></td>
 					<td>${item.cusName}</td>
-					<td>${item.cusLoc}</td>
 					<td>${item.cateSup}</td>
 					<td>${item.txAmo}</td>
-					<td>${item.offerAging}</td>
-					<td>${item.ctofPri}</td>
+					<td>${item.pcasPri}</td>
 					<td>已回盘</td>
 				</tr>
 			</c:forEach>

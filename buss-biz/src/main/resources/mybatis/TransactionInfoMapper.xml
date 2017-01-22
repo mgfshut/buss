@@ -20,7 +20,8 @@
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
 	<result column="end_time_" property="endTime" jdbcType="VARCHAR" />
-	
+	<result column="ctof_aging_" property="ctofAging" jdbcType="VARCHAR" />
+	<result column="ctof_pri_" property="ctofPri" jdbcType="VARCHAR" />
 	<!-- 外键字段 -->
 	<result column="cus_name_" property="cusName" jdbcType="VARCHAR" />
 	<result column="cus_cha_" property="cusCha" jdbcType="VARCHAR" />
@@ -31,6 +32,7 @@
 	<result column="prod_pla_" property="prodPla" jdbcType="VARCHAR" />
 	<result column="cate_stan_" property="cateStan" jdbcType="VARCHAR" />
 	<result column="pkg_quan_" property="pkgQuan" jdbcType="VARCHAR" />
+	
 	
   </resultMap>
   
@@ -432,6 +434,8 @@
 	d.unit_,
 	d.cate_pri_,
  	a.tx_status_,
+ 	a.ctof_aging_,
+ 	a.ctof_pri_,
 	d.offer_aging_
 	from buss_transaction_info_ a 
   	LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_ 
