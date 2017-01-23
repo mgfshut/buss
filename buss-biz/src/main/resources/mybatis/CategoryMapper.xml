@@ -480,7 +480,9 @@
 	a.unit_,
 	b.offer_pri_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE ISNULL(b.offer_pri_)  order by a.update_time_  DESC
+	WHERE b.offer_pri_ = '0'   
+	GROUP BY a.category_id_
+	ORDER BY a.update_time_  DESC
 	</select>
 	
 	<!-- 国际采购人员查询已报盘情况 -->
@@ -500,7 +502,9 @@
 	a.offer_aging_,
 	cus_cha_val_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE b.offer_pri_ != '' order by a.update_time_  DESC
+	WHERE b.offer_pri_ != '0' 
+	GROUP BY a.category_id_
+	ORDER BY a.update_time_  DESC
 	</select>
 	
 	<!-- 品类详情 -->

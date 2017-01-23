@@ -4,6 +4,8 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.Customer;
 
 public interface CustomerMapper {
@@ -68,6 +70,17 @@ public interface CustomerMapper {
 	 * @return
 	 */
 	List<Customer> listPageCustomerByGenMgr(Customer customer);
+	
 	Customer selectInfoByPrimaryKey(String customerId);
+	
+	/**
+	 * 通过品类id和创建者id，查找该创建者的客户信息
+	 * 
+	 * @author lujin
+	 * @date 2017-1-32
+	 * @param category
+	 * @return
+	 */
+	List<Customer> listPageCustByCateId(Category category);
 	
 }

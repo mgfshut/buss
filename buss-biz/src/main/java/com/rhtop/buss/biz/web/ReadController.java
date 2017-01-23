@@ -248,7 +248,7 @@ public class ReadController  extends BaseController {
 
 	/**
 	 * 接口id：R2011
-	 * 发起交易(对客户信息的查询)
+	 * 发起交易 (对客户信息的查询)
 	 * 客户经理，分部经理 查询自己创建的客户信息
 	 * @author lujin
 	 * @date 2017-1-13
@@ -325,15 +325,16 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
-		//已回盘列表:交易状态为21 ；未回盘列表:交易状态为20 
+		//未回盘列表:交易状态为20 
 		transactionInfo.setTxStatus("20");
 		List<TransactionInfo> trans = traSer.listPageInfo(transactionInfo);
 		if (trans.size()!=0 ){
 			readResult.setCode("200");
+			readResult.setPage(transactionInfo.getPage());
+			readResult.setRecords(trans);
 			readResult.setMessage("数据获取成功！");
 		}else{
 			readResult.setCode("200");
-			readResult.setRecords(trans);
 			readResult.setMessage("不存在未回盘的信息！");
 		}
 		return readResult;
@@ -349,18 +350,60 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
-		//已回盘列表:交易状态为21 未回盘列表:交易状态为20 
+		//已回盘列表:交易状态为21
 		transactionInfo.setTxStatus("21");
 		List<TransactionInfo> trans = traSer.listPageInfo(transactionInfo);
 		if (trans.size()!=0){
 			readResult.setCode("200");
+			readResult.setRecords(trans);
+			readResult.setPage(transactionInfo.getPage());
 			readResult.setMessage("数据获取成功！");
 		}else{
-			readResult.setCode("400");
+			readResult.setCode("200");
 			readResult.setMessage("不存在已回盘的信息！");
 		}
 		return readResult;
 	    }
+	
+	/**
+	 * 接口id：R2017
+	 * @author lujin
+	 * @date 2017-1-22
+	 * 国际采购人员 回盘与报盘 详情
+	 * 返回该交易的客户与品类的信息
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2017")
+	public ResultInfo CustAndCateInfo(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
+		TransactionInfo tran = traSer.CustAndCateAndPriceInfo(transactionInfo);
+		readResult.setCode("200");
+		readResult.setMessage("数据获取成功！");
+		readResult.setResObject(tran);
+		return readResult;
+	    }
+	
+	/**
+	 * 接口id：R2018
+	 * @author lujin
+	 * @date 2017-1-23
+	 * 发起交易(选择品类信息)
+	 * 通过品类id，创建者，得到创建者的客户信息
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2018")
+	public ResultInfo CustInfoByCateId(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		List<Customer> custList = cusSer.listPageCustByCateId(category);
+		readResult.setCode("200");
+		readResult.setMessage("数据获取成功！");
+//		readResult.setPage(Customer.getPage());
+		readResult.setResObject(custList);
+		return readResult;
+	    }
+	
 	/**
 	 * 接口id：R2009
 	 * 总经理查看合同列表
@@ -412,6 +455,7 @@ public class ReadController  extends BaseController {
 		readResult.setResObject(conts);
 		return readResult;
 	}
+	
 	
 	/**
 	 * 接口id:upgrade

@@ -90,4 +90,15 @@ public interface TransactionInfoService{
 	 */
 	List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo);
 	
+	/**
+	 * 国际人员 
+	 * 回盘与报盘的详情信息
+	 * 返回 客户信息与品类信息以及交易的回盘记录
+	 * @author lujin
+	 * @date 2017-1-22
+	 * @param transactionInfo
+	 * @return
+	 */
+	TransactionInfo CustAndCateAndPriceInfo (TransactionInfo transactionInfo);
+	
 }
