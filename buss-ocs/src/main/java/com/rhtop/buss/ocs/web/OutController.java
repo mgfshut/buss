@@ -1123,6 +1123,49 @@ public class OutController extends BaseController {
 	}
 	
 	/**
+	 * 接口id：R2020
+	 * 决策委员会日志报表（客户信息）
+	 * @param customer 分页查 page对象 
+	 * @author lujin
+	 * @date 2017-1-21
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2020")
+	public ResultInfo cusckLogCustomer(HttpServletRequest request,@RequestBody Customer customer){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(customer);
+			readResult =(ResultInfo)service.invoke("readData-R2020", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 接口id：R2021
+	 * 决策委员会日志报表（品类信息）
+	 * @param customer 分页查 page对象 
+	 * @author lujin
+	 * @date 2017-1-21
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2021")
+	public ResultInfo cusckLogCategory(HttpServletRequest request,@RequestBody RelCategoryPrice relCategoryPrice){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(relCategoryPrice);
+			readResult =(ResultInfo)service.invoke("readData-R2018", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
 	 * 接口id：upgrade
 	 * 版本更新
 	 */
