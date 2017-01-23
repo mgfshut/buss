@@ -507,6 +507,20 @@
 	ORDER BY a.update_time_  DESC
 	</select>
 	
+	<!-- 国际采购人员查询报盘(已报盘和未报盘)情况 -->
+	<select id="listPagePriceByUniMgr" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select
+	b.category_id_ ,
+	b.cate_name_,
+	b.cate_stan_,
+	b.manu_num_,
+	b.prod_pla_,
+	b.pkg_quan_,
+	b.offer_pri_
+	from buss_category_ b  
+	ORDER BY b.update_time_  DESC
+	</select>
+	
 	<!-- 品类详情 -->
 	<select id="selectInfoByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
 	select

@@ -1059,7 +1059,7 @@ public class OutController extends BaseController {
 	 * 国际部回盘列表(已回盘)
 	 * 品类id
 	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2016")
+	/*@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2016")
 	public ResultInfo ctofPrice(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
@@ -1073,7 +1073,7 @@ public class OutController extends BaseController {
 			readResult =(ResultInfo)service.invoke("readData-R2016", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
-	}
+	}*/
 	/**
 	 *  接口id：R2017
 	 * @author lujin

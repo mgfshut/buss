@@ -122,7 +122,6 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 					rel.setUpdateTime(now);
 					relCategoryPriceMapper.updateByCategoryId(rel);
 				}
-				
 				cusCat.setMgrCk("02");
 				relCusCatMapper.updateByPrimaryKeySelective(cusCat);
 			}
