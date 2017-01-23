@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.ResultInfo;
+import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
@@ -31,7 +33,8 @@ import com.rhtop.buss.common.web.HtmlMessage;
 public class RelCustomerCategoryController  extends BaseController {
 	@Autowired
 	private RelCustomerCategoryService relCustomerCategoryService;
-	
+	@Autowired
+	private CodeValueService codeValueService;
     /**
      * 新增
      */
@@ -127,9 +130,45 @@ public class RelCustomerCategoryController  extends BaseController {
 			log.error("[RelCustomerCategoryController.categoryExportList]数据解析异常", e);
 		}
 		
-		JSONObject jsonObject=JSONObject.fromObject(body);
 		ResultInfo resultInfo = new ResultInfo();
 		List<RelCustomerCategory> relCustomerCategoryList = relCustomerCategoryService.categoryExportList(category);
+		//查询规格字典
+		List<CodeValue> cateNameList = this.codeValueService.listCodeValuesByCode("cateStan");
+		//查询渠道字典
+		List<CodeValue> cusChaList = this.codeValueService.listCodeValuesByCode("cusCha");
+		//查询产地字典
+		List<CodeValue> prodPlaList = this.codeValueService.listCodeValuesByCode("prodPla");
+		for (int i=0; i<relCustomerCategoryList.size(); i++){
+			RelCustomerCategory rel = relCustomerCategoryList.get(i);
+			if (cateNameList != null && cateNameList.size() > 0){
+				for (int c=0; c<cateNameList.size(); c++){
+					CodeValue item = cateNameList.get(c);
+					if (item.getCodeValue().equals(rel.getCateStan())){
+						rel.setCateStan(item.getCodeValueDescribe());
+						break;
+					}
+				}
+			}
+			if (cusChaList != null && cusChaList.size() > 0){
+				for (int c=0; c<cusChaList.size(); c++){
+					CodeValue item = cusChaList.get(c);
+					if (item.getCodeValue().equals(rel.getCusChaId())){
+						rel.setCusChaVal(item.getCodeValueDescribe());
+						break;
+					}
+				}
+			}
+			if (prodPlaList != null && prodPlaList.size() > 0){
+				for (int c=0; c<prodPlaList.size(); c++){
+					CodeValue item = prodPlaList.get(c);
+					if (item.getCodeValue().equals(rel.getProdPla())){
+						rel.setProdPla(item.getCodeValueDescribe());
+						break;
+					}
+				}
+			}
+		}
+		
 		resultInfo.setCode("200");
 		resultInfo.setRecords(relCustomerCategoryList);
 		return resultInfo;

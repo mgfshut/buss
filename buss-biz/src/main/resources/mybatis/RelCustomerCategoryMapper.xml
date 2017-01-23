@@ -344,14 +344,13 @@
   
    <!-- 品类导出数据查询 -->
   <select id="categoryExportList" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
-  	SELECT a.category_id_,b.cate_name_,b.cate_stan_,b.pkg_quan_,b.manu_num_,b.prod_pla_,b.comm_,
-	a.cus_loc_,a.cus_cha_val_,d.member_name_,c.wholesale_pri_,c.acpt_pri_,
+  	SELECT b.cate_name_,b.cate_stan_,b.pkg_quan_,b.manu_num_,b.prod_pla_,b.comm_,c.cus_loc_,
+	c.cus_cha_id_,d.member_name_,c.wholesale_pri_,c.acpt_pri_,
 	c.spot_min_,c.spot_max_,c.inter_fut_min_,c.inter_fut_max_,
 	c.fut_min_,c.fut_max_,c.cate_sup_,b.offer_pri_,c.offer_aging_ from  
-	buss_rel_customer_category_ a LEFT JOIN buss_category_ b ON
-	a.category_id_ = b.category_id_ LEFT JOIN buss_rel_category_price_ c ON
-	a.category_id_ = c.category_id_ LEFT JOIN sys_member_ d ON c.mgr_id_ = d.member_id_
-	where a.cus_cha_id_ = c.cus_cha_id_ 
+	buss_category_ b JOIN buss_rel_category_price_ c ON
+	b.category_id_ = c.category_id_ LEFT JOIN sys_member_ d ON c.mgr_id_ = d.member_id_
+	where 1=1 
 	<if test="cateName != null and cateName !='' ">
 		and b.cate_name_ = #{cateName},
 	</if>

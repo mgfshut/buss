@@ -29,8 +29,10 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.service.RestService;
+import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
 
 @Controller
@@ -125,7 +127,7 @@ public class ExcelController extends BaseController {
             	row.createCell(16).setCellValue(lhMap.get("offerAging").toString()); 
         }
         try {
-			response.setHeader("Content-Disposition", "attachment;filename="+new String("品类信息表.xls".getBytes("utf-8"),"iso8859-1"));
+			response.setHeader("Content-Disposition", "attachment;filename="+new String(("品类信息表_"+DateUtils.getToday()+".xls").getBytes("utf-8"),"iso8859-1"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			log.error("[ExcelController.excelCategoryExport]编码异常", e);
@@ -139,6 +141,70 @@ public class ExcelController extends BaseController {
 		} catch (IOException e) {
 			e.printStackTrace();
 			log.error("[ExcelController.excelCategoryExport]IO异常", e);
+		}  
+	}
+	
+	@RequestMapping("exportDictionary")
+	public void excelDictionaryExport(HttpServletRequest request,HttpServletResponse response, String codeValue){
+		ResultInfo readResult = (ResultInfo) service.invoke("codeValue-exportList", "POST", "{\"codeValue\":\""+codeValue+"\"}", ResultInfo.class);
+		List dictionaryList = readResult.getRecords();
+		
+		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+		ServletContext servletContext = webApplicationContext.getServletContext();
+		String s_path = servletContext.getRealPath("/");
+		s_path = s_path.concat("WEB-INF/configs/templet");
+		
+		//首先:从本地磁盘读取模板excel文件,然后读取第一个sheet  
+		InputStream inp = null;
+		try {
+			inp = new FileInputStream(s_path+File.separator+"temp-dic.xls");
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			log.error("[ExcelController.excelDictionaryExport]文件未找到异常", e1);
+		} 
+        
+        POIFSFileSystem fs = null;
+		try {
+			fs = new POIFSFileSystem(inp);
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error("[ExcelController.excelDictionaryExport]IO异常", e);
+		}  
+        Workbook wb = null;
+		try {
+			wb = new HSSFWorkbook(fs);
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error("[ExcelController.excelDictionaryExport]IO异常", e);
+		}  
+        Sheet sheet=wb.getSheetAt(0);  
+          
+        //开始写入数据到模板中: 需要注意的是,因为行头以及设置好,故而需要跳过行头  
+        Row row = sheet.createRow(2); 
+        
+        for (int i = 0; i < dictionaryList.size(); i++){  
+            row = sheet.createRow((int) i + 2);  
+            LinkedHashMap item = (LinkedHashMap)dictionaryList.get(i);
+            if(item == null){continue;};
+            row.createCell(0).setCellValue(item.get("codeMapName") == null ? "" :item.get("codeMapName").toString());  
+            //row.createCell(1).setCellValue(item.get("codeValue") == null ? "" :item.get("codeValue").toString());  
+            row.createCell(1).setCellValue(item.get("codeValueDescribe") == null ? "" :item.get("codeValueDescribe").toString());  
+        }
+        try {
+			response.setHeader("Content-Disposition", "attachment;filename="+new String(("字典代码表_"+DateUtils.getToday()+".xls").getBytes("utf-8"),"iso8859-1"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			log.error("[ExcelController.excelDictionaryExport]编码异常", e);
+		}  
+        response.setContentType("application/ynd.ms-excel;charset=UTF-8");  
+		try {
+			OutputStream out = response.getOutputStream();
+			wb.write(out);
+			out.flush();  
+	        out.close();  
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error("[ExcelController.excelDictionaryExport]IO异常", e);
 		}  
 	}
 }

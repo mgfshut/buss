@@ -87,5 +87,14 @@ public class CodeValueServiceImpl implements CodeValueService {
 	public CodeValue queryCodeValueAndCodeName(String codeMap, String codeName) {
 		return codeValueMapper.queryCodeValueAndCodeName(codeMap, codeName);
 	}
+	
+	@Override
+	public String maxCode(String code) {
+		return codeValueMapper.maxCode(code);
+	}
 
+	@Override
+	public List<CodeValue> listCodeValuesByCodes(List<String> codes) {
+		return codeValueMapper.listCodeValuesByCodes(codes);
+	}
 }

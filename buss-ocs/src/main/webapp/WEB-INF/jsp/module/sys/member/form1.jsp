@@ -96,7 +96,7 @@ $(function(){
 					<input name="deptId" id="deptPid" value="${deptId }"  type="hidden" data-error="请选择上级机构" required="required"/>
 					<input name="deptName" id="deptPname" value="${deptName }" class="form-control" required="required" readonly="readonly" type="text"/>
 					<span class="input-group-addon">
-					<a id="chooseLink" href="module/sys-dept-select/dept-select-deptId:deptname" target="dialog" lookupGroup="dept" minable=false title="选择"><i class="icon-search"></i> 选择</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a id="chooseLink" href="module/sys-dept-select/dept-select-deptId:deptName" target="dialog" lookupGroup="dept" minable=false title="选择"><i class="icon-search"></i> 选择</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a title="清除" href="#" onclick="$('#deptPid').val('');$('#deptPname').val('');" ><i class="icon-trash"></i> 清除</a>
 					</span>
 					</div>

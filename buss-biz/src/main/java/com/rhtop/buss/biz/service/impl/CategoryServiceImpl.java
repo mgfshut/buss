@@ -6,6 +6,8 @@ package com.rhtop.buss.biz.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,14 +55,14 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category selectInfoByPrimaryKey(String categoryId){
 		//品类信息
 		Category cate = categoryMapper.selectByPrimaryKey(categoryId);
-		//价格信息
-	/*	List<RelCategoryPrice> relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);*/
+	/*	//价格信息
+		List<RelCategoryPrice> relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
 		RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(categoryId);
+		cate.setRelCategoryPrice(relCategoryPrice);
 		//防止cate为空，报空指针异常
 		if(null==cate){
 			return cate;
-		}
-		cate.setRelCategoryPrice(relCategoryPrice);
+		}*/
 		String newUrl = null;
 		try {
 			newUrl = FileUtil.getPicUrl(cate.getCatePic());
@@ -140,7 +142,6 @@ public class CategoryServiceImpl implements CategoryService {
 				cate.setIsImport(category.getIsImport());
 				
 				categoryMapper.updateCategory(cate);
-				
 				//价格信息
 				RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
 				boolean isExist = false;
@@ -151,11 +152,23 @@ public class CategoryServiceImpl implements CategoryService {
 					isExist = true;
 				}
 				
+				if (category.getRelCategoryPrice() == null){
+					category.setRelCategoryPrice(new RelCategoryPrice());
+				}
+				relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
+				relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+				relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+				relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+				relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+				relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+				relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+				relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
+				relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
+				relCategoryPrice.setCusLoc(category.getCusLoc());
 				relCategoryPrice.setCategoryId(cate.getCategoryId());
 				relCategoryPrice.setCatePri(category.getOfferPri());
 				relCategoryPrice.setOfferAging(category.getOfferAging());
-				//品类导入的时候渠道要自动导入，这里有问题，暂时没做。2017年1月22日
-				//relCategoryPrice.setCusChaVal(category.getCusCha());
+				relCategoryPrice.setCusChaId(category.getCusCha());
 				relCategoryPrice.setCreateUser(category.getUpdateUser());
 				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCategoryPrice.setUpdateUser(category.getUpdateUser());
@@ -197,10 +210,23 @@ public class CategoryServiceImpl implements CategoryService {
 					isExist = true;
 				}
 				
+				if (category.getRelCategoryPrice() == null){
+					category.setRelCategoryPrice(new RelCategoryPrice());
+				}
+				relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
+				relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+				relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+				relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+				relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+				relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+				relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+				relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
+				relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
+				relCategoryPrice.setCusLoc(category.getCusLoc());
 				relCategoryPrice.setCategoryId(category.getCategoryId());
 				relCategoryPrice.setCatePri(category.getOfferPri());
 				relCategoryPrice.setOfferAging(category.getOfferAging());
-				//relCategoryPrice.setCusChaVal(category.getCusCha());
+				relCategoryPrice.setCusChaId(category.getCusCha());
 				relCategoryPrice.setCreateUser(category.getUpdateUser());
 				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCategoryPrice.setUpdateUser(category.getUpdateUser());
