@@ -22,19 +22,19 @@
   <insert id="insertSelective" parameterType="com.rhtop.buss.common.entity.CusckLog" >
   	INSERT INTO buss_cusck_log_ 
   	<trim prefix="(" suffix=")" suffixOverrides="," >
-  		<if test="cusck_log_id_ != null" >
+  		<if test="cusckLogId != null" >
   			cusck_log_id_,
   		</if>
-  		<if test="customer_id_ != null" >
+  		<if test="customerId != null" >
   			customer_id_,
   		</if>
-  		<if test="opr_time_ != null" >
+  		<if test="oprTime != null" >
   			opr_time_,
   		</if>
-  		<if test="opr_user_ != null" >
+  		<if test="oprUser != null" >
   			opr_user_,
   		</if>
-  		<if test="opr_name_ != null" >
+  		<if test="oprName != null" >
   			opr_name_,
   		</if>
   	</trim>
