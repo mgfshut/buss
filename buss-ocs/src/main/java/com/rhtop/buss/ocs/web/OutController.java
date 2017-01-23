@@ -63,7 +63,7 @@ import com.rhtop.buss.common.web.BaseController;
 @RestController
 @RequestMapping(value = "/interface")
 // 设置跨域支持
-@CrossOrigin
+@CrossOrigin(maxAge=3600)
 public class OutController extends BaseController {
 	@Autowired(required=false)
 	@Qualifier("restService")
@@ -468,9 +468,8 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			con.setUpdateUser(memberId);
-			Gson gson = new Gson();
-			String json = gson.toJson(con);
-			readResult = (ResultInfo) service.invoke("writeData-In0010", "POST", json, ResultInfo.class);
+			JSONObject jsonObject = JSONObject.fromObject(con);
+			readResult = (ResultInfo) service.invoke("writeData-In0010", "POST", jsonObject.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}
@@ -1123,7 +1122,95 @@ public class OutController extends BaseController {
 	}
 	
 	/**
-	 * 接口id：upgrade
+	 * 接口id：upgr	 * 接口id：R2019
+	 * @author lujin
+	 * @date 2017-1-23
+	 * 国际采购部，查看品类的报盘详情
+	 * 通过品类id,得到品类的报价详情
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/readData/R2019")
+	public ResultInfo offerPriceInfoByCateId(HttpServletRequest request,@RequestBody Category category){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2019", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2020
+	 * 决策委员会日志报表（客户信息）
+	 * @param customer 分页查 page对象 
+	 * @author lujin
+	 * @date 2017-1-21
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2020")
+	public ResultInfo cusckLogCustomer(HttpServletRequest request,@RequestBody Customer customer){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			//customer.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(customer);
+			readResult =(ResultInfo)service.invoke("readData-R2020", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 接口id：R2021
+	 * 决策委员会日志报表（品类信息）
+	 * @param customer 分页查 page对象 
+	 * @author lujin
+	 * @date 2017-1-21
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2021")
+	public ResultInfo cusckLogCategory(HttpServletRequest request,@RequestBody RelCategoryPrice relCategoryPrice){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(relCategoryPrice);
+			readResult =(ResultInfo)service.invoke("readData-R2021", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id:R2022
+	 * 决策委员会日志报表（实时交易）
+	 * @author lujin
+	 * @date 2017-1-21
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2022")
+	public ResultInfo cusckLogTranscation(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2022", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+ade
 	 * 版本更新
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/upgrade")

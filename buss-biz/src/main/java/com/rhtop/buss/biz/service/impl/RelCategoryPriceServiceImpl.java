@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -57,6 +58,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
+	@Transactional
 	public List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice, String memberId) {
 		List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.listRelCategoryPrices(relCategoryPrice);
 		//根据价格里面的品类ID和渠道ID查询客户和品类关联表内容，主要是确定当前用户是否有这个渠道的品类 信息
@@ -78,6 +80,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
+	@Transactional
 	public ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult,List<RelCategoryPrice> relCategoryPrices, String categoryId, String userId) {
 		try {
 			
@@ -133,6 +136,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
+	@Transactional
 	public ResultInfo createOrUpdateMidPriceByCategoryId(ResultInfo readResult, List<RelCategoryPrice> relCategoryPrices)throws Exception {
 		try {
 			String now = DateUtils.getNowTime();
@@ -252,6 +256,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 
 	@Override
+	@Transactional
 	public ResultInfo createOrUpdateOfferPriceAndTimeByCategoryId(ResultInfo readResult, 
 			RelCategoryPrice relCategoryPrice) throws Exception{
 		try {
@@ -306,6 +311,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	}
 	
 	@Override
+	@Transactional
 	public ResultInfo universeAddCategoryAndPrice(ResultInfo readResult,
 			Category cat) throws Exception {
 		//检查要新增的品类是否已存在于数据库中

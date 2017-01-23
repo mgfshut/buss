@@ -28,10 +28,12 @@ public class ContactsInfoServiceImpl implements ContactsInfoService {
 				throw new Exception("联系人信息不完整！");
 			}
 			if(!Tools.isMobileNO(contactsInfo.getContactPhone())){
-				throw new Exception("手机号格式不合法！");
+				throw new Exception("手机号格式不正确！");
 			}
-			if(!Tools.checkEmail(contactsInfo.getContactMail())){
-				throw new Exception("邮箱格式不合法！");
+			if(!Tools.isEmpty(contactsInfo.getContactMail())){
+				if(!Tools.checkEmail(contactsInfo.getContactMail())){
+					throw new Exception("邮箱格式不正确！");
+				}
 			}
 			status = contactsInfoMapper.insertSelective(contactsInfo);
 		} catch (Exception e) {
@@ -55,10 +57,12 @@ public class ContactsInfoServiceImpl implements ContactsInfoService {
 				throw new Exception("联系人基本信息不完整！");
 			}
 			if(!Tools.isMobileNO(contactsInfo.getContactPhone())){
-				throw new Exception("手机号格式不合法！");
+				throw new Exception("手机号格式不正确！");
 			}
-			if(!Tools.checkEmail(contactsInfo.getContactMail())){
-				throw new Exception("邮箱格式不合法！");
+			if(!Tools.isEmpty(contactsInfo.getContactMail())){
+				if(!Tools.checkEmail(contactsInfo.getContactMail())){
+					throw new Exception("邮箱格式不正确！");
+				}
 			}
 			status = contactsInfoMapper.updateByPrimaryKeySelective(contactsInfo);
 		} catch (Exception e) {
