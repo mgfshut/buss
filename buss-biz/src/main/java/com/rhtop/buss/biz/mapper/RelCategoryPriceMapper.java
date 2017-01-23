@@ -59,5 +59,15 @@ public interface RelCategoryPriceMapper {
 	 * @return
 	 */
 	RelCategoryPrice checkRegMgrCategory(RelCategoryPrice relCategoryPrice);
+	
+	/**
+	 * 决策委员会品类价格信息
+	 * @author lujin
+	 * @date 2017-1-21
+	 * @param relCategoryPrice
+	 * @return
+	 */
+	List<RelCategoryPrice> listPagePriceGroupBycusCha(RelCategoryPrice relCategoryPrice);
+	
     
 }

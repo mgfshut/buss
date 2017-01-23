@@ -6,6 +6,7 @@ package com.rhtop.buss.biz.service;
 import java.util.List;
 
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.Customer;
 
 public interface CategoryService{
     
@@ -80,4 +81,13 @@ public interface CategoryService{
 	 */
 	List<Category> listPageByCustomerAndPrice(String customerId);
 	
+	/**
+	 * 通过品类的id
+	 * 品类的报价详情(还包括供应商，货币单位，计量单位，采购价格，报盘时效，报盘价)
+	 * @author lujin
+	 * @date 2017-1-23
+	 * @param category
+	 * @return
+	 */
+	Category custOfferPiceInfo(Category category);
 }

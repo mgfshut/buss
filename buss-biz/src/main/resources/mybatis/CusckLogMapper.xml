@@ -116,4 +116,34 @@
 			and opr_name_ = #{oprName}
 		</if>
 	</select>
+	
+	<!-- 根据客户id查询对该客户的操作记录 -->
+	<select id="listPageCusckCustomer"  parameterType="com.rhtop.buss.common.entity.CusckLog" resultMap="BaseResultMap">
+	select
+	b.cus_name_,
+	b.cus_cha_,
+	b.cus_type_,
+	c.member_job_,
+	c.member_name_,
+	a.opr_time_
+	from buss_cusck_log_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
+						   LEFT JOIN sys_member_ c on a.opr_user_ = c.member_id_ 
+	where b.customer_id_ = #{customerId}
+	ORDER BY a.opr_time_
+	</select>
+	
+	<!-- 根据客户id查询对该客户的操作记录 -->
+	<select id="selectCusckCustomer"  parameterType="com.rhtop.buss.common.entity.CusckLog" resultMap="BaseResultMap">
+	select
+	a.opr_name_,
+	b.cus_cha_,
+	b.cus_type_,
+	c.member_job_,
+	c.member_name_ as opr_user_,
+	a.opr_time_
+	from buss_cusck_log_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
+						   LEFT JOIN sys_member_ c on a.opr_user_ = c.member_id_ 
+	where b.customer_id_ = #{customerId}
+	ORDER BY a.opr_time_
+	</select>
 </mapper>

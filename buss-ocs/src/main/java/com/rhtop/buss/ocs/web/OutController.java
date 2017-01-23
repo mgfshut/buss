@@ -1122,7 +1122,7 @@ public class OutController extends BaseController {
 	}
 	
 	/**
-	 * 接口id：upgr	 * 接口id：R2019
+	 * 接口id：R2019
 	 * @author lujin
 	 * @date 2017-1-23
 	 * 国际采购部，查看品类的报盘详情
@@ -1210,7 +1210,7 @@ public class OutController extends BaseController {
 		return readResult;
 	}
 	/**
-ade
+	 * 接口id：upgrade
 	 * 版本更新
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/upgrade")

@@ -500,7 +500,7 @@
 	b.offer_pri_,
 	a.cate_pri_,
 	a.offer_aging_,
-	cus_cha_val_
+	a.cus_cha_val_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
 	WHERE b.offer_pri_ != '0' 
 	GROUP BY a.category_id_
@@ -566,4 +566,22 @@
 	category_id_ = #{categoryId}
   </update>
   
+  <!-- 通过品类的id  查 品类的报价详情(还包括供应商，货币单位，计量单位，采购价格，报盘时效，报盘价)-->
+  <select id="custOfferPiceInfo" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
+	select 
+	c.category_id_ , 
+	c.cate_name_,
+	c.manu_num_,
+	c.prod_pla_,
+	c.cate_stan_ ,
+	c.pkg_quan_,
+	c.offer_pri_,
+	a.cate_sup_ ,
+	a.currency_,
+	a.unit_,
+	a.cate_pri_
+	from  buss_category_ c LEFT JOIN  buss_rel_category_price_ a
+		on a.category_id_ = c.category_id_
+	where c.category_id_ = #{categoryId} GROUP BY a.category_id_
+  </select>
 </mapper>

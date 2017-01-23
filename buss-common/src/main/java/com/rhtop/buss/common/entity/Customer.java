@@ -50,6 +50,7 @@ public class Customer {
 	
 	private String crtQua; // 已成交数量
 	
+	private List<CusckLog> cusckLogs;
 	public Page getPage() {
 		return page;
 	}
@@ -289,4 +290,13 @@ public class Customer {
 	public void setCrtQua(String crtQua) {
 		this.crtQua = crtQua;
 	}
+
+	public List<CusckLog> getCusckLogs() {
+		return cusckLogs;
+	}
+
+	public void setCusckLogs(List<CusckLog> cusckLogs) {
+		this.cusckLogs = cusckLogs;
+	}
+
 }
