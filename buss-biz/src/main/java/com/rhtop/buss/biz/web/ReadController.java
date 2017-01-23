@@ -438,7 +438,7 @@ public class ReadController  extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2020")
-	public ResultInfo cusckLogCustomer(@RequestParam() String body){
+	public ResultInfo cusckLogCustomer(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
@@ -462,7 +462,7 @@ public class ReadController  extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2021")
-	public ResultInfo cusckLogCategory(@RequestParam() String body){
+	public ResultInfo cusckLogCategory(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		RelCategoryPrice relCategoryPrice = (RelCategoryPrice) JSONObject.toBean(jsonObject,RelCategoryPrice.class);
@@ -487,7 +487,7 @@ public class ReadController  extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2022")
-	public ResultInfo cusckLogTranscation(@RequestParam() String body){
+	public ResultInfo cusckLogTranscation(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
