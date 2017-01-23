@@ -5,6 +5,8 @@ package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.rhtop.buss.common.entity.CodeValue;
 
 public interface CodeValueMapper {
@@ -58,6 +60,12 @@ public interface CodeValueMapper {
 	 */
 	CodeValue queryCodeValueAndCodeName(String codeMap, String codeName);
 	
-	
+	/**
+	 * 根据代码类型获取最大的代码值
+	 * @param code
+	 * @return
+	 */
 	public String maxCode(String code);
+	
+	public List<CodeValue> listCodeValuesByCodes(@Param("codes") List codes);
 }

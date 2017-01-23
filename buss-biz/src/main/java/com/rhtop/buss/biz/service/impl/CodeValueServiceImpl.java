@@ -93,4 +93,8 @@ public class CodeValueServiceImpl implements CodeValueService {
 		return codeValueMapper.maxCode(code);
 	}
 
+	@Override
+	public List<CodeValue> listCodeValuesByCodes(List<String> codes) {
+		return codeValueMapper.listCodeValuesByCodes(codes);
+	}
 }

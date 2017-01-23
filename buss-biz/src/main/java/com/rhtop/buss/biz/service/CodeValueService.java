@@ -53,6 +53,13 @@ public interface CodeValueService{
 	 * @return
 	 */
 	List<CodeValue> listCodeValuesByCode(String code);
+	
+	/**
+	 * 根据代码集编码获取代码值列表.in方法
+	 * @param code
+	 * @return
+	 */
+	List<CodeValue> listCodeValuesByCodes(List<String> codes);
 	/**
 	 * 根据代码集编码、代码值、代码值描述修改
 	 * @author mgf

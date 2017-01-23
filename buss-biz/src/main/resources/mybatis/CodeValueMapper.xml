@@ -11,6 +11,8 @@
 	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
 	<result column="code_value_" property="codeValue" jdbcType="VARCHAR" />
 	<result column="code_value_describe_" property="codeValueDescribe" jdbcType="VARCHAR" />
+	
+	<result column="code_map_name_" property="codeMapName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -190,6 +192,18 @@
     select a.* from sys_code_value_ a 
     LEFT JOIN sys_code_map_ b ON a.code_map_id_ = b.code_map_id_ 
 	where b.code_ = #{0}
+  </select>
+  
+  <!-- 根据代码集编码获取代码值列表-->
+  <select id="listCodeValuesByCodes" resultMap="BaseResultMap">
+    select a.*,b.code_map_name_ from sys_code_value_ a 
+    LEFT JOIN sys_code_map_ b ON a.code_map_id_ = b.code_map_id_ 
+	where b.code_ in
+	<foreach item="item" index="index" collection="codes" open="("
+        separator="," close=")">
+        #{item}  
+     </foreach>
+     order by b.code_ asc, a.code_value_ asc
   </select>
   
   <!-- 根据代码集编码获取代码值列表-->

@@ -27,6 +27,10 @@ $(document).ready(function() {
 function downloadTemplate(){
 	window.open("<%=request.getContextPath()%>/template/template.xls");
 }
+
+function downloadDictionary(){
+	window.open("<%=request.getContextPath()%>/sys/excel/exportDictionary?codeValue=cusCha,prodPla,cateStan");
+}
 </script>
 <div id="pagerForm" class="pageContent">
 	<form method="post" data-delay="100" action="service/category-excelImport" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
@@ -40,6 +44,7 @@ function downloadTemplate(){
 				</div>
 				<div class="col-xs-12" align="left">
 					<button class="btn btn-lg btn-info" type="button" onclick="downloadTemplate()">下载导入模板</button>
+					<button class="btn btn-lg btn-info" type="button" onclick="downloadDictionary()">下载最新字典</button>
 				</div>
 			</div>
 		</div>	
@@ -51,5 +56,4 @@ function downloadTemplate(){
 			</ul>
 		</div>
 	</form>
-
 </div>
