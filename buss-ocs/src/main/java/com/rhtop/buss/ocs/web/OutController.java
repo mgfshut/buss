@@ -1160,11 +1160,33 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			JSONObject jsonUser = JSONObject.fromObject(relCategoryPrice);
-			readResult =(ResultInfo)service.invoke("readData-R2018", "POST", jsonUser.toString(), ResultInfo.class);
+			readResult =(ResultInfo)service.invoke("readData-R2021", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}
 	
+	/**
+	 * 接口id:R2022
+	 * 决策委员会日志报表（实时交易）
+	 * @author lujin
+	 * @date 2017-1-21
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2022")
+	public ResultInfo cusckLogTranscation(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2022", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
 	/**
 	 * 接口id：upgrade
 	 * 版本更新

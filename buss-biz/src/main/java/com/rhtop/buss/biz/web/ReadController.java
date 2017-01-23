@@ -18,6 +18,7 @@ import com.rhtop.buss.biz.service.ContactsInfoService;
 import com.rhtop.buss.biz.service.ContractInfoService;
 import com.rhtop.buss.biz.service.CusckLogService;
 import com.rhtop.buss.biz.service.CustomerService;
+import com.rhtop.buss.biz.service.DealLogService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
 import com.rhtop.buss.biz.service.RelCustomerCategoryService;
@@ -62,7 +63,8 @@ public class ReadController  extends BaseController {
 	private UpgradeService upgradeService;
 	@Autowired
 	private CusckLogService cusckSer;
-	
+	@Autowired
+	private DealLogService delSer;
 	
 	/**
 	 * 查询所有代码集和代码值
@@ -411,6 +413,7 @@ public class ReadController  extends BaseController {
 	 * 接口id：R2019
 	 * @author lujin
 	 * @date 2017-1-23
+	 * 国际采购部，查看品类的报盘详情
 	 * 通过品类id,得到品类的报价详情
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2019")
@@ -419,11 +422,10 @@ public class ReadController  extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
-		List<Customer> custList = cusSer.selectCustByCateId(category);
+		Category cate = catSer.custOfferPiceInfo(category);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
-//		readResult.setPage(category.getPage());
-//		readResult.setResObject(custList);
+		readResult.setResObject(cate);
 		return readResult;
 	    }
 	
@@ -488,6 +490,16 @@ public class ReadController  extends BaseController {
 	public ResultInfo cusckLogTranscation(@RequestParam() String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
+		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject,TransactionInfo.class);
+		List<TransactionInfo> trans =  delSer.DealLogList(transactionInfo);
+		if(trans == null || trans.size() == 0){
+			readResult.setMessage("无信息!");
+		}else{
+			readResult.setMessage("数据获取成功！");
+		}
+		readResult.setCode("200");
+		readResult.setRecords(trans);
+		readResult.setPage(transactionInfo.getPage());
 		return readResult;
 	}
 	

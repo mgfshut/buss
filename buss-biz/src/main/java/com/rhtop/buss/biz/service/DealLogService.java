@@ -4,7 +4,9 @@
 package com.rhtop.buss.biz.service;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.DealLog;
+import com.rhtop.buss.common.entity.TransactionInfo;
 
 public interface DealLogService{
     
@@ -37,4 +39,9 @@ public interface DealLogService{
 	 * 根据条件分页查询列表
 	 */
 	List<DealLog> listPageDealLog(DealLog dealLog);
+	
+	/**
+	 * 得到交易记录的流程的详情
+	 */
+	public List<TransactionInfo> DealLogList(TransactionInfo transactionInfo);
 }
