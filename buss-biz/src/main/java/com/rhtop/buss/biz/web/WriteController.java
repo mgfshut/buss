@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +32,7 @@ import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeValue;
+import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.CusckLog;
 import com.rhtop.buss.common.entity.Customer;
@@ -531,6 +533,86 @@ public class WriteController extends BaseController{
 		}
 		return readResult;
 	}
+	
+	/**
+	 * 删除联系人的接口
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/In0010")
+	public ResultInfo deleteContact(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContactsInfo con = null;
+		try{
+			con = mapper.readValue(body, ContactsInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.deleteContact]数据解析异常", e);
+		}
+		String userId = con.getUpdateUser();
+		ResultInfo readResult = new ResultInfo();
+		String now = DateUtils.getNowTime();
+		try {
+			contactsSer.deleteContactsInfo(con.getContactsInfoId());
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+			log.error("[WriteController.deleteContact]数据更新异常", e);
+		}
+		try {
+			BusinessDiary bd = new BusinessDiary();
+			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+			bd.setOprTime(now);
+			bd.setOprUser(userId);
+			bd.setOprType("03");
+			bd.setOprName("删除联系人");
+			bd.setOprContent(body);
+			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e1) {
+			log.error("[WriteController.deleteContact]日志记录异常", e1);
+		}
+		
+		return readResult;
+	}
+	/**
+	 * 联系人修改接口
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="In0011")
+	public ResultInfo modifyContact(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContactsInfo con = null;
+		try {
+			con = mapper.readValue(body, ContactsInfo.class);
+		} catch (Exception e) {
+			log.error("[WriteController.modifyContact]",e);
+		}
+		String userId = con.getUpdateUser();
+		String now = DateUtils.getNowTime();
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		try {
+			contactsSer.updateContactsInfo(con);
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage(e.getMessage());
+			log.error("[WriteController.modifyContact]数据更新异常", e);
+		}
+		try {
+			BusinessDiary bd = new BusinessDiary();
+			bd.setBusinessDiaryId(UUID.randomUUID().toString().replace("-", ""));
+			bd.setOprTime(now);
+			bd.setOprUser(userId);
+			bd.setOprType("02");
+			bd.setOprName("修改联系人");
+			bd.setOprContent(body);
+			busDiaSer.insertBusinessDiary(bd);
+		} catch (Exception e) {
+			log.error("[WriteController.modifyContact]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
 	
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/Dl0001")
 	public ResultInfo makeADeal(@RequestParam("body") String body){
@@ -1049,6 +1131,15 @@ public class WriteController extends BaseController{
 		}
 		
 		ResultInfo resultInfo = new ResultInfo();
+		String maxCode = codeValueService.maxCode(codeValue.getCode());
+		if (StringUtils.isEmpty(maxCode)){
+			maxCode = "01";
+		}else{
+			int maxIntCode = Integer.parseInt(maxCode) + 1;
+			maxCode = String.format("%02d", maxIntCode);
+		}
+		
+		codeValue.setCodeValue(maxCode);
 		int i = codeValueService.addCodeValue(codeValue);
 		if(i>0){
 			resultInfo.setCode("200");

@@ -5,7 +5,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
 <script>
-
+$(document).ready(function() {
+	
+	var txStatus = "${txStatus}";
+	if (txStatus == "21"){
+		alertMsg.error("已回盘记录不需要再次操作！");
+		navTab.closeCurrentTab();
+		return;
+	}
+});
 function categoryItemSaveDone(json){
 	if (json.code == DWZ.statusCode.ok){
 		alertMsg.correct(json[DWZ.keys.message]);

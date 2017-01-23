@@ -38,6 +38,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.CodeValue;
+import com.rhtop.buss.common.entity.ContactsInfo;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.Member;
@@ -448,6 +449,52 @@ public class OutController extends BaseController {
 //			Gson gson = new Gson();
 //			String jsonObject = gson.toJson(customer);
 			readResult = (ResultInfo) service.invoke("writeData-In0009", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 删除联系人的接口
+	 * @param request
+	 * @param con 包含contactsInfoId,联系人记录ID
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0010")
+	public ResultInfo deleteContact(HttpServletRequest request, @RequestBody ContactsInfo con){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			con.setUpdateUser(memberId);
+			Gson gson = new Gson();
+			String json = gson.toJson(con);
+			readResult = (ResultInfo) service.invoke("writeData-In0010", "POST", json, ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 联系人修改接口
+	 * @param request
+	 * @param con 包含contactsInfoId(联系人记录ID),contactPhone(联系人手机),contactTel(联系人电话),
+	 * contactName(联系人姓名),contactAddr(联系人地址),contactMail(联系人邮箱),comm(备注信息),其中ID、姓名、手机为必填字段。
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/In0011")
+	public ResultInfo modifyContact(HttpServletRequest request, @RequestBody ContactsInfo con){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			con.setUpdateUser(memberId);
+			Gson gson = new Gson();
+			String json = gson.toJson(con);
+			readResult = (ResultInfo) service.invoke("writeData-In0011", "POST", json, ResultInfo.class);
 		}
 		return readResult;
 	}

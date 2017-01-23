@@ -1,27 +1,35 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.rhtop.buss.biz.service.CodeMapService;
+import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.common.entity.CodeMap;
 import com.rhtop.buss.common.entity.CodeValue;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.Page;
+import com.rhtop.buss.common.entity.RelCustomerCategory;
+import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.exception.BusException;
 import com.rhtop.buss.common.model.ListData;
-import com.rhtop.buss.biz.service.CodeMapService;
-import com.rhtop.buss.biz.service.CodeValueService;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.web.BaseController;
 import com.rhtop.buss.common.web.HtmlMessage;
@@ -162,5 +170,34 @@ public class CodeValueController  extends BaseController {
 	public HtmlMessage  removeCodeValue(@PathVariable("codeValueId") String codeValueId){
 		codeValueService.deleteCodeValue(codeValueId);
 		return new HtmlMessage("删除代码值成功").setCallbackType(null);
+	}
+	
+	/**
+	 * 字典信息导出数据查询
+	 */
+	@ResponseBody
+	@RequestMapping(value="/exportList")
+	public ResultInfo exportList(@RequestParam("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		String codeValue = null;
+		List<String> codeList = new ArrayList<String>();
+		ResultInfo resultInfo = new ResultInfo();
+		List<CodeValue> rList = new ArrayList<CodeValue>();
+		try{
+			Map rJson = mapper.readValue(body, Map.class);
+			codeValue = (String)rJson.get("codeValue");
+			String[] args = codeValue.split(",");
+			for (int i=0; i<args.length; i++){
+				codeList.add(args[i]);
+			}
+			
+			rList = codeValueService.listCodeValuesByCodes(codeList);
+		}catch(Exception e){
+			log.error("[RelCustomerCategoryController.exportList]数据解析异常", e);
+		}
+		
+		resultInfo.setCode("200");
+		resultInfo.setRecords(rList);
+		return resultInfo;
 	}
 }

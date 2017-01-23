@@ -40,11 +40,19 @@ public class ContactsInfoController  extends BaseController {
 			contactsInfo.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 			contactsInfo.setUpdateUser(userId);
 			contactsInfo.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			contactsInfoService.insertContactsInfo(contactsInfo);
+			try {
+				contactsInfoService.insertContactsInfo(contactsInfo);
+			} catch (Exception e) {
+				return new HtmlMessage("数据更新异常");
+			}
 		}else{
 			contactsInfo.setUpdateUser(userId);
 			contactsInfo.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			contactsInfoService.updateContactsInfo(contactsInfo);
+			try {
+				contactsInfoService.updateContactsInfo(contactsInfo);
+			} catch (Exception e) {
+				return new HtmlMessage("数据更新异常");
+			}
 		}
 		return new HtmlMessage(contactsInfo);
 	}
@@ -73,11 +81,16 @@ public class ContactsInfoController  extends BaseController {
 	public InfoResult<ContactsInfo> updateContactsInfo(ContactsInfo contactsInfo){
 		InfoResult<ContactsInfo> infoResult = new InfoResult<ContactsInfo>();
 		contactsInfo.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-		int num = contactsInfoService.updateContactsInfo(contactsInfo);
-		if (num > 0) {
-			infoResult.setCode("200");
-			infoResult.setMsg("修改成功");
-		} else {
+		try {
+			int num = contactsInfoService.updateContactsInfo(contactsInfo);
+			if (num > 0) {
+				infoResult.setCode("200");
+				infoResult.setMsg("修改成功");
+			} else {
+				infoResult.setCode("500");
+				infoResult.setMsg("修改失败");
+			}
+		} catch (Exception e) {
 			infoResult.setCode("500");
 			infoResult.setMsg("修改失败");
 		}

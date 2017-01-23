@@ -28,10 +28,22 @@ public class CodeValue {
 	
 	private String codeValueDescribe;//代码值描述
 	
+	
+	
 	private Page page;//分页
 	
 	private String code;//代码集编码
 	
+	private String codeMapName;//代码集名称
+	
+	public String getCodeMapName() {
+		return codeMapName;
+	}
+
+	public void setCodeMapName(String codeMapName) {
+		this.codeMapName = codeMapName;
+	}
+
 	public String getCode() {
 		return code;
 	}
