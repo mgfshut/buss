@@ -396,7 +396,7 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
-		List<Customer> custList = cusSer.listPageCustByCateId(category);
+		List<Customer> custList = cusSer.selectCustByCateId(category);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 //		readResult.setPage(Customer.getPage());

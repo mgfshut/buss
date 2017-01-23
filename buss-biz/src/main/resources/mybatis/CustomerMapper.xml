@@ -5,7 +5,7 @@
   <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Customer" >
 	<id column="customer_id_" property="customerId" jdbcType="CHAR" />
 	<result column="cus_desc_" property="cusDesc" jdbcType="VARCHAR" />
-	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
+	<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
 	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
 	<result column="ck_status_" property="ckStatus" jdbcType="VARCHAR" />
 	<result column="cus_name_" property="cusName" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
   
   <sql id="Base_Column_List" >
   	cus_desc_,
-  	update_time_,
+  	update_time,
   	cus_type_,
   	ck_status_,
   	cus_name_,
@@ -189,6 +189,21 @@
 	<include refid="Base_Column_List" />
 	from buss_customer_
 	where customer_id_ = #{0}
+  </select>
+  
+  <!-- 根据主键查询对象-->
+  <select id="selectCustByCateId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select
+	a.cus_desc_,
+  	a.cus_type_,
+  	a.ck_status_,
+  	a.cus_name_,
+  	a.cus_loc_,
+  	a.cus_addr_,
+  	a.cus_cha_,
+  	a.customer_id_
+	from buss_customer_ a join buss_rel_customer_category_ c on a.customer_id_=c.customer_id_
+	where c.create_user_ = #{0} and c.category_id_ = #{1}
   </select>
 
   <!-- 根据主键查询对象，部门经理查看自己的客户经理的客户信息-->

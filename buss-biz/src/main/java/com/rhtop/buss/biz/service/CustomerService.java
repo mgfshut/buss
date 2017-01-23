@@ -81,5 +81,5 @@ public interface CustomerService{
 	 * @param category
 	 * @return
 	 */
-	List<Customer> listPageCustByCateId(Category category);
+	List<Customer> selectCustByCateId(Category category);
 }

@@ -81,6 +81,6 @@ public interface CustomerMapper {
 	 * @param category
 	 * @return
 	 */
-	List<Customer> listPageCustByCateId(Category category);
+	List<Customer> selectCustByCateId(String createUser, String customerId);
 	
 }

@@ -366,8 +366,9 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Customer> listPageCustByCateId(Category category) {
-		return  customerMapper.listPageCustByCateId(category);
+	public List<Customer> selectCustByCateId(Category category) {
+		System.out.println(category.getCreateUser()+","+ category.getCategoryId());
+		return  customerMapper.selectCustByCateId(category.getCreateUser(), category.getCategoryId());
 	}
 
 }
