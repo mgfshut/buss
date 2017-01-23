@@ -582,6 +582,6 @@
 	a.cate_pri_
 	from  buss_category_ c LEFT JOIN  buss_rel_category_price_ a
 		on a.category_id_ = c.category_id_
-	where a.category_id_ = #{categoryId} GROUP BY a.category_id_
+	where c.category_id_ = #{categoryId} GROUP BY a.category_id_
   </select>
 </mapper>

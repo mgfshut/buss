@@ -63,7 +63,7 @@ import com.rhtop.buss.common.web.BaseController;
 @RestController
 @RequestMapping(value = "/interface")
 // 设置跨域支持
-@CrossOrigin
+@CrossOrigin(maxAge=3600)
 public class OutController extends BaseController {
 	@Autowired(required=false)
 	@Qualifier("restService")
@@ -1118,6 +1118,28 @@ public class OutController extends BaseController {
 			category.setCreateUser(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(category);
 			readResult =(ResultInfo)service.invoke("readData-R2018", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2019
+	 * @author lujin
+	 * @date 2017-1-23
+	 * 国际采购部，查看品类的报盘详情
+	 * 通过品类id,得到品类的报价详情
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/readData/R2019")
+	public ResultInfo offerPriceInfoByCateId(HttpServletRequest request,@RequestBody Category category){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2019", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}
