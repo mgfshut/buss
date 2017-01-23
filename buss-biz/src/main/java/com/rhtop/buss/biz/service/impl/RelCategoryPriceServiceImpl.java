@@ -90,6 +90,12 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				}
 				relCategoryPrice.setMgrId(userId);
 				relCategoryPrice.setCategoryId(categoryId);
+				RelCustomerCategory cusCat = relCusCatMapper.selectByChaAndCateAndCreater(relCategoryPrice.getUpdateUser(), relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
+				if (cusCat == null){
+					readResult.setCode("500");
+					readResult.setMessage("渠道信息不存在，无法采集数据！");
+					return readResult;
+				}
 				//先通过品类ID检查这条关系记录是否已经存在
 				List<RelCategoryPrice> data = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
 				RelCategoryPrice rel = null;
@@ -100,6 +106,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String now = sdf.format(date);
 				if(rel==null){
+					relCategoryPrice.setCusLoc(cusCat.getCusLoc());
 					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 					relCategoryPrice.setCreateUser(relCategoryPrice.getMgrId());
 					relCategoryPrice.setCreateTime(now);
@@ -116,8 +123,10 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 					relCategoryPriceMapper.updateByCategoryId(rel);
 				}
 				RelCustomerCategory cusCat = relCusCatMapper.selectByChaAndCateAndCreater(relCategoryPrice.getUpdateUser(), relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
-				cusCat.setMgrCk("02");
-				relCusCatMapper.updateByPrimaryKeySelective(cusCat);
+				if (cusCat != null){
+					cusCat.setMgrCk("02");
+					relCusCatMapper.updateByPrimaryKeySelective(cusCat);
+				}
 			}
 		} catch (Exception e) {
 			readResult.setCode("500");
@@ -158,6 +167,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 						}
 						//如果没有数据，关系表新增记录
 						if(rel==null){
+							relCategoryPrice.setCusLoc(cusCat.getCusLoc());
 							relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 							relCategoryPrice.setCreateUser(userId);
 							relCategoryPrice.setCreateTime(now);
