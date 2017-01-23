@@ -101,5 +101,5 @@ public interface CategoryMapper {
 	 * 国际部查询品类的报盘情况
 	 * @return
 	 */
-	List<Category> listPagePriceByUniMgr();
+	List<Category> listPagePriceByUniMgr(Category category);
 }

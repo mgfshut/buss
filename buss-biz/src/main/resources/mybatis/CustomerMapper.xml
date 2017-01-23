@@ -5,7 +5,7 @@
   <resultMap id="BaseResultMap" type="com.rhtop.buss.common.entity.Customer" >
 	<id column="customer_id_" property="customerId" jdbcType="CHAR" />
 	<result column="cus_desc_" property="cusDesc" jdbcType="VARCHAR" />
-	<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
 	<result column="cus_type_" property="cusType" jdbcType="VARCHAR" />
 	<result column="ck_status_" property="ckStatus" jdbcType="VARCHAR" />
 	<result column="cus_name_" property="cusName" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
   
   <sql id="Base_Column_List" >
   	cus_desc_,
-  	update_time,
+  	update_time_,
   	cus_type_,
   	ck_status_,
   	cus_name_,
