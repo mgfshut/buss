@@ -1059,7 +1059,7 @@ public class OutController extends BaseController {
 	 * 国际部回盘列表(已回盘)
 	 * 品类id
 	 */
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2016")
+	/*@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2016")
 	public ResultInfo ctofPrice(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
@@ -1071,6 +1071,53 @@ public class OutController extends BaseController {
 			transactionInfo.setCreateUser(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
 			readResult =(ResultInfo)service.invoke("readData-R2016", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}*/
+	/**
+	 *  接口id：R2017
+	 * @author lujin
+	 * @date 2017-1-22
+	 * 国际采购人员 回盘与报盘 详情
+	 * 返回该交易的客户与品类的信息
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2017")
+	public ResultInfo CustAndCateInfo(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
+			readResult =(ResultInfo)service.invoke("readData-R2017", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id：R2018
+	 * @author lujin
+	 * @date 2017-1-23
+	 * 发起交易(选择品类信息)
+	 * 通过品类id，创建者，得到创建者的客户信息
+	 * @param request
+	 * @param category
+	 * @return
+	 */
+	@RequestMapping(method = { RequestMethod.POST, RequestMethod.GET }, value = "/readData/R2018")
+	public ResultInfo CustInfoByCateId(HttpServletRequest request,@RequestBody Category category){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			category.setCreateUser(memberId);
+			JSONObject jsonUser = JSONObject.fromObject(category);
+			readResult =(ResultInfo)service.invoke("readData-R2018", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}

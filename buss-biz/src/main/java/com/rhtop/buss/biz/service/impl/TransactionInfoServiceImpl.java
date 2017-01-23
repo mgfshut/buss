@@ -29,8 +29,6 @@ import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 
-import freemarker.template.utility.StringUtil;
-
 @Service("transactionInfoService")
 public class TransactionInfoServiceImpl implements TransactionInfoService {
 
@@ -375,7 +373,47 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	@Override
 	public List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo) {
 		List<TransactionInfo> tras = transactionInfoMapper.listPageInfo(transactionInfo);
+		for(TransactionInfo tra:tras){
+			//品类信息
+			tra.setCate(catMapper.selectByPrimaryKey(tra.getCategoryId()));	
+			//客户信息
+			tra.setCust(cusMapper.selectInfoByPrimaryKey(tra.getCustomerId()));
+		}
 		return tras;
+	}
+
+	@Override
+	public TransactionInfo CustAndCateAndPriceInfo(TransactionInfo transactionInfo) {
+		TransactionInfo tran = transactionInfoMapper.selectByPrimaryKey(transactionInfo.getTransactionInfoId());//得到该交易的详情
+		//品类信息
+		tran.setCate(catMapper.selectByPrimaryKey(tran.getCategoryId()));	
+		//客户信息
+		Customer cust = cusMapper.selectByPrimaryKey(tran.getCustomerId());
+		tran.setCust(cust);
+		// 回盘记录信息
+		SlaTransactionInfo slaTransactionInfo = new SlaTransactionInfo();
+		slaTransactionInfo.setTransactionInfoId(tran.getTransactionInfoId());
+		List<SlaTransactionInfo> listSla = slaTxMapper.listSlaTransactionInfos(slaTransactionInfo);
+		// 格式化回盘记录的时间格式（MM-dd HH:mm ）
+		for (SlaTransactionInfo sl : listSla) {
+			try {
+				// 采取的字符的截取
+				if (StringUtils.isEmpty(sl.getCtofTime())) {
+					sl.setCtofTime(sl.getCtofTime());
+				} else {
+					sl.setCtofTime(sl.getCtofTime().substring(5, 16));
+				}
+				if (StringUtils.isEmpty(sl.getPcasTime())) {
+					sl.setPcasTime(sl.getPcasTime());
+				} else {
+					sl.setPcasTime(sl.getPcasTime().substring(5, 16));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		tran.setSla(listSla);
+		return tran;
 	}
 	
 }

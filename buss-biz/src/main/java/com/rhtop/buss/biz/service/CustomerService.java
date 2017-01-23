@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service;
 
 import java.util.List;
 
+import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.ResultInfo;
 
@@ -72,4 +73,13 @@ public interface CustomerService{
 	 */
 	Customer selectCustomerInfo(Customer customer);
 	
+	/**
+	 * 通过品类id和创建者id，查找该创建者的客户信息
+	 * 
+	 * @author lujin
+	 * @date 2017-1-32
+	 * @param category
+	 * @return
+	 */
+	List<Customer> listPageCustByCateId(Category category);
 }

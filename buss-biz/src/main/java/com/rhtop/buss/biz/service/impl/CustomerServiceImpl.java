@@ -11,11 +11,9 @@ import java.util.UUID;
 
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.ContactsInfo;
-import com.rhtop.buss.common.entity.CusckLog;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.RelCustomerCategory;
 import com.rhtop.buss.common.entity.ResultInfo;
-import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContactsInfoMapper;
 import com.rhtop.buss.biz.mapper.CustomerMapper;
@@ -366,4 +364,10 @@ public class CustomerServiceImpl implements CustomerService {
 		cus.setContacts(conts);
 		return cus;
 	}
+
+	@Override
+	public List<Customer> listPageCustByCateId(Category category) {
+		return  customerMapper.listPageCustByCateId(category);
+	}
+
 }
