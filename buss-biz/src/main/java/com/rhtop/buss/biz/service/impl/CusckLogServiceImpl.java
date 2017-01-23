@@ -2,7 +2,6 @@ package com.rhtop.buss.biz.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,6 @@ import com.rhtop.buss.biz.service.CusckLogService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.common.entity.CusckLog;
 import com.rhtop.buss.common.entity.Customer;
-import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 
 @Service("cusckLogService")
@@ -62,17 +60,7 @@ public class CusckLogServiceImpl implements CusckLogService {
 		for(Customer cu:custs){
 			CusckLog cusckLog = new CusckLog();
 			cusckLog.setCustomerId(cu.getCustomerId());
-			System.out.println("getCustomerId:"+cu.getCustomerId());
 			List<CusckLog>  cusckLogs = cusckLogMapper.selectCusckCustomer(cusckLog);
-			/*if (cusckLogs != null && cusckLogs.size() > 0){
-				for (int i=0; i<cusckLogs.size(); i++){
-					CusckLog log = cusckLogs.get(i);
-					if (StringUtils.isNotEmpty(log.getOprUser())){
-						Member member = memberService.selectByPrimaryKey(log.getOprUser());
-						log.setOprUser(member.getMemberName());
-					}
-				}
-			}*/
 			//将操作记录装到Customer中
 			cu.setCusckLogs(cusckLogs);
 		}
