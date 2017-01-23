@@ -508,7 +508,7 @@
 	</select>
 	
 	<!-- 国际采购人员查询报盘(已报盘和未报盘)情况 -->
-	<select id="listPagePriceByUniMgr" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	<select id="listPagePriceByUniMgr" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap" >
 	select
 	b.category_id_ ,
 	b.cate_name_,
