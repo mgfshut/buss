@@ -17,6 +17,7 @@ import com.rhtop.buss.biz.mapper.RelCategoryPriceMapper;
 import com.rhtop.buss.biz.mapper.RelCustomerCategoryMapper;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.RelCategoryPrice;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.FileUtil;
@@ -242,6 +243,11 @@ public class CategoryServiceImpl implements CategoryService {
 		Category category = new Category ();
 		category.setCreateUser(customerId);
 		return categoryMapper.listPageByCustomerAndPrice(category);
+	}
+
+	@Override
+	public Category custOfferPiceInfo(Category category) {
+		return categoryMapper.custOfferPiceInfo(category);
 	}
 
 }

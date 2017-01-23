@@ -16,6 +16,7 @@ import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.CodeMapService;
 import com.rhtop.buss.biz.service.ContactsInfoService;
 import com.rhtop.buss.biz.service.ContractInfoService;
+import com.rhtop.buss.biz.service.CusckLogService;
 import com.rhtop.buss.biz.service.CustomerService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RelCategoryPriceService;
@@ -59,6 +60,8 @@ public class ReadController  extends BaseController {
 	private ContractInfoService contractSer;
 	@Autowired
 	private UpgradeService upgradeService;
+	@Autowired
+	private CusckLogService cusckSer;
 	
 	
 	/**
@@ -369,8 +372,8 @@ public class ReadController  extends BaseController {
 	 * 接口id：R2017
 	 * @author lujin
 	 * @date 2017-1-22
-	 * 国际采购人员 回盘与报盘 详情
-	 * 返回该交易的客户与品类的信息
+	 * 国际采购人员 回盘  详情
+	 * 返回该交易的客户与品类的信息以及交易记录详情
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2017")
 	public ResultInfo CustAndCateInfo(@RequestParam("body") String body){
@@ -399,10 +402,94 @@ public class ReadController  extends BaseController {
 		List<Customer> custList = cusSer.selectCustByCateId(category);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
-//		readResult.setPage(Customer.getPage());
+		readResult.setPage(category.getPage());
 		readResult.setResObject(custList);
 		return readResult;
 	    }
+	
+	/**
+	 * 接口id：R2019
+	 * @author lujin
+	 * @date 2017-1-23
+	 * 通过品类id,得到品类的报价详情
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2019")
+	public ResultInfo offerPriceInfoByCateId(@RequestParam("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		
+		Category category = (Category) JSONObject.toBean(jsonObject, Category.class);
+		List<Customer> custList = cusSer.selectCustByCateId(category);
+		readResult.setCode("200");
+		readResult.setMessage("数据获取成功！");
+//		readResult.setPage(category.getPage());
+//		readResult.setResObject(custList);
+		return readResult;
+	    }
+	
+	/**
+	 * 接口id:R2020
+	 * 决策委员会日志报表（客户采集）
+	 * @author lujin
+	 * @date 2017-1-21
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2020")
+	public ResultInfo cusckLogCustomer(@RequestParam() String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Customer customer = (Customer) JSONObject.toBean(jsonObject,Customer.class);
+		List<Customer> custs = cusckSer.cusCkLogCustomer(customer);
+		if(custs == null || custs.size() == 0){
+			readResult.setMessage("无信息!");
+		}else{
+			readResult.setMessage("数据获取成功！");
+		}
+		readResult.setCode("200");
+		readResult.setPage(customer.getPage());
+		readResult.setRecords(custs);
+		return readResult;
+	}
+	/**
+	 * 接口id:R2021
+	 * 决策委员会日志报表（品类报盘）
+	 * @author lujin
+	 * @date 2017-1-21
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2021")
+	public ResultInfo cusckLogCategory(@RequestParam() String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		RelCategoryPrice relCategoryPrice = (RelCategoryPrice) JSONObject.toBean(jsonObject,RelCategoryPrice.class);
+		List<RelCategoryPrice> rcps =  cusckSer.cusCkLogRelCategoryPrice(relCategoryPrice);
+		if(rcps == null || rcps.size() == 0){
+			readResult.setMessage("无信息!");
+		}else{
+			readResult.setMessage("数据获取成功！");
+		}
+		readResult.setCode("200");
+		readResult.setRecords(rcps);
+		readResult.setPage(relCategoryPrice.getPage());
+		return readResult;
+	}
+	
+	/**
+	 * 接口id:R2022
+	 * 决策委员会日志报表（实时交易）
+	 * @author lujin
+	 * @date 2017-1-21
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2022")
+	public ResultInfo cusckLogTranscation(@RequestParam() String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		return readResult;
+	}
 	
 	/**
 	 * 接口id：R2009

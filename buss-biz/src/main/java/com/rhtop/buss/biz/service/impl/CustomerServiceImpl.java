@@ -315,13 +315,13 @@ public class CustomerServiceImpl implements CustomerService {
 				if(ckStatus=="00"||ckStatus.equals("00")||Integer.parseInt(ckStatus)==00){
 					cus.setCkStatus("01");
 					customerMapper.updateByPrimaryKeySelective(cus);
-//					CusckLog ckLog = new CusckLog();
-//					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
-//					ckLog.setCustomerId(cus.getCustomerId());
-//					ckLog.setOprName("分部经理审核客户信息");
-//					ckLog.setOprUser(userId);
-//					ckLog.setOprTime(DateUtils.getNowTime());
-//					cusckSer.insertCusckLog(ckLog);
+					CusckLog ckLog = new CusckLog();
+					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+					ckLog.setCustomerId(cus.getCustomerId());
+					ckLog.setOprName("分部经理审核客户信息");
+					ckLog.setOprUser(userId);
+					ckLog.setOprTime(DateUtils.getNowTime());
+					cusckSer.insertCusckLog(ckLog);
 					return 0;
 				}else{
 					return 2;
@@ -331,13 +331,13 @@ public class CustomerServiceImpl implements CustomerService {
 				if(ckStatus=="01"||ckStatus.equals("01")||Integer.parseInt(ckStatus)==01){
 					cus.setCkStatus("02");
 					customerMapper.updateByPrimaryKeySelective(cus);
-//					CusckLog ckLog = new CusckLog();
-//					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
-//					ckLog.setCustomerId(cus.getCustomerId());
-//					ckLog.setOprName("总经理审核客户信息");
-//					ckLog.setOprUser(userId);
-//					ckLog.setOprTime(DateUtils.getNowTime());
-//					cusckSer.insertCusckLog(ckLog);
+					CusckLog ckLog = new CusckLog();
+					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
+					ckLog.setCustomerId(cus.getCustomerId());
+					ckLog.setOprName("总经理审核客户信息");
+					ckLog.setOprUser(userId);
+					ckLog.setOprTime(DateUtils.getNowTime());
+					cusckSer.insertCusckLog(ckLog);
 					return 0;
 				}else{
 					return 2;
