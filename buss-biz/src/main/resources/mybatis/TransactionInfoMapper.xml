@@ -448,7 +448,7 @@
 	<if test="qType != null and qType != ''" >
 			and a.tx_status_ in ('20','21')
 	</if>
-    ORDER BY a.update_time_ DESC
+    ORDER BY a.update_time_ DESC , a.tx_status_ DESC
   </select>
   
   <!-- 改：根据条件分页查询列表   根据状态查询 -->

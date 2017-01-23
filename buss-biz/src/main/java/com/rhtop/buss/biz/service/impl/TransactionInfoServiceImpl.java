@@ -413,16 +413,6 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			}
 		}
 		tran.setSla(listSla);
-		// 价格信息
-		RelCategoryPrice rel = new RelCategoryPrice();
-		String catId = tran.getCategoryId();
-		String chaId = cust.getCusCha();
-		try {
-			rel = relCPMapper.selectByCategoryIdAndChaId(catId, chaId).get(0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		tran.setRel(rel);// 价格信息
 		return tran;
 	}
 	

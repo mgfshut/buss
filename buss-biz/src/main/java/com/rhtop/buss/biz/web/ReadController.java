@@ -319,14 +319,14 @@ public class ReadController  extends BaseController {
 	 * 接口id：R2015
 	 * 品类id
 	 * 国际采购人员 回盘列表(未回盘)
+	 * 国际采购人员 回盘列表(已回盘)
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2015")
 	public ResultInfo notCtofPrice(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
-		//未回盘列表:交易状态为20 
-		transactionInfo.setTxStatus("20");
+		transactionInfo.setqType("20");
 		List<TransactionInfo> trans = traSer.listPageInfo(transactionInfo);
 		if (trans.size()!=0 ){
 			readResult.setCode("200");
@@ -344,7 +344,7 @@ public class ReadController  extends BaseController {
 	 * 接口id：R2016
 	 * 品类id
 	 * 国际采购人员 回盘列表(已回盘)
-	 */
+	 *//*
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2016")
 	public ResultInfo ctofPrice(@RequestParam("body") String body){
 		ResultInfo readResult = new ResultInfo();
@@ -363,7 +363,7 @@ public class ReadController  extends BaseController {
 			readResult.setMessage("不存在已回盘的信息！");
 		}
 		return readResult;
-	    }
+	    }*/
 	
 	/**
 	 * 接口id：R2017

@@ -96,4 +96,10 @@ public interface CategoryMapper {
 	 * @author lujin
 	 */
 	int updateCategory(Category category);
+	
+	/**
+	 * 国际部查询品类的报盘情况
+	 * @return
+	 */
+	List<Category> listPagePriceByUniMgr();
 }
