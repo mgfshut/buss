@@ -122,9 +122,17 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 					rel.setUpdateTime(now);
 					relCategoryPriceMapper.updateByCategoryId(rel);
 				}
+<<<<<<< HEAD
+				RelCustomerCategory cusCat = relCusCatMapper.selectByChaAndCateAndCreater(relCategoryPrice.getUpdateUser(), relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
+				if (cusCat != null){
+					cusCat.setMgrCk("02");
+					relCusCatMapper.updateByPrimaryKeySelective(cusCat);
+				}
+=======
 				
 				cusCat.setMgrCk("02");
 				relCusCatMapper.updateByPrimaryKeySelective(cusCat);
+>>>>>>> branch 'develop' of http://192.168.10.233/buss/java.git
 			}
 		} catch (Exception e) {
 			readResult.setCode("500");
