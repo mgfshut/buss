@@ -71,5 +71,4 @@
          transaction-manager：引用上面定义的事务管理器  
      -->  
     <tx:annotation-driven transaction-manager="txManager"/>
-	
 </beans>

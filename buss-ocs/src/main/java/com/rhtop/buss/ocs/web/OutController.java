@@ -1160,6 +1160,7 @@ public class OutController extends BaseController {
 		readResult.setCode(result.get("code").toString());
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
+			//customer.setCreateUser(memberId);
 			JSONObject jsonUser = JSONObject.fromObject(customer);
 			readResult =(ResultInfo)service.invoke("readData-R2020", "POST", jsonUser.toString(), ResultInfo.class);
 		}

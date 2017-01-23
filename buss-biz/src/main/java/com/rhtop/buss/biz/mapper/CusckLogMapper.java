@@ -33,4 +33,6 @@ public interface CusckLogMapper {
 	 * @return
 	 */
 	List<CusckLog> listPageCusckCustomer(CusckLog cusckLog);
+	
+	List<CusckLog> selectCusckCustomer(CusckLog cusckLog);
 }
