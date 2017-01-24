@@ -85,6 +85,7 @@ public class Category {
 	
 	private String isImport;//是否excel导入数据.00或为空不是；10是
 	
+	
 	public String getIsImport() {
 		return isImport;
 	}

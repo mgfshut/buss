@@ -86,7 +86,7 @@ function categoryItemSaveDone(json){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">报盘价：</label>
 				<div class="col-sm-8">
-				<input type="text" name="offerPri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput" required="required" value="${offerPri}">
+				<input type="text" name="catePri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput" required="required" value="${catePri}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
