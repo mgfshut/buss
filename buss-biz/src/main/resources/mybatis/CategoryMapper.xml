@@ -376,7 +376,20 @@
   <!-- 根据客户信息查询客户所属的品类信息 -->
   <select id="listCategoryByCustomer" parameterType="java.lang.String" resultMap="BaseResultMap">
 	select 
-	<include refid="Base_Column_List"/>
+	a.update_time_,
+  	comm_,
+  	cate_name_,
+  	a.create_time_,
+  	manu_num_,
+  	a.category_id_,
+  	b.create_user_,
+  	offer_aging_,
+  	offer_pri_,
+  	prod_pla_,
+  	cate_stan_,
+  	pkg_quan_,
+  	cate_pic_,
+  	a.update_user
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{0}
