@@ -29,6 +29,14 @@
 	<result column="mgr_ck_" property="mgrCk" jdbcType="VARCHAR" />
 	<result column="reg_mgr_ck_" property="regMgrCk" jdbcType="VARCHAR" />
 	
+	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
+	<result column="coo_inten_comm" property="cooIntenComm" jdbcType="VARCHAR" />
+	
+	<result column="unit_" property="unit" jdbcType="VARCHAR" />
+	<result column="currency_" property="currency" jdbcType="VARCHAR" />
+	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
+	<result column="cate_pri_" property="catePri" jdbcType="VARCHAR" />
+	
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -371,7 +379,9 @@
   <!-- 根据客户信息查询客户所属的品类信息 -->
   <select id="listCategoryByCustomer" parameterType="java.lang.String" resultMap="BaseResultMap">
 	select 
-	c.*
+	c.*,
+	a.coo_inten_,
+	a.coo_inten_comm
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{0}
@@ -474,7 +484,10 @@
 	a.unit_,
 	b.offer_pri_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE b.offer_pri_ = '0'   
+	WHERE b.offer_pri_ = '0'  
+	<if test="cateName != null and cateName != ''" >
+		and b.cate_name_ like "%" #{cateName} "%"
+	</if> 
 	GROUP BY a.category_id_
 	ORDER BY a.update_time_  DESC
 	</select>
@@ -511,7 +524,10 @@
 	b.prod_pla_,
 	b.pkg_quan_,
 	b.offer_pri_
-	from buss_category_ b  
+	from buss_category_ b  where 1=1 
+	<if test="cateName != null and cateName != ''" >
+		and b.cate_name_ like "%" #{cateName} "%"
+	</if>
 	ORDER BY b.update_time_  DESC
 	</select>
 	
@@ -531,7 +547,7 @@
   </select>
   
   <!-- 根据客户信息查询客户所属的品类信息并且品类的报价大于0或者不能为空 -->
-  <select id="listPageByCustomerAndPrice" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
+  <!-- <select id="listPageByCustomerAndPrice" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
 	select 
 	c.category_id_ , 
 	c.cate_name_,
@@ -542,7 +558,21 @@
 	c.offer_pri_ 
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
-	where b.customer_id_ = #{createUser} and c.offer_pri_ != '' or c.offer_pri_ >0 order by a.update_time_ DESC
+	where a.customer_id_ = #{createUser} and c.offer_pri_ != '' or c.offer_pri_ >0 order by a.update_time_ DESC
+  </select> -->
+  <!-- 改写上面的方法 2017-1-24 鲁津 -->
+   <select id="listPageByCustomerAndPrice" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
+	SELECT 
+	a.category_id_ , 
+	c.cate_name_,
+	c.manu_num_,
+	c.prod_pla_,
+	c.cate_stan_ ,
+	c.pkg_quan_,
+	c.offer_pri_ 
+	FROM buss_rel_customer_category_ a ,buss_customer_ b , buss_category_ c  
+	WHERE a.customer_id_ = b.customer_id_ and a.category_id_ = c.category_id_  and b.customer_id_ = #{createUser} and c.offer_pri_ != '0' 
+    ORDER BY a.update_time_ DESC
   </select>
   
   <update id="updateCategory" parameterType="com.rhtop.buss.common.entity.Category" >
@@ -570,6 +600,7 @@
 	c.cate_stan_ ,
 	c.pkg_quan_,
 	c.offer_pri_,
+	c.offer_aging_,
 	a.cate_sup_ ,
 	a.currency_,
 	a.unit_,
