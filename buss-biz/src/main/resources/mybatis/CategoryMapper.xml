@@ -30,7 +30,7 @@
 	<result column="reg_mgr_ck_" property="regMgrCk" jdbcType="VARCHAR" />
 	
 	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
-	<result column="coo_inten_comm" property="cooIntenComm" jdbcType="VARCHAR" />
+	<result column="coo_inten_comm_" property="cooIntenComm" jdbcType="VARCHAR" />
 	
 	<result column="unit_" property="unit" jdbcType="VARCHAR" />
 	<result column="currency_" property="currency" jdbcType="VARCHAR" />
@@ -381,7 +381,7 @@
 	select 
 	c.*,
 	a.coo_inten_,
-	a.coo_inten_comm
+	a.coo_inten_comm_
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{0}
