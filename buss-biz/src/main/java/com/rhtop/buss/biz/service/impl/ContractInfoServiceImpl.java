@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -81,6 +82,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String createContract(ContractInfo con) throws Exception {
 		try {
 			TransactionInfo tx = new TransactionInfo();
@@ -159,6 +161,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String checkContract(ContractInfo con) throws Exception {
 		String conId = con.getContractInfoId();
 		try {
@@ -194,6 +197,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String contractStamp(ContractInfo con) {
 		String conId = con.getContractInfoId();
 		try {
@@ -243,6 +247,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String treasurerCheckContract(ContractInfo con) throws Exception{
 		String conId = con.getContractInfoId();
 		try {

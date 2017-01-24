@@ -174,6 +174,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
+	@Transactional
 	public ResultInfo updateCustomerInfo(ResultInfo  readResult,Customer customer) throws Exception{
 		List<ContactsInfo> contacts = customer.getContacts();
 		List<Category> categorys = customer.getCategorys();
@@ -305,6 +306,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Transactional
 	public int checkCustomer(int checkLevel, String userId, Customer cus) {
 		try {
 			//获取当前的该用户审核状态
