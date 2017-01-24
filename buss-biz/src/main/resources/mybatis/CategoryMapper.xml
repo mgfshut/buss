@@ -379,6 +379,11 @@
   <!-- 根据客户信息查询客户所属的品类信息 -->
   <select id="listCategoryByCustomer" parameterType="java.lang.String" resultMap="BaseResultMap">
 	select 
+	a.update_time_,
+  	a.create_time_,
+  	a.category_id_,
+  	b.create_user_,
+  	a.update_user,
 	c.*,
 	a.coo_inten_,
 	a.coo_inten_comm_
