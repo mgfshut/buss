@@ -53,7 +53,7 @@ public interface CategoryMapper {
 	 * @param memberId
 	 * @return
 	 */
-	List<Category> listPriceByMgr(String memberId);
+	List<Category> listPriceByMgr(Category memberId);
 	
 	/**
 	 * 分部经理查询报价信息
@@ -61,7 +61,7 @@ public interface CategoryMapper {
 	 * @param memberId
 	 * @return
 	 */
-	List<Category> listPriceByRegMgr(String memberId);
+	List<Category> listPriceByRegMgr(Category memberId);
 	/**
 	 * 国际采购人员查询未报盘情况
 	 * @param memberId

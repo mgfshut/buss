@@ -439,7 +439,7 @@
 	 order by  a.reg_mgr_ck_ ASC, c.update_time_  DESC
 	 </select> -->
 	 <!-- 客户经理查询报价信息 (客户经理所属的客户的品类信息) -->
-	<select id="listPriceByMgr" resultMap="BaseResultMap"  parameterType="java.lang.String">
+	<select id="listPriceByMgr" resultMap="BaseResultMap"  parameterType="com.rhtop.buss.common.entity.Category">
 	select
 	a.rel_customer_category_id_,
 	b.category_id_ ,
@@ -451,11 +451,16 @@
 	a.cus_cha_id_,
 	a.mgr_ck_
 	from buss_category_ b  left join buss_rel_customer_category_ a on a.category_id_ = b.category_id_
-	where a.create_user_ = #{createUser} GROUP BY b.category_id_ order by  a.mgr_ck_ ASC , a.update_time_  DESC  
+	where a.create_user_ = #{createUser}
+	<if test="cateName != null and cateName != ''" >
+		and b.cate_name_ like "%" #{cateName} "%"
+	</if> 
+	
+	 GROUP BY b.category_id_ order by  a.mgr_ck_ ASC , a.update_time_  DESC  
 	</select>
 	
 	<!--分部经理查询报价信息  -->
-	<select id="listPriceByRegMgr" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="listPriceByRegMgr" resultMap="BaseResultMap" parameterType="com.rhtop.buss.common.entity.Category">
 	select
 	a.rel_customer_category_id_,
 	b.category_id_ ,
@@ -471,6 +476,9 @@
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_ 
 	where  a.create_user_ in
 	( select a.member_id_ from sys_member_ a LEFT JOIN sys_member_ b on a.dept_id_ = b.dept_id_  where b.member_id_ = #{createUser} ) 
+	<if test="cateName != null and cateName != ''" >
+		and b.cate_name_ like "%" #{cateName} "%"
+	</if> 
 	 GROUP BY b.category_id_
 	 order by  a.reg_mgr_ck_ ASC, a.update_time_  DESC
 	 </select>

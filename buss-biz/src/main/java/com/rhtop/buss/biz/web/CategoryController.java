@@ -603,6 +603,7 @@ public class CategoryController  extends BaseController {
 						category.setProdPla(prodPla);
 						category.setComm(formatCell(hssfRow.getCell(5)));
 						category.setCusLoc(formatCell(hssfRow.getCell(cellIndex[6])));
+						//渠道
 						String cusCha = formatCell(hssfRow.getCell(7));
 						if (StringUtils.isEmpty(cusCha)){
 							HtmlMessage html = new HtmlMessage(new Category());

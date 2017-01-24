@@ -110,10 +110,10 @@ public class CategoryServiceImpl implements CategoryService {
 		//对职务进行判断
 		if("01".equals(memberJob)){//客户经理
 			//客户经理查询自己的信息采集情况
-			catelist = categoryMapper.listPriceByMgr(memberId);
+			catelist = categoryMapper.listPriceByMgr(category);
 		}else if("02".equals(memberJob)){//分部经理
 			//分部经理查询自己的信息采集情况（自己创建的五个价格需要自己填写）
-			catelist = categoryMapper.listPriceByRegMgr(memberId);
+			catelist = categoryMapper.listPriceByRegMgr(category);
 		}else if("03".equals(memberJob)){//国际采购部
 //			国际采购人员查看报盘情况(已报盘/未报盘) 00:未报盘  01:已报盘
 //			String isOffer = category.getIsOffer();
@@ -140,7 +140,8 @@ public class CategoryServiceImpl implements CategoryService {
 				
 				categoryMapper.updateCategory(cate);
 				//价格信息
-				List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
+				List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.selectByCategoryIdAndChaId(cate.getCategoryId(), category.getCusCha());
+				//relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
 				RelCategoryPrice relCategoryPrice = null;
 				if (relCategoryPriceList == null || relCategoryPriceList.size() == 0){
 					relCategoryPrice = new RelCategoryPrice();
@@ -172,6 +173,18 @@ public class CategoryServiceImpl implements CategoryService {
 					for (int i=0; i<relCategoryPriceList.size(); i++){
 						RelCategoryPrice item = relCategoryPriceList.get(i);
 						
+						if (category.getRelCategoryPrice() == null){
+							category.setRelCategoryPrice(new RelCategoryPrice());
+						}
+						item.setCateSup(category.getRelCategoryPrice().getCateSup());
+						item.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+						item.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+						item.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+						item.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+						item.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+						item.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+						item.setFutMin(category.getRelCategoryPrice().getFutMin());
+						item.setFutMax(category.getRelCategoryPrice().getFutMax());
 						item.setCatePri(category.getOfferPri());
 						item.setOfferAging(category.getOfferAging());
 						item.setUpdateUser(category.getUpdateUser());
@@ -202,7 +215,7 @@ public class CategoryServiceImpl implements CategoryService {
 				relcc.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCustomerCategoryMapper.insertSelective(relcc);*/
 				
-				List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
+				List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.selectByCategoryIdAndChaId(category.getCategoryId(), category.getCusCha());
 				RelCategoryPrice relCategoryPrice = null;
 				if (relCategoryPriceList == null || relCategoryPriceList.size() == 0){
 					relCategoryPrice = new RelCategoryPrice();
@@ -234,6 +247,18 @@ public class CategoryServiceImpl implements CategoryService {
 					for (int i=0; i<relCategoryPriceList.size(); i++){
 						RelCategoryPrice item = relCategoryPriceList.get(i);
 						
+						if (category.getRelCategoryPrice() == null){
+							category.setRelCategoryPrice(new RelCategoryPrice());
+						}
+						item.setCateSup(category.getRelCategoryPrice().getCateSup());
+						item.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+						item.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+						item.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+						item.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+						item.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+						item.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+						item.setFutMin(category.getRelCategoryPrice().getFutMin());
+						item.setFutMax(category.getRelCategoryPrice().getFutMax());
 						item.setCatePri(category.getOfferPri());
 						item.setOfferAging(category.getOfferAging());
 						item.setUpdateUser(category.getUpdateUser());
