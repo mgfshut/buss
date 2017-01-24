@@ -411,9 +411,21 @@
    <!-- 根据品类id和创建者id，查询该创建者的客户信息 -->
   <select id="listPageByCustomerAndPrice" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
 	select 
-	<include refid="Base_Column_List" />
+	b.*
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where a.customer_id_ = #{createUser} and  a.category_id_ = #{categoryId} order by a.update_time_ DESC
   </select>
+  
+  <!-- 根据创建者得到该创建者的客户信息 -->
+  <select id="listPageCustByCreateUser"  parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
+	select
+	b.*
+	from buss_customer_ b
+	where b.customer_user_ = #{createUser}
+	<if test="ckStatus != null and ckStatus != ''">
+		and b.ck_status_ = #{ckStatus}
+	</if>
+  </select>
+  
 </mapper>

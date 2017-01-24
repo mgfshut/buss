@@ -268,7 +268,7 @@ public class ReadController  extends BaseController {
 		//查询客户信息(通过审核了的)
 		customer.setCkStatus("02");
 		//查询客户信息
-		List<Customer> customerlist = cusSer.listPageCustomer(customer);
+		List<Customer> customerlist = cusSer.listPageCustByCreateUser(customer);
 		readResult.setCode("200");
 		readResult.setMessage("数据获取成功！");
 		readResult.setPage(customer.getPage());
