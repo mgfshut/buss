@@ -656,6 +656,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("31");
 			dlog.setOprName("发起交易");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.makeADeal]日志记录异常", e);
 		}
@@ -696,6 +697,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("32");
 			dlog.setOprName("客户回盘");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.makeNegotiate]日志记录异常", e);
 		}
@@ -739,6 +741,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("32");
 			dlog.setOprName("国际部回盘");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			readResult.setCode("500");
 			readResult.setMessage(e.getMessage());
@@ -779,10 +782,10 @@ public class WriteController extends BaseController{
 			dlog.setOprTime(now);
 			dlog.setTransactionInfoId(tx.getTransactionInfoId());
 			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
-			dlog.setOprType("32")
-			;
+			dlog.setOprType("32");
 			dlog.setOprName("决委会审核回盘");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.domainNegotiate]日志记录异常", e);
 		}
@@ -818,6 +821,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("41");
 			dlog.setOprName("合同创建");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.createContract]日志记录异常", e);
 		}
@@ -907,6 +911,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("42");
 			dlog.setOprName("总经理合同审定");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.checkContract]日志记录异常", e);
 		}
@@ -947,6 +952,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("42");
 			dlog.setOprName("行政合同审定、盖章");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.contractStamp]日志记录异常", e);
 		}
@@ -988,6 +994,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("54");
 			dlog.setOprName("合同下载");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.downloadContract]日志记录异常", e);
 		}
@@ -1028,6 +1035,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("42");
 			dlog.setOprName("财务审核合同");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.treasurerCheckContract]日志记录异常", e);
 		}
@@ -1069,6 +1077,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("42");
 			dlog.setOprName("填写快递单号");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.setExpressId]日志记录异常", e);
 		}
@@ -1111,6 +1120,7 @@ public class WriteController extends BaseController{
 			dlog.setOprType("42");
 			dlog.setOprName("取消合同");
 			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
 		} catch (Exception e) {
 			log.error("[WriteController.cancleTransaction]日志记录异常", e);
 		}
