@@ -29,6 +29,9 @@
 	<result column="mgr_ck_" property="mgrCk" jdbcType="VARCHAR" />
 	<result column="reg_mgr_ck_" property="regMgrCk" jdbcType="VARCHAR" />
 	
+	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
+	<result column="coo_inten_comm_" property="cooIntenComm" jdbcType="VARCHAR" />
+	
 	<result column="unit_" property="unit" jdbcType="VARCHAR" />
 	<result column="currency_" property="currency" jdbcType="VARCHAR" />
 	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
@@ -377,19 +380,13 @@
   <select id="listCategoryByCustomer" parameterType="java.lang.String" resultMap="BaseResultMap">
 	select 
 	a.update_time_,
-  	comm_,
-  	cate_name_,
   	a.create_time_,
-  	manu_num_,
   	a.category_id_,
   	b.create_user_,
-  	offer_aging_,
-  	offer_pri_,
-  	prod_pla_,
-  	cate_stan_,
-  	pkg_quan_,
-  	cate_pic_,
-  	a.update_user
+  	a.update_user,
+	c.*,
+	a.coo_inten_,
+	a.coo_inten_comm_
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{0}

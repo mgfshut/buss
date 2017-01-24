@@ -93,7 +93,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				}
 				relCategoryPrice.setMgrId(userId);
 				relCategoryPrice.setCategoryId(categoryId);
-				RelCustomerCategory cusCat = relCusCatMapper.selectByChaAndCateAndCreater(relCategoryPrice.getUpdateUser(), relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
+				RelCustomerCategory cusCat = relCusCatMapper.selectByChaAndCateAndCreater(userId, relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
 				if (cusCat == null){
 					readResult.setCode("500");
 					readResult.setMessage("渠道信息不存在，无法采集数据！");
