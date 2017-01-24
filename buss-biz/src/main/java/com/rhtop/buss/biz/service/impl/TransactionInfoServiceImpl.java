@@ -377,14 +377,23 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 
 	@Override
 	public List<TransactionInfo> listPageInfo(TransactionInfo transactionInfo) {
-		List<TransactionInfo> tras = transactionInfoMapper.listPageInfo(transactionInfo);
-		for(TransactionInfo tra:tras){
-			//品类信息
-			tra.setCate(catMapper.selectByPrimaryKey(tra.getCategoryId()));	
-			//客户信息
-			tra.setCust(cusMapper.selectInfoByPrimaryKey(tra.getCustomerId()));
+		//模糊查询--->1.得到关键字，2.得到品类id，3.将品类的id set到TransactionInfo
+		List<TransactionInfo> tras = null;
+		Category category = new Category();
+		category.setCateName(transactionInfo.getCateName());
+		List<Category> cates = catMapper.listCategorys(category);
+		for (Category cata : cates) {
+			transactionInfo.setCategoryId(cata.getCategoryId());
+			transactionInfo.setCateName("");
+			tras = transactionInfoMapper.listPageInfo(transactionInfo);
+			for (TransactionInfo tra : tras) {
+				// 品类信息
+				tra.setCate(catMapper.selectByPrimaryKey(tra.getCategoryId()));
+				// 客户信息
+				tra.setCust(cusMapper.selectInfoByPrimaryKey(tra.getCustomerId()));
+			}
 		}
-		return tras;
+	return tras;
 	}
 
 	@Override
