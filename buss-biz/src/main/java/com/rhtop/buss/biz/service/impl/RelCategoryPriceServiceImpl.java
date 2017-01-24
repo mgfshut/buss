@@ -291,8 +291,8 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			cat.setOfferAging(relCategoryPrice.getOfferAging());
 			catSer.updateCategory(cat);
 			//检查品类/价格关系表中是否有记录
-			RelCategoryPrice catPri = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
-			if(catPri==null){
+			List<RelCategoryPrice> catPriList = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
+			if(catPriList == null || catPriList.size() == 0){
 				//没有则新建记录
 				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 				relCategoryPrice.setCreateTime(relCategoryPrice.getUpdateTime());
@@ -302,7 +302,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				//有则更新记录。
 				int i = relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
 				readResult.setMessage("成功更新"+i+"条数据");
-				}
+			}
 		} catch (Exception e) {
 			readResult.setCode("500");
 			readResult.setMessage("数据更新时出现异常。"+e.getMessage());

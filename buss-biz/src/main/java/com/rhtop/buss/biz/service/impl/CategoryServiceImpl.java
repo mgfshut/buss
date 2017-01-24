@@ -142,42 +142,45 @@ public class CategoryServiceImpl implements CategoryService {
 				
 				categoryMapper.updateCategory(cate);
 				//价格信息
-				RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
-				boolean isExist = false;
-				if (relCategoryPrice == null){
+				List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
+				RelCategoryPrice relCategoryPrice = null;
+				if (relCategoryPriceList == null || relCategoryPriceList.size() == 0){
 					relCategoryPrice = new RelCategoryPrice();
 					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
-				}else{
-					isExist = true;
-				}
-				
-				if (category.getRelCategoryPrice() == null){
-					category.setRelCategoryPrice(new RelCategoryPrice());
-				}
-				relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
-				relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
-				relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
-				relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
-				relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
-				relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
-				relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
-				relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
-				relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
-				relCategoryPrice.setCusLoc(category.getCusLoc());
-				relCategoryPrice.setCategoryId(cate.getCategoryId());
-				relCategoryPrice.setCatePri(category.getOfferPri());
-				relCategoryPrice.setOfferAging(category.getOfferAging());
-				relCategoryPrice.setCusChaId(category.getCusCha());
-				relCategoryPrice.setCreateUser(category.getUpdateUser());
-				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				relCategoryPrice.setUpdateUser(category.getUpdateUser());
-				relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				if (!isExist){
+					
+					if (category.getRelCategoryPrice() == null){
+						category.setRelCategoryPrice(new RelCategoryPrice());
+					}
+					relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
+					relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+					relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+					relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+					relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+					relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+					relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+					relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
+					relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
+					relCategoryPrice.setCusLoc(category.getCusLoc());
+					relCategoryPrice.setCategoryId(cate.getCategoryId());
+					relCategoryPrice.setCatePri(category.getOfferPri());
+					relCategoryPrice.setOfferAging(category.getOfferAging());
+					relCategoryPrice.setCusChaId(category.getCusCha());
+					relCategoryPrice.setCreateUser(category.getUpdateUser());
+					relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+					relCategoryPrice.setUpdateUser(category.getUpdateUser());
+					relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 					relCategoryPriceMapper.insertSelective(relCategoryPrice);
 				}else{
-					relCategoryPriceMapper.updateByPrimaryKeySelective(relCategoryPrice);
+					for (int i=0; i<relCategoryPriceList.size(); i++){
+						RelCategoryPrice item = relCategoryPriceList.get(i);
+						
+						item.setCatePri(category.getOfferPri());
+						item.setOfferAging(category.getOfferAging());
+						item.setUpdateUser(category.getUpdateUser());
+						item.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						relCategoryPriceMapper.updateByPrimaryKeySelective(item);
+					}
 				}
-				
 			}else{
 				cate.setCateName(category.getCateName());
 				cate.setCateStan(category.getCateStan());
@@ -187,6 +190,7 @@ public class CategoryServiceImpl implements CategoryService {
 				if(categoryList.size()>0){
 					category = categoryList.get(0);
 				}else{
+					category.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
 					categoryMapper.insertSelective(category);
 				}
 				/*RelCustomerCategory relcc = new RelCustomerCategory();
@@ -200,40 +204,44 @@ public class CategoryServiceImpl implements CategoryService {
 				relcc.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				relCustomerCategoryMapper.insertSelective(relcc);*/
 				
-				RelCategoryPrice relCategoryPrice = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
-				boolean isExist = false;
-				if (relCategoryPrice == null){
+				List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.selectByCategoryId(cate.getCategoryId());
+				RelCategoryPrice relCategoryPrice = null;
+				if (relCategoryPriceList == null || relCategoryPriceList.size() == 0){
 					relCategoryPrice = new RelCategoryPrice();
 					relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
-				}else{
-					isExist = true;
-				}
-				
-				if (category.getRelCategoryPrice() == null){
-					category.setRelCategoryPrice(new RelCategoryPrice());
-				}
-				relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
-				relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
-				relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
-				relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
-				relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
-				relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
-				relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
-				relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
-				relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
-				relCategoryPrice.setCusLoc(category.getCusLoc());
-				relCategoryPrice.setCategoryId(category.getCategoryId());
-				relCategoryPrice.setCatePri(category.getOfferPri());
-				relCategoryPrice.setOfferAging(category.getOfferAging());
-				relCategoryPrice.setCusChaId(category.getCusCha());
-				relCategoryPrice.setCreateUser(category.getUpdateUser());
-				relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				relCategoryPrice.setUpdateUser(category.getUpdateUser());
-				relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-				if (!isExist){
+					
+					if (category.getRelCategoryPrice() == null){
+						category.setRelCategoryPrice(new RelCategoryPrice());
+					}
+					relCategoryPrice.setCateSup(category.getRelCategoryPrice().getCateSup());
+					relCategoryPrice.setAcptPri(category.getRelCategoryPrice().getAcptPri());
+					relCategoryPrice.setWholesalePri(category.getRelCategoryPrice().getWholesalePri());
+					relCategoryPrice.setSpotMin(category.getRelCategoryPrice().getSpotMin());
+					relCategoryPrice.setSpotMax(category.getRelCategoryPrice().getSpotMax());
+					relCategoryPrice.setInterFutMin(category.getRelCategoryPrice().getInterFutMin());
+					relCategoryPrice.setInterFutMax(category.getRelCategoryPrice().getInterFutMax());
+					relCategoryPrice.setFutMin(category.getRelCategoryPrice().getFutMin());
+					relCategoryPrice.setFutMax(category.getRelCategoryPrice().getFutMax());
+					relCategoryPrice.setCusLoc(category.getCusLoc());
+					relCategoryPrice.setCategoryId(category.getCategoryId());
+					relCategoryPrice.setCatePri(category.getOfferPri());
+					relCategoryPrice.setOfferAging(category.getOfferAging());
+					relCategoryPrice.setCusChaId(category.getCusCha());
+					relCategoryPrice.setCreateUser(category.getUpdateUser());
+					relCategoryPrice.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+					relCategoryPrice.setUpdateUser(category.getUpdateUser());
+					relCategoryPrice.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 					relCategoryPriceMapper.insertSelective(relCategoryPrice);
 				}else{
-					relCategoryPriceMapper.updateByPrimaryKeySelective(relCategoryPrice);
+					for (int i=0; i<relCategoryPriceList.size(); i++){
+						RelCategoryPrice item = relCategoryPriceList.get(i);
+						
+						item.setCatePri(category.getOfferPri());
+						item.setOfferAging(category.getOfferAging());
+						item.setUpdateUser(category.getUpdateUser());
+						item.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
+						relCategoryPriceMapper.updateByPrimaryKeySelective(item);
+					}
 				}
 			}
 		}
