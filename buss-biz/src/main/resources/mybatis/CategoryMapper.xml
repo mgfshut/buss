@@ -28,8 +28,15 @@
 	<result column="is_collect_" property="isCollect" jdbcType="VARCHAR" />
 	<result column="mgr_ck_" property="mgrCk" jdbcType="VARCHAR" />
 	<result column="reg_mgr_ck_" property="regMgrCk" jdbcType="VARCHAR" />
+	
 	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
 	<result column="coo_inten_comm" property="cooIntenComm" jdbcType="VARCHAR" />
+	
+	<result column="unit_" property="unit" jdbcType="VARCHAR" />
+	<result column="currency_" property="currency" jdbcType="VARCHAR" />
+	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
+	<result column="cate_pri_" property="catePri" jdbcType="VARCHAR" />
+	
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -477,7 +484,10 @@
 	a.unit_,
 	b.offer_pri_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE b.offer_pri_ = '0'   
+	WHERE b.offer_pri_ = '0'  
+	<if test="cateName != null and cateName != ''" >
+		and b.cate_name_ like "%" #{cateName} "%"
+	</if> 
 	GROUP BY a.category_id_
 	ORDER BY a.update_time_  DESC
 	</select>
@@ -514,7 +524,10 @@
 	b.prod_pla_,
 	b.pkg_quan_,
 	b.offer_pri_
-	from buss_category_ b  
+	from buss_category_ b  where 1=1 
+	<if test="cateName != null and cateName != ''" >
+		and b.cate_name_ like "%" #{cateName} "%"
+	</if>
 	ORDER BY b.update_time_  DESC
 	</select>
 	
@@ -587,6 +600,7 @@
 	c.cate_stan_ ,
 	c.pkg_quan_,
 	c.offer_pri_,
+	c.offer_aging_,
 	a.cate_sup_ ,
 	a.currency_,
 	a.unit_,

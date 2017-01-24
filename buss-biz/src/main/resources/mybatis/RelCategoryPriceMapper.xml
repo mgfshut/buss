@@ -37,6 +37,7 @@
 	<result column="cate_stan_" property="cateStan" jdbcType="VARCHAR" />
 	<result column="manu_num_" property="manuNum" jdbcType="VARCHAR" />
 	<result column="prod_pla_" property="prodPla" jdbcType="VARCHAR" />
+	<result column="offer_pri_" property="offerPri" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -415,11 +416,11 @@
 		<if test="offerUpdateTime != null and offerUpdateTime != ''" >
         	offer_update_time_ = #{offerUpdateTime},
       	</if>
-		<if test="catePri != null and catePri != ''" >
-        	category_id_ = #{catePri},
-      	</if>
       	<if test="cusLoc != null and cusLoc != ''" >
         	cus_loc_ = #{cusLoc},
+      	</if>
+      	<if test="catePri != null and catePri != ''" >
+        	cate_pri_ = #{catePri},
       	</if>
     </set>
     where 
@@ -705,6 +706,7 @@
   a.cate_stan_,
   a.manu_num_,
   a.prod_pla_,
+  a.offer_pri_,
   b.* 
   from buss_category_ a LEFT JOIN buss_rel_category_price_ b on a.category_id_ = b.category_id_
   ORDER BY  b.category_id_ ,b.cus_cha_id_,b.update_time_

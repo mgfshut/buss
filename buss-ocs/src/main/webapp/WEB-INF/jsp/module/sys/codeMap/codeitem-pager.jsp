@@ -8,6 +8,7 @@
 <!-- 分页、搜索表单 -->	
 <form id="pagerForm" action="sys/code/item/pager" method="post" onsubmit="return divSearch(this, 'codeitem-pager');">
 
+<input type="hidden" name="code" value="${param.code}" />
 <input type="hidden" name="currentPage" value="${page.currentPage}" />
 <%-- <input type="hidden" name="totalResult" value="${page.totalResult}" /> --%>
 <%-- <input type="hidden" name="totalPage" value="${page.totalPage}" /> --%>
@@ -20,7 +21,7 @@
 <div class="panelBar">
 	<div class="btn-group">
 		<a class="btn btn-primary btn-sm" href="sys/code/item/form?code=${param.code}" mask="true" target="navTab" rel="codeSaveTab" title="添加代码项"><i class="icon-plus"></i> <span>添加</span></a>
-		<a class="btn btn-danger btn-sm" callback="removeCodeSuccess" href="service/codeValue-remove-{codeValueId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
+		<a class="btn btn-danger btn-sm" callback="removeCodeItemSuccess" href="service/codeValue-remove-{codeValueId}" target="ajaxTodo" title="确定要删除吗?"><i class="icon-minus"></i> <span>删除</span></a>
 		<a class="btn btn-warning btn-sm" href="sys/code/item/form/{codeValueId}" mask="true" title="修改代码项" target="navTab" rel="codeSaveTab" ><i class="icon-pencil"></i> <span>修改</span></a>
 	</div>
 </div>
