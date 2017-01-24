@@ -640,7 +640,7 @@ public class CategoryController  extends BaseController {
 						category.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 						//提取价格相关信息
 						RelCategoryPrice price = new RelCategoryPrice();
-						category.setRelCategoryPrice(price);
+						
 						//供应商
 						String gys = formatCell(hssfRow.getCell(10));
 						if (StringUtils.isNotEmpty(gys)){
@@ -648,12 +648,12 @@ public class CategoryController  extends BaseController {
 						}
 						//批发价
 						String pifj = formatCell(hssfRow.getCell(11));
-						if (StringUtils.isNotEmpty(pifj) && StringUtils.isNumeric(pifj)){
+						if (StringUtils.isNotEmpty(pifj)){
 							price.setWholesalePri(Float.parseFloat(pifj));
 						}
 						//接盘价
 						String jpj = formatCell(hssfRow.getCell(12));
-						if (StringUtils.isNotEmpty(jpj) && StringUtils.isNumeric(jpj)){
+						if (StringUtils.isNotEmpty(jpj)){
 							price.setAcptPri(Float.parseFloat(jpj));
 						}
 						//现货价
@@ -693,6 +693,7 @@ public class CategoryController  extends BaseController {
 							}
 						}
 						
+						category.setRelCategoryPrice(price);
 						categorys.add(category);
 						
 					/*
