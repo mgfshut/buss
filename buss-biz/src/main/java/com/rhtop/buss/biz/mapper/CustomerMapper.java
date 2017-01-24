@@ -77,10 +77,19 @@ public interface CustomerMapper {
 	 * 通过品类id和创建者id，查找该创建者的客户信息
 	 * 
 	 * @author lujin
-	 * @date 2017-1-32
+	 * @date 2017-1-23
 	 * @param category
 	 * @return
 	 */
 	List<Customer> selectCustByCateId(String createUser, String customerId);
+	
+	/**
+	 * 通过创建者id得到该创建的客户信息
+	 * @author lujin
+	 * @Date 2017-1-24
+	 * @param customer
+	 * @return
+	 */
+	List<Customer> listPageCustByCreateUser(Customer customer);
 	
 }

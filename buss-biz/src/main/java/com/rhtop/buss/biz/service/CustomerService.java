@@ -82,4 +82,13 @@ public interface CustomerService{
 	 * @return
 	 */
 	List<Customer> selectCustByCateId(Category category);
+	
+	/**
+	 * 通过创建者的id得到自己所创建的客户信息
+	 * @author lujin
+	 * @Date 2017-1-24
+	 * @param category
+	 * @return
+	 */
+	List<Customer> listPageCustByCreateUser(Customer customer);
 }
