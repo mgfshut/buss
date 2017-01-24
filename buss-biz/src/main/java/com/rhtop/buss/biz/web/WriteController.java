@@ -465,6 +465,7 @@ public class WriteController extends BaseController{
 		try {
 			readResult = catPriSer.universeAddCategoryAndPrice(readResult, cat);
 		} catch (Exception e) {
+			e.printStackTrace();
 			readResult.setCode("500");
 			readResult.setMessage(e.getMessage());
 			log.error("[WriteController.universeAddCategory]数据更新异常", e);

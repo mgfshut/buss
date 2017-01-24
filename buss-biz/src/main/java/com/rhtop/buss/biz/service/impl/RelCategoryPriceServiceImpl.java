@@ -284,7 +284,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				}
 			}
 			//换算价格
-			BigDecimal offerPri = UnitUtils.unitConver(relCategoryPrice.getCurrency(), new BigDecimal(relCategoryPrice.getOfferPri()), relCategoryPrice.getUnit(), rate);
+			BigDecimal offerPri = UnitUtils.unitConver(relCategoryPrice.getCurrency(), new BigDecimal(relCategoryPrice.getCatePri()), relCategoryPrice.getUnit(), rate);
 			//换算好的报盘价添加到品类表中
 			Category cat = catSer.selectByPrimaryKey(relCategoryPrice.getCategoryId());
 			cat.setOfferPri(offerPri.floatValue());
@@ -317,7 +317,8 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 		//检查要新增的品类是否已存在于数据库中
 		String userId = cat.getUpdateUser();
 		String now = cat.getUpdateTime();
-		if(catSer.checkCategoryExist(cat)==null){
+		Category exist = catSer.checkCategoryExist(cat);
+		if(exist == null){
 			//新增品类
 			cat.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
 			cat.setCreateTime(now);
@@ -325,6 +326,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			catSer.insertCategory(cat);
 			//新增品类价格关系数据
 			RelCategoryPrice catPri = new RelCategoryPrice();
+			catPri.setCategoryId(cat.getCategoryId());
 			catPri.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 			catPri.setUniMgrId(userId);
 			catPri.setUpdateTime(now);
@@ -338,12 +340,9 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			catPri.setCreateTime(now);
 			createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
 		}else{
-			//品类信息存在，更新品类信息
-			cat.setUpdateTime(now);
-			cat.setUpdateUser(userId);
-			catSer.updateCategory(cat);
 			//更新品类价格信息
 			RelCategoryPrice catPri = new RelCategoryPrice();
+			catPri.setCategoryId(exist.getCategoryId());
 			catPri.setUniMgrId(userId);
 			catPri.setUpdateTime(now);
 			catPri.setUpdateUser(userId);

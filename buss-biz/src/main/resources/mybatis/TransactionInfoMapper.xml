@@ -448,6 +448,9 @@
 	<if test="qType != null and qType != ''" >
 			and a.tx_status_ in ('20','21')
 	</if>
+	<if test="cateName != null and cateName != ''" >
+			and c.cate_name_ like "%" #{cateName} "%"
+	</if>
     ORDER BY a.update_time_ DESC , a.tx_status_ DESC
   </select>
   
