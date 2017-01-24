@@ -373,7 +373,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<Customer> selectCustByCateId(Category category) {
-		System.out.println(category.getCreateUser()+","+ category.getCategoryId());
 		return  customerMapper.selectCustByCateId(category.getCreateUser(), category.getCategoryId());
 	}
 
