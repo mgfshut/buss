@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContractInfoMapper;
@@ -55,6 +56,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String createDeal(TransactionInfo tx){
 		try {
 			String transactionInfoId = null;
@@ -99,8 +101,8 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			throw e;
 		}
 	}
-//TODO：国际部未回盘客户可以再次更改客户价
 	@Override
+	@Transactional
 	public ResultInfo cusNegotiate(ResultInfo readResult, TransactionInfo tx) throws Exception{
 		try {
 			tx.setTxStatus("20");
@@ -158,6 +160,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String universeNegotiate(TransactionInfo tx) throws Exception{
 		try {
 			String transactionInfoId = tx.getTransactionInfoId();
@@ -181,6 +184,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String domainNegotiate(TransactionInfo tx) throws Exception{
 		try {
 			String transactionInfoId = tx.getTransactionInfoId();
@@ -219,6 +223,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
+	
 	public TransactionInfo selectByPrimaryKey(String transactionInfoId) {
 		TransactionInfo tra = transactionInfoMapper
 				.selectByPrimaryKey(transactionInfoId);
