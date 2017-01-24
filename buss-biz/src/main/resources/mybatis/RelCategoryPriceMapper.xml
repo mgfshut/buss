@@ -31,6 +31,12 @@
 	<result column="cus_cha_id_" property="cusChaId" jdbcType="VARCHAR" />
 	<result column="cus_cha_val_" property="cusChaVal" jdbcType="VARCHAR" />
 	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
+	
+	<!-- 品类信息 -->
+	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
+	<result column="cate_stan_" property="cateStan" jdbcType="VARCHAR" />
+	<result column="manu_num_" property="manuNum" jdbcType="VARCHAR" />
+	<result column="prod_pla_" property="prodPla" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >

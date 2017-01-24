@@ -1195,7 +1195,7 @@ public class OutController extends BaseController {
 	 * @param body
 	 * @return
 	 */
-	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2022")
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/readData/R2022")
 	public ResultInfo cusckLogTranscation(HttpServletRequest request,@RequestBody TransactionInfo transactionInfo){
 		ResultInfo readResult = new ResultInfo();
 		String token = request.getHeader("token");
