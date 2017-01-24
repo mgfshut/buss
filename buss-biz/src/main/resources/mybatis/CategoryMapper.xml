@@ -28,7 +28,8 @@
 	<result column="is_collect_" property="isCollect" jdbcType="VARCHAR" />
 	<result column="mgr_ck_" property="mgrCk" jdbcType="VARCHAR" />
 	<result column="reg_mgr_ck_" property="regMgrCk" jdbcType="VARCHAR" />
-	
+	<result column="coo_inten_" property="cooInten" jdbcType="VARCHAR" />
+	<result column="coo_inten_comm" property="cooIntenComm" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -371,7 +372,9 @@
   <!-- 根据客户信息查询客户所属的品类信息 -->
   <select id="listCategoryByCustomer" parameterType="java.lang.String" resultMap="BaseResultMap">
 	select 
-	<include refid="Base_Column_List"/>
+	c.*,
+	a.coo_inten_,
+	a.coo_inten_comm
 	from buss_rel_customer_category_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_
 	LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where b.customer_id_ = #{0}
