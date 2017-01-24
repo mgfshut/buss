@@ -320,7 +320,7 @@ public class CustomerServiceImpl implements CustomerService {
 					CusckLog ckLog = new CusckLog();
 					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
 					ckLog.setCustomerId(cus.getCustomerId());
-					ckLog.setOprName("分部经理审核客户信息");
+					ckLog.setOprName("分部经理审核");
 					ckLog.setOprUser(userId);
 					ckLog.setOprTime(DateUtils.getNowTime());
 					cusckSer.insertCusckLog(ckLog);
@@ -336,7 +336,7 @@ public class CustomerServiceImpl implements CustomerService {
 					CusckLog ckLog = new CusckLog();
 					ckLog.setCusckLogId(UUID.randomUUID().toString().replace("-", ""));
 					ckLog.setCustomerId(cus.getCustomerId());
-					ckLog.setOprName("总经理审核客户信息");
+					ckLog.setOprName("总经理审核");
 					ckLog.setOprUser(userId);
 					ckLog.setOprTime(DateUtils.getNowTime());
 					cusckSer.insertCusckLog(ckLog);
