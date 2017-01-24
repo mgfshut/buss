@@ -78,7 +78,35 @@ public class RelCategoryPrice {
 	private String uniMgrName;// 国际采购人员名
 	private Float offerPri;//报盘价
 	
+	private String cateStan;// 规格
+	private String manuNum;// 厂号
+	private String prodPla;// 产地
 	
+	
+	public String getCateStan() {
+		return cateStan;
+	}
+
+	public void setCateStan(String cateStan) {
+		this.cateStan = cateStan;
+	}
+
+	public String getManuNum() {
+		return manuNum;
+	}
+
+	public void setManuNum(String manuNum) {
+		this.manuNum = manuNum;
+	}
+
+	public String getProdPla() {
+		return prodPla;
+	}
+
+	public void setProdPla(String prodPla) {
+		this.prodPla = prodPla;
+	}
+
 	public String getCusLoc() {
 		return cusLoc;
 	}

@@ -31,6 +31,12 @@
 	<result column="cus_cha_id_" property="cusChaId" jdbcType="VARCHAR" />
 	<result column="cus_cha_val_" property="cusChaVal" jdbcType="VARCHAR" />
 	<result column="cus_loc_" property="cusLoc" jdbcType="VARCHAR" />
+	
+	<!-- 品类信息 -->
+	<result column="cate_name_" property="cateName" jdbcType="VARCHAR" />
+	<result column="cate_stan_" property="cateStan" jdbcType="VARCHAR" />
+	<result column="manu_num_" property="manuNum" jdbcType="VARCHAR" />
+	<result column="prod_pla_" property="prodPla" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -692,5 +698,15 @@
     where 
 	rel_category_price_id_ = #{relCategoryPriceId}
   </update>
-  
+  <!-- 得到品类的六个价格根据渠道和品类id分组 -->
+  <select id="listPagePriceGroupBycusCha" parameterType="com.rhtop.buss.common.entity.RelCategoryPrice" resultMap="BaseResultMap">
+  select  
+  a.cate_name_,
+  a.cate_stan_,
+  a.manu_num_,
+  a.prod_pla_,
+  b.* 
+  from buss_category_ a LEFT JOIN buss_rel_category_price_ b on a.category_id_ = b.category_id_
+  ORDER BY  b.category_id_ ,b.cus_cha_id_,b.update_time_
+  </select>
 </mapper>
