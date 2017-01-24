@@ -544,7 +544,7 @@ public class WriteController extends BaseController{
 	public ResultInfo deleteContact(@RequestParam("body") String body){
 		ObjectMapper mapper = new ObjectMapper();
 		ContactsInfo con = null;
-		System.out.println(body);
+//		System.out.println(body);
 		try{
 			con = mapper.readValue(body, ContactsInfo.class);
 		}catch(Exception e){

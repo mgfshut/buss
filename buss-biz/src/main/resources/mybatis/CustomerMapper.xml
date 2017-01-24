@@ -422,7 +422,7 @@
 	select
 	b.*
 	from buss_customer_ b
-	where b.customer_user_ = #{createUser}
+	where b.create_user_ = #{createUser}
 	<if test="ckStatus != null and ckStatus != ''">
 		and b.ck_status_ = #{ckStatus}
 	</if>
