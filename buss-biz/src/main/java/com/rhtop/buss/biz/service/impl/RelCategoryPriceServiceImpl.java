@@ -81,15 +81,16 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 
 	@Override
 	@Transactional
-	public ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult,List<RelCategoryPrice> relCategoryPrices, String categoryId, String userId) {
+	public ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult,List<RelCategoryPrice> relCategoryPrices, String categoryId, String userId) throws Exception{
 		try {
 			
 			for(RelCategoryPrice relCategoryPrice : relCategoryPrices){
 				if(relCategoryPrice.getWholesalePri()==null||relCategoryPrice.getWholesalePri().floatValue() == 0||
 						relCategoryPrice.getAcptPri()==null||relCategoryPrice.getAcptPri().floatValue() == 0){
-					readResult.setCode("500");
-					readResult.setMessage("请完整填写价格，任一渠道的价格都不可为空。");
-					return readResult;
+					throw new Exception("请完整填写价格，任一渠道的价格都不可为空。");
+				}
+				if(relCategoryPrice.getWholesalePri()<=0||relCategoryPrice.getAcptPri()<=0){
+					throw new Exception("价格信息不可为负数！");
 				}
 				relCategoryPrice.setMgrId(userId);
 				relCategoryPrice.setCategoryId(categoryId);
@@ -147,7 +148,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				RelCustomerCategory cusCat = relCusCatMapper.selectByChaAndCateAndCreater(relCategoryPrice.getUpdateUser(), relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
 				//有记录，那么这条记录是直接由分部经理创建的，因此他要维护五个价格（包括客户经理的那两个）。
 				if(cusCat!=null){
-					//做非空校验
+//					//做非空校验,由于前端已经做了校验，如果信息不完整传的是空数组，所以在Controller已经做了判断了，这里就不需要了但是还需要一个大小的和不小于零的判断。
 					if(relCategoryPrice.getWholesalePri()==null||relCategoryPrice.getWholesalePri().equals(0)||
 							relCategoryPrice.getAcptPri()==null||relCategoryPrice.getAcptPri().equals(0)||
 							relCategoryPrice.getSpotMin()==null||relCategoryPrice.getSpotMin().equals(0)||
@@ -156,9 +157,16 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 							 relCategoryPrice.getFutMax()==null||relCategoryPrice.getFutMax().equals(0)||
 						relCategoryPrice.getInterFutMin()==null||relCategoryPrice.getInterFutMin().equals(0)||
 						relCategoryPrice.getInterFutMax()==null||relCategoryPrice.getInterFutMax().equals(0)){
-						readResult.setCode("500");
-						//readResult.setMessage("数据不完整！");
 						throw new Exception("请填写所有数据内容！");
+					}else if(relCategoryPrice.getSpotMin()>=relCategoryPrice.getSpotMax()||
+							relCategoryPrice.getFutMin()>=relCategoryPrice.getFutMax()||
+							relCategoryPrice.getInterFutMin()>=relCategoryPrice.getInterFutMax()){
+						throw new Exception("数据不合理，最小值不可大于等于对应的最大值！");
+					}else if(relCategoryPrice.getWholesalePri()<0||relCategoryPrice.getAcptPri()<0||
+							relCategoryPrice.getSpotMin()<0||relCategoryPrice.getSpotMax()<0||
+							relCategoryPrice.getFutMin()<0|| relCategoryPrice.getFutMax()<0||
+							relCategoryPrice.getInterFutMin()<0||relCategoryPrice.getInterFutMax()<0){
+						throw new Exception("数据不合理，价格不能小于零。");
 					}else{
 						//查关系表数据
 						List<RelCategoryPrice> data = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());
@@ -210,6 +218,14 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 						readResult.setCode("500");
 						//readResult.setMessage("数据不完整！");
 						throw new Exception("请填写所有数据内容！");
+					}else if(relCategoryPrice.getSpotMin()>=relCategoryPrice.getSpotMax()||
+							relCategoryPrice.getFutMin()>=relCategoryPrice.getFutMax()||
+							relCategoryPrice.getInterFutMin()>=relCategoryPrice.getInterFutMax()){
+						throw new Exception("数据不合理，最小值不可大于等于对应的最大值！");
+					}else if(relCategoryPrice.getSpotMin()<0||relCategoryPrice.getSpotMax()<0||
+							relCategoryPrice.getFutMin()<0|| relCategoryPrice.getFutMax()<0||
+							relCategoryPrice.getInterFutMin()<0||relCategoryPrice.getInterFutMax()<0){
+						throw new Exception("数据不合理，价格不能小于零。");
 					}else{
 						//查关系表数据
 						List<RelCategoryPrice> data = relCategoryPriceMapper.selectByCategoryIdAndChaId(relCategoryPrice.getCategoryId(), relCategoryPrice.getCusChaId());

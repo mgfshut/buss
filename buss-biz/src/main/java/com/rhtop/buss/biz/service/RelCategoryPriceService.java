@@ -34,7 +34,7 @@ public interface RelCategoryPriceService{
 	/**
 	 * 创建或更新品类批发价和接盘价
 	 */
-	ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult, List<RelCategoryPrice> relCategoryPrices, String categoryId, String userId);
+	ResultInfo createOrUpdateWholesaleAndAcptPriceByCategoryId(ResultInfo readResult, List<RelCategoryPrice> relCategoryPrices, String categoryId, String userId) throws Exception;
 	
 	/**
 	 * 创建或更新品类三个中间价

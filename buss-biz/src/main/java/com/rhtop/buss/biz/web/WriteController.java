@@ -42,6 +42,7 @@ import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.TransactionInfo;
 import com.rhtop.buss.common.utils.DateUtils;
 import com.rhtop.buss.common.utils.FileUtil;
+import com.rhtop.buss.common.utils.Tools;
 import com.rhtop.buss.common.web.BaseController;
 /**
  * 对外接口的写入功能控制器，内部接口按照操作类型分为两类，
@@ -227,6 +228,11 @@ public class WriteController extends BaseController{
 		readResult.setCode("200");
 		List<RelCategoryPrice> rcps = catePri.getRcps();
 		String userId = catePri.getUpdateUser();
+		if(rcps.size()==0){
+			readResult.setCode("500");
+			readResult.setMessage("请将信息填写完整！");
+			return readResult;
+		}
 		for(RelCategoryPrice rcp : rcps){
 			rcp.setUpdateUser(userId);
 			rcp.setUpdateTime(now);
