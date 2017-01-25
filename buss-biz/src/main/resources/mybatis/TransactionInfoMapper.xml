@@ -360,6 +360,9 @@
 	from buss_transaction_info_ a LEFT JOIN buss_customer_ b on a.customer_id_ = b.customer_id_ 
 								  LEFT JOIN buss_category_ c on a.category_id_ = c.category_id_
 	where 1=1
+		<if test="cateName != null and cateName != ''" >
+			and c.cate_name_ like "%" #{cateName} "%"
+		</if>
 		<if test="createUser != null and createUser != ''" >
 			and a.create_user_ = #{createUser}
 		</if>
@@ -411,7 +414,7 @@
 		<if test="endTime != null and endTime != ''" >
 			and a.end_time_ = #{endTime}
 		</if>
-		order by a.update_time_ DESC
+		ORDER BY a.update_time_ DESC
   </select>
   
   <select id="listPageInfo" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
@@ -468,6 +471,9 @@
 	where 1=1
     	<if test="txStatus != null and txStatus != ''" >
 			and a.tx_status_  >= #{txStatus}
+		</if>
+		<if test="cateName != null and cateName != ''" >
+			and c.cate_name_ like "%" #{cateName} "%"
 		</if>
 	ORDER BY a.tx_status_ ASC, a.update_time_ DESC
   </select>

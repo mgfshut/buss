@@ -107,7 +107,7 @@
 		 <mapper resource="mybatis/SlaTransactionInfoMapper.xml"/>
 		<!-- 品类与价格关系历史表 -->
 		 <mapper resource="mybatis/HisRelCategoryPriceMapper.xml"/>
-		 <!-- 程序更新表 -->
+		<!-- 程序更新表 -->
 		 <mapper resource="mybatis/UpgradeMapper.xml"/>
 		 <!-- 交易日志记录表 -->
 		 <mapper resource="mybatis/DealLogMapper.xml"/>
