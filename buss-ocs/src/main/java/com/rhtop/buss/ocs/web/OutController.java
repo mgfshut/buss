@@ -110,7 +110,7 @@ public class OutController extends BaseController {
 		}catch(Exception e){
 			e.printStackTrace();
 			readResult.setCode("999");
-			readResult.setMessage("登录失败");
+			readResult.setMessage("用户名不存在或密码错误！");
 		}
 		return readResult;
 	}

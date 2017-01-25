@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags/" prefix="ys" %>
 <script src="<%=request.getContextPath()%>/js/printThis/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/printThis/jquery.PrintArea.js"></script>
 <script src="<%=request.getContextPath()%>/js/printThis/printThis.js"></script>
@@ -124,7 +126,7 @@
 						<td>${manuNum }</td>
 						<td>${cateName }</td>
 						<td>${comm }</td>
-						<td>${cateStan }</td>
+						<td><ys:codemapConvert codemap="cateStan" value="${cateStan}"/></td>
 						<td>${offerPri }</td>
 						<td>${txAmo }</td>
 						<td></td>

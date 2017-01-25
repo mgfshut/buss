@@ -95,7 +95,7 @@
 									<td>${manuNum }</td>
 									<td>${cateName }</td>
 									<td>${comm }</td>
-									<td>${cateStan }</td>
+									<td><ys:codemapConvert codemap="cateStan" value="${cateStan}"/></td>
 									<td>${offerPri }</td>
 									<td>${txAmo }</td>
 									<td></td>

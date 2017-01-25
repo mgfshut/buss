@@ -21,7 +21,7 @@ public class ContractInfo {
 	//客户姓名
 	private String cusName;
 	
-	private Float totPri;//总价
+	private Double totPri;//总价
 	
 	private Float txAmo;//交易数量
 	
@@ -272,11 +272,11 @@ public class ContractInfo {
 	public void setCarNum(String carNum){
 		this.carNum = carNum;
 	}
-	public Float getTotPri(){
+	public Double getTotPri(){
 		return this.totPri;
 	}
 	
-	public void setTotPri(Float totPri){
+	public void setTotPri(Double totPri){
 		this.totPri = totPri;
 	}
 	public Float getTxAmo(){
