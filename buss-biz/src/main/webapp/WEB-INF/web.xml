@@ -4,7 +4,10 @@
       version="3.0">  
       
     <display-name>road-biz</display-name>
-    
+    <context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>core.root</param-value>
+	  </context-param>
     <!-- 配置log4j日志文件生成  -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>

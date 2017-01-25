@@ -3,28 +3,21 @@
  */
 package com.rhtop.buss.biz.service.impl;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import com.rhtop.buss.common.entity.Category;
-import com.rhtop.buss.common.entity.ContractInfo;
-import com.rhtop.buss.common.entity.Customer;
-import com.rhtop.buss.common.entity.SlaTransactionInfo;
-import com.rhtop.buss.common.entity.TransactionInfo;
-import com.rhtop.buss.common.utils.DateUtils;
-import com.rhtop.buss.common.utils.PropertyUtil;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContractInfoMapper;
 import com.rhtop.buss.biz.mapper.CustomerMapper;
@@ -32,6 +25,13 @@ import com.rhtop.buss.biz.mapper.MemberMapper;
 import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.mapper.TransactionInfoMapper;
 import com.rhtop.buss.biz.service.ContractInfoService;
+import com.rhtop.buss.common.entity.Category;
+import com.rhtop.buss.common.entity.ContractInfo;
+import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.SlaTransactionInfo;
+import com.rhtop.buss.common.entity.TransactionInfo;
+import com.rhtop.buss.common.utils.DateUtils;
+import com.rhtop.buss.common.utils.PropertyUtil;
 
 @Service("contractInfoService")
 public class ContractInfoServiceImpl implements ContractInfoService {
@@ -94,7 +94,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 			tx = txMapper.selectByPrimaryKey(con.getTransactionInfoId());
 			con.setTxAmo(Float.parseFloat(tx.getTxAmo()));
 			con.setCtofPri(tx.getCtofPri());
-			con.setTotPri(Double.parseDouble(tx.getTxAmo())*tx.getCtofPri());
+			con.setTotPri(Double.parseDouble(tx.getTxAmo())*tx.getCtofPri().doubleValue());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date d = new Date();
 			String endTime = sdf.format(new Date(d.getTime()+Long.parseLong(tx.getCtofAging())*60*60*1000));
@@ -283,7 +283,8 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		DecimalFormat dec = new DecimalFormat("0.00");
 		//将吨转换为千克
 		contract.setTxAmo(contract.getTxAmo().floatValue() * 1000);
-		contract.setOfferPri(new Float(dec.format((contract.getTotPri().floatValue() / contract.getTxAmo()))));
+		contract.setTotPriBig(new BigDecimal(contract.getTotPri()));
+		contract.setOfferPri(new Float(dec.format(contract.getTotPriBig().doubleValue() / contract.getTxAmo())));
 		if("02".equals(contract.getDelvOpt())){
 			contract.setZtcsgName(contract.getCsgName());
 			contract.setZtcsgTel(contract.getCsgTel());

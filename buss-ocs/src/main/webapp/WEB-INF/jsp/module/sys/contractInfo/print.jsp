@@ -59,7 +59,7 @@
 						<td>${offerPri }</td>
 						<td>${txAmo }</td>
 						<td></td>
-						<td>${totPri }</td>
+						<td>${totPriBig }</td>
 						<td></td>
 					</tr>
 					<tr>
@@ -119,7 +119,7 @@
 						<td colspan="2">合计金额</td>
 						<!--<td></td>-->
 						<td colspan="8">
-							<p style="text-align: left;margin-bottom: -10px;"><span style="text-decoration:underline">${totPri }</span>元</p>
+							<p style="text-align: left;margin-bottom: -10px;"><span style="text-decoration:underline">${totPriBig }</span>元</p>
 							<p style="text-align: left;margin-bottom: 0px;">大写金额：（${upperTotPri }）</p>
 						</td>
 					</tr>

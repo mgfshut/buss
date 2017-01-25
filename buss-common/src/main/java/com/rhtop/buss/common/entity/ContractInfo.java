@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.common.entity;
 
+import java.math.BigDecimal;
+
 
 //import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,6 +24,8 @@ public class ContractInfo {
 	private String cusName;
 	
 	private Double totPri;//总价
+	
+	private BigDecimal totPriBig;//总价
 	
 	private Float txAmo;//交易数量
 	
@@ -109,6 +113,14 @@ public class ContractInfo {
 	
 	public String getConCode() {
 		return conCode;
+	}
+
+	public BigDecimal getTotPriBig() {
+		return totPriBig;
+	}
+
+	public void setTotPriBig(BigDecimal totPriBig) {
+		this.totPriBig = totPriBig;
 	}
 
 	public String getCusName() {

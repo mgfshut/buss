@@ -67,7 +67,7 @@
     </appender>       
     <!-- 数据接收日志记录 -->
     <appender name="interfaceAppender" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="c:/bussIMSGE/logs/interface.log" />         
+        <param name="File" value="${catalina.base}/logs/interface.log" />         
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
         <layout class="org.apache.log4j.PatternLayout">       
          <param name="ConversionPattern"         

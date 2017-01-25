@@ -8,7 +8,7 @@
 	<result column="cus_name_" property="cusName" jdbcType="VARCHAR" />
 	<result column="transaction_info_id_" property="transactionInfoId" jdbcType="VARCHAR" />
 	<result column="car_num_" property="carNum" jdbcType="VARCHAR" />
-	<result column="tot_pri_" property="totPri" jdbcType="DOUBLE" />
+	<result column="tot_pri_" property="totPri" jdbcType="DECIMAL" />
 	<result column="tx_amo_" property="txAmo" jdbcType="VARCHAR" />
 	<result column="delv_opt_" property="delvOpt" jdbcType="VARCHAR" />
 	<result column="ctof_pri_" property="ctofPri" jdbcType="VARCHAR" />
