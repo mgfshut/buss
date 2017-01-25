@@ -37,6 +37,8 @@
 	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
 	<result column="cate_pri_" property="catePri" jdbcType="VARCHAR" />
 	
+	<result column="cate_scale_" property="cateScale" jdbcType="VARCHAR" />
+	
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -384,6 +386,7 @@
   	a.category_id_,
   	b.create_user_,
   	a.update_user,
+  	a.cate_scale_,
 	c.*,
 	a.coo_inten_,
 	a.coo_inten_comm_
@@ -455,7 +458,6 @@
 	<if test="cateName != null and cateName != ''" >
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if> 
-	
 	 GROUP BY b.category_id_ order by  a.mgr_ck_ ASC , a.update_time_  DESC  
 	</select>
 	
