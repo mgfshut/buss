@@ -165,4 +165,31 @@
 		</if>
   </select>
   
+  <!-- 根据条件分页查询列表 -->
+  <select id="selectDealLog" parameterType="com.rhtop.buss.common.entity.DealLog" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_deal_log_ where 1=1
+    	<if test="oprContent != null and oprContent != ''" >
+			and opr_content_ = #{oprContent}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="oprUser != null and oprUser != ''" >
+			and opr_user_ = #{oprUser}
+		</if>
+    	<if test="dealLogId != null and dealLogId != ''" >
+			and deal_log_id_ = #{dealLogId}
+		</if>
+    	<if test="oprTime != null and oprTime != ''" >
+			and opr_time_ = #{oprTime}
+		</if>
+    	<if test="oprType != null and oprType != ''" >
+			and opr_type_ = #{oprType}
+		</if>
+		<if test="oprName != null and oprName != ''" >
+			and opr_name_ = #{oprName}
+		</if>
+  </select>
 </mapper>
