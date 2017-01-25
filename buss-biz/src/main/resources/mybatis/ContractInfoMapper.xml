@@ -528,7 +528,7 @@
 			and con_code_ = #{conCode}
 		</if>
 		<if test="cusName != null and cusName != ''" >
-			and cus_name_ = #{cusName}
+			and cus_name_ like "%"#{cusName}"%"
 		</if>
     	<if test="carNum != null and carNum != ''" >
 			and car_num_ = #{carNum}
