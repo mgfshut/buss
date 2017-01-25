@@ -34,5 +34,7 @@ public interface DealLogMapper {
      * 根据条件分页查询列表
      */
 	List<DealLog> selectDealLog(DealLog dealLog);
+	
+	List<DealLog> selectDealLogMemberName(DealLog dealLog);
     
 }

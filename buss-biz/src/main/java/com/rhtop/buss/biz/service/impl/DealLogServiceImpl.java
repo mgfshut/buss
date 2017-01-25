@@ -74,7 +74,7 @@ public class DealLogServiceImpl implements DealLogService {
 			//得到交易日志
 			DealLog dealLog = new DealLog();
 			dealLog.setTransactionInfoId(tran.getTransactionInfoId());
-			tran.setDealLogs(dealLogMapper.selectDealLog(dealLog));
+			tran.setDealLogs(dealLogMapper.selectDealLogMemberName(dealLog));
 		}
 		return trans;
 	}

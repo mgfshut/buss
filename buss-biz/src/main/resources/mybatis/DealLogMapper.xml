@@ -192,4 +192,38 @@
 			and opr_name_ = #{oprName}
 		</if>
   </select>
+  
+  <select id="selectDealLogMemberName" parameterType="com.rhtop.buss.common.entity.DealLog" resultMap="BaseResultMap">
+  	select 
+     opr_content_,
+  	transaction_info_id_,
+  	deal_log_id_,
+  	opr_time_,
+  	opr_type_,
+  	opr_name_,
+  	b.member_name_ as opr_user_
+    from buss_deal_log_  a LEFT JOIN sys_member_  b on a.opr_user_ = b.member_id_
+    	<if test="oprContent != null and oprContent != ''" >
+			and a.opr_content_ = #{oprContent}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and a.transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="oprUser != null and oprUser != ''" >
+			and a.opr_user_ = #{oprUser}
+		</if>
+    	<if test="dealLogId != null and dealLogId != ''" >
+			and a.deal_log_id_ = #{dealLogId}
+		</if>
+    	<if test="oprTime != null and oprTime != ''" >
+			and a.opr_time_ = #{oprTime}
+		</if>
+    	<if test="oprType != null and oprType != ''" >
+			and a.opr_type_ = #{oprType}
+		</if>
+		<if test="oprName != null and oprName != ''" >
+			and a.opr_name_ = #{oprName}
+		</if>
+  </select>
+  
 </mapper>
