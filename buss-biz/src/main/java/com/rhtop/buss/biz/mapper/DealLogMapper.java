@@ -28,9 +28,11 @@ public interface DealLogMapper {
      * 根据条件查询列表
      */
 	List<DealLog> listDealLogs(DealLog dealLog);
+	
+	List<DealLog> listPageDealLog(DealLog dealLog);
     /**
      * 根据条件分页查询列表
      */
-	List<DealLog> listPageDealLog(DealLog dealLog);
+	List<DealLog> selectDealLog(DealLog dealLog);
     
 }
