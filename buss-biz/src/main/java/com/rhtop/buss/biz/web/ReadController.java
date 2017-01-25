@@ -510,37 +510,28 @@ public class ReadController  extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2009")
-	public ResultInfo listContract(@RequestParam("body") String body) { 
+	public ResultInfo listContract(@RequestParam ("body") String body){
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
-		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject, ContractInfo.class);
+		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
 		try {
-			// 模糊查询--->1.得到关键字，2.得到品类id，3.将品类的id set到TransactionInfo
-//			Category category = new Category();
-//			category.setCateName(contractInfo.getCateName());
-//			if(contractInfo.getCateName()==null){}
-//			List<Category> cates = catSer.listCategorys(category);
-//			for (Category cate : cates) {
-//				contractInfo.setCategoryId(cate.getCategoryId());
-//				contractInfo.setCateName("");
-				List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
-				for (int i = 0; i < conts.size(); i++) {
-					String cusName = cusSer.selectByPrimaryKey( conts.get(i).getCustomerId()).getCusName();
-					String cateName = catSer.selectByPrimaryKey( conts.get(i).getCategoryId()).getCateName();
-					conts.get(i).setBuyName(cusName);
-					conts.get(i).setCateName(cateName);
-				}
-				readResult.setRecords(conts);
-				readResult.setCode("200");
-				readResult.setMessage("数据获取成功！");
-				readResult.setPage(contractInfo.getPage());
-//			}
+			List<ContractInfo> conts = contractSer.listPageContractInfo(contractInfo);
+			for (int i=0; i<conts.size(); i++){
+				String cusName = cusSer.selectByPrimaryKey(conts.get(i).getCustomerId()).getCusName();
+				String cateName = catSer.selectByPrimaryKey(conts.get(i).getCategoryId()).getCateName();
+				conts.get(i).setBuyName(cusName);
+				conts.get(i).setCateName(cateName);
+			}
+			readResult.setRecords(conts);	
+			readResult.setCode("200");
+			readResult.setMessage("数据获取成功！");
+			readResult.setPage(contractInfo.getPage());
 		} catch (Exception e) {
 			readResult.setCode("500");
 			readResult.setMessage(e.getMessage());
 			return readResult;
 		}
-
+		
 		return readResult;
 	}
 	/**
