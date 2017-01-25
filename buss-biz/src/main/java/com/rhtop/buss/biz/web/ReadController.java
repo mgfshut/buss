@@ -333,7 +333,7 @@ public class ReadController  extends BaseController {
 		TransactionInfo transactionInfo = (TransactionInfo) JSONObject.toBean(jsonObject, TransactionInfo.class);
 		transactionInfo.setqType("20");
 		List<TransactionInfo> trans = traSer.listPageInfo(transactionInfo);
-		if (trans.size()!=0 ){
+		if (trans != null && trans.size() > 0 ){
 			readResult.setCode("200");
 			readResult.setPage(transactionInfo.getPage());
 			readResult.setRecords(trans);

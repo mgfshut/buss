@@ -340,7 +340,7 @@
 			and comm_ = #{comm}
 		</if>
     	<if test="cateName != null and cateName != ''" >
-			and cate_name_ like '%'#{cateName}'%'
+			and cate_name_ like "%"#{cateName}"%"
 		</if>
     	<if test="createTime != null and createTime != ''" >
 			and create_time_ = #{createTime}
