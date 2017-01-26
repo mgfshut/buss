@@ -778,6 +778,7 @@ public class CategoryController  extends BaseController {
 						return html;
 					}
 				}catch(Exception e){
+					e.printStackTrace();
 					HtmlMessage html = new HtmlMessage(new Category());
 					html.setStatusCode("400");
 					html.setMessage("第"+(rowNum+1)+"行数据有误，请检查！");

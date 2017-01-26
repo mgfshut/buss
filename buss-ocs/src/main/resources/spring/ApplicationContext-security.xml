@@ -48,6 +48,9 @@
 	        	/interface/* = anon
 	        	/interface/*/* = anon
 	        	/interface/*/* = anon
+	        	/sys/app/print/* = anon
+	        	/pic/** = anon
+				/contract/** = anon
 	        	/app/login = anon
 	        	/Kaptcha.jpg* = anon
 	        	/sys/print/** = anon
