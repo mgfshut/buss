@@ -9,10 +9,10 @@
 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<context:property-placeholder location="classpath:properties/*.properties"/>
-	
+	<context:component-scan base-package="com.rhtop.**"></context:component-scan>
 	<!-- 导入quartz的定时任务 -->
 	<import resource="ApplicationContext-quartz.xml"/>
-	
+	<context:annotation-config />
 	<!-- 数据源  -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
 		<!-- <property name="driverClassName" value="${jdbc.driverClassName}" />  --> 

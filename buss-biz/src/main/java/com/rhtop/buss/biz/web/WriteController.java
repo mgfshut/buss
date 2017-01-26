@@ -752,7 +752,7 @@ public class WriteController extends BaseController{
 		}
 		if (tx.getCtofPri() == null || tx.getCtofPri().floatValue() <= 0){
 			readResult.setCode("500");
-			readResult.setMessage("请输入正确的采够价格！");
+			readResult.setMessage("请输入正确的回盘价格！");
 			
 			return readResult;
 		}
