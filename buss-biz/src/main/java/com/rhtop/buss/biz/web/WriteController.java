@@ -420,11 +420,24 @@ public class WriteController extends BaseController{
 		ResultInfo readResult = new ResultInfo();
 		readResult.setCode("200");
 		String now = DateUtils.getNowTime();
+		if (StringUtils.isEmpty(catePri.getOfferAging())){
+			readResult.setCode("500");
+			readResult.setMessage("价格时效不能为空！");
+			
+			return readResult;
+		}
+		if (catePri.getCatePri() == null || catePri.getCatePri().floatValue() <= 0){
+			readResult.setCode("500");
+			readResult.setMessage("请输入正确的采够价格！");
+			
+			return readResult;
+		}
 		try {
 			catePri.setUpdateTime(now);
 			catePri.setUpdateUser(userId);
 			catePri.setUniMgrId(userId);
 			catePri.setOfferUpdateTime(now);
+			
 			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult,catePri);
 		} catch (Exception e) {
 			readResult.setCode("500");
@@ -731,6 +744,18 @@ public class WriteController extends BaseController{
 		String userId = tx.getUpdateUser();
 		tx.setUpdateTime(now);
 		tx.setTxStatus("21");
+		if (StringUtils.isEmpty(tx.getCtofAging())){
+			readResult.setCode("500");
+			readResult.setMessage("有效时效不能为空！");
+			
+			return readResult;
+		}
+		if (tx.getCtofPri() == null || tx.getCtofPri().floatValue() <= 0){
+			readResult.setCode("500");
+			readResult.setMessage("请输入正确的采够价格！");
+			
+			return readResult;
+		}
 		try {
 			txSer.universeNegotiate(tx);
 		} catch (Exception e) {

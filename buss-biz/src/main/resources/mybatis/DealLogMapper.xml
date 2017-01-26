@@ -203,6 +203,7 @@
   	opr_name_,
   	b.member_name_ as opr_user_
     from buss_deal_log_  a LEFT JOIN sys_member_  b on a.opr_user_ = b.member_id_
+    where 1=1 
     	<if test="oprContent != null and oprContent != ''" >
 			and a.opr_content_ = #{oprContent}
 		</if>
@@ -224,6 +225,8 @@
 		<if test="oprName != null and oprName != ''" >
 			and a.opr_name_ = #{oprName}
 		</if>
+		
+		order by a.opr_type_ asc, a.opr_time_ asc
   </select>
   
 </mapper>

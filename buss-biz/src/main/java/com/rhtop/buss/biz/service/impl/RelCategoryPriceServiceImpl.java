@@ -3,12 +3,14 @@
  */
 package com.rhtop.buss.biz.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -61,16 +63,21 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	@Transactional
 	public List<RelCategoryPrice> listRelCategoryPrices(RelCategoryPrice relCategoryPrice, String memberId) {
 		List<RelCategoryPrice> relCategoryPriceList = relCategoryPriceMapper.listRelCategoryPrices(relCategoryPrice);
+		List<RelCategoryPrice> rList = new ArrayList<RelCategoryPrice>();
 		//根据价格里面的品类ID和渠道ID查询客户和品类关联表内容，主要是确定当前用户是否有这个渠道的品类 信息
 		for (int i=0; i<relCategoryPriceList.size(); i++){
 			RelCategoryPrice catePrice = relCategoryPriceList.get(i);
-			RelCustomerCategory rBean = relCusCatMapper.selectByChaAndCateAndCreater(memberId, catePrice.getCategoryId(), catePrice.getCusChaId());
-			if (rBean == null){
-				//当前用户没有这个品类渠道信息
-				catePrice.setCreateUser(null);
+			if (StringUtils.isNotEmpty(catePrice.getCusChaId())){
+				RelCustomerCategory rBean = relCusCatMapper.selectByChaAndCateAndCreater(memberId, catePrice.getCategoryId(), catePrice.getCusChaId());
+				if (rBean == null){
+					//当前用户没有这个品类渠道信息
+					catePrice.setCreateUser(null);
+				}
+				
+				rList.add(catePrice);
 			}
 		}
-		return relCategoryPriceList;
+		return rList;
 	}
 	
 	@Override
