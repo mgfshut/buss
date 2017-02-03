@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class CodeMapServiceImpl implements CodeMapService {
 	private CodeValueMapper codeValueMapper;
 	
 	@Override
+	@Transactional
 	public int insertCodeMap(CodeMap codeMap) {
 		return codeMapMapper.insertSelective(codeMap);
 	}

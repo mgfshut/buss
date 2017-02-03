@@ -29,7 +29,7 @@ public interface ContractInfoService{
 	/**
 	 * 行政人员审核合同（修改状态 从20修改为30）
 	 */
-	String contractStamp(ContractInfo con);
+	String contractStamp(ContractInfo con) throws Exception;
 	
 	/**
 	 * 合同下载：返回合同URL

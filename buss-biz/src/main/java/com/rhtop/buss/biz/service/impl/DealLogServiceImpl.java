@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.CustomerMapper;
@@ -31,6 +32,7 @@ public class DealLogServiceImpl implements DealLogService {
 	private SlaTransactionInfoMapper  slaTransactionInfoMapper;
 	
 	@Override
+	@Transactional
 	public int insertDealLog(DealLog dealLog) {
 		return dealLogMapper.insertSelective(dealLog);
 	}
@@ -41,6 +43,7 @@ public class DealLogServiceImpl implements DealLogService {
 	}
 
 	@Override
+	@Transactional
 	public int updateDealLog(DealLog dealLog) {
 		return dealLogMapper.updateByPrimaryKeySelective(dealLog);
 	}

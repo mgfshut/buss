@@ -5,8 +5,10 @@ package com.rhtop.buss.biz.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.BusinessDiary;
 import com.rhtop.buss.biz.mapper.BusinessDiaryMapper;
 import com.rhtop.buss.biz.service.BusinessDiaryService;
@@ -27,6 +29,7 @@ public class BusinessDiaryServiceImpl implements BusinessDiaryService {
 	}
 
 	@Override
+	@Transactional
 	public int updateBusinessDiary(BusinessDiary businessDiary) {
 		return businessDiaryMapper.updateByPrimaryKeySelective(businessDiary);
 	}
