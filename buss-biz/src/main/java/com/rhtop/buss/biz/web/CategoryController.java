@@ -788,7 +788,12 @@ public class CategoryController  extends BaseController {
 			}
 		}
 		
-		categoryService.insertExcelCategory(categorys);
+		try {
+			categoryService.insertExcelCategory(categorys);
+		} catch (Exception e) {
+			log.error("[CategoryController.excelImportFile]数据写入异常",e.getMessage());
+			return new HtmlMessage("更新失败，请检查后重试。");
+		}
 		return new HtmlMessage(new Category());
 	}
 	
