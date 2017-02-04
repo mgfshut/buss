@@ -5,8 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.BindException;
@@ -19,7 +18,7 @@ import com.rhtop.buss.common.exception.BusException;
 import com.rhtop.buss.common.message.i18n.LocalMessage;
 
 public class BaseController {
-	protected Logger  log = LoggerFactory.getLogger("error");
+	protected Logger  log = Logger.getLogger("error");
 	protected HttpServletResponse servletResponse;
 	@Autowired(required=false)
 	private LocalMessage message;

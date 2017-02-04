@@ -26,7 +26,6 @@ import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.Role;
 import com.rhtop.buss.common.entity.RsUserRole;
 import com.rhtop.buss.common.entity.User;
-import com.rhtop.buss.common.exception.BusException;
 import com.rhtop.buss.biz.service.DeptService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RoleService;
@@ -119,6 +118,7 @@ public class MemberController  extends BaseController {
 		}
 	    return infoResult;// 200表示成功,500表示失败
 	}
+	
 	/**
 	 * 根据条件分页查询信息列表
 	 */
@@ -131,7 +131,6 @@ public class MemberController  extends BaseController {
 		infoResult.setCode("200");
 		infoResult.setResList(memberList);
 		infoResult.setPage(member.getPage());
-		log.error("12314");
 		return infoResult;
 	}
 	/**
