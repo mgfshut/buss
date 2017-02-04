@@ -35,8 +35,8 @@ function changeZt(val){
 	<div class="row">
 		<ul class="nav nav-tabs">
          <li<c:if test="${empty(param.contStatus) || param.contStatus == ''}"> class="active"</c:if>><a href="#conall" data-toggle="tab" onclick="changeZt('')">全部</a></li>
-         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '20'}"> class="active"</c:if>><a href="#conhtsd" data-toggle="tab" onclick="changeZt('20')">合同审定</a></li>
-         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '30'}"> class="active"</c:if>><a href="#conxzgz" data-toggle="tab" onclick="changeZt('30')">行政盖章</a></li>
+         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '20'}"> class="active"</c:if>><a href="#conhtsd" data-toggle="tab" onclick="changeZt('20')">待处理</a></li>
+         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '30'}"> class="active"</c:if>><a href="#conxzgz" data-toggle="tab" onclick="changeZt('30')">已处理</a></li>
          <li<c:if test="${!empty(param.contStatus) && param.contStatus == '41'}"> class="active"</c:if>><a href="#conjyqx" data-toggle="tab" onclick="changeZt('41')">交易取消</a></li>
        </ul>
 	</div>
