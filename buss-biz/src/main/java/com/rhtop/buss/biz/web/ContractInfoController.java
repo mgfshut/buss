@@ -106,15 +106,31 @@ public class ContractInfoController  extends BaseController {
 		}
 	    return infoResult;// 200表示成功,500表示失败
 	}
+	
 	/**
-	 * 根据条件分页查询信息列表
+	 * 行政 根据条件分页查询信息列表
 	 */
 	@ResponseBody
-	@RequestMapping(value="/pager")
-	public InfoResult<ContractInfo> listPageContractInfo(Page page,ContractInfo contractInfo){
+	@RequestMapping(value="/XZpager")
+	public InfoResult<ContractInfo> listPageContractInfoByXZ(Page page,ContractInfo contractInfo){
 		InfoResult<ContractInfo> infoResult = new InfoResult<ContractInfo>();
 		contractInfo.setPage(page);
-		List<ContractInfo> contractInfoList = contractInfoService.listPageContractInfo(contractInfo);
+		List<ContractInfo> contractInfoList = contractInfoService.listPageContractInfoByXZStatus(contractInfo);
+		infoResult.setCode("200");
+		infoResult.setResList(contractInfoList);
+		infoResult.setPage(contractInfo.getPage());
+		return infoResult;
+	}
+	
+	/**
+	 * 行政 根据条件分页查询信息列表
+	 */
+	@ResponseBody
+	@RequestMapping(value="/CWpager")
+	public InfoResult<ContractInfo> listPageContractInfoByCW(Page page,ContractInfo contractInfo){
+		InfoResult<ContractInfo> infoResult = new InfoResult<ContractInfo>();
+		contractInfo.setPage(page);
+		List<ContractInfo> contractInfoList = contractInfoService.listPageContractInfoByCWStatus(contractInfo);
 		infoResult.setCode("200");
 		infoResult.setResList(contractInfoList);
 		infoResult.setPage(contractInfo.getPage());

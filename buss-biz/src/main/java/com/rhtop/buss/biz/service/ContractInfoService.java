@@ -73,4 +73,24 @@ public interface ContractInfoService{
 	 * @return
 	 */
 	ContractInfo printByContractInfoId(String contractInfoId);
+	
+	/**
+	 * 根据合同状态分页查询列表 cont_status_ > 10
+	 * 行政
+	 * @author lujin
+	 * @date 2017-2-4
+	 * @param contractInfo
+	 * @return
+	 */
+	List<ContractInfo> listPageContractInfoByXZStatus(ContractInfo contractInfo);
+	
+	/**
+	 * 根据合同状态分页查询列表 cont_status_ > 20
+	 * 财务
+	 * @author lujin
+	 * @date 2017-2-4
+	 * @param contractInfo
+	 * @return
+	 */
+	List<ContractInfo> listPageContractInfoByCWStatus(ContractInfo contractInfo);
 }

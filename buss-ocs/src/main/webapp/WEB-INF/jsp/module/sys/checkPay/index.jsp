@@ -19,7 +19,7 @@ function changeZt(val){
 }
 </script>
 <!-- 分页、搜索表单 -->	
-<form id="pagerForm" action="module/sys-checkPay-index/contractInfo-pager" method="post" onsubmit="return navTabSearch(this);">
+<form id="pagerForm" action="module/sys-checkPay-index/contractInfo-CWpager" method="post" onsubmit="return navTabSearch(this);">
 <input type="hidden" name="currentPage" value="${page.currentPage}" />
 <input type="hidden" name="totalResult" value="${page.totalResult}" />
 <input type="hidden" name="totalPage" value="${page.totalPage}" />
@@ -51,7 +51,7 @@ function changeZt(val){
 		<div class="panelBar">
 				<div class="btn-group" style="margin:4px 5px;">
 					<a class="btn btn-primary btn-sm" href="module/sys-checkPay-form/contractInfo-{contractInfoId}"  
-						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
+						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>处理</span></a>
 					<a class="btn btn-info btn-sm" href="module/sys-checkPay-detail/contractInfo-{contractInfoId}"  
 						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
 				</div>
@@ -131,7 +131,7 @@ function changeZt(val){
 		<div class="panelBar">
 				<div class="btn-group" style="margin:4px 5px;">
 					<a class="btn btn-primary btn-sm" href="module/sys-checkPay-form/contractInfo-{contractInfoId}"  
-						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
+						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>处理</span></a>
 					<a class="btn btn-info btn-sm" href="module/sys-checkPay-detail/contractInfo-{contractInfoId}"  
 						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
 				</div>
