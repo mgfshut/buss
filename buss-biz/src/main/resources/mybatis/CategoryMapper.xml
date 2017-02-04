@@ -325,7 +325,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user = #{updateUser}
 		</if>
-	order by update_time_ DESC
+	order by cate_name_ ASC
   </select>
   
   <!-- R2003接口使用，只查询isimport是10的数据 -->

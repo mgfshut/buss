@@ -92,14 +92,21 @@ ${slaInfo}--%>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
-				<label class="col-sm-2 control-label">回盘价：</label>
+				<label class="col-sm-2 control-label">供应商：</label>
+				<div class="col-sm-8">
+				<input type="text" name="cateSup" class="form-control textInput" readOnly="readonly" value="${cate.cateSup}">
+				<div class="help-block with-errors"></div>
+				</div>
+			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">回盘价（元）：</label>
 				<div class="col-sm-8">
 				<input type="text" name="uniCtofPri" data-error="请输入1-10位字符" placeholder="请输入回盘价" maxlength="10" class="form-control textInput"  value="${slaInfo.uniCtofPri}" readonly="readonly">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
-				<label class="col-sm-2 control-label">回盘时效：</label>
+				<label class="col-sm-2 control-label">回盘时效（小时）：</label>
 				<div class="col-sm-8">
 				<input type="text" name="ctofAging" data-error="请输入24的倍数位" placeholder="请输入回盘时效" maxlength="10" class="form-control textInput"  value="${slaInfo.ctofAging}" readonly="readonly">
 				<div class="help-block with-errors"></div>
