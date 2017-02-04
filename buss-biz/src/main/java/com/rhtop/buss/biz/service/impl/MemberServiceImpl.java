@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberMapper memberMapper;
 	
 	@Override
+	@Transactional
 	public int insertMember(Member member) {
 		return memberMapper.insertSelective(member);
 	}
@@ -28,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public int updateMember(Member member) {
 		return memberMapper.updateByPrimaryKeySelective(member);
 	}

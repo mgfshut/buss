@@ -348,7 +348,7 @@
 	c.cus_cha_id_,d.member_name_,c.wholesale_pri_,c.acpt_pri_,
 	c.spot_min_,c.spot_max_,c.inter_fut_min_,c.inter_fut_max_,
 	c.fut_min_,c.fut_max_,c.cate_sup_,b.offer_pri_,c.offer_aging_ from  
-	buss_category_ b JOIN buss_rel_category_price_ c ON
+	buss_category_ b LEFT JOIN buss_rel_category_price_ c ON
 	b.category_id_ = c.category_id_ LEFT JOIN sys_member_ d ON c.mgr_id_ = d.member_id_
 	where 1=1 
 	<if test="cateName != null and cateName !='' ">

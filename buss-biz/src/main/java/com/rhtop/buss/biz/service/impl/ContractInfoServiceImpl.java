@@ -50,6 +50,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	protected Logger  log = LoggerFactory.getLogger("error");
 	
 	@Override
+	@Transactional
 	public int insertContractInfo(ContractInfo contractInfo) {
 		return contractInfoMapper.insertSelective(contractInfo);
 	}
@@ -60,6 +61,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
+	@Transactional
 	public int updateContractInfo(ContractInfo contractInfo) {
 		return contractInfoMapper.updateByPrimaryKeySelective(contractInfo);
 	}
@@ -198,7 +200,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 
 	@Override
 	@Transactional
-	public String contractStamp(ContractInfo con) {
+	public String contractStamp(ContractInfo con) throws Exception{
 		String conId = con.getContractInfoId();
 		try {
 			ContractInfo contract = contractInfoMapper.selectByPrimaryKey(conId);

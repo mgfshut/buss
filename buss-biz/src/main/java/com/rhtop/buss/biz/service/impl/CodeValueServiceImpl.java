@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +25,7 @@ public class CodeValueServiceImpl implements CodeValueService {
 	private CodeMapService codeMapService;
 	
 	@Override
+	@Transactional
 	public int insertCodeValue(CodeValue codeValue) {
 		return codeValueMapper.insertSelective(codeValue);
 	}
@@ -34,6 +36,7 @@ public class CodeValueServiceImpl implements CodeValueService {
 	}
 
 	@Override
+	@Transactional
 	public int updateCodeValue(CodeValue codeValue) {
 		return codeValueMapper.updateByPrimaryKeySelective(codeValue);
 	}
@@ -62,12 +65,14 @@ public class CodeValueServiceImpl implements CodeValueService {
 	}
 
 	@Override
+	@Transactional
 	public int updateTheCodeValue(String code, String codeValue,
 			String codeValueDescribe,String updateTime) {
 		return codeValueMapper.updateTheCodeValue(code,codeValue,codeValueDescribe,updateTime);
 	}
 
 	@Override
+	@Transactional
 	public int addCodeValue(CodeValue codeValue) {
 		CodeMap codeMap = new CodeMap();
 		codeMap.setCode(codeValue.getCode());

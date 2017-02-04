@@ -275,6 +275,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Transactional
 	public int updateCustomer(Customer customer) {
 		return customerMapper.updateByPrimaryKeySelective(customer);
 	}
@@ -307,7 +308,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@Transactional
-	public int checkCustomer(int checkLevel, String userId, Customer cus) {
+	public int checkCustomer(int checkLevel, String userId, Customer cus) throws Exception{
 		try {
 			//获取当前的该用户审核状态
 			String ckStatus = customerMapper.selectByPrimaryKey(cus.getCustomerId()).getCkStatus();
@@ -349,7 +350,7 @@ public class CustomerServiceImpl implements CustomerService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			//上面的代码块出现任何异常，返回1表示后台异常。
-			return 1;
+			throw e;
 		}
 	}
 

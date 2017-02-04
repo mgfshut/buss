@@ -10,7 +10,7 @@ public interface HisRelCategoryPriceService{
 	/**
 	 * 复制RelCategoryPrice表
 	 */
-	int insertRelCategoryPrice(RelCategoryPrice relCategoryPrice);
+	int insertRelCategoryPrice(RelCategoryPrice relCategoryPrice) throws Exception;
     
 	
 }

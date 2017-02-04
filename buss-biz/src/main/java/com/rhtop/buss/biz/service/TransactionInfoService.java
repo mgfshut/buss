@@ -19,7 +19,7 @@ public interface TransactionInfoService{
 	/**
 	 * 新增交易记录
 	 */
-	String createDeal(TransactionInfo tx);
+	String createDeal(TransactionInfo tx) throws Exception;
 	
 	/**
 	 * 客户回盘

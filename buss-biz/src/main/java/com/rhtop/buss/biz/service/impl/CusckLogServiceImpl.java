@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rhtop.buss.biz.mapper.CusckLogMapper;
 import com.rhtop.buss.biz.mapper.CustomerMapper;
@@ -26,6 +27,7 @@ public class CusckLogServiceImpl implements CusckLogService {
 	private RelCategoryPriceMapper relCategoryPriceMapper;
 	
 	@Override
+	@Transactional
 	public int insertCusckLog(CusckLog cusckLog) {
 		return cusckLogMapper.insertSelective(cusckLog);
 	}

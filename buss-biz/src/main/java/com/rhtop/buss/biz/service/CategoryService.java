@@ -73,7 +73,7 @@ public interface CategoryService{
 	 * @date 2017年1月14日 下午5:39:51 
 	 * @param categorys
 	 */
-	int insertExcelCategory(List<Category> categorys);
+	int insertExcelCategory(List<Category> categorys) throws Exception;
 	/**
 	 * 根据客户id查询所属的报价不为空的类品
 	 * @param customerId

@@ -57,7 +57,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 
 	@Override
 	@Transactional
-	public String createDeal(TransactionInfo tx){
+	public String createDeal(TransactionInfo tx) throws Exception{
 		try {
 			String transactionInfoId = null;
 			String slaTransactionInfoId = null;

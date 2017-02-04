@@ -5,6 +5,7 @@ package com.rhtop.buss.biz.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class DeptServiceImpl implements DeptService {
 	private DeptMapper deptMapper;
 	
 	@Override
+	@Transactional
 	public int insertDept(Dept dept) {
 		return deptMapper.insertSelective(dept);
 	}
@@ -29,6 +31,7 @@ public class DeptServiceImpl implements DeptService {
 	}
 
 	@Override
+	@Transactional
 	public int updateDept(Dept dept) {
 		return deptMapper.updateByPrimaryKeySelective(dept);
 	}

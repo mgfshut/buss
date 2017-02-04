@@ -788,7 +788,12 @@ public class CategoryController  extends BaseController {
 			}
 		}
 		
-		categoryService.insertExcelCategory(categorys);
+		try {
+			categoryService.insertExcelCategory(categorys);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new HtmlMessage(new Category());
 	}
 	
