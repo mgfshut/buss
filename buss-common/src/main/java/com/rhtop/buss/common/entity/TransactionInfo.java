@@ -81,6 +81,8 @@ public class TransactionInfo {
 	private String cateStan;//规格
 	private String pkgQuan;//规格
 	
+	private String cateSup;//供应商
+	
 	private List<DealLog> dealLogs;//交易的操作日志
 	
 	public String getPkgQuan() {
@@ -465,5 +467,13 @@ public class TransactionInfo {
 
 	public void setDealLogs(List<DealLog> dealLogs) {
 		this.dealLogs = dealLogs;
+	}
+
+	public String getCateSup() {
+		return cateSup;
+	}
+
+	public void setCateSup(String cateSup) {
+		this.cateSup = cateSup;
 	}
 }
