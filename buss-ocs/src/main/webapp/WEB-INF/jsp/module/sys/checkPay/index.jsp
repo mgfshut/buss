@@ -7,11 +7,17 @@
 <script>
 $(function(){
 	
-	$("td[contStatusTd]").each(function(){
-		var valTd = $(this).attr("contStatusTd");
-		var valStr = $("select[name='contStatus'] option[value='"+valTd+"']", navTab.getCurrentPanel()).text();
-		$(this).html(valStr);
-	});
+	try{
+		setTimeout(function(){
+			$("td[contStatusTd]").each(function(){
+				var valTd = $(this).attr("contStatusTd");
+				var valStr = $("select[name='contStatus'] option[value='"+valTd+"']", navTab.getCurrentPanel()).text();
+				$(this).html(valStr);
+			});
+		}, 500);
+	}catch(e){
+		
+	}
 })
 function changeZt(val){
 	$("input[name='contStatus']", navTab.getCurrentPanel()).val(val);
