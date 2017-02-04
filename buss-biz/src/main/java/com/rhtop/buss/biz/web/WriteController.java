@@ -839,7 +839,30 @@ public class WriteController extends BaseController{
 		String userId = con.getUpdateUser();
 		con.setUpdateTime(now);
 		try {
-			conSer.createContract(con);
+			//做非空校验
+			if(StringUtils.isEmpty(con.getCusName())||StringUtils.isEmpty(con.getEntTel())||
+			   StringUtils.isEmpty(con.getCreditCode())||StringUtils.isEmpty(con.getLegalPer())||
+			   StringUtils.isEmpty(con.getEntAddr())||StringUtils.isEmpty(con.getExecName())||
+			   StringUtils.isEmpty(con.getExecTel())||StringUtils.isEmpty(con.getExecAddr())||
+			   StringUtils.isEmpty(con.getCsgName())||StringUtils.isEmpty(con.getCsgId())){
+				readResult.setCode("500");
+				readResult.setMessage("请将合同信息填写完整");
+			}else if("01".equals(con.getDelvOpt())||con.getDelvOpt()=="01"){
+				if(StringUtils.isEmpty(con.getCsgTel())||StringUtils.isEmpty(con.getCsgAddr())){
+					readResult.setCode("500");
+					readResult.setMessage("请将合同信息填写完整");
+				}
+			}else if("02".equals(con.getDelvOpt())||con.getDelvOpt()=="02"){
+				if(StringUtils.isEmpty(con.getCarNum())||StringUtils.isEmpty(con.getDriNum())){
+					readResult.setCode("500");
+					readResult.setMessage("请将合同信息填写完整");
+				}
+			}
+			//如果通过非空校验，则进行创建合同的操作
+			if(readResult.getCode()=="200"||"200".equals(readResult.getCode())){
+				conSer.createContract(con);
+			}
+			
 		} catch (Exception e) {
 			log.error("[WriteController.createContract]数据更新异常", e);
 			readResult.setCode("500");
