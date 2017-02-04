@@ -131,6 +131,7 @@ public class MemberController  extends BaseController {
 		infoResult.setCode("200");
 		infoResult.setResList(memberList);
 		infoResult.setPage(member.getPage());
+		log.error("12314");
 		return infoResult;
 	}
 	/**
@@ -226,16 +227,15 @@ public class MemberController  extends BaseController {
 	public HtmlMessage updateMemberRoles(HttpServletRequest request,
 			@RequestParam(value = "memberId") String memberId,
 			@RequestParam(value = "roleIds", required = false) String[] roleIds) {
-		if (roleIds == null) {
-			throw new BusException("请选择角色再提交!");
-		}
 		rsUserRoleService.deleteRsUserRoleByMemberId(memberId);
-		for(String roleId:roleIds){
-			RsUserRole rsUserRole = new RsUserRole();
-			rsUserRole.setRsUserRoleId(UUID.randomUUID().toString().replace("-", ""));
-			rsUserRole.setMemberId(memberId);
-			rsUserRole.setRoleId(roleId);
-			rsUserRoleService.insertRsUserRole(rsUserRole);
+		if (roleIds != null) {
+			for(String roleId:roleIds){
+				RsUserRole rsUserRole = new RsUserRole();
+				rsUserRole.setRsUserRoleId(UUID.randomUUID().toString().replace("-", ""));
+				rsUserRole.setMemberId(memberId);
+				rsUserRole.setRoleId(roleId);
+				rsUserRoleService.insertRsUserRole(rsUserRole);
+			}
 		}
 		return new HtmlMessage("角色分配成功!").setNavTabId("sys:member");
 	}
