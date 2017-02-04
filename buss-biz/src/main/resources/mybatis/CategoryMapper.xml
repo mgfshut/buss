@@ -276,7 +276,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user = #{updateUser}
 		</if>
-		order by update_time_ DESC
+		order by cate_name_ ASC
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageCategory" parameterType="com.rhtop.buss.common.entity.Category" resultMap="BaseResultMap">
@@ -375,7 +375,7 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user = #{updateUser}
 		</if>
-	order by update_time_ DESC
+	order by cate_name_ ASC
   </select>
   
   <!-- 根据客户信息查询客户所属的品类信息 -->
