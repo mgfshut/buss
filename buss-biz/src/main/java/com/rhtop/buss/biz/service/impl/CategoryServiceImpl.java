@@ -115,6 +115,9 @@ public class CategoryServiceImpl implements CategoryService {
 		}else if("02".equals(memberJob)){//分部经理
 			//分部经理查询自己的信息采集情况（自己创建的五个价格需要自己填写）
 			catelist = categoryMapper.listPriceByRegMgr(category);
+		}else if("05".equals(memberJob)){//总经理
+			//总经理查询所有的品类信息
+			catelist = categoryMapper.listPriceByGenMgr(category);
 		}else if("03".equals(memberJob)){//国际采购部
 //			国际采购人员查看报盘情况(已报盘/未报盘) 00:未报盘  01:已报盘
 //			String isOffer = category.getIsOffer();

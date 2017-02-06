@@ -359,7 +359,19 @@ public class CategoryController  extends BaseController {
 					category.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
 					String cateName = formatCell(hssfRow.getCell(cellIndex[0]));
 					if (StringUtils.isNotEmpty(cateName)){
+						
+						CodeValue codeCateName = codeValueService.queryCodeValueAndCodeName("cateName", cateName);
+						if (codeCateName == null || StringUtils.isEmpty(codeCateName.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[品类名称]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							cateName = codeCateName.getCodeValueId();
+						}
 						category.setCateName(cateName);
+						
 						//规格需要从字段表提取
 						String cateStan = formatCell(hssfRow.getCell(cellIndex[1]));
 						CodeValue code = codeValueService.queryCodeValueAndCodeName("cateStan", cateStan);
@@ -374,7 +386,20 @@ public class CategoryController  extends BaseController {
 						}
 						category.setCateStan(cateStan);
 						category.setPkgQuan(formatCell(hssfRow.getCell(cellIndex[2])));
-						category.setManuNum(formatCell(hssfRow.getCell(cellIndex[3])));
+						
+						String manuNum = formatCell(hssfRow.getCell(cellIndex[3]));
+						CodeValue codeManuNum = codeValueService.queryCodeValueAndCodeName("manuNum", manuNum);
+						if (codeManuNum == null || StringUtils.isEmpty(codeManuNum.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[厂号]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							manuNum = codeManuNum.getCodeValueId();
+						}
+						category.setManuNum(manuNum);
+						
 						//产地需要从字段表提取
 						String prodPla = formatCell(hssfRow.getCell(cellIndex[4]));
 						CodeValue codeProd = codeValueService.queryCodeValueAndCodeName("prodPla", prodPla);
