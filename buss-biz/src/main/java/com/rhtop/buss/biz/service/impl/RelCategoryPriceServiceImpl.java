@@ -325,6 +325,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				relCategoryPriceMapper.insertSelective(relCategoryPrice);
 			}else{
 				//有则更新记录。
+				relCategoryPrice.setMgrLoc(null);
 				int i = relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
 				readResult.setMessage("成功更新"+i+"条数据");
 			}

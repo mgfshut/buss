@@ -49,7 +49,7 @@ function modifyInfo(){
 			<th orderField="manuNum" class="${param.orderField eq 'manuNum'?param.orderDirection:''}">厂号</th>
 			<th orderField="prodPla" class="${param.orderField eq 'prodPla'?param.orderDirection:''}">产地</th>
 			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">规格</th>
-			<th orderField="offerPri" class="${param.orderField eq 'offerPri'?param.orderDirection:''}">国际报盘价</th>
+			<th orderField="uniOfferPri" class="${param.orderField eq 'uniOfferPri'?param.orderDirection:''}">国际报盘价</th>
 			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">国际报盘时效</th>
 		</tr>
 	</thead>
