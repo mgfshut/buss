@@ -458,7 +458,8 @@
 	<if test="cateName != null and cateName != ''" >
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if> 
-	 GROUP BY b.category_id_ order by  a.mgr_ck_ ASC , a.update_time_  DESC  
+	 GROUP BY  b.category_id_ 
+	 ORDER BY  a.mgr_ck_ ASC , b.cate_name_ ASC , a.update_time_  DESC  
 	</select>
 	
 	<!--分部经理查询报价信息  -->
@@ -482,7 +483,7 @@
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if> 
 	 GROUP BY b.category_id_
-	 order by  a.reg_mgr_ck_ ASC, a.update_time_  DESC
+	 ORDER BY a.reg_mgr_ck_ ASC, b.cate_name_ ASC , a.update_time_  DESC
 	 </select>
 	
 	<!--总经理查询报价信息  -->
@@ -505,7 +506,7 @@
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if> 
 	 GROUP BY b.category_id_
-	 ORDER BY a.reg_mgr_ck_ ASC, a.update_time_  DESC
+	 ORDER BY a.reg_mgr_ck_ ASC, b.cate_name_ ASC ,  a.update_time_  DESC
 	 </select>
 	
 	<!-- 国际采购人员查询未报盘情况 -->
@@ -527,7 +528,7 @@
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if> 
 	GROUP BY a.category_id_
-	ORDER BY a.update_time_  DESC
+	ORDER BY a.cate_name_ ASC , a.update_time_  DESC
 	</select>
 	
 	<!-- 国际采购人员查询已报盘情况 -->
@@ -552,7 +553,7 @@
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if>
 	GROUP BY a.category_id_
-	ORDER BY a.update_time_  DESC
+	ORDER BY a.cate_name_ ASC , a.update_time_  DESC
 	</select>
 	
 	<!-- 国际采购人员查询报盘(已报盘和未报盘)情况 -->
@@ -569,7 +570,7 @@
 	<if test="cateName != null and cateName != ''" >
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if>
-	ORDER BY b.offer_pri_  ASC, b.update_time_  DESC 
+	ORDER BY b.offer_pri_  ASC,b.cate_name_ ASC , b.update_time_  DESC 
 	</select>
 	
 	<!-- 品类详情 -->
@@ -613,7 +614,7 @@
 	c.offer_pri_ 
 	FROM buss_rel_customer_category_ a ,buss_customer_ b , buss_category_ c  
 	WHERE a.customer_id_ = b.customer_id_ and a.category_id_ = c.category_id_  and b.customer_id_ = #{createUser} and c.offer_pri_ != '0' 
-    ORDER BY a.update_time_ DESC
+    ORDER BY c.cate_name_ ASC , a.update_time_ DESC
   </select>
   
   <update id="updateCategory" parameterType="com.rhtop.buss.common.entity.Category" >
