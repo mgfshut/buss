@@ -485,6 +485,29 @@
 	 order by  a.reg_mgr_ck_ ASC, a.update_time_  DESC
 	 </select>
 	
+	<!--总经理查询报价信息  -->
+	<select id="listPriceByGenMgr" resultMap="BaseResultMap" parameterType="com.rhtop.buss.common.entity.Category">
+	select
+	a.rel_customer_category_id_,
+	b.category_id_ ,
+	b.cate_name_,
+	b.cate_stan_,
+	b.manu_num_,
+	b.prod_pla_,
+	b.pkg_quan_,
+	a.cus_cha_id_,
+	a.mgr_ck_,
+	a.reg_mgr_ck_,
+	a.create_user_
+	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_ 
+	where 1=1
+	<if test="cateName != null and cateName != ''" >
+		and b.cate_name_ like "%" #{cateName} "%"
+	</if> 
+	 GROUP BY b.category_id_
+	 ORDER BY a.reg_mgr_ck_ ASC, a.update_time_  DESC
+	 </select>
+	
 	<!-- 国际采购人员查询未报盘情况 -->
 	<select id="listNotPriceByUniMgr" resultMap="BaseResultMap" parameterType="java.lang.String" >
 	select

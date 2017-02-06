@@ -854,7 +854,7 @@ public class OutController extends BaseController {
 	
 	/**
 	 * 接口id:R2005
-	 * 客户经理、部门经理查看信息采集列表
+	 * 客户经理、部门经理、总经理 查看信息采集列表
 	 * 部门经理，已报盘/未报盘
 	 * @param request
 	 * @param member
