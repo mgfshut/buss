@@ -29,7 +29,7 @@ function downloadTemplate(){
 }
 
 function downloadDictionary(){
-	window.open("<%=request.getContextPath()%>/sys/excel/exportDictionary?codeValue=cusCha,prodPla,cateStan");
+	window.open("<%=request.getContextPath()%>/sys/excel/exportDictionary?codeValue=cusCha,prodPla,cateStan,cateName,manuNum");
 }
 </script>
 <div id="pagerForm" class="pageContent">

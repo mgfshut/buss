@@ -349,7 +349,7 @@
   
   <!-- 部门经理所属的客户及所属的客户经理的客户 ,'01'代表：职务是客户经理。 审核状态-->
   <select id="listPageCustomerByRegMgr" parameterType="com.rhtop.buss.common.entity.Customer" resultMap="BaseResultMap">
-	SELECT 
+	<!-- SELECT 
 	a.customer_id_,
 	a.cus_name_,
 	a.cus_cha_,
@@ -362,7 +362,22 @@
 	( SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_ where tx_status_='50' GROUP BY customer_id_ ) b 
 	ON a.customer_id_ = b.customer_id_
 	where a.create_user_  in 
-	( select s1.member_id_  from sys_member_ s1 LEFT JOIN  sys_member_ s2 on s1.dept_id_ =s2.dept_id_ where  s2.member_id_ =  #{createUser})  
+	( select s1.member_id_  from sys_member_ s1 LEFT JOIN  sys_member_ s2 on s1.dept_id_ =s2.dept_id_ where  s2.member_id_ =  #{createUser})  -->
+	SELECT 
+	a.customer_id_,
+	a.cus_name_,
+	a.cus_cha_,
+	a.cus_type_,
+	a.cus_loc_,
+	a.ck_status_,
+  	s3.member_name_ as create_user_ ,
+	IFNULL(b.count,0) as crt_qua_ 
+	FROM buss_customer_ a LEFT JOIN  sys_member_ s3 ON a.create_user_ = s3.member_id_
+	LEFT JOIN 
+	( SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_ where tx_status_='50' GROUP BY customer_id_ ) b 
+	ON a.customer_id_ = b.customer_id_
+	WHERE a.create_user_  IN 
+	( select s1.member_id_  from sys_member_ s1 LEFT JOIN  sys_member_ s2 on s1.dept_id_ =s2.dept_id_ where  s2.member_id_ =  #{createUser}) 
    <if test="cusName != null and cusName != ''" >
 		and a.cus_name_ like "%" #{cusName} "%"
 	</if>
@@ -387,8 +402,9 @@
 	a.cus_type_,
 	a.cus_loc_,
 	a.ck_status_,
-	ifnull(b.count,0) as crt_qua_ 
-	FROM buss_customer_ a 
+	s1.member_name_ AS create_user_,
+	IFNULL(b.count,0) as crt_qua_ 
+	FROM buss_customer_ a  LEFT JOIN  sys_member_ s1 ON a.create_user_ = s1.member_id_
 	LEFT JOIN 
 	( SELECT customer_id_,COUNT(*) AS count FROM buss_transaction_info_ where tx_status_='50' GROUP BY customer_id_ ) b 
 	ON a.customer_id_ = b.customer_id_

@@ -157,7 +157,7 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id：R2005
-	 * 客户经理，部门经理  查询 信息采集 
+	 * 客户经理，部门经理  ,总经理 查询 信息采集 
 	 * 国际采购部 已报盘/未报盘
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2005")
