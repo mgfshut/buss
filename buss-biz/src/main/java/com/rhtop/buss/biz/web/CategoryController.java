@@ -96,10 +96,10 @@ public class CategoryController  extends BaseController {
 					}
 				}
 				//换算价格
-				BigDecimal offerPri = UnitUtils.unitConver(category.getCurrency(), new BigDecimal(category.getOfferPri()), category.getUnit(), rate);
+				BigDecimal offerPri = UnitUtils.unitConver(category.getCurrency(), new BigDecimal(category.getCatePri()), category.getUnit(), rate);
 				//换算好的报盘价添加到品类表中
-				category.setOfferPri(offerPri.floatValue());
-				category.setOfferAging(category.getOfferAging());
+				category.setUniOfferPri(offerPri.floatValue());
+				category.setUniOfferAging(category.getUniOfferAging());
 				categoryService.insertCategory(category);
 				//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
 				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
@@ -107,8 +107,8 @@ public class CategoryController  extends BaseController {
 				relCategoryPrice.setCategoryId(categoryId);
 				relCategoryPrice.setCateSup(category.getCateSup());
 				relCategoryPrice.setCurrency(category.getCurrency());
-				relCategoryPrice.setOfferPri(category.getOfferPri());
-				relCategoryPrice.setOfferAging(category.getOfferAging());
+//				relCategoryPrice.setOfferPri(category.getOfferPri());
+				relCategoryPrice.setUniOfferAging(category.getUniOfferAging());
 				relCategoryPrice.setUnit(category.getUnit());
 				relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				catPriSer.insertRelCategoryPrice(relCategoryPrice);	 
@@ -126,7 +126,7 @@ public class CategoryController  extends BaseController {
 				relCategoryPrice.setCategoryId(cate.getCategoryId());
 				relCategoryPrice.setCateSup(category.getCateSup());
 				relCategoryPrice.setCurrency(category.getCurrency());
-				relCategoryPrice.setOfferPri(category.getOfferPri());
+//				relCategoryPrice.setOfferPri(category.getOfferPri());
 				relCategoryPrice.setOfferAging(category.getOfferAging());
 				relCategoryPrice.setUnit(category.getUnit());
 				relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));

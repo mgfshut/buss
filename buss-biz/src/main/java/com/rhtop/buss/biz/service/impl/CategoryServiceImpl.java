@@ -134,7 +134,7 @@ public class CategoryServiceImpl implements CategoryService {
 				Category cate = new Category();
 				if (existCate != null){
 					cate = existCate;
-					//更新已存在品类的报盘价和时效性
+					//更新已存在品类的国内报盘价和时效性
 					cate.setOfferPri(category.getOfferPri());
 					cate.setOfferAging(category.getOfferAging());
 					cate.setUpdateUser(category.getUpdateUser());
