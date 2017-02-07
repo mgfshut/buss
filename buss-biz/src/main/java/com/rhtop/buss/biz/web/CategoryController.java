@@ -298,13 +298,13 @@ public class CategoryController  extends BaseController {
 							cellIndex[0] = cellNum;
 						}else if ("规格".equals(cellName)){
 							cellIndex[1] = cellNum;
-						}else if ("包装".equals(cellName)){
+						}else if ("包装数量".equals(cellName)){
 							cellIndex[2] = cellNum;
 						}else if ("厂号".equals(cellName)){
 							cellIndex[3] = cellNum;
 						}else if ("产地".equals(cellName)){
 							cellIndex[4] = cellNum;
-						}else if (cellName.indexOf("备注") != -1){
+						}else if ("备注".equals(cellName)){
 							cellIndex[5] = cellNum;
 						}else if ("地区".equals(cellName)){
 							cellIndex[6] = cellNum;
@@ -327,7 +327,7 @@ public class CategoryController  extends BaseController {
 					}else if (cellNum == 1){
 						name = "规格";
 					}else if (cellNum == 2){
-						name = "包装";
+						name = "包装数量";
 					}else if (cellNum == 3){
 						name = "厂号";
 					}else if (cellNum == 4){
@@ -507,7 +507,7 @@ public class CategoryController  extends BaseController {
 							cellIndex[0] = cellNum;
 						}else if ("规格".equals(cellName)){
 							cellIndex[1] = cellNum;
-						}else if ("包装".equals(cellName)){
+						}else if ("包装数量".equals(cellName)){
 							cellIndex[2] = cellNum;
 						}else if ("厂号".equals(cellName)){
 							cellIndex[3] = cellNum;
@@ -536,7 +536,7 @@ public class CategoryController  extends BaseController {
 					}else if (cellNum == 1){
 						name = "规格";
 					}else if (cellNum == 2){
-						name = "包装";
+						name = "包装数量";
 					}else if (cellNum == 3){
 						name = "厂号";
 					}else if (cellNum == 4){
@@ -569,7 +569,19 @@ public class CategoryController  extends BaseController {
 					//用固定列来读取数据
 					String cateName = formatCell(hssfRow.getCell(0));
 					if (StringUtils.isNotEmpty(cateName)){
+						
+						CodeValue codeCateName = codeValueService.queryCodeValueAndCodeName("cateName", cateName);
+						if (codeCateName == null || StringUtils.isEmpty(codeCateName.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[品类名称]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							cateName = codeCateName.getCodeValueId();
+						}
 						category.setCateName(cateName);
+						
 						//规格需要从字段表提取
 						String cateStan = formatCell(hssfRow.getCell(1));
 						if (StringUtils.isEmpty(cateStan)){
@@ -591,12 +603,12 @@ public class CategoryController  extends BaseController {
 						category.setCateStan(cateStan);
 						//包装数量
 						String pkgQuan = formatCell(hssfRow.getCell(2));
-						if (StringUtils.isEmpty(pkgQuan)){
-							HtmlMessage html = new HtmlMessage(new Category());
-							html.setStatusCode("400");
-							html.setMessage("第"+(rowNum+1)+"行[包装]数据不能为空，数据导入终止！");
-							return html;
-						}
+//						if (StringUtils.isEmpty(pkgQuan)){
+//							HtmlMessage html = new HtmlMessage(new Category());
+//							html.setStatusCode("400");
+//							html.setMessage("第"+(rowNum+1)+"行[包装]数据不能为空，数据导入终止！");
+//							return html;
+//						}
 						category.setPkgQuan(pkgQuan);
 						//厂号
 						String manuNum = formatCell(hssfRow.getCell(3));
@@ -606,7 +618,18 @@ public class CategoryController  extends BaseController {
 							html.setMessage("第"+(rowNum+1)+"行[厂号]数据不能为空，数据导入终止！");
 							return html;
 						}
+						
+						CodeValue codeManuNum = codeValueService.queryCodeValueAndCodeName("manuNum", manuNum);
+						if (codeManuNum == null || StringUtils.isEmpty(codeManuNum.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[厂号]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							return html;
+						}else{
+							manuNum = codeManuNum.getCodeValueId();
+						}
 						category.setManuNum(manuNum);
+						
 						//产地需要从字段表提取
 						String prodPla = formatCell(hssfRow.getCell(4));
 						if (StringUtils.isEmpty(prodPla)){
@@ -658,7 +681,7 @@ public class CategoryController  extends BaseController {
 						}else{
 							category.setOfferPri(Float.valueOf(offerPri));
 						}
-						category.setOfferAging(formatCell(hssfRow.getCell(9)));
+						
 						category.setCreateUser(userId);
 						category.setCreateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 						category.setUpdateUser(userId);
@@ -666,23 +689,18 @@ public class CategoryController  extends BaseController {
 						//提取价格相关信息
 						RelCategoryPrice price = new RelCategoryPrice();
 						
-						//供应商
-						String gys = formatCell(hssfRow.getCell(10));
-						if (StringUtils.isNotEmpty(gys)){
-							price.setCateSup(gys);
-						}
 						//批发价
-						String pifj = formatCell(hssfRow.getCell(11));
+						String pifj = formatCell(hssfRow.getCell(9));
 						if (StringUtils.isNotEmpty(pifj)){
 							price.setWholesalePri(Float.parseFloat(pifj));
 						}
 						//接盘价
-						String jpj = formatCell(hssfRow.getCell(12));
+						String jpj = formatCell(hssfRow.getCell(10));
 						if (StringUtils.isNotEmpty(jpj)){
 							price.setAcptPri(Float.parseFloat(jpj));
 						}
 						//现货价
-						String xhj = formatCell(hssfRow.getCell(13));
+						String xhj = formatCell(hssfRow.getCell(11));
 						if (StringUtils.isNotEmpty(xhj) && StringUtils.isNumeric(xhj)){
 							price.setSpotMin(Float.parseFloat(xhj));
 							price.setSpotMax(Float.parseFloat(xhj));
@@ -694,7 +712,7 @@ public class CategoryController  extends BaseController {
 							}
 						}
 						//半期货价
-						String bqhj = formatCell(hssfRow.getCell(14));
+						String bqhj = formatCell(hssfRow.getCell(12));
 						if (StringUtils.isNotEmpty(bqhj) && StringUtils.isNumeric(bqhj)){
 							price.setInterFutMin(Float.parseFloat(bqhj));
 							price.setInterFutMax(Float.parseFloat(bqhj));
@@ -706,7 +724,7 @@ public class CategoryController  extends BaseController {
 							}
 						}
 						//期货价
-						String qhj = formatCell(hssfRow.getCell(15));
+						String qhj = formatCell(hssfRow.getCell(13));
 						if (StringUtils.isNotEmpty(qhj) && StringUtils.isNumeric(qhj)){
 							price.setFutMin(Float.parseFloat(qhj));
 							price.setFutMax(Float.parseFloat(qhj));
@@ -718,7 +736,25 @@ public class CategoryController  extends BaseController {
 							}
 						}
 						
+						//供应商
+						String gys = formatCell(hssfRow.getCell(14));
+						if (StringUtils.isNotEmpty(gys)){
+							price.setCateSup(gys);
+						}
 						category.setRelCategoryPrice(price);
+						
+						String uniOfferPri = formatCell(hssfRow.getCell(15));
+						if(StringUtils.isEmpty(uniOfferPri)){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[国际报盘价]数据不能为空，数据导入终止！");
+							return html;
+						}else{
+							category.setUniOfferPri(Float.valueOf(uniOfferPri));
+						}
+						//价格时效
+						category.setOfferAging(formatCell(hssfRow.getCell(16)));
+						
 						categorys.add(category);
 						
 					/*
