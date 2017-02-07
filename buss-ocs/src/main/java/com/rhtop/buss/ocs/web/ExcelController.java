@@ -121,8 +121,8 @@ public class ExcelController extends BaseController {
             	 row.createCell(13).setCellValue(lhMap.get("futMin").toString()+"-"+lhMap.get("futMax").toString());  
             if(lhMap.get("cateSup") != null)
             	row.createCell(14).setCellValue(lhMap.get("cateSup").toString()); 
-            if(lhMap.get("offerPri") != null)
-            	row.createCell(15).setCellValue(lhMap.get("offerPri").toString()); 
+            if(lhMap.get("uniOfferPri") != null)
+            	row.createCell(15).setCellValue(lhMap.get("uniOfferPri").toString()); 
             if(lhMap.get("offerAging") != null)
             	row.createCell(16).setCellValue(lhMap.get("offerAging").toString()); 
         }
