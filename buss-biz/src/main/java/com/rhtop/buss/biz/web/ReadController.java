@@ -413,7 +413,7 @@ public class ReadController  extends BaseController {
 	 * 接口id：R2019
 	 * @author lujin
 	 * @date 2017-1-23
-	 * 国际采购部，查看品类的报盘详情
+	 * 国际采购部，查看品类的 报盘 详情
 	 * 通过品类id,得到品类的报价详情
 	 */
 	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2019")

@@ -614,7 +614,7 @@
 	<if test="cateName != null and cateName != ''" >
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if>
-	ORDER BY b.offer_pri_  ASC,b.cate_name_ ASC , b.update_time_  DESC 
+	ORDER BY b.uni_offer_pri_ ASC,b.cate_name_ ASC , b.update_time_  DESC 
 	</select>
 	
 	<!-- 品类详情 -->

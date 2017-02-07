@@ -862,6 +862,12 @@ public class CategoryController  extends BaseController {
 	@ResponseBody
 	public Category getByCategoryId(@PathVariable("categoryId") String categoryId){
 		Category category = categoryService.selectByPrimaryKey(categoryId);
+		RelCategoryPrice catePri = catPriSer.selectByCategoryId(categoryId);
+		try {
+			category.setCateSup(catePri.getCateSup());
+		} catch (Exception e) {
+			//TODO:出现异常，品类关系对象没查出来(就是这个品类还没有填写报盘价或者供应商信息)，那么这里会抛空指针，页面上的供应商一栏为空。
+		}
 		return category;
 	}
 	
