@@ -30,6 +30,11 @@ public interface RelCategoryPriceService{
 	 * 根据关系记录Id查找数据
 	 */
 	RelCategoryPrice selectByPrimaryKey(String relCategoryPriceId);
+	
+	/**
+	 * 根据品类ID查找数据
+	 */
+	RelCategoryPrice selectByCategoryId(String categoryId);
 
 	/**
 	 * 创建或更新品类批发价和接盘价

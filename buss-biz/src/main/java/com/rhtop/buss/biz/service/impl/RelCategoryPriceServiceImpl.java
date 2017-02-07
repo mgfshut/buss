@@ -58,6 +58,16 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	public RelCategoryPrice selectByPrimaryKey(String relCategoryPriceId){
 		return relCategoryPriceMapper.selectByPrimaryKey(relCategoryPriceId);
 	}
+	
+	@Override
+	public RelCategoryPrice selectByCategoryId(String categoryId){
+		List<RelCategoryPrice> relCatePris = relCategoryPriceMapper.selectByCategoryId(categoryId);
+		if(relCatePris==null){
+			return null;
+		}else{
+			return relCatePris.get(0);
+		}
+	}
 
 	@Override
 	@Transactional
