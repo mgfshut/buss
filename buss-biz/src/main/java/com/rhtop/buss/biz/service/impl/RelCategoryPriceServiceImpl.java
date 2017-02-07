@@ -303,11 +303,13 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			//从字典表中拿汇率数据
 			String rate = null;
 			List<CodeValue> rates = codeValueService.listCodeValuesByCode("rate");
-			if (rates == null || rates.size() == 0){
-				readResult.setCode("500");
-				readResult.setMessage("暂无汇率字典信息，无法进行美元转换！");
-				
-				return readResult;
+			if("01".equals(relCategoryPrice.getCurrency())){
+				if (rates == null || rates.size() == 0){
+					readResult.setCode("500");
+					readResult.setMessage("暂无汇率字典信息，无法进行美元转换！");
+					
+					return readResult;
+				}
 			}
 			
 			for(CodeValue val : rates){
@@ -366,7 +368,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			catPri.setCateSup(cat.getCateSup());
 			catPri.setCurrency(cat.getCurrency());
 			catPri.setUnit(cat.getUnit());
-			catPri.setOfferAging(cat.getOfferAging());
+			catPri.setUniOfferAging(cat.getUniOfferAging());
 			catPri.setCatePri(cat.getCatePri());
 			catPri.setCreateUser(userId);
 			catPri.setCreateTime(now);
@@ -381,7 +383,7 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			catPri.setCateSup(cat.getCateSup());
 			catPri.setCurrency(cat.getCurrency());
 			catPri.setUnit(cat.getUnit());
-			catPri.setOfferAging(cat.getOfferAging());
+			catPri.setUniOfferAging(cat.getUniOfferAging());
 			catPri.setCatePri(cat.getCatePri());
 			createOrUpdateOfferPriceAndTimeByCategoryId(readResult, catPri);
 		}
