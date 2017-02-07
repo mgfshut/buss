@@ -100,5 +100,15 @@ public interface TransactionInfoService{
 	 * @return
 	 */
 	TransactionInfo CustAndCateAndPriceInfo (TransactionInfo transactionInfo);
+	/**
+	 * 分部经理查询交易
+	 * @author mgf
+	 * @date 2017年2月7日 下午1:59:24 
+	 * @param userId
+	 * @param transactionInfo
+	 * @return
+	 */
+	List<TransactionInfo> listPageTransactionInfoByFB(
+			String userId,TransactionInfo transactionInfo);
 	
 }

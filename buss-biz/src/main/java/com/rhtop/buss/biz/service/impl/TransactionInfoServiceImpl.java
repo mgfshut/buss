@@ -451,5 +451,14 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		tran.setSla(listSla);
 		return tran;
 	}
+
+	@Override
+	public List<TransactionInfo> listPageTransactionInfoByFB(
+			String userId,TransactionInfo transactionInfo) {
+		transactionInfo.setUserId(userId);
+		List<TransactionInfo> transactionInfos = transactionInfoMapper
+				.listPageTransactionInfoByFB(transactionInfo);
+		return transactionInfos;
+	}
 	
 }

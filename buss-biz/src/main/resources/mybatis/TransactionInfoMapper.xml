@@ -34,6 +34,7 @@
 	<result column="pkg_quan_" property="pkgQuan" jdbcType="VARCHAR" />
 	
 	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
+	<result column="user_id_" property="userId" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -346,6 +347,63 @@
 		</if>
 		<if test="endTime != null and endTime != ''" >
 			and end_time_ = #{endTime}
+		</if>
+  </select>
+  <!-- 分部经理根据条件分页查询列表 -->
+  <select id="listPageTransactionInfoByFB" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
+  	SELECT b.* FROM buss_transaction_info_  b  LEFT JOIN  sys_member_ a ON b.create_user_ = a.member_id_ 
+	WHERE a.dept_id_ = (SELECT dept_id_ from sys_member_ 
+	WHERE member_id_ = #{userId} ) AND (a.member_job_ = '01' OR a.member_id_ = #{userId} )
+    	<if test="ctofPri != null and ctofPri != ''" >
+			and b.ctof_pri_ = #{ctofPri}
+		</if>
+    	<if test="txStatus != null and txStatus != ''" >
+			and b.tx_status_ = #{txStatus}
+		</if>
+		<if test="clRea != null and clRea != ''" >
+			and b.cl_rea_ = #{clRea}
+		</if>
+    	<if test="txAmo != null and txAmo != ''" >
+			and b.tx_amo_ = #{txAmo}
+		</if>
+    	<if test="updateTime != null and updateTime != ''" >
+			and b.update_time_ = #{updateTime}
+		</if>
+    	<if test="createTime != null and createTime != ''" >
+			and b.create_time_ = #{createTime}
+		</if>
+    	<if test="pcasPri != null and pcasPri != ''" >
+			and b.pcas_pri_ = #{pcasPri}
+		</if>
+    	<if test="categoryId != null and categoryId != ''" >
+			and b.category_id_ = #{categoryId}
+		</if>
+    	<if test="updateUser != null and updateUser != ''" >
+			and b.update_user = #{updateUser}
+		</if>
+    	<if test="ctofAging != null and ctofAging != ''" >
+			and b.ctof_aging_ = #{ctofAging}
+		</if>
+    	<if test="transactionInfoId != null and transactionInfoId != ''" >
+			and b.transaction_info_id_ = #{transactionInfoId}
+		</if>
+    	<if test="timingSta != null and timingSta != ''" >
+			and b.timing_sta_ = #{timingSta}
+		</if>
+    	<if test="pcasTime != null and pcasTime != ''" >
+			and b.pcas_time_ = #{pcasTime}
+		</if>
+    	<if test="dealTime != null and dealTime != ''" >
+			and b.deal_time_ = #{dealTime}
+		</if>
+    	<if test="customerId != null and customerId != ''" >
+			and b.customer_id_ = #{customerId}
+		</if>
+    	<if test="createUser != null and createUser != ''" >
+			and b.create_user_ = #{createUser}
+		</if>
+		<if test="endTime != null and endTime != ''" >
+			and b.end_time_ = #{endTime}
 		</if>
   </select>
   <!-- 客户经理，部门经理  查看 交易列表 -->

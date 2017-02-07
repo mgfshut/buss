@@ -85,6 +85,35 @@ public class TransactionInfo {
 	
 	private List<DealLog> dealLogs;//交易的操作日志
 	
+	private String userId;//分部经理用户ID
+	
+	private String tranStartTime;//开始时间
+	private String tranEndTime;//结束时间
+	
+	public String getTranStartTime() {
+		return tranStartTime;
+	}
+
+	public void setTranStartTime(String tranStartTime) {
+		this.tranStartTime = tranStartTime;
+	}
+
+	public String getTranEndTime() {
+		return tranEndTime;
+	}
+
+	public void setTranEndTime(String tranEndTime) {
+		this.tranEndTime = tranEndTime;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public String getPkgQuan() {
 		return pkgQuan;
 	}
