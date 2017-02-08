@@ -283,25 +283,15 @@ public class ContractInfoController  extends BaseController {
 			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
 			htmlMessage.setMessage("合同ID不能为空");
 		}else{
-			//判断合同的状态是否是“20”
-			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
 			try {
-				cif.setUpdateUser(userId);
-				cif.setUpdateTime(now);
-				contractInfoService.dismissContractByXZ(cif);
+				contractInfo.setUpdateUser(userId);
+				contractInfo.setUpdateTime(now);
+				contractInfoService.dismissContractByXZ(contractInfo);
 			} catch (Exception e) {
 				htmlMessage.setMessage(e.getMessage());
 			}
 		}
 		htmlMessage.setEntity(contractInfo);
 		return htmlMessage;
-	}
-
-	@RequestMapping("/contractInfoId/{contractInfoId}")
-	@ResponseBody
-	public ContractInfo getContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
-		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
-//		Customer cus = cusSer.selectByPrimaryKey(contractInfo.getCustomerId());
-		return contractInfo;
 	}
 }
