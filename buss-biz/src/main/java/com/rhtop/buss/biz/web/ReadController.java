@@ -504,7 +504,7 @@ public class ReadController  extends BaseController {
 	
 	/**
 	 * 接口id：R2009
-	 * 总经理查看合同列表
+	 * 总经理查看合同列表(无状态区分，所有状态)
 	 * @param body
 	 * @author lujin
 	 * @return
@@ -553,8 +553,6 @@ public class ReadController  extends BaseController {
 		readResult.setResObject(conts);
 		return readResult;
 	}
-	
-	
 	/**
 	 * 接口id:upgrade
 	 * 查看程序最新版本号

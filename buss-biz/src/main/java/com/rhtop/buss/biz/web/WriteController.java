@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1254,4 +1256,99 @@ public class WriteController extends BaseController{
 		return resultInfo;
 	}
 	
+	/**
+	 * 接口id:W2001
+	 * 总经理驳回客户经理提交的合同信息
+	 * @author lujin
+	 * @date 2017-2-8
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/W2001")
+	public ResultInfo dismissContranct(@RequestParam ("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.checkContract]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		
+		String userId = con.getUpdateUser();
+		con.setUpdateTime(now);
+		try {
+			conSer.dismissContract(con);
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage("总经理驳回合同异常，请重试或联系后台管理员。");
+			log.error("[WriteController.checkContract]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("总经理合同驳回");
+			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
+		} catch (Exception e) {
+			log.error("[WriteController.checkContract]日志记录异常", e);
+		}
+		return readResult;
+	}
+	
+	
+	/**
+	 * 接口id:W2002
+	 * 修改合同信息（被驳回的合同）
+	 * @author lujin
+	 * @date 2017-2-8
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/W2002")
+	public ResultInfo updateContranct(@RequestParam ("body") String body){
+		ObjectMapper mapper = new ObjectMapper();
+		ContractInfo con = null;
+		try{
+			con = mapper.readValue(body, ContractInfo.class);
+		}catch(Exception e){
+			log.error("[WriteController.checkContract]数据解析异常", e);
+		}
+		ResultInfo readResult = new ResultInfo();
+		readResult.setCode("200");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		String userId = con.getUpdateUser();
+		con.setUpdateTime(now);
+		try {
+			conSer.updateContractInfo(con);
+		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage("修改被驳回的合同异常，请重试或联系后台管理员。");
+			log.error("[WriteController.checkContract]数据更新异常", e);
+		}
+		try {
+			DealLog dlog = new DealLog();
+			dlog.setOprUser(userId);
+			dlog.setOprTime(now);
+			dlog.setTransactionInfoId(con.getTransactionInfoId());
+			dlog.setDealLogId(UUID.randomUUID().toString().replace("-",""));
+			dlog.setOprType("42");
+			dlog.setOprName("修改合同驳回");
+			dlog.setOprContent(body);
+			dlogSer.insertDealLog(dlog);
+		} catch (Exception e) {
+			log.error("[WriteController.checkContract]日志记录异常", e);
+		}
+		return readResult;
+	}
 }

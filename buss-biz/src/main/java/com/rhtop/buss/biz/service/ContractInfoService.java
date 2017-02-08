@@ -93,4 +93,22 @@ public interface ContractInfoService{
 	 * @return
 	 */
 	List<ContractInfo> listPageContractInfoByCWStatus(ContractInfo contractInfo);
+	
+	/**
+	 * 总经理驳回客户经理提交的合同
+	 * （交易表 修改状态 从30修改为31，合同修改状态 从10修改为11 ）
+	 * @author lujin
+	 * @date 2017-2-8
+	 */
+	String dismissContract(ContractInfo con) throws Exception;
+	
+	/**
+	 * 行政驳回总经理已审核的合同
+	 * （合同修改状态 从20修改为21 ）
+	 * @author lujin
+	 * @date 2017-2-8
+	 */
+	String dismissContractByXZ(ContractInfo con) throws Exception;
+	
+	
 }

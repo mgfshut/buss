@@ -4,6 +4,7 @@ package com.rhtop.buss.biz.web;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.biz.utils.NumberToCN;
 import com.rhtop.buss.common.entity.ContractInfo;
 import com.rhtop.buss.common.entity.Customer;
+import com.rhtop.buss.common.entity.DealLog;
 import com.rhtop.buss.common.entity.InfoResult;
 import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.Page;
@@ -232,6 +234,7 @@ public class ContractInfoController  extends BaseController {
 		htmlMessage.setEntity(contractInfo);
 		return htmlMessage;
 	}
+	
 	/**
 	 * 财务合同审核
 	 */
@@ -262,5 +265,43 @@ public class ContractInfoController  extends BaseController {
 		}
 		htmlMessage.setEntity(contractInfo);
 		return htmlMessage;
+	}
+	
+	/**
+	 * 行政驳回合同
+	 * @author lujin
+	 * @date 2017-2-8
+	 */
+	@RequestMapping("/dismissContranct")
+	@ResponseBody
+	public HtmlMessage dismissContranct(@Valid @RequestParam(value="userId")String userId, @Valid ContractInfo contractInfo ){
+		HtmlMessage htmlMessage = new HtmlMessage();
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String now = sdf.format(date);
+		if(contractInfo.getContractInfoId() == null || "".equals(contractInfo.getContractInfoId())){
+			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
+			htmlMessage.setMessage("合同ID不能为空");
+		}else{
+			//判断合同的状态是否是“20”
+			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
+			try {
+				cif.setUpdateUser(userId);
+				cif.setUpdateTime(now);
+				contractInfoService.dismissContractByXZ(cif);
+			} catch (Exception e) {
+				htmlMessage.setMessage(e.getMessage());
+			}
+		}
+		htmlMessage.setEntity(contractInfo);
+		return htmlMessage;
+	}
+
+	@RequestMapping("/contractInfoId/{contractInfoId}")
+	@ResponseBody
+	public ContractInfo getContractInfoId(@PathVariable("contractInfoId") String contractInfoId){
+		ContractInfo contractInfo = contractInfoService.selectByPrimaryKey(contractInfoId);
+//		Customer cus = cusSer.selectByPrimaryKey(contractInfo.getCustomerId());
+		return contractInfo;
 	}
 }

@@ -91,6 +91,8 @@ public class ContractInfo {
 	//Http url
 	private String httpUrl;
 	
+	private String dmRea;//合同驳回的原因
+	
 	/**打印所用字段begin**/
 	private String buyName;//买方
 	private String manuNum;//厂号
@@ -703,5 +705,13 @@ public class ContractInfo {
 
 	public void setPayPic(String payPic) {
 		this.payPic = payPic;
+	}
+
+	public String getDmRea() {
+		return dmRea;
+	}
+
+	public void setDmRea(String dmRea) {
+		this.dmRea = dmRea;
 	}
 }

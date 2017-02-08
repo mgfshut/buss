@@ -334,6 +334,7 @@
 					</div>
 		<div class="formBar">
 			<ul>
+			    <li><a class="btn btn-sm btn-warning" data-dismiss="modal" type="button" href="module/sys-contractInfo-dismiss/contractInfoId-{contractInfoId}">驳回</a></li>
 				<li><button class="btn btn-sm btn-warning" data-dismiss="modal" type="button">取消</button></li>
 			</ul>
 		</div>
