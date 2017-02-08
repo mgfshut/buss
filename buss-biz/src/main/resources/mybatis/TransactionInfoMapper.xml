@@ -35,6 +35,8 @@
 	
 	<result column="cate_sup_" property="cateSup" jdbcType="VARCHAR" />
 	<result column="user_id_" property="userId" jdbcType="VARCHAR" />
+	<result column="tran_start_time_" property="tranStartTime" jdbcType="VARCHAR" />
+	<result column="tran_end_time_" property="tranEndTime" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -348,6 +350,12 @@
 		<if test="endTime != null and endTime != ''" >
 			and end_time_ = #{endTime}
 		</if>
+		<if test="tranStartTime != null and tranStartTime != ''" >
+			and deal_time_ <![CDATA[ >=  ]]>  #{tranStartTime}
+		</if>
+		<if test="tranEndTime != null and tranEndTime != ''" >
+			and	deal_time_ <![CDATA[ <=  ]]>  #{tranEndTime}
+		</if>
   </select>
   <!-- 分部经理根据条件分页查询列表 -->
   <select id="listPageTransactionInfoByFB" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
@@ -405,6 +413,25 @@
 		<if test="endTime != null and endTime != ''" >
 			and b.end_time_ = #{endTime}
 		</if>
+		<if test="tranStartTime != null and tranStartTime != ''" >
+			and b.deal_time_ <![CDATA[ >=  ]]>  #{tranStartTime}
+		</if>
+		<if test="tranEndTime != null and tranEndTime != ''" >
+			and	b.deal_time_ <![CDATA[ <=  ]]>  #{tranEndTime}
+		</if>
+  </select>
+  <!-- 根据用户ID查询交易 -->
+  <select id="listPageTransactionInfoByUserId" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
+  	SELECT * FROM buss_transaction_info_  WHERE 1 = 1
+  	<if test="userId != null and userId != ''" >
+			and create_user_ = #{userId}
+	</if>
+	<if test="tranStartTime != null and tranStartTime != ''" >
+			and deal_time_ <![CDATA[ >=  ]]>  #{tranStartTime}
+	</if>
+	<if test="tranEndTime != null and tranEndTime != ''" >
+			and deal_time_ <![CDATA[ <=  ]]>  #{tranEndTime}
+	</if>
   </select>
   <!-- 客户经理，部门经理  查看 交易列表 -->
   <select id="listPageTransactionInfoBycreateUser" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">

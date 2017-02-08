@@ -116,11 +116,54 @@ public class TransactionInfoController  extends BaseController {
 			transactionInfoList = transactionInfoService.listPageTransactionInfoByFB(userId,transactionInfo);
 		}else if("05".equals(mem.getMemberJob())){//总经理
 			transactionInfoList = transactionInfoService.listPageTransactionInfo(transactionInfo);
+		}else if("04".equals(mem.getMemberJob())){//决策委员会
+			transactionInfoList = transactionInfoService.listPageTransactionInfo(transactionInfo);
+		}else{
+			transactionInfoList = transactionInfoService.listPageTransactionInfoByUserId(userId);
+		}
+		for(TransactionInfo tran:transactionInfoList){
+			Category cate = cateSer.selectByPrimaryKey(tran.getCategoryId());
+			tran.setCateName(cate.getCateName());
+			tran.setManuNum(cate.getManuNum());
+			tran.setProdPla(cate.getProdPla());
+			tran.setCateStan(cate.getCateStan());
+			Customer cust = custSer.selectByPrimaryKey(tran.getCustomerId());
+			tran.setCusName(cust.getCusName());
+			tran.setCusLoc(cust.getCusLoc());
+			tran.setCusCha(cust.getCusCha());
 		}
 		infoResult.setCode("200");
 		infoResult.setResList(transactionInfoList);
 		infoResult.setPage(transactionInfo.getPage());
 		return infoResult;
+	}
+	/**
+	 * 交易详情
+	 * @author mgf
+	 * @date 2017年2月8日 下午3:10:16 
+	 * @param transactioninfoId
+	 * @return
+	 */
+	@RequestMapping("/detail/{transactioninfoId}")
+	@ResponseBody
+	public TransactionInfo getDetailTranInfo(@PathVariable("transactioninfoId") String transactioninfoId) {
+		TransactionInfo tran = transactionInfoService.selectByPrimaryKey(transactioninfoId);
+		Category cate = cateSer.selectByPrimaryKey(tran.getCategoryId());
+		tran.setCateName(cate.getCateName());
+		tran.setManuNum(cate.getManuNum());
+		tran.setProdPla(cate.getProdPla());
+		tran.setCateStan(cate.getCateStan());
+		tran.setCate(cate);
+		Customer cust = custSer.selectByPrimaryKey(tran.getCustomerId());
+		tran.setCust(cust);
+		tran.setCusName(cust.getCusName());
+		tran.setCusLoc(cust.getCusLoc());
+		tran.setCusCha(cust.getCusCha());
+		SlaTransactionInfo slaTransactionInfo = new SlaTransactionInfo();
+		slaTransactionInfo.setTransactionInfoId(transactioninfoId);
+		List<SlaTransactionInfo>  sla = slaTransactionInfoMapper.listSlaTransactionInfos(slaTransactionInfo);
+		tran.setSla(sla);
+		return tran;
 	}
 	/**
 	 * 根据主键查询

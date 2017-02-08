@@ -67,5 +67,13 @@ public interface TransactionInfoMapper {
 	 */
 	List<TransactionInfo> listPageTransactionInfoByFB(
 			TransactionInfo transactionInfo);
+	/**
+	 * 根据用户ID查询交易
+	 * @author mgf
+	 * @date 2017年2月8日 上午11:37:47 
+	 * @param userId
+	 * @return
+	 */
+	List<TransactionInfo> listPageTransactionInfoByUserId(TransactionInfo transactionInfo);
 	
 }
