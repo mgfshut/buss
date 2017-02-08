@@ -11,7 +11,7 @@
 	</appender>
 	
 	<appender name="debugAppender" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="${catalina.base}/logs/debug.log" />         
+        <param name="File" value="${catalina.base}/logs/core/debug.log" />         
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
         <layout class="org.apache.log4j.PatternLayout">       
          <param name="ConversionPattern"         
@@ -25,7 +25,7 @@
     </appender> 
     
     <appender name="infoAppender" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="${catalina.base}/logs/info.log" />         
+        <param name="File" value="${catalina.base}/logs/core/info.log" />         
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
         <layout class="org.apache.log4j.PatternLayout">       
          <param name="ConversionPattern"         
@@ -39,7 +39,7 @@
     </appender> 
 	
 	<appender name="warnAppender" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="${catalina.base}/logs/warn.log" />         
+        <param name="File" value="${catalina.base}/logs/core/warn.log" />         
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
         <layout class="org.apache.log4j.PatternLayout">       
          <param name="ConversionPattern"         
@@ -53,7 +53,7 @@
     </appender> 
     
     <appender name="errorAppender" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="${catalina.base}/logs/error.log" />         
+        <param name="File" value="${catalina.base}/logs/core/error.log" />         
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
         <layout class="org.apache.log4j.PatternLayout">       
          <param name="ConversionPattern"         
@@ -67,7 +67,7 @@
     </appender>       
     <!-- 数据接收日志记录 -->
     <appender name="interfaceAppender" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="${catalina.base}/logs/interface.log" />         
+        <param name="File" value="${catalina.base}/logs/core/interface.log" />         
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
         <layout class="org.apache.log4j.PatternLayout">       
          <param name="ConversionPattern"         
@@ -139,6 +139,7 @@
 		<!-- <appender-ref ref="debugAppender"/>  
 		<appender-ref ref="infoAppender"/>  
 		<appender-ref ref="warnAppender"/>   -->
+		<appender-ref ref="infoAppender"/>  
 		<appender-ref ref="debugAppender"/>
 		<appender-ref ref="errorAppender"/>  
 		<appender-ref ref="interfaceAppender"/>   

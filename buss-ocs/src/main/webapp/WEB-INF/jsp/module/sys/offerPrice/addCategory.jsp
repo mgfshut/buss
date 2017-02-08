@@ -49,14 +49,16 @@ function categoryItemSaveDone(json){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类名称：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateName" data-error="请输入1-20位字符" placeholder="请输入品类名称"  maxlength="20" class="form-control textInput" required="required" value="${cateName}">
+				<!-- <input type="text" name="cateName" data-error="请输入1-20位字符" placeholder="请输入品类名称"  maxlength="20" class="form-control textInput" required="required" value="${cateName}"> -->
+				<ys:codemapSelect2 codemap="cateName" required="required" selectName="cateName" value="${cateName}" defaultText="请选择" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">厂号：</label>
 				<div class="col-sm-8">
-				<input type="text" name="manuNum" data-error="请输入1-10位字符" placeholder="请输入厂号" maxlength="10" class="form-control textInput" required="required" value="${manuNum}">
+				<!-- <input type="text" name="manuNum" data-error="请输入1-10位字符" placeholder="请输入厂号" maxlength="10" class="form-control textInput" required="required" value="${manuNum}"> -->
+				<ys:codemapSelect2 codemap="manuNum" required="required" selectName="manuNum" value="${manuNum}" defaultText="请选择" classes="form-control"></ys:codemapSelect2>
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -112,7 +114,7 @@ function categoryItemSaveDone(json){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">报盘时效：</label>
 				<div class="col-sm-8">
-				<input type="text" name="offerAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效，如若大于24小时则必须是24的整数倍。" maxlength="10" class="form-control textInput" required="required" value="${offerAging}">
+				<input type="text" name="uniOfferAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效，如若大于24小时则必须是24的整数倍。" maxlength="10" class="form-control textInput" required="required" value="${uniOfferAging}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

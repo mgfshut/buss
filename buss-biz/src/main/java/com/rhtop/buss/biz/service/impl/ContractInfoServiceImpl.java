@@ -306,6 +306,18 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		}
 		return contract;
 	}
+
+	@Override
+	public List<ContractInfo> listPageContractInfoByXZStatus( ContractInfo contractInfo) {
+		List<ContractInfo> contractInfos = contractInfoMapper.listPageContractInfoByXZStatus(contractInfo);
+		return contractInfos;
+	}
+
+	@Override
+	public List<ContractInfo> listPageContractInfoByCWStatus(ContractInfo contractInfo) {
+		List<ContractInfo> contractInfos = contractInfoMapper.listPageContractInfoByCWStatus(contractInfo);
+		return contractInfos;
+	}
 	
 
 }

@@ -112,4 +112,14 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	Category custOfferPiceInfo(Category category);
+	
+	/**
+	 * 总经理查询报价信息
+	 * @author lujin
+	 * @Date 2017-2-6
+	 * @param category
+	 * @return
+	 */
+	List<Category> listPriceByGenMgr(Category category);
+	
 }

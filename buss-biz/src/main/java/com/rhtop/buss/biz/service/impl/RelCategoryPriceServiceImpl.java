@@ -282,9 +282,8 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 	@Transactional
 	public ResultInfo createOrUpdateOfferPriceAndTimeByCategoryId(ResultInfo readResult, 
 			RelCategoryPrice relCategoryPrice) throws Exception{
-		try {
-			//检测报盘时效offerAging如果大于24，是不是24的倍数，不是则抛出异常
-			String offerAgingStr = relCategoryPrice.getOfferAging();
+			//检测报盘时效UniOfferAging如果大于24，是不是24的倍数，不是则抛出异常
+			String offerAgingStr = relCategoryPrice.getUniOfferAging();
 			Float offerAging = Float.parseFloat(offerAgingStr);
 			if(1<offerAging/24){
 				if(0!=offerAging%24){
@@ -309,9 +308,11 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 			//换算价格
 			BigDecimal offerPri = UnitUtils.unitConver(relCategoryPrice.getCurrency(), new BigDecimal(relCategoryPrice.getCatePri()), relCategoryPrice.getUnit(), rate);
 			//换算好的报盘价添加到品类表中
+			//修改了的备注（通过mgrLoc传值）也添加到品类表中
 			Category cat = catSer.selectByPrimaryKey(relCategoryPrice.getCategoryId());
-			cat.setOfferPri(offerPri.floatValue());
-			cat.setOfferAging(relCategoryPrice.getOfferAging());
+			cat.setUniOfferPri(offerPri.floatValue());
+			cat.setUniOfferAging(relCategoryPrice.getUniOfferAging());
+			cat.setComm(relCategoryPrice.getMgrLoc());
 			catSer.updateCategory(cat);
 			//检查品类/价格关系表中是否有记录
 			List<RelCategoryPrice> catPriList = relCategoryPriceMapper.selectByCategoryId(relCategoryPrice.getCategoryId());
@@ -320,16 +321,14 @@ public class RelCategoryPriceServiceImpl implements RelCategoryPriceService {
 				relCategoryPrice.setRelCategoryPriceId(UUID.randomUUID().toString().replace("-", ""));
 				relCategoryPrice.setCreateTime(relCategoryPrice.getUpdateTime());
 				relCategoryPrice.setCreateUser(relCategoryPrice.getUpdateUser());
+				relCategoryPrice.setMgrLoc(null);
 				relCategoryPriceMapper.insertSelective(relCategoryPrice);
 			}else{
 				//有则更新记录。
+				relCategoryPrice.setMgrLoc(null);
 				int i = relCategoryPriceMapper.updateByCategoryId(relCategoryPrice);
 				readResult.setMessage("成功更新"+i+"条数据");
 			}
-		} catch (Exception e) {
-			readResult.setCode("500");
-			readResult.setMessage("数据更新时出现异常。"+e.getMessage());
-		}
 		return readResult;
 	}
 	

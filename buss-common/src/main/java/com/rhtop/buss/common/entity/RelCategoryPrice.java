@@ -28,7 +28,9 @@ public class RelCategoryPrice {
 	
 	private String updateTime;//修改时间
 	
-	private String offerAging;//报盘时效
+	private String offerAging;//国内报盘时效
+	
+	private String uniOfferAging;//国际报盘时效
 	
 	private Float spotMin;//现货价最小值
 	
@@ -541,6 +543,14 @@ public class RelCategoryPrice {
 
 	public void setCusChaId(String cusChaId) {
 		this.cusChaId = cusChaId;
+	}
+
+	public String getUniOfferAging() {
+		return uniOfferAging;
+	}
+
+	public void setUniOfferAging(String uniOfferAging) {
+		this.uniOfferAging = uniOfferAging;
 	}
  
 }

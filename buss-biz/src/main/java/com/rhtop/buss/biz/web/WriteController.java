@@ -109,7 +109,7 @@ public class WriteController extends BaseController{
 			cusSer.addCustomer(readResult, customer); 
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("创建失败，请重试或联系后台管理员。");
 			log.error("[WriteController.addCustomerAndCategory]数据更新异常", e);
 		}
 		try{
@@ -149,6 +149,8 @@ public class WriteController extends BaseController{
 			catePic = FileUtil.uploadPic(files);
 			readResult.setResObject(catePic);
 		} catch (Exception e) {
+			readResult.setCode("500");
+			readResult.setMessage("上传失败，请重试或联系后台管理员。");
 			log.error("[WriteController.uploadPic]图片上传异常", e);
 		}
 		return readResult;
@@ -182,7 +184,7 @@ public class WriteController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("数据更新失败，请重试或联系后台管理员。");
 			log.error("[WriteController.fixWholesaleAndAcptPrice]数据更新失败", e);
 		}
 		//新增一条操作记录
@@ -243,7 +245,7 @@ public class WriteController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("数据更新失败，请重试或联系后台管理员。");
 			log.error("[WriteController.fixMidPrice]数据更新失败", e);
 			return readResult;
 		}
@@ -303,7 +305,7 @@ public class WriteController extends BaseController{
 				}
 			} catch (Exception e) {
 				readResult.setCode("500");
-				readResult.setMessage(e.getMessage());
+				readResult.setMessage("客户确认失败，请重试或联系后台管理员。");
 				log.error("[WriteController.commitNewCustomerLevelOne]数据更新失败", e);
 			}
 		}
@@ -370,7 +372,7 @@ public class WriteController extends BaseController{
 					}
 				} catch (Exception e) {
 					readResult.setCode("500");
-					readResult.setMessage(e.getMessage());
+					readResult.setMessage("客户确认失败，请重试或联系后台管理员。");
 					log.error("[WriteController.commitNewCustomerLevelTwo]数据更新失败", e);
 				}
 			}
@@ -441,7 +443,7 @@ public class WriteController extends BaseController{
 			catPriSer.createOrUpdateOfferPriceAndTimeByCategoryId(readResult,catePri);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("数据录入失败，请重试或联系后台管理员。");
 			log.error("[WriteController.fixOfferPrice]数据更新异常", e);
 		}
 		//记录日志
@@ -486,7 +488,7 @@ public class WriteController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("品类新增失败，请重试或联系后台管理员。");
 			log.error("[WriteController.universeAddCategory]数据更新异常", e);
 		}
 		//记录日志
@@ -535,7 +537,7 @@ public class WriteController extends BaseController{
 			cusSer.updateCustomerInfo(readResult,customer);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("数据更新失败，请重试或联系后台管理员。");
 			log.error("[WriteController.updateCustomerAndCategory]数据更新异常", e);
 		}	
 		//添加一条操作记录
@@ -578,7 +580,7 @@ public class WriteController extends BaseController{
 			readResult.setMessage("联系人删除成功！");
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("联系人删除失败，请重试或联系后台管理员。");
 			log.error("[WriteController.deleteContact]数据更新异常", e);
 		}
 		try {
@@ -618,7 +620,7 @@ public class WriteController extends BaseController{
 			contactsSer.updateContactsInfo(con);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("联系人修改失败，请重试或联系后台管理员。");
 			log.error("[WriteController.modifyContact]数据更新异常", e);
 		}
 		try {
@@ -663,7 +665,7 @@ public class WriteController extends BaseController{
 			txId = txSer.createDeal(tx);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("交易发起失败，请重试或联系后台管理员。");
 			log.error("[WriteController.makeADeal]数据新增异常", e);
 		}
 		try {
@@ -704,7 +706,7 @@ public class WriteController extends BaseController{
 			txSer.cusNegotiate(readResult,tx);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("回盘失败，请重试或联系后台管理员。");
 			log.error("[WriteController.makeNegotiate]数据更新异常", e);
 		}
 		try {
@@ -760,7 +762,7 @@ public class WriteController extends BaseController{
 			txSer.universeNegotiate(tx);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("回盘失败，请重试或联系后台管理员。");
 			log.error("[WriteController.universeNegotiate]数据更新异常", e);
 		}
 		try {
@@ -804,7 +806,7 @@ public class WriteController extends BaseController{
 			txSer.domainNegotiate(tx);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("回盘操作失败，请重试或联系后台管理员。");
 			log.error("[WriteController.domainNegotiate]数据更新异常", e);
 		}
 		try {
@@ -837,11 +839,34 @@ public class WriteController extends BaseController{
 		String userId = con.getUpdateUser();
 		con.setUpdateTime(now);
 		try {
-			conSer.createContract(con);
+			//做非空校验
+			if(StringUtils.isEmpty(con.getCusName())||StringUtils.isEmpty(con.getEntTel())||
+			   StringUtils.isEmpty(con.getCreditCode())||StringUtils.isEmpty(con.getLegalPer())||
+			   StringUtils.isEmpty(con.getEntAddr())||StringUtils.isEmpty(con.getExecName())||
+			   StringUtils.isEmpty(con.getExecTel())||StringUtils.isEmpty(con.getExecAddr())||
+			   StringUtils.isEmpty(con.getCsgName())||StringUtils.isEmpty(con.getCsgId())){
+				readResult.setCode("500");
+				readResult.setMessage("请将合同信息填写完整");
+			}else if("01".equals(con.getDelvOpt())||con.getDelvOpt()=="01"){
+				if(StringUtils.isEmpty(con.getCsgTel())||StringUtils.isEmpty(con.getCsgAddr())){
+					readResult.setCode("500");
+					readResult.setMessage("请将合同信息填写完整");
+				}
+			}else if("02".equals(con.getDelvOpt())||con.getDelvOpt()=="02"){
+				if(StringUtils.isEmpty(con.getCarNum())||StringUtils.isEmpty(con.getDriNum())){
+					readResult.setCode("500");
+					readResult.setMessage("请将合同信息填写完整");
+				}
+			}
+			//如果通过非空校验，则进行创建合同的操作
+			if(readResult.getCode()=="200"||"200".equals(readResult.getCode())){
+				conSer.createContract(con);
+			}
+			
 		} catch (Exception e) {
 			log.error("[WriteController.createContract]数据更新异常", e);
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("合同创建失败，请重试或联系后台管理员。");
 		}
 		try {
 			DealLog dlog = new DealLog();
@@ -884,7 +909,7 @@ public class WriteController extends BaseController{
 			}
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("合同上传失败，请重试或联系后台管理员。");
 			log.error("[WriteController.uploadPic]图片上传异常", e);
 		}
 		readResult.setResObject(contUlName);
@@ -930,7 +955,7 @@ public class WriteController extends BaseController{
 			conSer.checkContract(con);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("合同审核失败，请重试或联系后台管理员。");
 			log.error("[WriteController.checkContract]数据更新异常", e);
 		}
 		try {
@@ -971,7 +996,7 @@ public class WriteController extends BaseController{
 			conSer.contractStamp(con);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("审核失败，请重试或联系后台管理员。");
 			log.error("[WriteController.contractStamp]数据更新异常", e);
 		}
 		try {
@@ -1013,7 +1038,7 @@ public class WriteController extends BaseController{
 			readResult.setResObject(urlList);
 		} catch (Exception e) {
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("数据获取异常，请重试或联系后台管理员。");
 			log.error("[WriteController.downloadContract]数据更新异常", e);
 		}
 		try {
@@ -1055,7 +1080,7 @@ public class WriteController extends BaseController{
 		} catch (Exception e) {
 			log.error("[WriteController.treasurerCheckContract]数据更新异常", e);
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("审核失败，请重试或联系后台管理员。");
 		}
 		try {
 			DealLog dlog = new DealLog();
@@ -1097,7 +1122,7 @@ public class WriteController extends BaseController{
 		} catch (Exception e) {
 			log.error("[WriteController.setExpressId]数据更新异常", e);
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("数据更新异常，请重试或联系后台管理员。");
 		}
 		try {
 			DealLog dlog = new DealLog();
@@ -1140,7 +1165,7 @@ public class WriteController extends BaseController{
 		} catch (Exception e) {
 			log.error("[WriteController.cancleTransaction]数据更新异常", e);
 			readResult.setCode("500");
-			readResult.setMessage(e.getMessage());
+			readResult.setMessage("取消失败，请重试或联系后台管理员。");
 		}
 		try {
 			DealLog dlog = new DealLog();

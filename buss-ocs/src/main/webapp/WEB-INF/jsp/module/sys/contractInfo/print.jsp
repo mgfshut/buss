@@ -227,7 +227,7 @@
 				<p class="time">年&nbsp;&nbsp;月&nbsp;&nbsp;日</p>
 				
 				
-				<h3>附件1：</h3>
+				<!-- <h3>附件1：</h3>
 				<h1>到港期告知函</h1>
 				<p>&nbsp;&nbsp;本告知函之主合同（合同编号：______________）内乙方指定购买的商品，甲方将按下述日期安排到港：</p>
 				<table class="tab2" border="solid 1px #000000" cellspacing="0" cellpadding="0">
@@ -288,7 +288,7 @@
 				</table>
 				<p>&nbsp;&nbsp;请知悉！</p>
 				<p class="time">告知方：天津荣汇国际贸易有限公司</p>
-				<p class="time">时&nbsp;间：______年______月______日</p>
+				<p class="time">时&nbsp;间：______年______月______日</p> -->
 			</div>
 			<div style="float: right;">
 				<button class="printButton" onclick="printArea()">合同打印</button>

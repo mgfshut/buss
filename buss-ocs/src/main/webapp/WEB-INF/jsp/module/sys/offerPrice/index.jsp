@@ -49,8 +49,8 @@ function modifyInfo(){
 			<th orderField="manuNum" class="${param.orderField eq 'manuNum'?param.orderDirection:''}">厂号</th>
 			<th orderField="prodPla" class="${param.orderField eq 'prodPla'?param.orderDirection:''}">产地</th>
 			<th orderField="comm" class="${param.orderField eq 'comm'?param.orderDirection:''}">规格</th>
-			<th orderField="offerPri" class="${param.orderField eq 'offerPri'?param.orderDirection:''}">报盘价</th>
-			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">报盘时效</th>
+			<th orderField="uniOfferPri" class="${param.orderField eq 'uniOfferPri'?param.orderDirection:''}">国际报盘价</th>
+			<th orderField="offerAging" class="${param.orderField eq 'offerAging'?param.orderDirection:''}">国际报盘时效</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -60,8 +60,8 @@ function modifyInfo(){
 				<td>${item.manuNum}</td>
 				<td><ys:codemapConvert codemap="prodPla" value="${item.prodPla }"/></td>
 				<td><ys:codemapConvert codemap="cateStan" value="${item.cateStan }"/></td>
-				<td>${item.offerPri}</td>
-				<td>${item.offerAging}</td>
+				<td>${item.uniOfferPri}</td>
+				<td>${item.uniOfferAging}</td>
 			</tr>
 		</c:forEach>
 	</tbody>

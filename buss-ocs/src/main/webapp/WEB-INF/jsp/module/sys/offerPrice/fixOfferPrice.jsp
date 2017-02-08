@@ -28,14 +28,14 @@ function categoryItemSaveDone(json){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">品类名称：</label>
 				<div class="col-sm-8">
-				<input type="text" name="cateName" class="form-control textInput" readOnly="readonly" value="${cateName}">
+				<input type="text" name="cateName" class="form-control textInput" readOnly="readonly" value="<ys:codemapConvert codemap="cateName" value="${cateName }"/>">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">厂号：</label>
 				<div class="col-sm-8">
-				<input type="text" name="manuNum" class="form-control textInput" readOnly="readonly" value="${manuNum}">
+				<input type="text" name="manuNum" class="form-control textInput" readOnly="readonly" value="<ys:codemapConvert codemap="manuNum" value="${manuNum }"/>">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -58,7 +58,8 @@ function categoryItemSaveDone(json){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">备注：</label>
 				<div class="col-sm-8">
-				<input type="text" name="comm_" class="form-control textInput" readOnly="readonly" value="${comm}">
+				<!-- 这里仅仅是用这个字段传值，因为这个字段需要插入到品类主表中，但是与后台传值是用的品类价格关系对象，所以用一个冗余字段避免新增字段。 -->
+				<input type="text" name="mgrLoc" class="form-control textInput" value="${mgrLoc}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -93,7 +94,7 @@ function categoryItemSaveDone(json){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">报盘时效：</label>
 				<div class="col-sm-8">
-				<input type="text" name="offerAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput" required="required" value="${offerAging}">
+				<input type="text" name="uniOfferAging" data-error="请输入24的倍数位" placeholder="请输入报盘时效" maxlength="10" class="form-control textInput" required="required" value="${uniOfferAging}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

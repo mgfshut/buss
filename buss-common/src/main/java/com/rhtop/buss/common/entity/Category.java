@@ -31,7 +31,11 @@ public class Category {
 	
 	private String offerAging;//报盘时效（品类表和价格关系表中的公用字段）
 	
-	private Float offerPri;//报盘价(这是经过了单位换算的价格)
+	private Float offerPri;//国内报盘价(是决委会报的盘还是客户经理报的盘)
+	
+	private Float uniOfferPri;//国际部报盘价(这是经过了单位换算的价格)
+	
+	private String uniOfferAging;//国际部报盘时效
 	
 	private String prodPla;//产地
 	
@@ -461,5 +465,21 @@ public class Category {
 
 	public void setRcacu(List<RelCustomerCategory> rcacu) {
 		this.rcacu = rcacu;
+	}
+
+	public Float getUniOfferPri() {
+		return uniOfferPri;
+	}
+
+	public void setUniOfferPri(Float uniOfferPri) {
+		this.uniOfferPri = uniOfferPri;
+	}
+
+	public String getUniOfferAging() {
+		return uniOfferAging;
+	}
+
+	public void setUniOfferAging(String uniOfferAging) {
+		this.uniOfferAging = uniOfferAging;
 	}
 }

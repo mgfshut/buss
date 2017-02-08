@@ -26,7 +26,6 @@ import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.Role;
 import com.rhtop.buss.common.entity.RsUserRole;
 import com.rhtop.buss.common.entity.User;
-import com.rhtop.buss.common.exception.BusException;
 import com.rhtop.buss.biz.service.DeptService;
 import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.RoleService;
@@ -119,6 +118,7 @@ public class MemberController  extends BaseController {
 		}
 	    return infoResult;// 200表示成功,500表示失败
 	}
+	
 	/**
 	 * 根据条件分页查询信息列表
 	 */
@@ -226,16 +226,15 @@ public class MemberController  extends BaseController {
 	public HtmlMessage updateMemberRoles(HttpServletRequest request,
 			@RequestParam(value = "memberId") String memberId,
 			@RequestParam(value = "roleIds", required = false) String[] roleIds) {
-		if (roleIds == null) {
-			throw new BusException("请选择角色再提交!");
-		}
 		rsUserRoleService.deleteRsUserRoleByMemberId(memberId);
-		for(String roleId:roleIds){
-			RsUserRole rsUserRole = new RsUserRole();
-			rsUserRole.setRsUserRoleId(UUID.randomUUID().toString().replace("-", ""));
-			rsUserRole.setMemberId(memberId);
-			rsUserRole.setRoleId(roleId);
-			rsUserRoleService.insertRsUserRole(rsUserRole);
+		if (roleIds != null) {
+			for(String roleId:roleIds){
+				RsUserRole rsUserRole = new RsUserRole();
+				rsUserRole.setRsUserRoleId(UUID.randomUUID().toString().replace("-", ""));
+				rsUserRole.setMemberId(memberId);
+				rsUserRole.setRoleId(roleId);
+				rsUserRoleService.insertRsUserRole(rsUserRole);
+			}
 		}
 		return new HtmlMessage("角色分配成功!").setNavTabId("sys:member");
 	}

@@ -3,6 +3,8 @@
  */
 package com.rhtop.buss.biz.service.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -364,6 +366,26 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			int i = conMapper.listContractInfos(cont).size();
 			if (i > 0) {
 				cont = conts.get(0);
+				String endTime = cont.getEndTime();//合同的结束时间-当前时间 再格式化 精确到分
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+				try {
+					Date endDate = df.parse(endTime);
+					Date nowDate = new Date();
+					long diff = endDate.getTime()-nowDate.getTime();
+					long days = diff / (1000 * 60 * 60 * 24);
+					long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+					long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60); 
+					String time = "";
+					if(days==0){
+						time = hours +"小时"+minutes + "分";
+					}else{
+					    time = days + "天"+ hours +"小时"+minutes + "分";
+					}
+					cont.setEndTime(time);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			tran.setContract(cont);//合同信息
 		}

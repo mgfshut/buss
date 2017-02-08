@@ -96,10 +96,10 @@ public class CategoryController  extends BaseController {
 					}
 				}
 				//换算价格
-				BigDecimal offerPri = UnitUtils.unitConver(category.getCurrency(), new BigDecimal(category.getOfferPri()), category.getUnit(), rate);
+				BigDecimal offerPri = UnitUtils.unitConver(category.getCurrency(), new BigDecimal(category.getCatePri()), category.getUnit(), rate);
 				//换算好的报盘价添加到品类表中
-				category.setOfferPri(offerPri.floatValue());
-				category.setOfferAging(category.getOfferAging());
+				category.setUniOfferPri(offerPri.floatValue());
+				category.setUniOfferAging(category.getUniOfferAging());
 				categoryService.insertCategory(category);
 				//将供应商，货币单位，计量单位，报价，时效,品类主键加入到品类与价格关系表中
 				RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
@@ -107,8 +107,8 @@ public class CategoryController  extends BaseController {
 				relCategoryPrice.setCategoryId(categoryId);
 				relCategoryPrice.setCateSup(category.getCateSup());
 				relCategoryPrice.setCurrency(category.getCurrency());
-				relCategoryPrice.setOfferPri(category.getOfferPri());
-				relCategoryPrice.setOfferAging(category.getOfferAging());
+//				relCategoryPrice.setOfferPri(category.getOfferPri());
+				relCategoryPrice.setUniOfferAging(category.getUniOfferAging());
 				relCategoryPrice.setUnit(category.getUnit());
 				relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
 				catPriSer.insertRelCategoryPrice(relCategoryPrice);	 
@@ -126,7 +126,7 @@ public class CategoryController  extends BaseController {
 				relCategoryPrice.setCategoryId(cate.getCategoryId());
 				relCategoryPrice.setCateSup(category.getCateSup());
 				relCategoryPrice.setCurrency(category.getCurrency());
-				relCategoryPrice.setOfferPri(category.getOfferPri());
+//				relCategoryPrice.setOfferPri(category.getOfferPri());
 				relCategoryPrice.setOfferAging(category.getOfferAging());
 				relCategoryPrice.setUnit(category.getUnit());
 				relCategoryPrice.setOfferUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
@@ -359,7 +359,19 @@ public class CategoryController  extends BaseController {
 					category.setCategoryId(UUID.randomUUID().toString().replace("-", ""));
 					String cateName = formatCell(hssfRow.getCell(cellIndex[0]));
 					if (StringUtils.isNotEmpty(cateName)){
+						
+						CodeValue codeCateName = codeValueService.queryCodeValueAndCodeName("cateName", cateName);
+						if (codeCateName == null || StringUtils.isEmpty(codeCateName.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[品类名称]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							cateName = codeCateName.getCodeValueId();
+						}
 						category.setCateName(cateName);
+						
 						//规格需要从字段表提取
 						String cateStan = formatCell(hssfRow.getCell(cellIndex[1]));
 						CodeValue code = codeValueService.queryCodeValueAndCodeName("cateStan", cateStan);
@@ -374,7 +386,20 @@ public class CategoryController  extends BaseController {
 						}
 						category.setCateStan(cateStan);
 						category.setPkgQuan(formatCell(hssfRow.getCell(cellIndex[2])));
-						category.setManuNum(formatCell(hssfRow.getCell(cellIndex[3])));
+						
+						String manuNum = formatCell(hssfRow.getCell(cellIndex[3]));
+						CodeValue codeManuNum = codeValueService.queryCodeValueAndCodeName("manuNum", manuNum);
+						if (codeManuNum == null || StringUtils.isEmpty(codeManuNum.getCodeValueId())){
+							HtmlMessage html = new HtmlMessage(new Category());
+							html.setStatusCode("400");
+							html.setMessage("第"+(rowNum+1)+"行[厂号]数据在系统字典中不存在，无法继续提取，请先向字典添加对应的数据！");
+							
+							return html;
+						}else{
+							manuNum = codeManuNum.getCodeValueId();
+						}
+						category.setManuNum(manuNum);
+						
 						//产地需要从字段表提取
 						String prodPla = formatCell(hssfRow.getCell(cellIndex[4]));
 						CodeValue codeProd = codeValueService.queryCodeValueAndCodeName("prodPla", prodPla);
@@ -791,8 +816,8 @@ public class CategoryController  extends BaseController {
 		try {
 			categoryService.insertExcelCategory(categorys);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("[CategoryController.excelImportFile]数据写入异常"+e.getMessage());
+			return new HtmlMessage("更新失败，请检查后重试。");
 		}
 		return new HtmlMessage(new Category());
 	}

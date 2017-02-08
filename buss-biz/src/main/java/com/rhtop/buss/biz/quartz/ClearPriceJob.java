@@ -44,7 +44,6 @@ public class ClearPriceJob  extends QuartzJobBean{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println(rel.getCategoryId());
 		}
 		//删除主表记录
 		for(RelCategoryPrice rel2:rels){

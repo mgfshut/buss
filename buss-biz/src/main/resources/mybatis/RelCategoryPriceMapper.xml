@@ -11,6 +11,7 @@
 	<result column="currency_" property="currency" jdbcType="VARCHAR" />
 	<result column="update_time_" property="updateTime" jdbcType="VARCHAR" />
 	<result column="offer_aging_" property="offerAging" jdbcType="VARCHAR" />
+	<result column="uni_offer_aging_" property="uniOfferAging" jdbcType="VARCHAR" />
 	<result column="spot_min_" property="spotMin" jdbcType="VARCHAR" />
 	<result column="create_time_" property="createTime" jdbcType="VARCHAR" />
 	<result column="create_user_" property="createUser" jdbcType="VARCHAR" />
@@ -50,6 +51,7 @@
   	rel_category_price_id_,
   	update_time_,
   	offer_aging_,
+  	uni_offer_aging_,
   	spot_min_,
   	create_time_,
   	create_user_,
@@ -100,6 +102,9 @@
 	    </if>
     	<if test="offerAging != null" >
 	    	offer_aging_,
+	    </if>
+	    <if test="uniOfferAging != null" >
+	    	uni_offer_aging_,
 	    </if>
     	<if test="spotMin != null" >
 	    	spot_min_,
@@ -189,6 +194,9 @@
 	    </if>
     	<if test="offerAging != null" >
 	    	#{offerAging},
+	    </if>
+	    <if test="uniOfferAging != null" >
+	    	#{uniOfferAging},
 	    </if>
     	<if test="spotMin != null" >
 	    	#{spotMin},
@@ -285,6 +293,9 @@
 		<if test="offerAging != null and offerAging != ''" >
         	offer_aging_ = #{offerAging},
       	</if>
+      	<if test="uniOfferAging != null and uniOfferAging != ''" >
+        	uni_offer_aging_ = #{uniOfferAging},
+      	</if>
 		<if test="spotMin != null and spotMin != ''" >
         	spot_min_ = #{spotMin},
       	</if>
@@ -370,6 +381,9 @@
       	</if>
 		<if test="offerAging != null and offerAging != ''" >
         	offer_aging_ = #{offerAging},
+      	</if>
+      	<if test="uniOfferAging != null and uniOfferAging != ''" >
+        	uni_offer_aging_ = #{uniOfferAging},
       	</if>
 		<if test="spotMin != null and spotMin != ''" >
         	spot_min_ = #{spotMin},
@@ -485,6 +499,10 @@
 			and offer_aging_
 			= #{offerAging}
 		</if>
+		<if test="uniOfferAging != null and uniOfferAging != ''">
+			and uni_offer_aging_
+			= #{uniOfferAging}
+		</if>
 		<if test="spotMin != null and spotMin != ''">
 			and spot_min_ =
 			#{spotMin}
@@ -596,6 +614,10 @@
 			and offer_aging_
 			= #{offerAging}
 		</if>
+		<if test="uniOfferAging != null and uniOfferAging != ''">
+			and uni_offer_aging_
+			= #{uniOfferAging}
+		</if>
 		<if test="spotMin != null and spotMin != ''">
 			and spot_min_ =
 			#{spotMin}
@@ -682,6 +704,7 @@
         	currency_ = '',
         	update_time_ = '',
         	offer_aging_ = '',
+        	uni_offer_aging_ = '',
         	spot_min_ = '',
         	reg_mgr_id_ ='',
         	update_user_ = '',

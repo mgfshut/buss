@@ -158,7 +158,9 @@ public class TransactionInfoController  extends BaseController {
 	@ResponseBody
 	public TransactionInfo getTranInfo(@PathVariable("transactioninfoId") String transactioninfoId) {
 		TransactionInfo tran = transactionInfoService.selectByPrimaryKey(transactioninfoId);
-		Category cate = cateSer.selectByPrimaryKey(tran.getCategoryId());
+		Category category = new Category();
+		category.setCategoryId(tran.getCategoryId());
+		Category cate = cateSer.custOfferPiceInfo(category);
 		Customer cust = custSer.selectByPrimaryKey(tran.getCustomerId());
 		//以及最后一条交易记录
 		SlaTransactionInfo sla = new  SlaTransactionInfo();

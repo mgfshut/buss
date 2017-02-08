@@ -633,4 +633,24 @@
     ORDER BY create_time_ DESC, con_code_ DESC
 	LIMIT 1;
   </select>
+  
+  <!-- 根据合同状态分页查询列表 行政查询 -->
+  <select id="listPageContractInfoByXZStatus" parameterType="com.rhtop.buss.common.entity.ContractInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_contract_info_ where 1=1 and cont_status_ > '10'
+    <if test="contStatus != null and contStatus != ''" >
+			and cont_status_ = #{contStatus}
+	</if>
+   </select>
+   
+   <!-- 根据合同状态分页查询列表 财务查询 -->
+  <select id="listPageContractInfoByCWStatus" parameterType="com.rhtop.buss.common.entity.ContractInfo" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from buss_contract_info_ where 1=1 and cont_status_ > '20'
+    <if test="contStatus != null and contStatus != ''" >
+			and cont_status_ = #{contStatus}
+	</if>
+   </select>
 </mapper>

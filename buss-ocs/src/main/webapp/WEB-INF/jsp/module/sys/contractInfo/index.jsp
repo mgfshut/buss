@@ -6,12 +6,17 @@
 <%@ taglib prefix="ys" tagdir="/WEB-INF/tags" %> 
 <script>
 $(function(){
-	
-	$("td[contStatusTd]").each(function(){
-		var valTd = $(this).attr("contStatusTd");
-		var valStr = $("select[name='contStatus'] option[value='"+valTd+"']", navTab.getCurrentPanel()).text();
-		$(this).html(valStr);
-	});
+	try{
+		setTimeout(function(){
+			$("td[contStatusTd]").each(function(){
+				var valTd = $(this).attr("contStatusTd");
+				var valStr = $("select[name='contStatus'] option[value='"+valTd+"']", navTab.getCurrentPanel()).text();
+				$(this).html(valStr);
+			});
+		}, 500);
+	}catch(e){
+		
+	}
 })
 function changeZt(val){
 	$("input[name='contStatus']", navTab.getCurrentPanel()).val(val);
@@ -19,7 +24,7 @@ function changeZt(val){
 }
 </script>
 <!-- 分页、搜索表单 -->	
-<form id="pagerForm" action="module/sys-contractInfo-index/contractInfo-pager" method="post" onsubmit="return navTabSearch(this);">
+<form id="pagerForm" action="module/sys-contractInfo-index/contractInfo-XZpager" method="post" onsubmit="return navTabSearch(this);">
 <input type="hidden" name="currentPage" value="${page.currentPage}" />
 <input type="hidden" name="totalResult" value="${page.totalResult}" />
 <input type="hidden" name="totalPage" value="${page.totalPage}" />
@@ -35,8 +40,8 @@ function changeZt(val){
 	<div class="row">
 		<ul class="nav nav-tabs">
          <li<c:if test="${empty(param.contStatus) || param.contStatus == ''}"> class="active"</c:if>><a href="#conall" data-toggle="tab" onclick="changeZt('')">全部</a></li>
-         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '20'}"> class="active"</c:if>><a href="#conhtsd" data-toggle="tab" onclick="changeZt('20')">合同审定</a></li>
-         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '30'}"> class="active"</c:if>><a href="#conxzgz" data-toggle="tab" onclick="changeZt('30')">行政盖章</a></li>
+         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '20'}"> class="active"</c:if>><a href="#conhtsd" data-toggle="tab" onclick="changeZt('20')">待处理</a></li>
+         <li<c:if test="${!empty(param.contStatus) && param.contStatus == '30'}"> class="active"</c:if>><a href="#conxzgz" data-toggle="tab" onclick="changeZt('30')">已处理</a></li>
          <li<c:if test="${!empty(param.contStatus) && param.contStatus == '41'}"> class="active"</c:if>><a href="#conjyqx" data-toggle="tab" onclick="changeZt('41')">交易取消</a></li>
        </ul>
 	</div>
@@ -50,7 +55,7 @@ function changeZt(val){
 		<div class="panelBar">
 				<div class="btn-group" style="margin:4px 5px;">
 					<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-print-{contractInfoId}"  
-						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
+						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>审核</span></a>
 					<a class="btn btn-info btn-sm" href="module/sys-contractInfo-detail/contractInfo-print-{contractInfoId}"  
 						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
 				</div>
@@ -92,7 +97,7 @@ function changeZt(val){
 		<div class="panelBar">
 				<div class="btn-group" style="margin:4px 5px;">
 					<a class="btn btn-primary btn-sm" href="module/sys-contractInfo-form/contractInfo-print-{contractInfoId}"  
-						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>合同审核</span></a>
+						 title="合同审核"  target="navTab" rel="contractInfoSaveDialog"><i class="icon-check"></i> <span>审核</span></a>
 					<a class="btn btn-info btn-sm" href="module/sys-contractInfo-detail/contractInfo-{contractInfoId}"  
 						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a>
 				</div>

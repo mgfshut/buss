@@ -70,8 +70,8 @@ function changeZt(val){
 					<th orderField="cusName" class="${param.orderField eq 'cusName'?param.orderDirection:''}">客户名称</th>
 					<th orderField="cusLoc" class="${param.orderField eq 'cusLoc'?param.orderDirection:''}">区域</th>
 					<th orderField="cateSup" class="${param.orderField eq 'cateSup'?param.orderDirection:''}">供应商</th>
-					<th orderField="txAmo" class="${param.orderField eq 'txAmo'?param.orderDirection:''}">需求量</th>
-					<th>客户价</th>
+					<th orderField="txAmo" class="${param.orderField eq 'txAmo'?param.orderDirection:''}">需求量（吨）</th>
+					<th>客户价（元）</th>
 					<th orderField="txStatus" class="${param.orderField eq 'txStatus'?param.orderDirection:''}">状态</th>
 				</tr>
 			</thead>
