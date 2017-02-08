@@ -110,5 +110,13 @@ public interface TransactionInfoService{
 	 */
 	List<TransactionInfo> listPageTransactionInfoByFB(
 			String userId,TransactionInfo transactionInfo);
+	/**
+	 * 根据用户ID查询交易
+	 * @author mgf
+	 * @date 2017年2月8日 上午11:36:44 
+	 * @param userId
+	 * @return
+	 */
+	List<TransactionInfo> listPageTransactionInfoByUserId(String userId);
 	
 }

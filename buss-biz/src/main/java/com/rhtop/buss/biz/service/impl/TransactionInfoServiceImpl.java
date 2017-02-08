@@ -460,5 +460,14 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 				.listPageTransactionInfoByFB(transactionInfo);
 		return transactionInfos;
 	}
+
+	@Override
+	public List<TransactionInfo> listPageTransactionInfoByUserId(String userId) {
+		TransactionInfo transactionInfo = new TransactionInfo();
+		transactionInfo.setUserId(userId);
+		List<TransactionInfo> transactionInfos = transactionInfoMapper
+				.listPageTransactionInfoByUserId(transactionInfo);
+		return transactionInfos;
+	}
 	
 }

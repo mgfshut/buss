@@ -71,7 +71,7 @@ public class TransactionInfo {
 	
 	private String mgrName;//交易的创建者
 	
-	private String cusLoc; //产地
+	private String cusLoc; //客户地区
 	
 	private SlaTransactionInfo slaInfo;//一条交易记录
 	
@@ -79,7 +79,7 @@ public class TransactionInfo {
 	
 	private String prodPla;//产地
 	private String cateStan;//规格
-	private String pkgQuan;//规格
+	private String pkgQuan;//包装数量
 	
 	private String cateSup;//供应商
 	
