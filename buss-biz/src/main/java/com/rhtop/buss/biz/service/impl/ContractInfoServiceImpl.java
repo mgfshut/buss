@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.rhtop.buss.biz.mapper.CategoryMapper;
 import com.rhtop.buss.biz.mapper.ContractInfoMapper;
 import com.rhtop.buss.biz.mapper.CustomerMapper;
@@ -318,6 +319,50 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		List<ContractInfo> contractInfos = contractInfoMapper.listPageContractInfoByCWStatus(contractInfo);
 		return contractInfos;
 	}
-	
 
+	@Override
+	public String dismissContract(ContractInfo con) throws Exception {
+		String conId = con.getContractInfoId();
+		try {
+		//检查合同审核状态是否是“10”
+		if (con.getContStatus() == "10" || con.getContStatus().trim().equals("10")) {
+			con.setContStatus("11");
+			contractInfoMapper.updateByPrimaryKeySelective(con);
+		} else {
+			throw new Exception("非法操作，审核顺序错误！");
+		}
+		TransactionInfo  tran = txMapper.selectByPrimaryKey(con.getTransactionInfoId());
+		if(tran ==null){
+			throw new RuntimeException("非法操作，交易记录不存在！");
+		}
+		//检查交易状态是否是“30”
+		if (tran.getTxStatus() == "30" || tran.getTxStatus().trim().equals("30")) {
+			con.setContStatus("31");
+			txMapper.updateByPrimaryKeySelective(tran);
+		} else {
+			throw new Exception("非法操作，审核顺序错误！");
+		}
+		}catch(Exception e){
+			throw e;
+		}
+		return conId;
+	}
+
+	@Override
+	public String dismissContractByXZ(ContractInfo con) throws Exception {
+		String conId = con.getContractInfoId();
+		try {
+		//检查合同审核状态是否是“10”
+		if (con.getContStatus() == "20" || con.getContStatus().trim().equals("20")) {
+			con.setContStatus("21");
+			contractInfoMapper.updateByPrimaryKeySelective(con);
+		} else {
+			throw new Exception("非法操作，审核顺序错误！");
+		}
+		}catch(Exception e){
+			throw e;
+		}
+		return conId;
+	}
+	
 }

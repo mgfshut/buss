@@ -42,10 +42,8 @@ public class ClearPriceJob  extends QuartzJobBean{
 			try {
 				hisRelcategoryPriceService.insertRelCategoryPrice(rel);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(rel.getCategoryId());
 		}
 		//删除主表记录
 		for(RelCategoryPrice rel2:rels){

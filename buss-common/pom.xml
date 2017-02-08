@@ -311,7 +311,7 @@
 		<repository>
 			<id>oschina-repository</id>
 			<name>oschina-maven</name>
-			<url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+			<url>http://maven.jahia.org/maven2/</url>
 		</repository>
 		<!--<repository>-->
 			<!--<id>oschina-repository-thirdparty</id>-->

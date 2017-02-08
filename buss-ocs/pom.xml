@@ -22,7 +22,7 @@
   	<!--<relativePath>../../</relativePath>-->
   <!--</parent>-->
 
-    <repositories>
+    <!-- <repositories>
         <repository>
             <id>nexus</id>
             <name>RongHui Nexus Repository</name>
@@ -34,7 +34,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-    </repositories>
+    </repositories> -->
   
   <dependencies>
     <dependency>

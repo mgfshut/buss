@@ -37,6 +37,8 @@
 	<result column="legal_per_" property="legalPer" jdbcType="VARCHAR" />
 	<result column="customer_id_" property="customerId" jdbcType="VARCHAR" />
 	<result column="update_user_" property="updateUser" jdbcType="VARCHAR" />
+	<result column="dm_rea_" property="dmRea" jdbcType="VARCHAR" />
+	
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -73,7 +75,8 @@
   	create_user_,
   	legal_per_,
   	customer_id_,
-  	update_user_
+  	update_user_,
+  	dm_rea_
   </sql>
   
   <!-- 根据条件新增对象-->
@@ -182,6 +185,9 @@
     	<if test="updateUser != null" >
 	    	update_user_,
 	    </if>
+	    <if test="dmRea != null" >
+	    	dm_rea_,
+	    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
     	<if test="transactionInfoId != null" >
@@ -285,6 +291,9 @@
 	    </if>
     	<if test="updateUser != null" >
 	    	#{updateUser},
+	    </if>
+	     <if test="dmRea != null" >
+	    	#{dmRea},
 	    </if>
     </trim>
   </insert>
@@ -396,6 +405,9 @@
 		<if test="updateUser != null and updateUser != ''" >
         	update_user_ = #{updateUser},
       	</if>
+      	 <if test="dmRea != null and dmRea != ''" >
+	    	dm_rea_ =  #{dmRea},
+	    </if>
     </set>
     where 
 	contract_info_id_ = #{contractInfoId}
@@ -514,7 +526,10 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user_ = #{updateUser}
 		</if>
-		order by update_time_ desc
+		<if test="dmRea != null and dmRea != ''" >
+			and dm_rea_ = #{dmRea}
+		</if>
+		order by update_time_ DESC
   </select>
   <!-- 根据条件分页查询列表 -->
   <select id="listPageContractInfo" parameterType="com.rhtop.buss.common.entity.ContractInfo" resultMap="BaseResultMap">
@@ -623,7 +638,10 @@
     	<if test="updateUser != null and updateUser != ''" >
 			and update_user_ = #{updateUser}
 		</if>
-		order by  update_time_ desc
+		<if test="dmRea != null and dmRea != ''" >
+			and dm_rea_ = #{dmRea}
+		</if>
+		order by update_time_ DESC
   </select>
   <!-- 查询最新的一条合同记录 -->
   <select id="selectLatestContract" resultMap="BaseResultMap">

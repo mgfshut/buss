@@ -1,14 +1,18 @@
 DWZ.regPlugins.push(function($p){
 	$('input[data-provide="datepicker"],.datepicker',$p).each(function(){
-		var $this=$(this);
-		$(this).datepicker({todayHighlight:true,weekStart:1,format:$this.attr("dateFmt")?$this.attr("dateFmt"):"yyyy-mm-dd",autoclose:$this.attr("autoclose")?$this.attr("autoclose"):true});
-		/*$(this).bind('focus',function(){
-			$(this).datepicker('update');
-		});*/
+		var dateFmt = $(this).attr("data-date-format");
+		if (dateFmt == "yyyy-mm"){
+			$(this).datepicker({todayHighlight:true,weekStart:1,todayBtn: "linked",clearBtn: true, startView:'year', minViewMode:'months'});
+		}else{
+			$(this).datepicker({todayHighlight:true,weekStart:1,todayBtn: "linked",clearBtn: true});
+		}
+		
+		$(this).bind('focus',function(){
+			//$(this).datepicker('update');
+		});
 	});
 	$('input[data-provide="datetimepicker"],.datepicker',$p).each(function(){
-		var $this=$(this);
-		$(this).datetimepicker({format:$this.attr('format')?$this.attr('format'):'yyyy-mm-dd hh:ii:ss',autoclose:$this.attr("autoclose")?$this.attr("autoclose"):true});
+		$(this).datetimepicker({autoclose:true,todayBtn: "linked",format:$(this).data('format')||'yyyy-mm-dd hh:ii:ss'});
 	});
 	// grid checkbox/radio 的选择处理
 	$('table tbody:has(:radio,:checkbox)', $p).on('click','tr',function(event){

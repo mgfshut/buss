@@ -18,7 +18,7 @@ public class BusinessDiary {
 	
 	private String oprContent;//操作内容
 	
-	private String oprType;//操作类型
+	private String oprType;//操作类型    0开头是客户操作、1是品类操作、2是价格操作、3是交易操作、4是合同操作、5文件操作。||后面一位1为新增、2修改、3删除、4查看。
 	
 	private String oprName;//操作名称
 	

@@ -752,6 +752,56 @@ public class OutController extends BaseController {
 		return readResult;
 	}
 	
+	
+	/**
+	 * 接口id：W2001
+	 * 总经理驳回合同
+	 * @author lujin
+	 * @date 2017-2-8
+	 * 入参：contractInfoId合同ID，dmRea 驳回原因。
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/W2001")
+	public ResultInfo dismissContranct(HttpServletRequest request, @RequestBody ContractInfo con){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			con.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(con);
+			outLog.info("writeData-W2001:"+jsonObject.toString());
+			readResult = (ResultInfo) service.invoke("writeData-W2001", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	/**
+	 * 接口id:W2002
+	 * 修改被驳回的合同
+	 * @author lujin
+	 * @date 2017-2-8
+	 * 入参：contractInfoId合同对象
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/writeData/W2002")
+	public ResultInfo updateContranct(HttpServletRequest request, @RequestBody ContractInfo con){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			con.setUpdateUser(memberId);
+			JSONObject jsonObject = JSONObject.fromObject(con);
+			outLog.info("writeData-W2002:"+jsonObject.toString());
+			readResult = (ResultInfo) service.invoke("writeData-W2002", "POST", jsonObject.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	
+	
 	/**
 	 * 接口id:R2001
 	 * 客户经理,分部经理 ，总经理查询所属的客户信息列表，分页，条件查询（名称）
