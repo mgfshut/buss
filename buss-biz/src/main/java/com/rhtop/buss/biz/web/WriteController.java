@@ -1117,8 +1117,14 @@ public class WriteController extends BaseController{
 		String now = sdf.format(date);
 		String userId = con.getUpdateUser();
 		try {
-			con.setUpdateUser(null);
-			conSer.updateContractInfo(con);
+			String reg = "^[0-9]\\d*$";
+			if(con.getExpressId().matches(reg)){
+				con.setUpdateUser(null);
+				conSer.updateContractInfo(con);
+			}else{
+				readResult.setCode("500");
+				readResult.setMessage("快递单号必须为纯数字，请填写正确的快递单号。");
+			}
 		} catch (Exception e) {
 			log.error("[WriteController.setExpressId]数据更新异常", e);
 			readResult.setCode("500");

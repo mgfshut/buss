@@ -1,6 +1,7 @@
 package com.rhtop.buss.biz.web;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rhtop.buss.biz.mapper.SlaTransactionInfoMapper;
 import com.rhtop.buss.biz.service.CategoryService;
 import com.rhtop.buss.biz.service.CustomerService;
+import com.rhtop.buss.biz.service.MemberService;
 import com.rhtop.buss.biz.service.TransactionInfoService;
 import com.rhtop.buss.common.entity.Category;
 import com.rhtop.buss.common.entity.Customer;
 import com.rhtop.buss.common.entity.InfoResult;
+import com.rhtop.buss.common.entity.Member;
 import com.rhtop.buss.common.entity.Page;
 import com.rhtop.buss.common.entity.ResultInfo;
 import com.rhtop.buss.common.entity.SlaTransactionInfo;
@@ -40,6 +43,8 @@ public class TransactionInfoController  extends BaseController {
 	private CustomerService custSer;
 	@Autowired
 	private SlaTransactionInfoMapper slaTransactionInfoMapper;
+	@Autowired
+	private MemberService memberService;
 	
     /**
      * 新增
@@ -102,10 +107,16 @@ public class TransactionInfoController  extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/pager")
-	public InfoResult<TransactionInfo> listPageTransactionInfo(Page page,TransactionInfo transactionInfo){
+	public InfoResult<TransactionInfo> listPageTransactionInfo(@RequestParam(value = "userId") String userId,Page page,TransactionInfo transactionInfo){
 		InfoResult<TransactionInfo> infoResult = new InfoResult<TransactionInfo>();
 		transactionInfo.setPage(page);
-		List<TransactionInfo> transactionInfoList = transactionInfoService.listPageTransactionInfo(transactionInfo);
+		Member mem = memberService.selectByPrimaryKey(userId);
+		List<TransactionInfo> transactionInfoList = new ArrayList<TransactionInfo>();
+		if("02".equals(mem.getMemberJob())){//分部经理
+			transactionInfoList = transactionInfoService.listPageTransactionInfoByFB(userId,transactionInfo);
+		}else if("05".equals(mem.getMemberJob())){//总经理
+			transactionInfoList = transactionInfoService.listPageTransactionInfo(transactionInfo);
+		}
 		infoResult.setCode("200");
 		infoResult.setResList(transactionInfoList);
 		infoResult.setPage(transactionInfo.getPage());

@@ -59,7 +59,7 @@ function categoryItemSaveDone(json){
 				<label class="col-sm-2 control-label">备注：</label>
 				<div class="col-sm-8">
 				<!-- 这里仅仅是用这个字段传值，因为这个字段需要插入到品类主表中，但是与后台传值是用的品类价格关系对象，所以用一个冗余字段避免新增字段。 -->
-				<input type="text" name="mgrLoc" class="form-control textInput" value="${mgrLoc}">
+				<input type="text" name="mgrLoc" class="form-control textInput" value="${comm}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>
@@ -87,7 +87,7 @@ function categoryItemSaveDone(json){
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label">报盘价：</label>
 				<div class="col-sm-8">
-				<input type="text" name="catePri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput" required="required" value="${catePri}">
+				<input type="text" name="catePri" data-error="请输入1-10位字符" placeholder="请输入报盘价" maxlength="10" class="form-control textInput" required="required" value="${uniOfferPri}">
 				<div class="help-block with-errors"></div>
 				</div>
 			</div>

@@ -4,6 +4,7 @@
 package com.rhtop.buss.biz.mapper;
 
 import java.util.List;
+
 import com.rhtop.buss.common.entity.TransactionInfo;
 
 public interface TransactionInfoMapper {
@@ -57,5 +58,14 @@ public interface TransactionInfoMapper {
      * @return
      */
 	List<TransactionInfo> listPageInfoByTxStatus(TransactionInfo transactionInfo);
+	/**
+	 * 分部经理查询交易
+	 * @author mgf
+	 * @date 2017年2月7日 下午2:00:23 
+	 * @param transactionInfo
+	 * @return
+	 */
+	List<TransactionInfo> listPageTransactionInfoByFB(
+			TransactionInfo transactionInfo);
 	
 }
