@@ -566,7 +566,7 @@
 	b.offer_pri_,
 	b.uni_offer_pri_
 	from buss_category_ b LEFT JOIN buss_rel_category_price_ a on a.category_id_ = b.category_id_ 
-	WHERE b.offer_pri_ = '0'  
+	WHERE b.uni_offer_pri_ = '0' or   b.uni_offer_pri_ = '' or b.uni_offer_pri_ = null
 	<if test="cateName != null and cateName != ''" >
 		and b.cate_name_ like "%" #{cateName} "%"
 	</if> 

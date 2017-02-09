@@ -377,10 +377,14 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 					long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
 					long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60); 
 					String time = "";
-					if(days==0){
-						time = hours +"小时"+minutes + "分";
+					if(diff<0){
+						time = "已失效";
 					}else{
-					    time = days + "天"+ hours +"小时"+minutes + "分";
+						if(days==0){
+							time = hours +"小时"+minutes + "分";
+						}else{
+						    time = days + "天"+ hours +"小时"+minutes + "分";
+						}	
 					}
 					cont.setEndTime(time);
 				} catch (ParseException e) {

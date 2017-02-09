@@ -190,7 +190,8 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 				TransactionInfo tx = txMapper.selectByPrimaryKey(contract.getTransactionInfoId());
 				tx.setTxStatus("40");
 				txMapper.updateByPrimaryKeySelective(tx);
-			}else if(contract.getContStatus()=="11"||contract.getContStatus().trim().equals("11")){
+			}else if(contract.getContStatus()=="11"||contract.getContStatus().trim().equals("11")||
+					contract.getContStatus()=="21"||contract.getContStatus().trim().equals("21")){
 				//检查合同状态是否为11，即总经理驳回状态。
 				con.setContStatus("20");
 				con.setGenckTime(DateUtils.getNowTime());
