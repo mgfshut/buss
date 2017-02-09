@@ -292,4 +292,14 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.custOfferPiceInfo(category);
 	}
 
+	@Override
+	public Category listPageReCatePrice(Category category) {
+		Category cate = categoryMapper.selectByPrimaryKey(category.getCategoryId());
+		RelCategoryPrice relCategoryPrice = new RelCategoryPrice();
+		relCategoryPrice.setCategoryId(cate.getCategoryId());
+		List<RelCategoryPrice> rcps = relCategoryPriceMapper.listPageRelCategoryPrice(relCategoryPrice);
+		cate.setRcps(rcps);
+		return cate;
+	}
+
 }

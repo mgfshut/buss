@@ -560,6 +560,33 @@ public class ReadController  extends BaseController {
 		}
 		return readResult;
 	}
+	
+	/**
+	 * 接口id:R2023
+	 * 总经理查看信息采集详情
+	 * @author lujin
+	 * @date 2017-1-13
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/R2023")
+	public ResultInfo catePriceBygerMgr(@RequestParam ("body") String body){
+		ResultInfo readResult = new ResultInfo();
+		JSONObject jsonObject = JSONObject.fromObject(body);
+		Category category = (Category) JSONObject.toBean(jsonObject,Category.class);
+		Category cate  = null;
+		try {
+			cate = catSer.listPageReCatePrice(category);
+			readResult.setCode("200");
+			readResult.setMessage("数据获取成功！");
+			readResult.setResObject(cate);
+		} catch (Exception e) {
+			readResult.setCode("200");
+			readResult.setMessage("数据获取失败！");
+			readResult.setResObject(cate);
+		}
+		return readResult;
+	}
 	/**
 	 * 接口id:upgrade
 	 * 查看程序最新版本号
