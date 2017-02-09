@@ -10,9 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -1307,6 +1305,29 @@ public class OutController extends BaseController {
 			JSONObject jsonUser = JSONObject.fromObject(transactionInfo);
 			outLog.info("readData-R2022:"+jsonUser.toString());
 			readResult =(ResultInfo)service.invoke("readData-R2022", "POST", jsonUser.toString(), ResultInfo.class);
+		}
+		return readResult;
+	}
+	/**
+	 * 接口id:R2023
+	 * 总经理查看信息采集详情
+	 * @author lujin
+	 * @date 2017-1-21
+	 * @param body
+	 * @return
+	 */
+	@RequestMapping(method={RequestMethod.POST, RequestMethod.GET}, value="/readData/R2023")
+	public ResultInfo catePriceBygerMgr(HttpServletRequest request,@RequestBody Category Category){
+		ResultInfo readResult = new ResultInfo();
+		String token = request.getHeader("token");
+		String memberId = request.getHeader("memberId");
+		Map<String, Object> result = Jwt.validToken(memberId,token);
+		readResult.setCode(result.get("code").toString());
+		readResult.setMessage(result.get("message").toString());
+		if ("200".equals(result.get("code").toString())) {
+			JSONObject jsonUser = JSONObject.fromObject(Category);
+			outLog.info("readData-R2023:"+jsonUser.toString());
+			readResult =(ResultInfo)service.invoke("readData-R2023", "POST", jsonUser.toString(), ResultInfo.class);
 		}
 		return readResult;
 	}
