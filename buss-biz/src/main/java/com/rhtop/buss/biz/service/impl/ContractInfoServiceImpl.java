@@ -170,14 +170,14 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		try {
 			ContractInfo contract = contractInfoMapper.selectByPrimaryKey(conId);
 			if(contract==null){
-				throw new RuntimeException("非法操作，合同记录不存在！");
+				throw new Exception("非法操作，合同记录不存在！");
 			}
 			//检查审核状态是否是“10”
 			if(contract.getContStatus()=="10"||contract.getContStatus().trim().equals("10")){
 				con.setContStatus("20");
 				con.setGenckTime(DateUtils.getNowTime());
 
-				//查询最新的ContractInfo
+				//查询最新的ContractInfo，为了生成最新的合同编号
 				ContractInfo contractInfo= contractInfoMapper.selectLatestContract();
 				String conCode = null;
 				if(null == contractInfo) {
@@ -190,6 +190,31 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 				TransactionInfo tx = txMapper.selectByPrimaryKey(contract.getTransactionInfoId());
 				tx.setTxStatus("40");
 				txMapper.updateByPrimaryKeySelective(tx);
+			}else if(contract.getContStatus()=="11"||contract.getContStatus().trim().equals("11")){
+				//检查合同状态是否为11，即总经理驳回状态。
+				con.setContStatus("20");
+				con.setGenckTime(DateUtils.getNowTime());
+				//因为合同编号可能存在，所以需要检查刚刚查出来的合同对象中合同编号是否存在。
+				if(contract.getConCode()!=null||!"".equals(contract.getConCode().trim())){
+					contractInfoMapper.updateByPrimaryKeySelective(con);
+					TransactionInfo tx = txMapper.selectByPrimaryKey(contract.getTransactionInfoId());
+					tx.setTxStatus("40");
+					txMapper.updateByPrimaryKeySelective(tx);
+				}else{
+					//查询最新的ContractInfo，为了生成最新的合同编号
+					ContractInfo contractInfo= contractInfoMapper.selectLatestContract();
+					String conCode = null;
+					if(null == contractInfo) {
+						conCode = generateConCode(null, null);
+					} else {
+						conCode = generateConCode(null, contractInfo.getConCode());
+					}
+					con.setConCode(conCode);
+					contractInfoMapper.updateByPrimaryKeySelective(con);
+					TransactionInfo tx = txMapper.selectByPrimaryKey(contract.getTransactionInfoId());
+					tx.setTxStatus("40");
+					txMapper.updateByPrimaryKeySelective(tx);
+				}
 			}else{
 				throw new Exception("非法操作，审核顺序错误！");
 			}
@@ -321,6 +346,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String dismissContract(ContractInfo contractinfo) throws Exception {
 		String conId = contractinfo.getContractInfoId();
 		ContractInfo con = contractInfoMapper.selectByPrimaryKey(conId);
@@ -337,7 +363,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		}
 		TransactionInfo  tran = txMapper.selectByPrimaryKey(con.getTransactionInfoId());
 		if(tran ==null){
-			throw new RuntimeException("非法操作，交易记录不存在！");
+			throw new Exception("非法操作，交易记录不存在！");
 		}
 		//检查交易状态是否是“30”
 		if (tran.getTxStatus() == "30" || tran.getTxStatus().trim().equals("30")) {
@@ -355,6 +381,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
+	@Transactional
 	public String dismissContractByXZ(ContractInfo contractinfo) throws Exception {
 		String conId = contractinfo.getContractInfoId();
 		ContractInfo con = contractInfoMapper.selectByPrimaryKey(conId);

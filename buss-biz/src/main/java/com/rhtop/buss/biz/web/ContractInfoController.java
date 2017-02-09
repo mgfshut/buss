@@ -252,7 +252,12 @@ public class ContractInfoController  extends BaseController {
 			ContractInfo cif = contractInfoService.selectByPrimaryKey(contractInfo.getContractInfoId());
 			TransactionInfo tx = txSer.selectByPrimaryKey(cif.getTransactionInfoId());
 			tx.setTxStatus("50");
-			txSer.updateTransactionInfo(tx);
+			try {
+				txSer.updateTransactionInfo(tx);
+			} catch (Exception e) {
+				htmlMessage.setMessage("数据更新异常，请重试或联系后台管理员！");
+				log.error("[ContractInfoController.checkPay]数据更新异常"+e.getMessage());
+			}
 			//新的凭证字段
 			cif.setPayPic(newFile.substring(0, newFile.length() -1));
 			cif.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
@@ -260,7 +265,8 @@ public class ContractInfoController  extends BaseController {
 			try {
 				contractInfoService.treasurerCheckContract(cif);
 			} catch (Exception e) {
-				htmlMessage.setMessage(e.getMessage());
+				htmlMessage.setMessage("数据更新异常，请重试或联系后台管理员！");
+				log.error("[ContractInfoController.checkPay]数据更新异常"+e.getMessage());
 			}
 		}
 		htmlMessage.setEntity(contractInfo);
@@ -291,7 +297,8 @@ public class ContractInfoController  extends BaseController {
 				contractInfo.setUpdateTime(now);
 				contractInfoService.dismissContractByXZ(contractInfo);
 			} catch (Exception e) {
-				htmlMessage.setMessage(e.getMessage());
+				htmlMessage.setMessage("请求失败，请重试或联系后台管理员！");
+				log.error("[ContractInfoController.dismissContranct]数据更新异常"+e.getMessage());
 			}
 		}
 		htmlMessage.setEntity(contractInfo);

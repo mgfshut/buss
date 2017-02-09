@@ -44,7 +44,7 @@ public interface TransactionInfoService{
 	/**
 	 * 修改
 	 */
-	int updateTransactionInfo(TransactionInfo transactionInfo);
+	int updateTransactionInfo(TransactionInfo transactionInfo) throws Exception;
 	
 	/**
 	 * 根据Id查找数据

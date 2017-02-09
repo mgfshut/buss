@@ -219,7 +219,8 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
-	public int updateTransactionInfo(TransactionInfo transactionInfo) {
+	@Transactional
+	public int updateTransactionInfo(TransactionInfo transactionInfo) throws Exception{
 		return transactionInfoMapper
 				.updateByPrimaryKeySelective(transactionInfo);
 	}

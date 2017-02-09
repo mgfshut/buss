@@ -63,7 +63,11 @@ public class TransactionInfoController  extends BaseController {
 		}else{
 			transactionInfo.setUpdateUser(userId);
 			transactionInfo.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-			transactionInfoService.updateTransactionInfo(transactionInfo);
+			try {
+				transactionInfoService.updateTransactionInfo(transactionInfo);
+			} catch (Exception e) {
+				log.error("saveTransactionInfo异常"+e.getMessage());
+			}
 		}
 		return new HtmlMessage(transactionInfo);
 	}
@@ -92,7 +96,12 @@ public class TransactionInfoController  extends BaseController {
 	public InfoResult<TransactionInfo> updateTransactionInfo(TransactionInfo transactionInfo){
 		InfoResult<TransactionInfo> infoResult = new InfoResult<TransactionInfo>();
 		transactionInfo.setUpdateTime(DateUtils.getToday("yyyy-MM-dd HH:mm:ss"));
-		int num = transactionInfoService.updateTransactionInfo(transactionInfo);
+		int num = 0;
+		try {
+			num = transactionInfoService.updateTransactionInfo(transactionInfo);
+		} catch (Exception e) {
+			log.error("updateTransactionInfo异常"+e.getMessage());
+		}
 		if (num > 0) {
 			infoResult.setCode("200");
 			infoResult.setMsg("修改成功");
