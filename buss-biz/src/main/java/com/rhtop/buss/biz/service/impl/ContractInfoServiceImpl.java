@@ -359,7 +359,7 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		String conId = contractinfo.getContractInfoId();
 		ContractInfo con = contractInfoMapper.selectByPrimaryKey(conId);
 		try {
-		//检查合同审核状态是否是“10”
+		//检查合同审核状态是否是“20”
 		if (con.getContStatus() == "20" || con.getContStatus().trim().equals("20")) {
 			con.setContStatus("21");
 			con.setUpdateUser(contractinfo.getUpdateUser());
