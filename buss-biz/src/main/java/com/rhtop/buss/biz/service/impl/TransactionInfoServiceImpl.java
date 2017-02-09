@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +53,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	private RelCategoryPriceMapper relCPMapper;
 	@Autowired
 	private UserMapper userMapper;
-
+	protected Logger  log = LoggerFactory.getLogger("error");
 	@Override
 	public int insertTransactionInfo(TransactionInfo transactionInfo) {
 		return transactionInfoMapper.insertSelective(transactionInfo);
@@ -226,7 +228,6 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 	}
 
 	@Override
-	
 	public TransactionInfo selectByPrimaryKey(String transactionInfoId) {
 		TransactionInfo tra = transactionInfoMapper
 				.selectByPrimaryKey(transactionInfoId);
@@ -307,8 +308,11 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		}
 		return transactionInfos;
 	}
-
+	
+	@Override
+	@Transactional
 	public TransactionInfo selectTransactionInfo(TransactionInfo transactionInfo) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		// 交易信息
 		TransactionInfo tran = transactionInfoMapper.selectByPrimaryKey(transactionInfo.getTransactionInfoId());
 		if(tran == null){
@@ -338,7 +342,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 					sl.setPcasTime(sl.getPcasTime().substring(5, 16));
 				}	
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw e;
 			}
 			}
 		// 交易的创建者名称
@@ -368,7 +372,6 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 			if (i > 0) {
 				cont = conts.get(0);
 				String endTime = cont.getEndTime();//合同的结束时间-当前时间 再格式化 精确到分
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 				try {
 					Date endDate = df.parse(endTime);
 					Date nowDate = new Date();
@@ -388,11 +391,30 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 					}
 					cont.setEndTime(time);
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.error("时间格式化异常"+e.getMessage());
 				}
 			}
 			tran.setContract(cont);//合同信息
+		}
+		// 格式化tran的endtime时间
+		try {
+			long diff = df.parse(tran.getEndTime()).getTime() - new Date().getTime();
+			long days = diff / (1000 * 60 * 60 * 24);
+			long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+			long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+			String time = "";
+			if (diff < 0) {
+				time = "已失效";
+			} else {
+				if (days == 0) {
+					time = hours + "小时" + minutes + "分";
+				} else {
+					time = days + "天" + hours + "小时" + minutes + "分";
+				}
+			}
+			tran.setEndTime(time);
+		} catch (ParseException e) {
+			log.error("时间格式化异常"+e.getMessage());
 		}
 		tran.setCate(cate);//品类信息
 		tran.setCust(cust);//客户信息
@@ -450,7 +472,7 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 					sl.setPcasTime(sl.getPcasTime().substring(5, 16));
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error("字符截取异常"+e.getMessage());
 			}
 		}
 		tran.setSla(listSla);
@@ -473,6 +495,11 @@ public class TransactionInfoServiceImpl implements TransactionInfoService {
 		List<TransactionInfo> transactionInfos = transactionInfoMapper
 				.listPageTransactionInfoByUserId(transactionInfo);
 		return transactionInfos;
+	}
+
+	@Override
+	public List<TransactionInfo> listByTxStatus(TransactionInfo transactionInfo) {
+		return transactionInfoMapper.listByTxStatus(transactionInfo);
 	}
 	
 }

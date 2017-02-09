@@ -76,4 +76,11 @@ public interface TransactionInfoMapper {
 	 */
 	List<TransactionInfo> listPageTransactionInfoByUserId(TransactionInfo transactionInfo);
 	
+	/**
+	 * 定时任务
+	 * @param transactionInfo
+	 * @return
+	 */
+	List<TransactionInfo> listByTxStatus(TransactionInfo transactionInfo);
+	
 }

@@ -562,4 +562,12 @@
 		</if>
 	ORDER BY a.tx_status_ ASC, a.update_time_ DESC
   </select>
+  
+  <!-- 定时任务查询  &lt; 小于 的转义-->
+  <select id="listByTxStatus" parameterType="com.rhtop.buss.common.entity.TransactionInfo" resultMap="BaseResultMap">
+   select 
+	*
+	from buss_transaction_info_ 
+	where 1=1 and tx_status_  &lt; '60'
+  </select>
 </mapper>

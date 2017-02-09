@@ -10,6 +10,7 @@
 	<!-- 监控定时任务 -->
 	<bean id="RateJob" class="com.rhtop.buss.biz.quartz.RateJob" />
 	<bean id="ClearPriceJob" class="com.rhtop.buss.biz.quartz.ClearPriceJob" />
+	<bean id="TransactionTimeJob" class="com.rhtop.buss.biz.quartz.TransactionTimeJob" />
 	
     <bean id="codeValueService" class="com.rhtop.buss.biz.service.impl.CodeValueServiceImpl" />
 	<bean id="codeMapService" class="com.rhtop.buss.biz.service.impl.CodeMapServiceImpl" />
@@ -17,6 +18,7 @@
 	<bean id="relCategoryPriceService" class="com.rhtop.buss.biz.service.impl.RelCategoryPriceServiceImpl" />
 	<bean id="hisRelcategoryPriceService" class="com.rhtop.buss.biz.service.impl.HisRelCategoryPriceServiceImpl" />
 	<bean id="categoryService" class="com.rhtop.buss.biz.service.impl.CategoryServiceImpl" />
+	<bean id="transactionInfoService" class="com.rhtop.buss.biz.service.impl.TransactionInfoServiceImpl" />
 
 	<!--定义调用对象和调用对象的方法 -->
 	<bean id="getRateJobDetail"
@@ -37,6 +39,17 @@
 		</property>
 		<property name="targetMethod">
 			<value>clearPrice</value><!-- 执行的方法 -->
+		</property>
+	</bean>
+	
+	<!--交易失效时间  调用对象和调用方法 -->
+	<bean id="doFailureJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="TransactionTimeJob" />
+		</property>
+		<property name="targetMethod">
+			<value>doFailure</value><!-- 执行的方法 -->
 		</property>
 	</bean>
 	
@@ -62,12 +75,23 @@
 			<!-- <value>0 */1 * * * ?</value> --><!--  每分钟执行一次 -->
 		</property>
 	</bean>
+	
+	<!--交易失效任务 触发时间 -->
+	<bean id="doFailureJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="doFailureJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/10 * * * ? </value> <!--每隔10分钟进行一次 -->
+		</property>
+	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref local="getRateJobTrigger" />
 				<ref local="getClearPriceJobTrigger" />
+				<ref local="doFailureJobTrigger" />
 			</list>
 		</property>
 	</bean>

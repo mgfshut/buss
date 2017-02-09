@@ -118,5 +118,10 @@ public interface TransactionInfoService{
 	 * @return
 	 */
 	List<TransactionInfo> listPageTransactionInfoByUserId(String userId);
-	
+	/**
+	 * 定时任务
+	 * @param transactionInfo
+	 * @return
+	 */
+	List<TransactionInfo> listByTxStatus(TransactionInfo transactionInfo);
 }
