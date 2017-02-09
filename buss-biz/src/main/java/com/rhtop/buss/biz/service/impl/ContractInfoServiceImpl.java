@@ -321,15 +321,19 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
-	public String dismissContract(ContractInfo con) throws Exception {
-		String conId = con.getContractInfoId();
+	public String dismissContract(ContractInfo contractinfo) throws Exception {
+		String conId = contractinfo.getContractInfoId();
+		ContractInfo con = contractInfoMapper.selectByPrimaryKey(conId);
 		try {
 		//检查合同审核状态是否是“10”
 		if (con.getContStatus() == "10" || con.getContStatus().trim().equals("10")) {
 			con.setContStatus("11");
+			con.setDmRea(contractinfo.getDmRea());
+			con.setUpdateUser(contractinfo.getUpdateUser());
+			con.setUpdateTime(contractinfo.getUpdateTime());
 			contractInfoMapper.updateByPrimaryKeySelective(con);
 		} else {
-			throw new Exception("非法操作，审核顺序错误！");
+			throw new Exception("非法操作，审核顺序错误10！");
 		}
 		TransactionInfo  tran = txMapper.selectByPrimaryKey(con.getTransactionInfoId());
 		if(tran ==null){
@@ -337,10 +341,12 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 		}
 		//检查交易状态是否是“30”
 		if (tran.getTxStatus() == "30" || tran.getTxStatus().trim().equals("30")) {
-			con.setContStatus("31");
+			tran.setTxStatus("31");
+			tran.setUpdateUser(contractinfo.getUpdateUser());
+			tran.setUpdateTime(contractinfo.getUpdateTime());
 			txMapper.updateByPrimaryKeySelective(tran);
 		} else {
-			throw new Exception("非法操作，审核顺序错误！");
+			throw new Exception("非法操作，审核顺序错误30！");
 		}
 		}catch(Exception e){
 			throw e;
@@ -349,12 +355,16 @@ public class ContractInfoServiceImpl implements ContractInfoService {
 	}
 
 	@Override
-	public String dismissContractByXZ(ContractInfo con) throws Exception {
-		String conId = con.getContractInfoId();
+	public String dismissContractByXZ(ContractInfo contractinfo) throws Exception {
+		String conId = contractinfo.getContractInfoId();
+		ContractInfo con = contractInfoMapper.selectByPrimaryKey(conId);
 		try {
 		//检查合同审核状态是否是“10”
 		if (con.getContStatus() == "20" || con.getContStatus().trim().equals("20")) {
 			con.setContStatus("21");
+			con.setUpdateUser(contractinfo.getUpdateUser());
+			con.setUpdateTime(contractinfo.getUpdateTime());
+			con.setDmRea(contractinfo.getDmRea());
 			contractInfoMapper.updateByPrimaryKeySelective(con);
 		} else {
 			throw new Exception("非法操作，审核顺序错误！");

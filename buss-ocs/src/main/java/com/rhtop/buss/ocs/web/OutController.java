@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -770,7 +771,12 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			con.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(con);
+			//TODO:换Gson
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(con);
+//			JsonConfig jsonConfig = new JsonConfig();
+//			jsonConfig.setAllowNonStringKeys(false);
+//			JSONObject jsonObject = JSONObject.fromObject(con,jsonConfig);
 			outLog.info("writeData-W2001:"+jsonObject.toString());
 			readResult = (ResultInfo) service.invoke("writeData-W2001", "POST", jsonObject.toString(), ResultInfo.class);
 		}
@@ -794,7 +800,10 @@ public class OutController extends BaseController {
 		readResult.setMessage(result.get("message").toString());
 		if ("200".equals(result.get("code").toString())) {
 			con.setUpdateUser(memberId);
-			JSONObject jsonObject = JSONObject.fromObject(con);
+			//TODO:换Gson
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(con);
+//			JSONObject jsonObject = JSONObject.fromObject(con);
 			outLog.info("writeData-W2002:"+jsonObject.toString());
 			readResult = (ResultInfo) service.invoke("writeData-W2002", "POST", jsonObject.toString(), ResultInfo.class);
 		}

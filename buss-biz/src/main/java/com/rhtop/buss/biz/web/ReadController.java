@@ -536,7 +536,7 @@ public class ReadController  extends BaseController {
 	}
 	/**
 	 * 接口id:R2013
-	 * 总经理查看合同详情
+	 * 客户经理 分部经理查看合同详情
 	 * @author lujin
 	 * @date 2017-1-13
 	 * @param body
@@ -547,10 +547,17 @@ public class ReadController  extends BaseController {
 		ResultInfo readResult = new ResultInfo();
 		JSONObject jsonObject = JSONObject.fromObject(body);
 		ContractInfo contractInfo = (ContractInfo) JSONObject.toBean(jsonObject,ContractInfo.class);
-		ContractInfo conts = contractSer.selectByPrimaryKey(contractInfo.getContractInfoId());
-		readResult.setCode("200");
-		readResult.setMessage("数据获取成功！");
-		readResult.setResObject(conts);
+		ContractInfo conts = null;
+		try {
+		    conts = contractSer.listContractInfos(contractInfo).get(0);
+			readResult.setCode("200");
+			readResult.setMessage("数据获取成功！");
+			readResult.setResObject(conts);
+		} catch (Exception e) {
+			readResult.setCode("200");
+			readResult.setMessage("数据获取失败！");
+			readResult.setResObject(conts);
+		}
 		return readResult;
 	}
 	/**

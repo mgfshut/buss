@@ -1330,7 +1330,14 @@ public class WriteController extends BaseController{
 		String userId = con.getUpdateUser();
 		con.setUpdateTime(now);
 		try {
+			//TODO
+			//合同的状态10
+			con.setContStatus("10");
 			conSer.updateContractInfo(con);
+			//交易的状态30
+			TransactionInfo tran = txSer.selectByPrimaryKey(con.getTransactionInfoId());
+			tran.setTxStatus("30");
+			txSer.updateTransactionInfo(tran);
 		} catch (Exception e) {
 			readResult.setCode("500");
 			readResult.setMessage("修改被驳回的合同异常，请重试或联系后台管理员。");

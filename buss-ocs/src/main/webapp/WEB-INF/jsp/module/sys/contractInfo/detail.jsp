@@ -334,7 +334,12 @@
 					</div>
 		<div class="formBar">
 			<ul>
-			    <li><a class="btn btn-sm btn-warning" data-dismiss="modal" type="button" href="module/sys-contractInfo-dismiss/contractInfoId-{contractInfoId}">驳回</a></li>
+			    <li>
+			    	<a class="btn btn-info btn-sm"   target="navTab" 
+			    		 title="驳回" href="module/sys-contractInfo-dismiss/contractInfo-${contractInfoId}">驳回</a>
+			    		<!--  <a class="btn btn-info btn-sm" href="module/sys-contractInfo-detail/contractInfo-print-{contractInfoId}"  
+						 title="查看详情"  target="navTab" ><i class="icon-desktop"></i> <span>查看详情</span></a> -->
+			    </li>
 				<li><button class="btn btn-sm btn-warning" data-dismiss="modal" type="button">取消</button></li>
 			</ul>
 		</div>
