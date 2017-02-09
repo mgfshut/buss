@@ -4,9 +4,18 @@
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="ys" %>
 <%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/print.css"/> --%>
 <script>
+
 $(document).ready(function() {
 	
 	var state = "${contStatus}";
+	if (state == "21"){
+		alertMsg.error("改合同已驳回！");
+		//navTab.closeCurrentTab();
+		$("#dismiss").hide();
+		$("#dismissed").show();
+		$("#file-zmwj").hide();
+		return;
+	}
 	if (state == "40"){
 		alertMsg.error("合同已签约成功！");
 		navTab.closeCurrentTab();
@@ -21,6 +30,9 @@ $(document).ready(function() {
 		alertMsg.error("行政人员确认已完成确认！");
 		navTab.closeCurrentTab();
 		return;
+	}else{
+		$("#dismiss").show();
+		$("#dismissed").hide();	
 	}
 	
 	
@@ -322,68 +334,6 @@ function consnavTabAjaxDone(json){
 							<p class="time">年&nbsp;&nbsp;月&nbsp;&nbsp;日</p>
 							
 							
-							<h3>附件1：</h3>
-							<h1>到港期告知函</h1>
-							<p>&nbsp;&nbsp;本告知函之主合同（合同编号：______________）内乙方指定购买的商品，甲方将按下述日期安排到港：</p>
-							<table class="tab2" border="solid 1px #000000" cellspacing="0" cellpadding="0">
-								<tr>
-									<th>序号</th>
-									<th>国家厂号</th>
-									<th>商品名称</th>
-									<th>规格</th>
-									<th>包装规格</th>
-									<th>到港日期</th>
-									<th>备注</th>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-							</table>
-							<p>&nbsp;&nbsp;请知悉！</p>
-							<p class="time">告知方：天津荣汇国际贸易有限公司</p>
-							<p class="time">时&nbsp;间：______年______月______日</p>
 							</div>
 						</div>
 					</div>
@@ -401,6 +351,8 @@ function consnavTabAjaxDone(json){
 		</table>
 		<div class="formBar">
 			<ul>
+			    <li><a class="btn btn-info btn-sm"  id="dismissed" >已驳回</a></li>
+				<li><a class="btn btn-info btn-sm" target="dialog" id="dismiss" mask="true" width="800" height="600" title="请填写驳回原因" href="module/sys-contractInfo-dismiss/contractInfo-${contractInfoId}">驳回</a></li>
 				<li><button class="btn btn-sm btn-primary" type="submit">提交</button></li>
 				<li><button class="btn btn-sm btn-warning" data-dismiss="modal" type="button">取消</button></li>
 			</ul>

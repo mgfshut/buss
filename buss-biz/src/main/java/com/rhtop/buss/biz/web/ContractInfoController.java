@@ -281,7 +281,10 @@ public class ContractInfoController  extends BaseController {
 		String now = sdf.format(date);
 		if(contractInfo.getContractInfoId() == null || "".equals(contractInfo.getContractInfoId())){
 			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
-			htmlMessage.setMessage("合同ID不能为空");
+			htmlMessage.setMessage("合同ID不能为空！");
+		}else if(contractInfo.getDmRea() == null || "".equals(contractInfo.getDmRea())||"请填写驳回原因（限500字）".equals(contractInfo.getDmRea())){
+			htmlMessage.setStatusCode(HtmlMessage.STATUS_CODE_FAILURE);
+			htmlMessage.setMessage("请填写驳回原因！");
 		}else{
 			try {
 				contractInfo.setUpdateUser(userId);

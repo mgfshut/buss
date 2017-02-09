@@ -90,4 +90,13 @@ public interface CategoryService{
 	 * @return
 	 */
 	Category custOfferPiceInfo(Category category);
+	
+	/**
+	 * 得到品类与品类的价格详情
+	 * @author lujin
+	 * @date 2017-2-9
+	 * @param category
+	 * @return
+	 */
+	Category listPageReCatePrice(Category category);
 }

@@ -50,27 +50,34 @@
 		margin-right: 80px;
 	}
 </style>
+<script type="text/javascript">   
+ $(document).ready(function(){  
+     $("#dmRea").keydown(function(){  
+         var curLength=$("#dmRea").val().length;   
+        if(curLength>=500){  
+             var num=$("#dmRea").val().substr(0,500);  
+             $("#dmRea").val(num);  
+             alert("超过字数限制，多出的字将被截断！" );  
+         }  
+         else{  
+             $("#dmRea").text(500-$("#dmRea").val().length)  
+         }  
+     }); 
+ })  
+ </script> 
+
 <div id="pagerForm" class="pageContent">
 	<form method="post" data-delay="100" action="module/sys-contractInfo-index/contractInfo-dismissContranct" class="pageForm required-validate" 
-		onsubmit="return validateCallback(this, navTabAjaxDone)">
+		onsubmit="return validateCallback(this, dialogAjaxDone)">
 		<div class="container-fluid" layoutH="68">
 						<div class="body">
-						<div id="prtarea">${contractInfoId }
-						</br>
-						${transactionInfoId }
-						<input type="hidden" id="contractInfoId" name="contractInfoId" value="${contractInfoId }">
-							<p class="firstp">合同编号：${conCode }</p>
-							<h3>商品销售合同驳回原因填写</h3>
-							<p>
-								乙方（买家）：${buyName }<br />
-								代&nbsp;表&nbsp;人&nbsp;：${legalPer }<br />
-								信用代码：${creditCode }<br />
-								地&nbsp;址&nbsp;：${entAddr }<br />
-								电&nbsp;话&nbsp;：${entTel }
-							</p>
-							<div>
+						<div id="prtarea"> 
+						    <input type="hidden" id="contractInfoId" name="contractInfoId" value="${contractInfoId }">
+						<div>
 							<p>驳回原因（必填 *）</p>
-							<textarea name="dmRea" id="dmRea" cols="100" rows="10" style="text-align: left;">请填写驳回原因</textarea>
+							<textarea name="dmRea" id="dmRea" cols="85" rows="9" 
+							onfocus="if(value=='请填写驳回原因（限500字）'){value=''}"  
+							onblur="if (value ==''){value='请填写驳回原因（限500字）'}">请填写驳回原因（限500字）</textarea>
 							</div>
 						</div>
 			          </div>
