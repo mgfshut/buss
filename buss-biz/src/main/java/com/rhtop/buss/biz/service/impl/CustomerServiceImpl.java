@@ -86,7 +86,6 @@ public class CustomerServiceImpl implements CustomerService {
 			ckLog.setOprTime(DateUtils.getNowTime());
 			cusckSer.insertCusckLog(ckLog);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw e;
 		}
 		//新增联系人
