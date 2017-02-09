@@ -539,7 +539,9 @@
 	a.cus_cha_id_,
 	a.mgr_ck_,
 	a.reg_mgr_ck_,
-	a.create_user_
+	a.create_user_,
+	b.offer_pri_,
+	b.uni_offer_pri_
 	from buss_rel_customer_category_ a left join buss_category_ b on a.category_id_ = b.category_id_ 
 	where 1=1
 	<if test="cateName != null and cateName != ''" >

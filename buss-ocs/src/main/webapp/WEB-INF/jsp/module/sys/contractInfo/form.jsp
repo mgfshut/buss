@@ -9,11 +9,15 @@ $(document).ready(function() {
 	
 	var state = "${contStatus}";
 	if (state == "21"){
-		alertMsg.error("改合同已驳回！");
+		/* alertMsg.error("该合同已驳回！");
 		//navTab.closeCurrentTab();
 		$("#dismiss").hide();
 		$("#dismissed").show();
 		$("#file-zmwj").hide();
+		$("#sub").hide(); */
+		navTab.closeCurrentTab();
+		var $pagerForm = $("#pagerForm", navTab.getCurrentPanel());
+		$pagerForm.submit();
 		return;
 	}
 	if (state == "40"){
@@ -353,7 +357,7 @@ function consnavTabAjaxDone(json){
 			<ul>
 			    <li><a class="btn btn-info btn-sm"  id="dismissed" >已驳回</a></li>
 				<li><a class="btn btn-info btn-sm" target="dialog" id="dismiss" mask="true" width="800" height="600" title="请填写驳回原因" href="module/sys-contractInfo-dismiss/contractInfo-${contractInfoId}">驳回</a></li>
-				<li><button class="btn btn-sm btn-primary" type="submit">提交</button></li>
+				<li><button class="btn btn-sm btn-primary" type="submit" id="sub">提交</button></li>
 				<li><button class="btn btn-sm btn-warning" data-dismiss="modal" type="button">取消</button></li>
 			</ul>
 		</div>

@@ -54,6 +54,8 @@
   	uni_offer_aging_,
   	spot_min_,
   	create_time_,
+  	cus_cha_id_,
+  	cus_cha_val_,
   	create_user_,
   	reg_mgr_id_,
   	update_user_,
